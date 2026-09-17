@@ -1,0 +1,6 @@
+{
+  "name": "Chehra Films - India's 1st Experimental Cinema Project",
+  "description": "Premium cinematic platform for Chehra Films by Parindaa Travels. Where travel becomes cinema across real Indian landscapes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
