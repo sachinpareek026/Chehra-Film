@@ -43,6 +43,89 @@ export interface FilmLocation {
   sceneRole: string;
 }
 
+export interface ExpeditionEpisode {
+  id: string;
+  number: string;
+  act: string;
+  title: string;
+  route: string;
+  altitude: string;
+  coordinates: string;
+  synopsis: string;
+  charactersInvolved: string[];
+  soundscape: string;
+  image: string;
+  dramaticTension: string;
+  unscriptedEvent: string;
+}
+
+export type PathwayType = 'actor' | 'participant' | 'crew';
+
+export interface ActorSubmission {
+  id: string;
+  type: 'actor';
+  submittedAt: string;
+  fullName: string;
+  age: string;
+  city: string;
+  phoneNumber: string;
+  email: string;
+  instagramProfile: string;
+  selectedRole: string;
+  actingExperience: string;
+  photoFileName: string;
+  photoPreviewUrl?: string;
+  auditionTapeFileName: string;
+  auditionTapeUrl?: string;
+  whyJoin: string;
+  refundEligible: boolean; // 100% refund eligible
+  confirmed: boolean;
+}
+
+export interface ParticipantSubmission {
+  id: string;
+  type: 'participant';
+  submittedAt: string;
+  fullName: string;
+  age: string;
+  city: string;
+  phoneNumber: string;
+  email: string;
+  instagramProfile: string;
+  departureCity: string;
+  travelBatch: string;
+  roomPreference: string;
+  emergencyContact: string;
+  prebookingTokenPrice: number; // 1000
+  lockedTripPrice: number; // 11000
+  oct30PriceIncreaseNotice: boolean; // increases by 1500 after 30 Oct
+  paymentMode: string;
+  transactionRef: string;
+  confirmed: boolean;
+}
+
+export interface CrewSubmission {
+  id: string;
+  type: 'crew';
+  submittedAt: string;
+  fullName: string;
+  age: string;
+  city: string;
+  phoneNumber: string;
+  email: string;
+  instagramProfile: string;
+  crewDepartment: string;
+  categoryType: 'Prime Department' | 'Creative & Production';
+  proofOfSkillLink: string; // Open public link only (Drive/YouTube/Vimeo/Behance/Spotify)
+  portfolioSummary: string;
+  gearOrSoftware: string;
+  opportunityFeeAgreed: boolean; // Ready to pay slightly opportunity fee if selected
+  publicFilmmakingConsent: boolean; // Consent to use character & work for public filmmaking use
+  confirmed: boolean;
+}
+
+export type AnySubmission = ActorSubmission | ParticipantSubmission | CrewSubmission;
+
 export interface NominationFormData {
   fullName: string;
   age: string;
@@ -51,7 +134,7 @@ export interface NominationFormData {
   email: string;
   instagramProfile: string;
   selectedRole: string;
-  roleType: 'actor' | 'participant';
+  roleType: PathwayType;
   whyJoin: string;
   actingExperience: string;
   photoFile: File | null;
@@ -59,3 +142,4 @@ export interface NominationFormData {
   videoUrl: string;
   confirmed: boolean;
 }
+

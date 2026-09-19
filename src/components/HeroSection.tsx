@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Play, Instagram, Youtube, Twitter, Compass, ExternalLink } from 'lucide-react';
 import { CHARACTERS, FILM_METADATA } from '../data/cinemaData';
+import { PathwayType } from '../types';
 
 interface HeroSectionProps {
   onWatchFilm: () => void;
-  onOpenNomination: (roleId?: string, type?: 'actor' | 'participant') => void;
+  onOpenNomination: (roleId?: string, type?: PathwayType) => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onWatchFilm, onOpenNomination }) => {
@@ -324,17 +325,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onWatchFilm, onOpenNom
          ========================================================================= */}
       <div className="relative z-20 flex-1 max-w-[1700px] w-full mx-auto flex flex-col justify-between px-6 sm:px-10 lg:px-12 pt-2 sm:pt-4 pb-2 sm:pb-4 min-h-0">
         {/* Top Label Tag */}
-        <div className="flex items-center gap-2.5 mb-2 sm:mb-3.5">
-          <span className="text-[10px] sm:text-[11px] font-mono tracking-[0.25em] text-yellow-400 uppercase font-semibold">
-            EXPERIMENTAL CINEMA PROJECT • AN AUTEUR EXPEDITION
+        <div className="flex items-center gap-3 mb-2 sm:mb-3">
+          <span className="w-4 h-[1px] bg-yellow-400" />
+          <span className="text-[10px] sm:text-[11px] font-mono tracking-[0.28em] text-yellow-400 uppercase font-semibold">
+            PARINDAA ORIGINALS // AN UNWRITTEN CINEMATIC ODYSSEY
+          </span>
+          <span className="text-slate-500 hidden sm:inline">•</span>
+          <span className="text-[10px] font-mono text-slate-300 hidden sm:inline tracking-widest uppercase">
+            VOL. I (2026)
           </span>
         </div>
 
-        {/* Center Stage: Title + Paragraph + Action Buttons (Positioned to the upper side) */}
+        {/* Center Stage: Title + Paragraph + Action Buttons */}
         <div className="mt-2 sm:mt-3 mb-auto py-0">
           <div className="max-w-xl lg:max-w-2xl xl:max-w-3xl">
             {/* Cinematic Chehra Title Artwork (Transparent) */}
-            <h1 className="mb-3 sm:mb-4 max-w-[240px] sm:max-w-[280px] md:max-w-sm lg:max-w-lg xl:max-w-xl">
+            <h1 className="mb-2 sm:mb-3 max-w-[240px] sm:max-w-[280px] md:max-w-sm lg:max-w-lg xl:max-w-xl">
               <img
                 src="/chehra-title.png"
                 alt="Chehra."
@@ -344,25 +350,40 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onWatchFilm, onOpenNom
               <span className="sr-only">Chehra.</span>
             </h1>
 
-            {/* Compact Logline with enhanced legibility over blurred background */}
-            <p className="text-[13px] text-left text-slate-100 font-normal leading-relaxed mb-3.5 sm:mb-5 max-w-lg lg:max-w-2xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
-              The film centers around six unscripted lives and is an original narrative journey across India. Chehra strips away artificial studio sets to capture raw character studies, unscripted highways, and the truth of human transformation on the road.
+            {/* Submerged Storyline Live Ticker (Stranger Things / HBO inspired) */}
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-black/60 border border-yellow-400/30 text-[10px] font-mono text-slate-300 mb-3 backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              <span className="text-yellow-400 font-bold tracking-wider">LIVE PRODUCTION:</span>
+              <span className="tracking-wide text-slate-200">2,400 KM OVERLAND • ZERO SCRIPT • 6 REAL LIVES</span>
+            </div>
+
+            {/* Compact Logline with enhanced legibility */}
+            <p className="text-[13px] text-left text-slate-100 font-normal leading-relaxed mb-4 sm:mb-5 max-w-lg lg:max-w-2xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
+              Six unscripted lives cross paths on an unpredictable Himalayan convoy. Chehra strips away artificial studio sets to capture raw character truth across extreme Indian landscapes.
             </p>
 
             {/* Quick CTA Action Buttons */}
-            <div className="flex flex-wrap items-center gap-3 sm:gap-5 pt-0.5">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 pt-0.5">
               <button
                 onClick={() => onOpenNomination(undefined, 'actor')}
-                className="px-3.5 py-1.5 sm:px-4.5 sm:py-2 lg:px-6 lg:py-2.5 bg-yellow-400 hover:bg-yellow-300 text-black font-title font-black text-[11px] lg:text-xs uppercase tracking-[0.18em] shadow-md shadow-yellow-500/20 hover:shadow-yellow-400/40 transition-all cursor-pointer"
+                className="px-4 py-2 sm:px-5 sm:py-2.5 lg:px-6 lg:py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-title font-black text-[11px] lg:text-xs uppercase tracking-[0.18em] shadow-md shadow-yellow-500/20 hover:shadow-yellow-400/40 transition-all cursor-pointer"
               >
-                APPLY FOR ROLE
+                APPLY AS ACTOR (100% REFUND)
               </button>
 
               <button
                 onClick={() => onOpenNomination(undefined, 'participant')}
-                className="px-3.5 py-1.5 sm:px-4.5 sm:py-2 lg:px-6 lg:py-2.5 bg-black/60 hover:bg-blue-950/80 text-white border border-white/20 hover:border-yellow-400 hover:text-yellow-300 font-title font-bold text-[11px] lg:text-xs uppercase tracking-[0.18em] backdrop-blur-sm transition-all cursor-pointer"
+                className="px-4 py-2 sm:px-5 sm:py-2.5 lg:px-6 lg:py-3 bg-black/70 hover:bg-[#0E1B33] text-white border border-white/20 hover:border-yellow-400 hover:text-yellow-300 font-title font-bold text-[11px] lg:text-xs uppercase tracking-[0.18em] backdrop-blur-sm transition-all cursor-pointer"
               >
-                JOIN EXPEDITION
+                PRE-BOOK EXPEDITION (₹1,000)
+              </button>
+
+              <button
+                onClick={onWatchFilm}
+                className="px-3.5 py-2 sm:px-4 sm:py-2.5 text-slate-300 hover:text-white font-mono text-[11px] uppercase tracking-wider transition-colors flex items-center gap-1.5 cursor-pointer"
+              >
+                <Play className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
+                <span>WATCH 4K TEASER</span>
               </button>
             </div>
           </div>

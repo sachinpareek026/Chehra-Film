@@ -5,37 +5,41 @@ import { Compass } from 'lucide-react';
 interface FinalCtaSectionProps {
   onJoinFilm: () => void;
   onNominateRole: () => void;
+  onJoinCrew?: () => void;
 }
 
-export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({ onJoinFilm, onNominateRole }) => {
+export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({ onJoinFilm, onNominateRole, onJoinCrew }) => {
   return (
-    <section className="relative py-16 md:py-20 bg-[#060B14] overflow-hidden flex items-center justify-center border-t border-blue-900/40">
-      {/* Strongest Cinematic Image Background */}
+    <section className="relative py-24 md:py-32 bg-[#050912] overflow-hidden flex items-center justify-center border-t border-white/10">
+      {/* Clear background image with slight blur */}
       <div
-        className="absolute inset-0 bg-cover bg-center filter grayscale-[10%] brightness-[0.4]"
+        className="absolute inset-0 bg-cover bg-center filter blur-[2px] brightness-[0.75] contrast-[1.1] scale-105"
         style={{
+          opacity: 0.85,
           backgroundImage:
             "url('https://res.cloudinary.com/x1dci3fh/image/upload/v1789634480/images_-_2026-09-14T173720.993.jpg')",
         }}
       />
 
-      {/* Cinematic Vignette & Grain */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#060B14] via-[#060B14]/70 to-[#060B14] pointer-events-none" />
-      <div className="absolute inset-0 film-grain opacity-50 pointer-events-none" />
+      {/* Cinematic Vignette - tuned to keep the image clear while preserving text readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#050912] via-[#050912]/45 to-[#050912]/70 pointer-events-none" />
 
       {/* Anamorphic Scope Bars */}
-      <div className="absolute top-0 left-0 right-0 h-8 bg-black/80 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 right-0 h-8 bg-black/80 pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-6 sm:h-8 bg-black/80 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-6 sm:h-8 bg-black/80 pointer-events-none" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
-        {/* Initiative Badge */}
-        <div className="inline-flex items-center gap-2 px-2.5 py-0.5 bg-yellow-400/10 border border-yellow-400/30 text-[10px] font-mono tracking-[0.25em] text-yellow-400 uppercase mb-4 font-semibold">
-          <Compass className="w-3 h-3 text-yellow-400" />
-          <span>CHEHRA FILMS • EXPEDITION VOL. I</span>
+        {/* Initiative Marker */}
+        <div className="inline-flex items-center gap-2 mb-6">
+          <span className="w-4 h-[1px] bg-yellow-400" />
+          <span className="text-[10px] font-mono tracking-[0.3em] text-yellow-400 uppercase font-bold">
+            11 / PRODUCTION WRAP & CALL
+          </span>
+          <span className="w-4 h-[1px] bg-yellow-400" />
         </div>
 
-        {/* Large Centered Text (Exact prompt requirement) */}
-        <h2 className="font-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight uppercase leading-tight mb-3">
+        {/* Large Typography */}
+        <h2 className="font-title text-3xl sm:text-5xl md:text-7xl font-black text-white tracking-tight uppercase leading-tight mb-4">
           YOUR JOURNEY<br />
           COULD BECOME<br />
           <span className="text-yellow-400">
@@ -43,34 +47,45 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({ onJoinFilm, on
           </span>
         </h2>
 
-        {/* Subtext (Exact prompt requirement) */}
-        <p className="font-title text-sm sm:text-base text-slate-300 font-medium tracking-[0.2em] uppercase mb-6">
+        {/* Subtext */}
+        <p className="font-title text-xs sm:text-sm text-slate-300 font-medium tracking-[0.25em] uppercase mb-10">
           The road is waiting.
         </p>
 
-        {/* Buttons: JOIN THE FILM →, NOMINATE FOR A ROLE → */}
-        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+        {/* 3 Pathway Action Buttons */}
+        <div className="flex flex-wrap items-center justify-center gap-4">
           <CinemaButton
             id="cta-join-film-btn"
             variant="primary"
             onClick={onJoinFilm}
-            className="!px-6 !py-2.5 text-xs"
+            className="!px-7 !py-3.5 text-xs tracking-wider"
           >
-            JOIN THE FILM
+            PRE-BOOK PARTICIPANT (₹1,000)
           </CinemaButton>
 
           <CinemaButton
             id="cta-nominate-role-btn"
             variant="secondary"
             onClick={onNominateRole}
-            className="!px-6 !py-2.5 text-xs"
+            className="!px-7 !py-3.5 text-xs tracking-wider"
           >
-            NOMINATE FOR A ROLE
+            APPLY AS ACTOR (100% REFUND)
           </CinemaButton>
+
+          {onJoinCrew && (
+            <CinemaButton
+              id="cta-join-crew-btn"
+              variant="outline"
+              onClick={onJoinCrew}
+              className="!px-7 !py-3.5 text-xs tracking-wider !border-white/20 hover:!border-white"
+            >
+              JOIN AS CREW
+            </CinemaButton>
+          )}
         </div>
 
-        <div className="mt-8 text-[10px] font-mono text-slate-400 tracking-widest uppercase font-medium">
-          LIMITED CAST SLOTS • ROUTE DEPARTS SPRING 2026
+        <div className="mt-12 text-[10px] font-mono text-slate-300 tracking-widest uppercase font-medium">
+          LIMITED CAST & EXPEDITION SEATS • DEPARTS OCTOBER 2026
         </div>
       </div>
     </section>

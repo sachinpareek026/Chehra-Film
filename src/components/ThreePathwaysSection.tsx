@@ -1,0 +1,579 @@
+import React, { useState } from 'react';
+import { CinemaButton } from './CinemaButton';
+import {
+  Check,
+  Compass,
+  Film,
+  Wrench,
+  ShieldCheck,
+  ArrowRight,
+  Maximize2,
+  X,
+  Clock,
+  MapPin,
+  Calendar,
+  Sparkles,
+  HelpCircle
+} from 'lucide-react';
+import { PathwayType } from '../types';
+
+interface ThreePathwaysSectionProps {
+  onSelectPathway: (pathway: PathwayType) => void;
+}
+
+interface PathwayDetail {
+  id: PathwayType;
+  number: string;
+  badge: string;
+  badgeColor: string;
+  title: string;
+  subtitle: string;
+  heroImage: string;
+  pricingTag: string;
+  pricingSubtitle: string;
+  guaranteeText: string;
+  overview: string;
+  keyPerks: string[];
+  timeline: { phase: string; details: string }[];
+  deliverables: string[];
+  ctaText: string;
+}
+
+const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
+  actor: {
+    id: 'actor',
+    number: '01',
+    badge: '100% REFUNDABLE',
+    badgeColor: 'bg-yellow-400 text-black',
+    title: 'AS AN ACTOR',
+    subtitle: 'Lead Character Arc • Unscripted Cinema Realism',
+    heroImage: '/characters/shankar.jpg',
+    pricingTag: '100% REFUNDABLE',
+    pricingSubtitle: 'Zero audition or casting charges. Security deposit wired back upon shoot wrap.',
+    guaranteeText: 'Full bank transfer refund immediately following completion of your on-location shoot schedule.',
+    overview:
+      'Step directly into the shoes of one of the 6 lead character personas across extreme Himalayan and desert terrain. You travel with the production convoy, improvising dialogue against real-life natural light, dawn mist, and roadside encounters.',
+    keyPerks: [
+      'Official IMDb lead character billing & international festival premiere accreditation',
+      'Dedicated multi-camera coverage with 4K Arri Alexa LF & Anamorphic lenses',
+      'All cross-state convoy transit, high-altitude base camps, and meals provided',
+      'Free audition upload (self-taped monologue, scene reading, or portfolio reel)'
+    ],
+    timeline: [
+      { phase: 'Audition Review', details: 'Directorial shortlist notified within 7 days of tape upload' },
+      { phase: 'Convoy Departure', details: 'October 2026 roll-out from New Delhi to Spiti Valley & Thar' },
+      { phase: 'Production Wrap', details: 'Full security deposit wired back in 48 hours post-shoot' }
+    ],
+    deliverables: [
+      'IMDb Actor Page Credit',
+      'Personal 4K Showreel Cut',
+      'Festival Premiere Red Carpet Pass',
+      'Exclusive Unscripted Behind-The-Scenes Featurette'
+    ],
+    ctaText: 'APPLY AS ACTOR (100% REFUND)'
+  },
+  participant: {
+    id: 'participant',
+    number: '02',
+    badge: '₹1,000 TOKEN LOCK',
+    badgeColor: 'bg-blue-500 text-white',
+    title: 'AS A PARTICIPANT',
+    subtitle: 'Front-Row Convoy Immersion • No Auditions Required',
+    heroImage: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',
+    pricingTag: '₹11,000 TOTAL',
+    pricingSubtitle: 'Lock with ₹1,000 token today. Early bird price rises by ₹1,500 after October 30.',
+    guaranteeText: 'Price locked permanently against peak-winter rate surge. Balance settled 7 days prior to departure.',
+    overview:
+      'Join the live production convoy as a traveler and witness a feature film being made in real time. Sit at night campfires with the actors, drive through remote mountain passes, and optionally appear on-camera during unscripted road encounters.',
+    keyPerks: [
+      'Guaranteed seat in the 2,400+ KM multi-state production convoy',
+      'Verified twin-sharing mountain base camps, heritage desert stays & daily meals',
+      'On-screen Contributor Film Credit in the official festival theatrical release',
+      'No portfolio, acting audition, or past filmmaking experience needed'
+    ],
+    timeline: [
+      { phase: 'Immediate Token', details: 'Pay ₹1,000 now to freeze ₹11,000 early-bird expedition rate' },
+      { phase: 'Convoy Briefing', details: 'Digital route map, gear checklist & base camp coordinates sent' },
+      { phase: 'Expedition Rollout', details: 'Depart with the cast and camera trucks across India' }
+    ],
+    deliverables: [
+      'Official Film Contributor IMDb Credit',
+      'Documentary Cut Feature Appearance (with consent)',
+      'High-Resolution Expedition Photo Archive',
+      'Chehra Production Member Pass'
+    ],
+    ctaText: 'LOCK SEAT (₹1,000 TOKEN)'
+  },
+  crew: {
+    id: 'crew',
+    number: '03',
+    badge: 'PORTFOLIO CALL',
+    badgeColor: 'bg-emerald-500 text-black',
+    title: 'AS CREW MEMBER',
+    subtitle: 'Cinematography • Field Sound • Art & Logistics',
+    heroImage: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1200&q=80',
+    pricingTag: 'SUBSIDIZED LOGISTICS',
+    pricingSubtitle: 'Production stipend, equipment transit, mountain base camp lodging and IMDb crew credit.',
+    guaranteeText: 'Hands-on cinematography & field audio on an official multi-camera feature film production.',
+    overview:
+      'Bring your technical craft to a live road movie. Shoot anamorphic cinema on location, capture microtonal ambient soundscapes, or coordinate high-altitude mountain logistics under real-world documentary conditions.',
+    keyPerks: [
+      'Head of Department & Assistant crew credits across festival & theatrical cuts',
+      'Hands-on operation with high-end camera rigs, drones, and Dolby field audio mics',
+      'All cross-country freight truck transit & high-altitude mountain base camp lodging covered',
+      'Zero file uploads: simply share your Vimeo, Behance, or Google Drive portfolio link'
+    ],
+    timeline: [
+      { phase: 'Portfolio Review', details: 'Technical leads evaluate submissions on rolling basis' },
+      { phase: 'Technical Sync', details: 'Pre-production camera tests and acoustic scouting sessions' },
+      { phase: 'On-Location Shoot', details: 'Full 28-day production across 4 states with dedicated gear freight' }
+    ],
+    deliverables: [
+      'IMDb Departmental Crew Accreditation',
+      'Raw Master 4K B-Roll & Audio Stems for Personal Reel',
+      'Official Crew Production Gear Kit',
+      'Festival Premiere Industry Pass'
+    ],
+    ctaText: 'APPLY AS TECHNICAL CREW'
+  }
+};
+
+export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
+  onSelectPathway,
+}) => {
+  const [inspectedPathway, setInspectedPathway] = useState<PathwayType | null>(null);
+
+  const activeModalData = inspectedPathway ? PATHWAY_DATA[inspectedPathway] : null;
+
+  return (
+    <section id="nomination" className="relative py-20 md:py-28 bg-[#040813] border-t border-b border-white/10 overflow-hidden">
+      {/* Ambient background glows */}
+      <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Section Header - Clean, Minimalist, Visuals First */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-6">
+          <div>
+            <div className="inline-flex items-center gap-2 mb-3">
+              <span className="w-4 h-[1px] bg-yellow-400" />
+              <span className="text-[10px] font-mono tracking-[0.3em] text-yellow-400 uppercase font-bold">
+                09 / THREE PATHWAYS INTO CHEHRA
+              </span>
+            </div>
+            <h2 className="font-title text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase leading-tight">
+              CHOOSE YOUR INVOLVEMENT
+            </h2>
+          </div>
+          <p className="max-w-md text-xs sm:text-sm text-slate-400 font-light leading-relaxed">
+            Whether leading on camera with a 100% refund guarantee, securing an expedition seat with a ₹1,000 token, or capturing sound and visuals as technical crew.
+          </p>
+        </div>
+
+        {/* 3 Visual-First Editorial Pathway Cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+          
+          {/* CARD 1: ACTOR */}
+          <div
+            className="group relative bg-[#070D1A] border border-white/10 hover:border-yellow-400 transition-all duration-500 shadow-2xl flex flex-col justify-between overflow-hidden cursor-pointer"
+            onClick={() => setInspectedPathway('actor')}
+          >
+            {/* Top Visual Banner */}
+            <div className="relative h-64 overflow-hidden bg-black">
+              <img
+                src={PATHWAY_DATA.actor.heroImage}
+                alt="Actor Pathway - Chehra Films"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover object-top filter grayscale-[10%] brightness-90 group-hover:scale-105 group-hover:brightness-100 transition-all duration-700 ease-out"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-[#070D1A]/40 to-transparent" />
+
+              {/* Corner Badges */}
+              <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10 pointer-events-none">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-black/80 border border-white/20 text-yellow-400 text-[10px] font-mono uppercase font-bold tracking-widest backdrop-blur-md">
+                  <Film className="w-3 h-3" />
+                  PATHWAY 01
+                </span>
+                <span className="px-2.5 py-1 bg-yellow-400 text-black text-[9px] font-mono font-black uppercase tracking-wider shadow-lg">
+                  100% REFUND
+                </span>
+              </div>
+
+              {/* Inspect Button Pill */}
+              <div className="absolute bottom-3 right-4 z-10">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-black/80 border border-white/20 text-slate-300 group-hover:text-yellow-400 text-[10px] font-mono uppercase tracking-wider backdrop-blur-md transition-colors">
+                  <Maximize2 className="w-3 h-3" />
+                  <span>INSPECT DETAILS</span>
+                </span>
+              </div>
+            </div>
+
+            {/* Content Body: Clean & Punchy */}
+            <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 className="font-title text-2xl font-black text-white uppercase tracking-tight group-hover:text-yellow-400 transition-colors mb-1">
+                  AS AN ACTOR
+                </h3>
+                <p className="text-xs text-yellow-400/90 font-mono mb-4">
+                  Lead Character Arc • Audition Reel Required
+                </p>
+
+                {/* Micro Financial Terms Banner */}
+                <div className="p-3.5 bg-[#050811] border border-white/10 mb-5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                      PRODUCTION DEPOSIT
+                    </span>
+                    <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase">
+                      GUARANTEED
+                    </span>
+                  </div>
+                  <div className="text-xl font-title font-black text-emerald-400 mt-0.5">
+                    100% REFUNDABLE
+                  </div>
+                  <p className="text-[11px] text-slate-300 font-light mt-0.5">
+                    Security deposit wired back in full upon wrap of shoot schedule.
+                  </p>
+                </div>
+
+                <p className="text-xs text-slate-300 font-light leading-relaxed mb-6">
+                  Perform in unscripted scenes across the Himalayas and Thar desert. Get official IMDb lead character billing and festival credits.
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pt-4 border-t border-white/10">
+                <CinemaButton
+                  id="apply-actor-pathway-btn"
+                  variant="primary"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSelectPathway('actor');
+                  }}
+                  className="w-full !py-3.5 text-xs tracking-wider"
+                >
+                  APPLY AS ACTOR
+                </CinemaButton>
+              </div>
+            </div>
+          </div>
+
+          {/* CARD 2: PARTICIPANT (Featured) */}
+          <div
+            className="group relative bg-[#091224] border-2 border-yellow-400 hover:border-yellow-300 transition-all duration-500 shadow-2xl shadow-yellow-500/10 flex flex-col justify-between overflow-hidden cursor-pointer lg:-translate-y-2"
+            onClick={() => setInspectedPathway('participant')}
+          >
+            {/* Top Visual Banner */}
+            <div className="relative h-64 overflow-hidden bg-black">
+              <img
+                src={PATHWAY_DATA.participant.heroImage}
+                alt="Participant Pathway - Chehra Films"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover object-center filter contrast-105 brightness-90 group-hover:scale-105 group-hover:brightness-100 transition-all duration-700 ease-out"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#091224] via-[#091224]/40 to-transparent" />
+
+              {/* Corner Badges */}
+              <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10 pointer-events-none">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-black/80 border border-white/20 text-blue-300 text-[10px] font-mono uppercase font-bold tracking-widest backdrop-blur-md">
+                  <Compass className="w-3 h-3" />
+                  PATHWAY 02
+                </span>
+                <span className="px-2.5 py-1 bg-yellow-400 text-black text-[9px] font-mono font-black uppercase tracking-wider shadow-lg">
+                  EARLY LOCK ₹1,000
+                </span>
+              </div>
+
+              {/* Inspect Button Pill */}
+              <div className="absolute bottom-3 right-4 z-10">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-black/80 border border-white/20 text-slate-300 group-hover:text-yellow-400 text-[10px] font-mono uppercase tracking-wider backdrop-blur-md transition-colors">
+                  <Maximize2 className="w-3 h-3" />
+                  <span>INSPECT DETAILS</span>
+                </span>
+              </div>
+            </div>
+
+            {/* Content Body: Clean & Punchy */}
+            <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 className="font-title text-2xl font-black text-white uppercase tracking-tight group-hover:text-yellow-400 transition-colors mb-1">
+                  AS A PARTICIPANT
+                </h3>
+                <p className="text-xs text-blue-300 font-mono mb-4">
+                  Front-Row Convoy • Zero Auditions
+                </p>
+
+                {/* Micro Pricing Banner */}
+                <div className="p-3.5 bg-[#050A16] border border-yellow-400/40 mb-5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono text-yellow-400 uppercase tracking-wider font-bold">
+                      PRICE FREEZE GUARANTEE
+                    </span>
+                    <span className="text-[10px] font-mono text-slate-400 line-through">
+                      ₹12,500
+                    </span>
+                  </div>
+                  <div className="text-xl font-title font-black text-white mt-0.5">
+                    ₹11,000 <span className="text-xs font-mono text-yellow-400 font-normal">/ TOTAL</span>
+                  </div>
+                  <p className="text-[11px] text-yellow-300/90 font-mono mt-0.5">
+                    Pay ₹1,000 token today. Rate increases by +₹1,500 after Oct 30.
+                  </p>
+                </div>
+
+                <p className="text-xs text-slate-300 font-light leading-relaxed mb-6">
+                  Travel inside the 2,400+ KM convoy side-by-side with cast & crew. Stays, route permits, and festival contributor credits included.
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pt-4 border-t border-white/10">
+                <CinemaButton
+                  id="apply-participant-pathway-btn"
+                  variant="primary"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSelectPathway('participant');
+                  }}
+                  className="w-full !py-3.5 text-xs tracking-wider"
+                >
+                  LOCK SEAT (₹1,000 TOKEN)
+                </CinemaButton>
+              </div>
+            </div>
+          </div>
+
+          {/* CARD 3: CREW */}
+          <div
+            className="group relative bg-[#070D1A] border border-white/10 hover:border-emerald-400 transition-all duration-500 shadow-2xl flex flex-col justify-between overflow-hidden cursor-pointer"
+            onClick={() => setInspectedPathway('crew')}
+          >
+            {/* Top Visual Banner */}
+            <div className="relative h-64 overflow-hidden bg-black">
+              <img
+                src={PATHWAY_DATA.crew.heroImage}
+                alt="Crew Pathway - Chehra Films"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover object-center filter grayscale-[10%] brightness-90 group-hover:scale-105 group-hover:brightness-100 transition-all duration-700 ease-out"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-[#070D1A]/40 to-transparent" />
+
+              {/* Corner Badges */}
+              <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10 pointer-events-none">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-black/80 border border-white/20 text-emerald-400 text-[10px] font-mono uppercase font-bold tracking-widest backdrop-blur-md">
+                  <Wrench className="w-3 h-3" />
+                  PATHWAY 03
+                </span>
+                <span className="px-2.5 py-1 bg-emerald-950 border border-emerald-500/40 text-emerald-300 text-[9px] font-mono font-bold uppercase tracking-wider">
+                  PORTFOLIO CALL
+                </span>
+              </div>
+
+              {/* Inspect Button Pill */}
+              <div className="absolute bottom-3 right-4 z-10">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-black/80 border border-white/20 text-slate-300 group-hover:text-emerald-400 text-[10px] font-mono uppercase tracking-wider backdrop-blur-md transition-colors">
+                  <Maximize2 className="w-3 h-3" />
+                  <span>INSPECT DETAILS</span>
+                </span>
+              </div>
+            </div>
+
+            {/* Content Body: Clean & Punchy */}
+            <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 className="font-title text-2xl font-black text-white uppercase tracking-tight group-hover:text-emerald-400 transition-colors mb-1">
+                  AS CREW MEMBER
+                </h3>
+                <p className="text-xs text-emerald-400/90 font-mono mb-4">
+                  Cinematography • Sound • Production
+                </p>
+
+                {/* Micro Compensation Banner */}
+                <div className="p-3.5 bg-[#050811] border border-white/10 mb-5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                      COMPENSATION & CREDITS
+                    </span>
+                    <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase">
+                      HOD ROLES
+                    </span>
+                  </div>
+                  <div className="text-xl font-title font-black text-white mt-0.5">
+                    TECHNICAL ACCREDITATION
+                  </div>
+                  <p className="text-[11px] text-slate-300 font-light mt-0.5">
+                    Production stipend, cross-state freight, stays and official IMDb credit.
+                  </p>
+                </div>
+
+                <p className="text-xs text-slate-300 font-light leading-relaxed mb-6">
+                  Operate camera rigs, record microtonal audio, or coordinate live sets on wheels. No file upload: simply submit portfolio reel links.
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pt-4 border-t border-white/10">
+                <CinemaButton
+                  id="apply-crew-pathway-btn"
+                  variant="secondary"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSelectPathway('crew');
+                  }}
+                  className="w-full !py-3.5 text-xs tracking-wider !border-white/20 hover:!border-white"
+                >
+                  APPLY AS CREW
+                </CinemaButton>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* =========================================================================
+          INTERIOR DOSSIER MODAL (Deep Dive Information on Click)
+         ========================================================================= */}
+      {activeModalData && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-xl animate-fade-in"
+          onClick={() => setInspectedPathway(null)}
+        >
+          <div
+            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-[#070D1A] border border-white/20 shadow-2xl p-6 sm:p-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header Bar */}
+            <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
+              <div className="flex items-center gap-3">
+                <span className={`px-2.5 py-0.5 text-[9px] font-mono font-bold uppercase tracking-widest ${activeModalData.badgeColor}`}>
+                  {activeModalData.badge}
+                </span>
+                <span className="text-xs font-mono text-slate-400 uppercase tracking-widest">
+                  PATHWAY {activeModalData.number} / 03 DOSSIER
+                </span>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setInspectedPathway(null)}
+                className="p-1.5 text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                aria-label="Close dossier"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Hero Section */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-8 items-center">
+              <div className="md:col-span-5 h-56 sm:h-64 rounded-none overflow-hidden border border-white/15 relative">
+                <img
+                  src={activeModalData.heroImage}
+                  alt={activeModalData.title}
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover filter contrast-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-transparent to-transparent" />
+                <div className="absolute bottom-3 left-3 text-[10px] font-mono text-yellow-400 font-bold uppercase tracking-widest">
+                  OFFICIAL PRODUCTION CALL
+                </div>
+              </div>
+
+              <div className="md:col-span-7 space-y-3">
+                <h3 className="font-title text-3xl font-black text-white uppercase tracking-tight">
+                  {activeModalData.title}
+                </h3>
+                <p className="text-xs font-mono text-yellow-400 uppercase tracking-wider">
+                  {activeModalData.subtitle}
+                </p>
+                <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed">
+                  {activeModalData.overview}
+                </p>
+
+                {/* Assurance Tag */}
+                <div className="p-3 bg-[#0A1324] border border-white/10 flex items-start gap-2.5">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <p className="text-xs font-mono text-slate-200">
+                    <strong className="text-emerald-400">FINANCIAL TERMS:</strong> {activeModalData.guaranteeText}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Structured Breakdown: Inclusions & Timeline */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              {/* Perks & Inclusions */}
+              <div className="p-5 bg-[#09101F] border border-white/10">
+                <div className="text-xs font-mono text-yellow-400 font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4" />
+                  <span>KEY DELIVERABLES & CREDITS</span>
+                </div>
+                <ul className="space-y-3">
+                  {activeModalData.keyPerks.map((perk, i) => (
+                    <li key={i} className="flex items-start gap-2.5 text-xs text-slate-300 font-light">
+                      <Check className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
+                      <span>{perk}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Roadmap Timeline */}
+              <div className="p-5 bg-[#09101F] border border-white/10">
+                <div className="text-xs font-mono text-yellow-400 font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  <span>PRODUCTION TIMELINE</span>
+                </div>
+                <div className="space-y-4">
+                  {activeModalData.timeline.map((step, i) => (
+                    <div key={i} className="border-l-2 border-yellow-400/40 pl-3">
+                      <div className="text-[10px] font-mono text-yellow-400 font-bold uppercase tracking-wider">
+                        {step.phase}
+                      </div>
+                      <div className="text-xs text-slate-300 font-light mt-0.5">
+                        {step.details}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Actions Bar */}
+            <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest block">
+                  PRICE / STRUCTURE
+                </span>
+                <span className="font-title text-xl font-black text-white">
+                  {activeModalData.pricingTag}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-3 w-full sm:w-auto">
+                <button
+                  type="button"
+                  onClick={() => setInspectedPathway(null)}
+                  className="px-4 py-2.5 bg-transparent border border-white/20 text-slate-300 hover:text-white text-xs font-mono uppercase tracking-wider"
+                >
+                  CLOSE
+                </button>
+                <CinemaButton
+                  variant="primary"
+                  onClick={() => {
+                    const id = activeModalData.id;
+                    setInspectedPathway(null);
+                    onSelectPathway(id);
+                  }}
+                  className="flex-1 sm:flex-initial !py-3 text-xs tracking-wider"
+                >
+                  {activeModalData.ctaText}
+                </CinemaButton>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+};

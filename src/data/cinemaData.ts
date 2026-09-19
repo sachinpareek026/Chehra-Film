@@ -1,4 +1,4 @@
-import { CharacterRole, BenefitItem, TimelineStep, FilmLocation } from '../types';
+import { CharacterRole, BenefitItem, TimelineStep, FilmLocation, ExpeditionEpisode } from '../types';
 
 export const FILM_METADATA = {
   title: 'CHEHRA FILMS',
@@ -299,5 +299,72 @@ export const PRODUCTION_FAQS = [
   {
     q: 'What is the timeline of the shoot?',
     a: 'The road journey spans approximately 28 contiguous days across multiple states, scheduled in high visual seasons with complete logistics, stays, and production support managed by Parindaa Travels.'
+  }
+];
+
+export const EXPEDITION_EPISODES: ExpeditionEpisode[] = [
+  {
+    id: 'ep-01',
+    number: '01',
+    act: 'ACT I // PROLOGUE TO FROST',
+    title: 'THE COLD ASCENT',
+    route: 'Old Manali → Rohtang Pass → Chandra Taal',
+    altitude: '2,050m – 4,250m',
+    coordinates: '32.24° N, 77.18° E',
+    synopsis:
+      'Six strangers leave urban safety and gather at dawn in Manali. As tarmac yields to black ice on Rohtang Pass, rehearsed personalities fracture. The camera rolls non-stop through engine failures and frozen hands.',
+    charactersInvolved: ['Shankar', 'Vandana', 'Nandi'],
+    soundscape: 'Binaural sub-zero gale, idling diesel turbo, crunching ice gravel',
+    image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789639214/images_19_-_Copy.jpg',
+    dramaticTension: 'The first unscripted breakdown: Shankar refuses to sleep inside the heated vehicle.',
+    unscriptedEvent: 'Sudden blizzard at 14,000 ft forces the convoy to shelter in stone shepherd huts.'
+  },
+  {
+    id: 'ep-02',
+    number: '02',
+    act: 'ACT II // THE SILENT VALLEY',
+    title: 'THE SHADOW MONASTERIES',
+    route: 'Kaza → Key Gompa → Langza High Plateau',
+    altitude: '3,800m – 4,400m',
+    coordinates: '32.29° N, 78.01° E',
+    synopsis:
+      'Cut off from all mobile cellular networks in the barren Spiti desert. Around a midnight kerosene heater, unspoken personal histories and unresolved grief emerge without an authored script.',
+    charactersInvolved: ['Vandana', 'Jyoti', 'Shiva'],
+    soundscape: 'Microtonal Tibetan horns echoing across fossil canyons, fluttering prayer flags',
+    image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789634480/images_-_2026-09-14T173720.993.jpg',
+    dramaticTension: 'Vandana exposes an emotional secret captured accidentally on 35mm film.',
+    unscriptedEvent: 'A local monastery elder invites the cast to share salt tea at dusk during evening chanting.'
+  },
+  {
+    id: 'ep-03',
+    number: '03',
+    act: 'ACT III // THE OVERHANGING CLIFFS',
+    title: 'THE EDGE OF REASON',
+    route: 'Tabo → Nako Lake → Taranda Dhank (Kinnaur)',
+    altitude: '2,200m – 3,600m',
+    coordinates: '31.52° N, 78.27° E',
+    synopsis:
+      'India’s most dangerous cliff-carved mountain highway. When falling boulders block the narrow shelf road, the cast and crew must clear debris together under imminent avalanche threats.',
+    charactersInvolved: ['Nandi', 'Rahul', 'Shankar'],
+    soundscape: 'Roaring Sutlej river 1,200 ft below, shattering slate rocks, howling valley drafts',
+    image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789639214/images_36_-_Copy.jpg',
+    dramaticTension: 'Rahul threatens to abandon the expedition; Nandi anchors the psychological breaking point.',
+    unscriptedEvent: 'Filming a spontaneous emotional breakdown suspended over the canyon abyss.'
+  },
+  {
+    id: 'ep-04',
+    number: '04',
+    act: 'ACT IV // THE MIRAGE & ASHES',
+    title: 'THE DUNE SILENCE & THE PYRE',
+    route: 'Shekhawati → Ghost Village of Kuldhara → Sam Dunes',
+    altitude: '225m (Desert Sea)',
+    coordinates: '26.91° N, 70.90° E',
+    synopsis:
+      'From glacial frost to searing Thar desert sands. The convoy reaches the abandoned ghost village of Kuldhara. A final midnight bonfire ceremony where masks are stripped and letters burned.',
+    charactersInvolved: ['Shankar', 'Shiva', 'Jyoti', 'All Cast'],
+    soundscape: 'Desert sand whistling through ruined sandstone courtyards, acoustic raw sarangi strings',
+    image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789639213/images_-_Copy.jpg',
+    dramaticTension: 'The final unwritten climax: Who goes back to their old city life, and who keeps driving?',
+    unscriptedEvent: 'Midnight acoustic folk circle under a moonlit sky with zero electric lights.'
   }
 ];

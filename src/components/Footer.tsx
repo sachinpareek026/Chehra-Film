@@ -79,6 +79,11 @@ export const Footer: React.FC<FooterProps> = ({ onOpenNomination }) => {
                 </a>
               </li>
               <li>
+                <a href="#faq" className="hover:text-yellow-400 transition-colors">
+                  FAQ & POLICIES
+                </a>
+              </li>
+              <li>
                 <a href="#about" className="hover:text-yellow-400 transition-colors">
                   ABOUT
                 </a>
@@ -116,11 +121,11 @@ export const Footer: React.FC<FooterProps> = ({ onOpenNomination }) => {
               </li>
               <li>
                 <a
-                  href="mailto:casting@parindaatravels.com"
+                  href="mailto:sachinpareek026@gmail.com"
                   className="flex items-center gap-2 hover:text-yellow-400 transition-colors"
                 >
                   <Mail className="w-3.5 h-3.5 text-yellow-400" />
-                  <span>Email • casting@parindaatravels.com</span>
+                  <span>Email • sachinpareek026@gmail.com</span>
                 </a>
               </li>
               <li>

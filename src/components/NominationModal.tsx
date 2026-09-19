@@ -1,54 +1,173 @@
 import React, { useState, useEffect } from 'react';
-import { X, Upload, CheckCircle2, Film, User, Compass, AlertCircle, Copy, Check } from 'lucide-react';
-import { CHARACTERS } from '../data/cinemaData';
+import {
+  X,
+  Upload,
+  Film,
+  Compass,
+  Wrench,
+  Copy,
+  Check,
+  Sparkles,
+  Link as LinkIcon,
+  ShieldCheck,
+  ChevronRight,
+  HelpCircle,
+  ChevronDown,
+  ChevronUp,
+  MapPin,
+  Calendar,
+  AlertCircle,
+  Eye,
+  Camera,
+  CheckCircle2,
+  Video,
+  FileCheck,
+  Layers,
+  Info
+} from 'lucide-react';
+import { CHARACTERS, FILM_METADATA } from '../data/cinemaData';
 import { CinemaButton } from './CinemaButton';
+import { PathwayType, AnySubmission, ActorSubmission, ParticipantSubmission, CrewSubmission } from '../types';
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
+  actor: [
+    {
+      question: 'How does the 100% Refund Policy work for actors?',
+      answer:
+        'Upon official character casting, actors place a production security deposit to guarantee their convoy seat and schedule. 100% of this deposit is refunded immediately to your original payment account upon completing your assigned on-location shoot schedule.',
+    },
+    {
+      question: 'Is there any audition or submission fee?',
+      answer:
+        'Zero. Submitting your audition monologue, headshot, and portfolio is completely free. No deposit or financial commitment is requested unless you are officially selected for the cast.',
+    },
+    {
+      question: 'What happens if I cannot attend after being selected?',
+      answer:
+        'If you notify the directorial desk at least 14 days before convoy roll-out, your full security deposit is returned without any deductions.',
+    },
+  ],
+  participant: [
+    {
+      question: 'How does the booking price structure work?',
+      answer:
+        'Pay a ₹1,000 token today to reserve your expedition seat and permanently lock the early-bird rate of ₹11,000. The remaining ₹10,000 balance is settled 7 days before departure.',
+    },
+    {
+      question: 'Why does the expedition rate increase after October 30?',
+      answer:
+        'To secure early convoy vehicle leases and high-altitude base camp logistics before peak winter tariffs, registrations after October 30 increase by ₹1,500 (totaling ₹12,500).',
+    },
+    {
+      question: 'What is included in the ₹11,000 expedition fee?',
+      answer:
+        'All curated inter-state convoy transit, twin-sharing accommodations, mountain camp permits, guided trails, and front-row cinema immersion alongside the film crew.',
+    },
+  ],
+  crew: [
+    {
+      question: 'What does the nominal opportunity fee cover?',
+      answer:
+        'Selected crew contribute a subsidized logistical share that covers cross-state equipment freight, dedicated technical vehicle transit, and base camp lodging.',
+    },
+    {
+      question: 'What credits and portfolio rights do I receive?',
+      answer:
+        'Official theatrical and IMDb Department Head credits, festival delegation accreditation, and unrestricted rights to use graded cinematic footage in your personal showreel.',
+    },
+  ],
+};
+
+const EXPEDITION_ROUTE_STAGES = [
+  { stage: 'STAGE 01', title: 'High Mountain Ascent', loc: 'Rohtang Pass & Spiti', img: '/characters/shankar.jpg' },
+  { stage: 'STAGE 02', title: 'Shadow Monasteries', loc: 'Key Gompa & Kaza', img: '/characters/vandana.jpg' },
+  { stage: 'STAGE 03', title: 'Overhanging Cliffs', loc: 'Kinnaur & Chitkul', img: '/characters/shiva.jpg' },
+  { stage: 'STAGE 04', title: 'Dune Nightfall & Camp', loc: 'Thar Desert & Jaisalmer', img: '/characters/jyoti.jpg' },
+];
+
+const CREW_DEPARTMENTS_META: Record<string, { desc: string; icon: string; tag: string }> = {
+  'Cinematography & Camera Operation': { desc: 'Arri LF, RED 4K, Anamorphic prime rigs & gimbal handling in sub-zero terrain.', icon: 'Camera', tag: 'CAM DEPT' },
+  'Music Composition & Background Score': { desc: 'Live microtonal strings, folk instrument tracking & environmental sound recordings.', icon: 'Sparkles', tag: 'SOUNDTRACK' },
+  'Screenplay & Dialogue Development': { desc: 'On-road narrative adaptation, spontaneous character conflict and improvised lines.', icon: 'Layers', tag: 'SCRIPT' },
+  'Sound Design & Location Audio Recording': { desc: 'Spatial ambisonics, wind isolation, mountain echo capture & Dolby Atmos stems.', icon: 'Video', tag: 'AUDIO' },
+  'Film Editing & Color Grading': { desc: 'Rough-cut assembly on location, Kodak 35mm film emulation & festival grade luts.', icon: 'Film', tag: 'POST' },
+  'Costume Styling & Character Wardrobe': { desc: 'Authentic overland wear, weather-beaten layers & character continuity.', icon: 'Sparkles', tag: 'STYLING' },
+  'SFX Makeup & Prosthetics': { desc: 'Frostbite, altitude fatigue, authentic road patina and subtle character wear.', icon: 'Wrench', tag: 'SFX' },
+  'Drone Pilot & Aerial Cinematography': { desc: 'High-altitude cold battery flight, ravine fly-throughs & cinematic convoy tracking.', icon: 'Compass', tag: 'AERIAL' },
+  'Behind the Scenes & Photography': { desc: 'Medium-format analog stills, episodic documentary b-roll and press archival.', icon: 'Camera', tag: 'BTS' },
+};
 
 interface NominationModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialRoleId?: string;
-  initialRoleType?: 'actor' | 'participant';
+  initialPathway?: PathwayType;
+  onSubmissionSuccess?: (submission: AnySubmission) => void;
 }
 
 export const NominationModal: React.FC<NominationModalProps> = ({
   isOpen,
   onClose,
   initialRoleId,
-  initialRoleType = 'actor',
+  initialPathway = 'actor',
+  onSubmissionSuccess,
 }) => {
+  const [pathway, setPathway] = useState<PathwayType>(initialPathway);
   const [selectedRoleId, setSelectedRoleId] = useState<string>(initialRoleId || CHARACTERS[0].id);
-  const [roleType, setRoleType] = useState<'actor' | 'participant'>(initialRoleType);
 
-  const [formData, setFormData] = useState({
-    fullName: '',
-    age: '',
-    city: '',
-    phoneNumber: '',
-    email: '',
-    instagramProfile: '',
-    whyJoin: '',
-    videoUrl: '',
-    confirmed: false,
-  });
+  // Core Personal Details
+  const [fullName, setFullName] = useState('');
+  const [age, setAge] = useState('');
+  const [city, setCity] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
+  const [instagramProfile, setInstagramProfile] = useState('');
 
+  // Pathway 1: Actor Fields
+  const [actingExperience, setActingExperience] = useState('');
+  const [whyJoin, setWhyJoin] = useState('');
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-  const [photoName, setPhotoName] = useState<string>('');
-  const [videoFileName, setVideoFileName] = useState<string>('');
-  const [submitted, setSubmitted] = useState<boolean>(false);
-  const [applicationId, setApplicationId] = useState<string>('');
-  const [copiedAppId, setCopiedAppId] = useState<boolean>(false);
+  const [photoFileName, setPhotoFileName] = useState('');
+  const [auditionTapeFileName, setAuditionTapeFileName] = useState('');
+  const [auditionTapeUrl, setAuditionTapeUrl] = useState('');
+
+  // Pathway 2: Participant Fields (Zero uploads)
+  const [departureCity, setDepartureCity] = useState('Delhi Majnu Ka Tilla Hub');
+  const [travelBatch, setTravelBatch] = useState('Batch Alpha (Oct 18 – Oct 28)');
+  const [roomPreference, setRoomPreference] = useState('Twin Sharing with Fellow Traveler');
+  const [emergencyContact, setEmergencyContact] = useState('');
+
+  // Pathway 3: Crew Member Fields
+  const [crewDepartment, setCrewDepartment] = useState('Cinematography & Camera Operation');
+  const [proofOfSkillLink, setProofOfSkillLink] = useState('');
+  const [portfolioSummary, setPortfolioSummary] = useState('');
+  const [opportunityFeeAgreed, setOpportunityFeeAgreed] = useState(true);
+  const [publicFilmmakingConsent, setPublicFilmmakingConsent] = useState(true);
+
+  // State
+  const [submitted, setSubmitted] = useState(false);
+  const [submittedItem, setSubmittedItem] = useState<AnySubmission | null>(null);
+  const [copiedAppId, setCopiedAppId] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  useEffect(() => {
-    if (initialRoleId) {
-      setSelectedRoleId(initialRoleId);
-    }
-    if (initialRoleType) {
-      setRoleType(initialRoleType);
-    }
-  }, [initialRoleId, initialRoleType]);
+  // Modal Footer FAQ State
+  const [isFaqOpen, setIsFaqOpen] = useState(false);
+  const [activeFaqIndex, setActiveFaqIndex] = useState<number | null>(0);
 
-  // Lock scroll when open
+  useEffect(() => {
+    setActiveFaqIndex(0);
+  }, [pathway]);
+
+  useEffect(() => {
+    if (initialPathway) setPathway(initialPathway);
+    if (initialRoleId) setSelectedRoleId(initialRoleId);
+  }, [initialPathway, initialRoleId]);
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -64,38 +183,47 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
   const currentRole = CHARACTERS.find((c) => c.id === selectedRoleId) || CHARACTERS[0];
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setPhotoName(file.name);
+      setPhotoFileName(file.name);
       const reader = new FileReader();
-      reader.onload = (uploadEvent) => {
-        setPhotoPreview(uploadEvent.target?.result as string);
+      reader.onload = (ev) => {
+        setPhotoPreview(ev.target?.result as string);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setVideoFileName(e.target.files[0].name);
+      setAuditionTapeFileName(e.target.files[0].name);
     }
   };
 
   const validate = () => {
     const errs: { [key: string]: string } = {};
-    if (!formData.fullName.trim()) errs.fullName = 'Full name is required';
-    if (!formData.age || Number(formData.age) < 18 || Number(formData.age) > 75)
-      errs.age = 'Valid age between 18–75 is required';
-    if (!formData.city.trim()) errs.city = 'City is required';
-    if (!formData.phoneNumber.trim() || formData.phoneNumber.length < 8)
-      errs.phoneNumber = 'Valid phone number is required';
-    if (!formData.email.trim() || !formData.email.includes('@'))
-      errs.email = 'Valid email is required';
-    if (!formData.whyJoin.trim())
-      errs.whyJoin = 'Please explain why you want to join this cinema expedition';
-    if (!formData.confirmed)
-      errs.confirmed = 'You must confirm the authenticity of your information';
+
+    if (!fullName.trim()) errs.fullName = 'Full name is required';
+    if (!age || Number(age) < 18 || Number(age) > 75) errs.age = 'Valid age (18–75) is required';
+    if (!city.trim()) errs.city = 'Current city is required';
+    if (!phoneNumber.trim() || phoneNumber.length < 8) errs.phoneNumber = 'Active phone number is required';
+    if (!email.trim() || !email.includes('@')) errs.email = 'Valid email is required';
+
+    if (pathway === 'actor') {
+      if (!photoFileName && !photoPreview) errs.photo = 'Headshot photograph is required';
+      if (!auditionTapeFileName && !auditionTapeUrl.trim()) {
+        errs.auditionTape = 'Audition monologue video upload or public reel link is required';
+      }
+    } else if (pathway === 'participant') {
+      if (!emergencyContact.trim()) errs.emergencyContact = 'Emergency contact person & phone required';
+    } else if (pathway === 'crew') {
+      if (!proofOfSkillLink.trim() || !proofOfSkillLink.startsWith('http')) {
+        errs.proofOfSkillLink = 'A public portfolio/reel link (Drive, YouTube, Behance) is required';
+      }
+      if (!opportunityFeeAgreed) errs.opportunityFee = 'Please accept the opportunity fee policy';
+      if (!publicFilmmakingConsent) errs.publicConsent = 'Filmmaking consent is required';
+    }
 
     setErrors(errs);
     return Object.keys(errs).length === 0;
@@ -103,453 +231,995 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) {
-      return;
+    if (!validate()) return;
+
+    const randomSuffix = Math.floor(100000 + Math.random() * 900000);
+    const dateStr = new Date().toISOString().replace('T', ' ').substring(0, 16);
+
+    let newSubmission: AnySubmission;
+
+    if (pathway === 'actor') {
+      const actorItem: ActorSubmission = {
+        id: `CF-ACT-${randomSuffix}`,
+        type: 'actor',
+        submittedAt: dateStr,
+        fullName,
+        age,
+        city,
+        phoneNumber,
+        email,
+        instagramProfile: instagramProfile || 'N/A',
+        selectedRole: `${currentRole.name} — ${currentRole.tagline}`,
+        actingExperience: actingExperience || 'Self-taught / Raw talent',
+        photoFileName: photoFileName || 'headshot.jpg',
+        photoPreviewUrl: photoPreview || undefined,
+        auditionTapeFileName: auditionTapeFileName || (auditionTapeUrl ? 'Public Video Link' : 'tape.mp4'),
+        auditionTapeUrl: auditionTapeUrl || undefined,
+        whyJoin: whyJoin || 'Passionate about cinema and exploratory storytelling on the road.',
+        refundEligible: true,
+        confirmed: true,
+      };
+      newSubmission = actorItem;
+    } else if (pathway === 'participant') {
+      const participantItem: ParticipantSubmission = {
+        id: `CF-PART-${randomSuffix}`,
+        type: 'participant',
+        submittedAt: dateStr,
+        fullName,
+        age,
+        city,
+        phoneNumber,
+        email,
+        instagramProfile: instagramProfile || 'N/A',
+        departureCity,
+        travelBatch,
+        roomPreference,
+        emergencyContact,
+        prebookingTokenPrice: 1000,
+        lockedTripPrice: 11000,
+        oct30PriceIncreaseNotice: true,
+        paymentMode: 'UPI / Card (₹1,000 Token)',
+        transactionRef: `UPI-PREBOOK-${randomSuffix}`,
+        confirmed: true,
+      };
+      newSubmission = participantItem;
+    } else {
+      const crewItem: CrewSubmission = {
+        id: `CF-CREW-${randomSuffix}`,
+        type: 'crew',
+        submittedAt: dateStr,
+        fullName,
+        age,
+        city,
+        phoneNumber,
+        email,
+        instagramProfile: instagramProfile || 'N/A',
+        crewDepartment,
+        categoryType: 'Prime Department',
+        proofOfSkillLink,
+        portfolioSummary: portfolioSummary || 'Portfolio link provided',
+        gearOrSoftware: 'Specified in portfolio link',
+        opportunityFeeAgreed: true,
+        publicFilmmakingConsent: true,
+        confirmed: true,
+      };
+      newSubmission = crewItem;
     }
 
-    const randomId = 'CF-' + Math.floor(100000 + Math.random() * 900000);
-    setApplicationId(randomId);
+    setSubmittedItem(newSubmission);
     setSubmitted(true);
+
+    if (onSubmissionSuccess) {
+      onSubmissionSuccess(newSubmission);
+    }
   };
 
   const handleCopyId = () => {
-    navigator.clipboard.writeText(applicationId);
-    setCopiedAppId(true);
-    setTimeout(() => setCopiedAppId(false), 2000);
+    if (submittedItem?.id) {
+      navigator.clipboard.writeText(submittedItem.id);
+      setCopiedAppId(true);
+      setTimeout(() => setCopiedAppId(false), 2000);
+    }
   };
 
-  const resetForm = () => {
+  const handleResetAndClose = () => {
     setSubmitted(false);
-    setFormData({
-      fullName: '',
-      age: '',
-      city: '',
-      phoneNumber: '',
-      email: '',
-      instagramProfile: '',
-      whyJoin: '',
-      videoUrl: '',
-      confirmed: false,
-    });
-    setPhotoPreview(null);
-    setPhotoName('');
-    setVideoFileName('');
-    setErrors({});
+    setSubmittedItem(null);
     onClose();
   };
 
   return (
     <div
       id="nomination-modal-overlay"
-      className="fixed inset-0 z-50 overflow-y-auto bg-[#060B14]/95 backdrop-blur-xl flex items-center justify-center p-2 sm:p-4 md:p-6"
+      className="fixed inset-0 z-50 overflow-y-auto bg-[#03060E]/95 backdrop-blur-xl flex items-center justify-center p-2 sm:p-4 md:p-6"
     >
-      <div className="relative w-full max-w-5xl bg-[#0A1324] border border-blue-900/60 shadow-2xl overflow-hidden my-4">
-        {/* Modal Header Bar */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-blue-900/40 bg-[#060B14]">
+      {/* WIDESCREEN CINEMATIC CONTAINER (up to max-w-6xl / 1152px) */}
+      <div className="relative w-full max-w-6xl bg-[#080E1C] border border-white/15 shadow-2xl shadow-black/90 overflow-hidden my-auto max-h-[94vh] flex flex-col">
+        
+        {/* Top Editorial Film Ribbon */}
+        <div className="flex items-center justify-between px-5 sm:px-8 py-3.5 border-b border-white/10 bg-[#050A14] shrink-0">
           <div className="flex items-center gap-3">
             <span className="w-2.5 h-2.5 bg-yellow-400 rounded-full animate-pulse" />
-            <span className="font-title text-sm md:text-base font-black tracking-wider text-white uppercase">
-              CHEHRA FILMS • CASTING APPLICATION
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="font-title text-xs sm:text-sm font-black tracking-widest text-white uppercase">
+                CHEHRA FILMS
+              </span>
+              <span className="text-slate-500">•</span>
+              <span className="text-[11px] font-mono text-yellow-400 font-semibold tracking-wider uppercase">
+                PRODUCTION DISPATCH PORTAL
+              </span>
+            </div>
           </div>
-          <button
-            onClick={onClose}
-            className="p-2 text-slate-400 hover:text-yellow-400 transition-colors cursor-pointer"
-            aria-label="Close Modal"
-          >
-            <X className="w-5 h-5" />
-          </button>
+
+          <div className="flex items-center gap-4">
+            <span className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-white/5 border border-white/10 text-[10px] font-mono text-slate-300 uppercase tracking-widest">
+              SEC. 004 // OVERLAND APPLICATION
+            </span>
+            <button
+              onClick={onClose}
+              className="p-1 text-slate-400 hover:text-white transition-colors cursor-pointer"
+              aria-label="Close"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
-        {submitted ? (
-          /* SUCCESS STATE */
-          <div className="p-8 sm:p-14 text-center max-w-2xl mx-auto space-y-6">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-yellow-400/10 border border-yellow-400/30 text-yellow-400 mb-2">
-              <CheckCircle2 className="w-10 h-10 text-yellow-400" />
-            </div>
-
-            <div className="space-y-2">
-              <div className="text-[11px] font-mono tracking-[0.25em] text-yellow-400 uppercase font-semibold">
-                APPLICATION SUBMITTED SUCCESSFULLY
-              </div>
-              <h3 className="font-title text-3xl sm:text-5xl font-black text-white tracking-tight uppercase">
-                YOUR JOURNEY HAS BEGUN.
-              </h3>
-            </div>
-
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-light">
-              Thank you for your nomination. Our team will review your application and contact shortlisted candidates for the upcoming phase.
-            </p>
-
-            {/* Application Dossier Badge */}
-            <div className="p-4 bg-[#060B14] border border-blue-900/50 max-w-md mx-auto flex items-center justify-between">
-              <div className="text-left">
-                <span className="text-[10px] font-mono text-slate-400 block uppercase">
-                  APPLICATION ID
-                </span>
-                <span className="font-mono text-base font-bold text-yellow-400">
-                  {applicationId}
-                </span>
-              </div>
+        {/* Pathway Selection Ribbon Tabs */}
+        {!submitted && (
+          <div className="px-5 sm:px-8 py-3 bg-[#060C17] border-b border-white/10 shrink-0">
+            <div className="grid grid-cols-3 gap-2 sm:gap-4 max-w-3xl">
               <button
-                onClick={handleCopyId}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono text-slate-300 bg-white/5 hover:bg-white/10 border border-white/10 transition-colors cursor-pointer"
+                type="button"
+                onClick={() => setPathway('actor')}
+                className={`py-2 px-3 sm:px-4 text-left border transition-all cursor-pointer flex items-center justify-between ${
+                  pathway === 'actor'
+                    ? 'bg-yellow-400/10 border-yellow-400 text-yellow-400 shadow-md'
+                    : 'bg-black/30 border-white/10 text-slate-400 hover:text-slate-200 hover:border-white/20'
+                }`}
               >
-                {copiedAppId ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    <span className="text-emerald-400">COPIED</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5" />
-                    <span>COPY ID</span>
-                  </>
-                )}
+                <div>
+                  <div className="text-[11px] font-mono font-bold uppercase tracking-wider">
+                    01. ACTOR AUDITION
+                  </div>
+                  <div className="text-[9px] text-emerald-400 font-mono mt-0.5">100% Refundable Deposit</div>
+                </div>
+                <Film className={`w-4 h-4 hidden sm:block ${pathway === 'actor' ? 'text-yellow-400' : 'text-slate-600'}`} />
               </button>
-            </div>
 
-            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <CinemaButton variant="primary" onClick={resetForm}>
-                RETURN TO EXPERIENCE
-              </CinemaButton>
-            </div>
-          </div>
-        ) : (
-          /* NOMINATION FORM */
-          <div className="grid grid-cols-1 lg:grid-cols-12 max-h-[85vh] overflow-y-auto">
-            {/* Left Sidebar: Selected Role Spotlight */}
-            <div className="lg:col-span-4 bg-[#060B14] border-b lg:border-b-0 lg:border-r border-blue-900/40 p-6 sm:p-8 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2 mb-4">
-                  <Film className="w-4 h-4 text-yellow-400" />
-                  <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-yellow-400 font-semibold">
-                    SELECTED DISPATCH
-                  </span>
-                </div>
-
-                {/* Role Switcher Pills */}
-                <div className="flex flex-wrap gap-1.5 mb-6">
-                  {CHARACTERS.map((c) => (
-                    <button
-                      key={c.id}
-                      type="button"
-                      onClick={() => {
-                        setSelectedRoleId(c.id);
-                        setRoleType('actor');
-                      }}
-                      className={`text-[10px] font-mono px-2.5 py-1 tracking-wider uppercase transition-colors border ${
-                        selectedRoleId === c.id && roleType === 'actor'
-                          ? 'bg-yellow-400 text-black border-yellow-300 font-bold'
-                          : 'bg-[#0A1324] text-slate-400 border-blue-900/40 hover:border-yellow-400/50 hover:text-white'
-                      }`}
-                    >
-                      {c.name}
-                    </button>
-                  ))}
-                  <button
-                    type="button"
-                    onClick={() => setRoleType('participant')}
-                    className={`text-[10px] font-mono px-2.5 py-1 tracking-wider uppercase transition-colors border ${
-                      roleType === 'participant'
-                        ? 'bg-blue-600 text-white border-blue-400 font-bold'
-                        : 'bg-[#0A1324] text-slate-400 border-blue-900/40 hover:border-blue-400/50 hover:text-white'
-                    }`}
-                  >
-                    PARTICIPANT SPOT
-                  </button>
-                </div>
-
-                {/* Prominent Role Card Display */}
-                {roleType === 'actor' ? (
-                  <div className="relative border border-blue-900/50 overflow-hidden bg-[#0A1324] shadow-lg">
-                    <img
-                      src={currentRole.image}
-                      alt={currentRole.name}
-                      referrerPolicy="no-referrer"
-                      className="w-full h-48 sm:h-56 object-cover object-center filter grayscale-[20%]"
-                    />
-                    <div className="p-4 space-y-2">
-                      <div className="flex items-center justify-between text-[10px] font-mono text-yellow-400 font-semibold">
-                        <span>{currentRole.archetype}</span>
-                        <span>{currentRole.ageRange} YRS</span>
-                      </div>
-                      <h4 className="font-title text-2xl font-black text-white tracking-wide">
-                        {currentRole.name}
-                      </h4>
-                      <p className="text-xs text-slate-300 leading-relaxed font-light">
-                        {currentRole.description}
-                      </p>
-                      {currentRole.physicalTrait && (
-                        <div className="text-[10px] font-mono text-yellow-300 bg-yellow-400/10 p-2 border border-yellow-400/30">
-                          {currentRole.physicalTrait}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="p-6 border border-blue-500/40 bg-blue-950/30 text-slate-300 space-y-3">
-                    <div className="flex items-center gap-2 text-blue-400 font-mono text-xs uppercase font-bold">
-                      <Compass className="w-4 h-4" />
-                      <span>FILMMAKING PARTICIPANT</span>
-                    </div>
-                    <p className="text-xs leading-relaxed text-slate-300">
-                      Travel with the production caravan across India. Experience the shoot, participate in natural street & crowd sequences, and document the making of an experimental auteur feature.
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              <div className="mt-8 pt-4 border-t border-blue-900/40 text-[10px] font-mono text-slate-400">
-                <span className="text-white font-bold block mb-1">PROPOSED MODEL:</span>
-                100% eligible contribution refund once project revenues are achieved, subject to terms.
-              </div>
-            </div>
-
-            {/* Right: Form Input Fields */}
-            <div className="lg:col-span-8 p-6 sm:p-8 md:p-10">
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <button
+                type="button"
+                onClick={() => setPathway('participant')}
+                className={`py-2 px-3 sm:px-4 text-left border transition-all cursor-pointer flex items-center justify-between ${
+                  pathway === 'participant'
+                    ? 'bg-blue-600/20 border-blue-400 text-blue-300 shadow-md'
+                    : 'bg-black/30 border-white/10 text-slate-400 hover:text-slate-200 hover:border-white/20'
+                }`}
+              >
                 <div>
-                  <h3 className="font-title text-xl sm:text-2xl font-black text-white tracking-wide uppercase mb-1">
-                    APPLY FOR {roleType === 'actor' ? currentRole.name : 'PARTICIPANT SPOT'}
-                  </h3>
-                  <p className="text-xs text-slate-400 font-mono">
-                    Please provide accurate contact and portfolio information for our casting panel.
-                  </p>
+                  <div className="text-[11px] font-mono font-bold uppercase tracking-wider">
+                    02. PARTICIPANT
+                  </div>
+                  <div className="text-[9px] text-blue-400 font-mono mt-0.5">₹1,000 Token • Zero Uploads</div>
                 </div>
+                <Compass className={`w-4 h-4 hidden sm:block ${pathway === 'participant' ? 'text-blue-400' : 'text-slate-600'}`} />
+              </button>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  {/* FULL NAME */}
-                  <div>
-                    <label className="block text-xs font-mono tracking-widest text-slate-300 uppercase mb-1.5">
-                      FULL NAME *
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.fullName}
-                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      placeholder="e.g. Aryan Sharma"
-                      className="w-full px-4 py-3 bg-[#060B14] border border-blue-900/50 text-white placeholder-slate-600 text-sm focus:border-yellow-400 focus:outline-none transition-colors"
-                    />
-                    {errors.fullName && (
-                      <span className="text-[11px] text-yellow-400 font-mono mt-1 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3" /> {errors.fullName}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* AGE */}
-                  <div>
-                    <label className="block text-xs font-mono tracking-widest text-slate-300 uppercase mb-1.5">
-                      AGE *
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.age}
-                      onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-                      placeholder="e.g. 26"
-                      min="18"
-                      max="75"
-                      className="w-full px-4 py-3 bg-[#060B14] border border-blue-900/50 text-white placeholder-slate-600 text-sm focus:border-yellow-400 focus:outline-none transition-colors"
-                    />
-                    {errors.age && (
-                      <span className="text-[11px] text-yellow-400 font-mono mt-1 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3" /> {errors.age}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* CITY */}
-                  <div>
-                    <label className="block text-xs font-mono tracking-widest text-slate-300 uppercase mb-1.5">
-                      CITY *
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.city}
-                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      placeholder="e.g. Mumbai / Delhi / Bengaluru"
-                      className="w-full px-4 py-3 bg-[#060B14] border border-blue-900/50 text-white placeholder-slate-600 text-sm focus:border-yellow-400 focus:outline-none transition-colors"
-                    />
-                    {errors.city && (
-                      <span className="text-[11px] text-yellow-400 font-mono mt-1 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3" /> {errors.city}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* PHONE NUMBER */}
-                  <div>
-                    <label className="block text-xs font-mono tracking-widest text-slate-300 uppercase mb-1.5">
-                      PHONE NUMBER *
-                    </label>
-                    <input
-                      type="tel"
-                      value={formData.phoneNumber}
-                      onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
-                      placeholder="+91 98765 43210"
-                      className="w-full px-4 py-3 bg-[#060B14] border border-blue-900/50 text-white placeholder-slate-600 text-sm focus:border-yellow-400 focus:outline-none transition-colors"
-                    />
-                    {errors.phoneNumber && (
-                      <span className="text-[11px] text-yellow-400 font-mono mt-1 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3" /> {errors.phoneNumber}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* EMAIL */}
-                  <div>
-                    <label className="block text-xs font-mono tracking-widest text-slate-300 uppercase mb-1.5">
-                      EMAIL *
-                    </label>
-                    <input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="you@domain.com"
-                      className="w-full px-4 py-3 bg-[#060B14] border border-blue-900/50 text-white placeholder-slate-600 text-sm focus:border-yellow-400 focus:outline-none transition-colors"
-                    />
-                    {errors.email && (
-                      <span className="text-[11px] text-yellow-400 font-mono mt-1 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3" /> {errors.email}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* INSTAGRAM / SOCIAL PROFILE */}
-                  <div>
-                    <label className="block text-xs font-mono tracking-widest text-slate-300 uppercase mb-1.5">
-                      INSTAGRAM / SOCIAL PROFILE
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.instagramProfile}
-                      onChange={(e) => setFormData({ ...formData, instagramProfile: e.target.value })}
-                      placeholder="@handle or profile URL"
-                      className="w-full px-4 py-3 bg-[#060B14] border border-blue-900/50 text-white placeholder-slate-600 text-sm focus:border-yellow-400 focus:outline-none transition-colors"
-                    />
-                  </div>
-                </div>
-
-                {/* WHY DO YOU WANT TO JOIN? */}
+              <button
+                type="button"
+                onClick={() => setPathway('crew')}
+                className={`py-2 px-3 sm:px-4 text-left border transition-all cursor-pointer flex items-center justify-between ${
+                  pathway === 'crew'
+                    ? 'bg-emerald-500/15 border-emerald-400 text-emerald-300 shadow-md'
+                    : 'bg-black/30 border-white/10 text-slate-400 hover:text-slate-200 hover:border-white/20'
+                }`}
+              >
                 <div>
-                  <label className="block text-xs font-mono tracking-widest text-slate-300 uppercase mb-1.5">
-                    WHY DO YOU WANT TO JOIN? *
-                  </label>
-                  <textarea
-                    rows={3}
-                    value={formData.whyJoin}
-                    onChange={(e) => setFormData({ ...formData, whyJoin: e.target.value })}
-                    placeholder="Tell us about your connection to travel, why this character or expedition resonates with you, and what truth you seek on the road..."
-                    className="w-full px-4 py-3 bg-[#060B14] border border-blue-900/50 text-white placeholder-slate-600 text-sm focus:border-yellow-400 focus:outline-none transition-colors resize-none"
-                  />
-                  {errors.whyJoin && (
-                    <span className="text-[11px] text-yellow-400 font-mono mt-1 flex items-center gap-1">
-                      <AlertCircle className="w-3 h-3" /> {errors.whyJoin}
-                    </span>
-                  )}
-                </div>
-
-                {/* FILE UPLOAD SECTION: PHOTO UPLOAD & AUDITION VIDEO UPLOAD */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
-                  {/* PHOTO UPLOAD */}
-                  <div className="p-4 border border-dashed border-blue-900/60 bg-[#060B14] hover:border-yellow-400/50 transition-colors">
-                    <label className="block text-xs font-mono tracking-widest text-slate-300 uppercase mb-2">
-                      PHOTO UPLOAD (HEADSHOT / TRAVEL PHOTO)
-                    </label>
-                    <div className="flex items-center gap-4">
-                      {photoPreview ? (
-                        <img
-                          src={photoPreview}
-                          alt="Upload preview"
-                          className="w-14 h-14 object-cover border border-yellow-400"
-                        />
-                      ) : (
-                        <div className="w-14 h-14 bg-white/5 border border-white/10 flex items-center justify-center text-slate-500">
-                          <User className="w-6 h-6" />
-                        </div>
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <label className="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 bg-blue-950/60 hover:bg-blue-900/60 text-xs text-white uppercase font-mono tracking-wider transition-colors border border-blue-800/40">
-                          <Upload className="w-3.5 h-3.5 text-yellow-400" />
-                          <span>CHOOSE PHOTO</span>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handlePhotoChange}
-                            className="hidden"
-                          />
-                        </label>
-                        <p className="text-[10px] text-slate-400 font-mono mt-1 truncate">
-                          {photoName || 'JPG, PNG up to 10MB'}
-                        </p>
-                      </div>
-                    </div>
+                  <div className="text-[11px] font-mono font-bold uppercase tracking-wider">
+                    03. CREW MEMBER
                   </div>
-
-                  {/* AUDITION / INTRO VIDEO UPLOAD */}
-                  <div className="p-4 border border-dashed border-blue-900/60 bg-[#060B14] hover:border-yellow-400/50 transition-colors">
-                    <label className="block text-xs font-mono tracking-widest text-slate-300 uppercase mb-2">
-                      INTRODUCTION / AUDITION VIDEO
-                    </label>
-                    <div className="space-y-2">
-                      <label className="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 bg-blue-950/60 hover:bg-blue-900/60 text-xs text-white uppercase font-mono tracking-wider transition-colors border border-blue-800/40">
-                        <Upload className="w-3.5 h-3.5 text-yellow-400" />
-                        <span>UPLOAD VIDEO CLIP</span>
-                        <input
-                          type="file"
-                          accept="video/*"
-                          onChange={handleVideoChange}
-                          className="hidden"
-                        />
-                      </label>
-                      <span className="text-[10px] text-slate-400 font-mono block truncate">
-                        {videoFileName ? `Selected: ${videoFileName}` : 'MP4, MOV (1-2 min self tape)'}
-                      </span>
-                      <input
-                        type="url"
-                        value={formData.videoUrl}
-                        onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
-                        placeholder="Or paste YouTube / Drive / Vimeo link"
-                        className="w-full px-3 py-1.5 bg-[#0A1324] border border-blue-900/40 text-xs text-slate-200 placeholder-slate-600 focus:border-yellow-400 focus:outline-none"
-                      />
-                    </div>
-                  </div>
+                  <div className="text-[9px] text-emerald-400 font-mono mt-0.5">Department Head Credit</div>
                 </div>
-
-                {/* CONFIRMATION CHECKBOX */}
-                <div className="pt-2">
-                  <label className="flex items-start gap-3 cursor-pointer select-none">
-                    <input
-                      type="checkbox"
-                      checked={formData.confirmed}
-                      onChange={(e) => setFormData({ ...formData, confirmed: e.target.checked })}
-                      className="mt-1 w-4 h-4 rounded-none accent-yellow-400 bg-black border-white/20"
-                    />
-                    <span className="text-xs text-slate-300 font-body leading-relaxed">
-                      I confirm that the information provided is correct.
-                    </span>
-                  </label>
-                  {errors.confirmed && (
-                    <span className="text-[11px] text-yellow-400 font-mono mt-1 block">
-                      {errors.confirmed}
-                    </span>
-                  )}
-                </div>
-
-                {/* SUBMISSION BUTTON */}
-                <div className="pt-4 flex items-center justify-between border-t border-blue-900/40">
-                  <span className="text-[11px] text-slate-400 font-mono">
-                    PARINDAA TRAVELS CASTING DESK
-                  </span>
-                  <CinemaButton id="submit-nomination-btn" type="submit" variant="primary">
-                    SUBMIT NOMINATION
-                  </CinemaButton>
-                </div>
-              </form>
+                <Wrench className={`w-4 h-4 hidden sm:block ${pathway === 'crew' ? 'text-emerald-400' : 'text-slate-600'}`} />
+              </button>
             </div>
           </div>
         )}
+
+        {/* Form Body: Widescreen 2-Column Layout */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8">
+          {submitted && submittedItem ? (
+            /* =========================================================================
+               CONFIRMATION STAGE: Widescreen Success Showcase
+               ========================================================================= */
+            <div className="max-w-2xl mx-auto text-center space-y-6 py-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-yellow-400/10 border border-yellow-400/30 text-yellow-400 mx-auto shadow-xl">
+                <Sparkles className="w-8 h-8" />
+              </div>
+
+              <div className="space-y-2">
+                <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-yellow-400 font-semibold block">
+                  PARINDAA TRAVELS CINEMATIC INITIATIVE
+                </span>
+                <h3 className="font-title text-2xl sm:text-3xl font-black text-white tracking-tight uppercase">
+                  WELCOME TO CHEHRA FILMS
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed">
+                  Your application has been received and indexed into the official production database.
+                </p>
+              </div>
+
+              <div className="p-5 bg-[#050A14] border border-white/10 text-left text-xs text-slate-300 space-y-2.5 font-light leading-relaxed">
+                <p>
+                  Dear <strong className="text-white font-medium">{submittedItem.fullName}</strong>,
+                </p>
+                <p className="text-slate-400">
+                  Thank you for applying to be part of India&apos;s first experimental cinema project on the road. Our directorial and expedition team is reviewing your profile and credentials.
+                </p>
+                <p className="text-slate-400">
+                  We will contact you directly on <strong className="text-yellow-400">{submittedItem.phoneNumber}</strong> via WhatsApp and Email regarding casting decisions and convoy roll-out timings.
+                </p>
+              </div>
+
+              <div className="p-4 bg-[#0A1324] border border-white/10 flex items-center justify-between text-left font-mono">
+                <div>
+                  <span className="text-[9px] text-slate-400 uppercase tracking-wider block">
+                    OFFICIAL REFERENCE ID
+                  </span>
+                  <span className="text-lg font-bold text-yellow-400">
+                    {submittedItem.id}
+                  </span>
+                </div>
+                <button
+                  onClick={handleCopyId}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-slate-300 bg-white/5 hover:bg-white/10 border border-white/10 transition-colors cursor-pointer"
+                >
+                  {copiedAppId ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-emerald-400">COPIED</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>COPY ID</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <div className="pt-2">
+                <CinemaButton
+                  variant="primary"
+                  onClick={handleResetAndClose}
+                  className="w-full !py-3 text-xs tracking-wider"
+                >
+                  RETURN TO EXPEDITION DASHBOARD
+                </CinemaButton>
+              </div>
+            </div>
+          ) : (
+            /* =========================================================================
+               WIDESCREEN 2-COLUMN IMMERSIVE FORM
+               Left Side (5 cols on lg): Live Visual Character / Pathway Dossier
+               Right Side (7 cols on lg): Comprehensive Form Controls
+               ========================================================================= */
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              
+              {/* LEFT COLUMN: DYNAMIC VISUAL STAGE & ROLE CARD */}
+              <div className="lg:col-span-5 space-y-5">
+                
+                {/* Visual Card 1: Pathway-Specific Visual Showcase */}
+                {pathway === 'actor' && (
+                  <div className="bg-[#050A14] border border-white/15 overflow-hidden shadow-xl">
+                    {/* Visual Role Image with Cinematic Tone */}
+                    <div className="relative aspect-4/3 sm:aspect-16/10 overflow-hidden bg-black group">
+                      <img
+                        src={currentRole.image}
+                        alt={currentRole.name}
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover object-top filter grayscale-[10%] brightness-90 contrast-105 group-hover:scale-105 transition-all duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#050A14] via-[#050A14]/40 to-transparent" />
+                      
+                      {/* Top Floating Badge */}
+                      <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+                        <span className="px-2 py-0.5 bg-black/80 border border-white/20 text-[9px] font-mono text-yellow-400 uppercase tracking-widest backdrop-blur-md">
+                          SELECTED DOSSIER
+                        </span>
+                        <span className="px-2 py-0.5 bg-yellow-400 text-black text-[9px] font-mono font-bold uppercase tracking-wider backdrop-blur-md">
+                          100% REFUND
+                        </span>
+                      </div>
+
+                      {/* Character Title overlay */}
+                      <div className="absolute bottom-3 left-4 right-4">
+                        <span className="text-[10px] font-mono text-yellow-400 uppercase tracking-widest font-semibold block">
+                          {currentRole.archetype}
+                        </span>
+                        <h3 className="font-title text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">
+                          {currentRole.name}
+                        </h3>
+                        <p className="text-xs text-slate-300 italic font-light line-clamp-1">
+                          &ldquo;{currentRole.tagline}&rdquo;
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Character Narrative Breakdown */}
+                    <div className="p-4 sm:p-5 space-y-3.5">
+                      <p className="text-xs text-slate-300 font-light leading-relaxed">
+                        {currentRole.description}
+                      </p>
+
+                      {/* Unscripted Scene Snippet */}
+                      <div className="p-3 bg-black/60 border border-white/10 text-xs">
+                        <span className="text-[9px] font-mono text-yellow-400 uppercase tracking-widest block font-bold mb-1">
+                          KEY UNSCRIPTED SCENE:
+                        </span>
+                        <p className="text-slate-300 italic font-light text-[11px] leading-relaxed">
+                          {currentRole.keyScenePreview}
+                        </p>
+                      </div>
+
+                      {/* Filming Soundstages */}
+                      <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-400 flex-wrap">
+                        <MapPin className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
+                        <span className="text-slate-300">SOUNDSTAGES:</span>
+                        <span className="text-yellow-400/90">{currentRole.filmingLocations.join(' • ')}</span>
+                      </div>
+
+                      {/* Role Switcher Visual Thumbnails */}
+                      <div className="pt-2 border-t border-white/10">
+                        <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-2">
+                          QUICK SWITCH ROLE:
+                        </span>
+                        <div className="grid grid-cols-6 gap-1.5">
+                          {CHARACTERS.map((char) => {
+                            const isSelected = char.id === selectedRoleId;
+                            return (
+                              <button
+                                key={char.id}
+                                type="button"
+                                onClick={() => setSelectedRoleId(char.id)}
+                                title={`${char.name} (${char.archetype})`}
+                                className={`relative aspect-square overflow-hidden border transition-all cursor-pointer ${
+                                  isSelected
+                                    ? 'border-yellow-400 ring-2 ring-yellow-400/40 scale-105'
+                                    : 'border-white/15 opacity-60 hover:opacity-100 hover:border-white/40'
+                                }`}
+                              >
+                                <img
+                                  src={char.image}
+                                  alt={char.name}
+                                  referrerPolicy="no-referrer"
+                                  className="w-full h-full object-cover object-top"
+                                />
+                                {isSelected && (
+                                  <div className="absolute inset-0 bg-yellow-400/20" />
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {pathway === 'participant' && (
+                  <div className="bg-[#050A14] border border-blue-900/40 overflow-hidden shadow-xl">
+                    {/* Visual Map/Convoy Route Image */}
+                    <div className="relative aspect-16/10 overflow-hidden bg-black">
+                      <img
+                        src="/characters/shankar.jpg"
+                        alt="Expedition Route"
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover filter contrast-110 brightness-80"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#050A14] via-[#050A14]/50 to-transparent" />
+                      
+                      <div className="absolute top-3 left-3">
+                        <span className="px-2 py-0.5 bg-blue-600/90 text-white font-mono text-[9px] uppercase font-bold tracking-wider">
+                          2,400 KM OVERLAND EXPEDITION
+                        </span>
+                      </div>
+
+                      <div className="absolute bottom-3 left-4 right-4">
+                        <span className="text-[10px] font-mono text-blue-300 uppercase tracking-widest font-semibold block">
+                          PARINDAA OVERLAND CONVOY
+                        </span>
+                        <h3 className="font-title text-2xl font-black text-white uppercase tracking-tight">
+                          JOIN THE TRAVEL CARAVAN
+                        </h3>
+                      </div>
+                    </div>
+
+                    <div className="p-4 sm:p-5 space-y-4">
+                      {/* Price Guarantee Banner */}
+                      <div className="p-3.5 bg-blue-950/40 border border-blue-500/30">
+                        <div className="flex items-center justify-between text-xs font-mono mb-1">
+                          <span className="text-slate-300">LOCKED EXPEDITION FARE:</span>
+                          <span className="text-yellow-400 font-bold text-sm">₹11,000/-</span>
+                        </div>
+                        <div className="flex items-center justify-between text-[11px] font-mono text-emerald-400">
+                          <span>Pre-booking Token Today:</span>
+                          <span className="font-bold">₹1,000/- Only</span>
+                        </div>
+                        <p className="text-[10px] text-slate-400 mt-2 font-mono">
+                          * Price increases by ₹1,500 after October 30 due to high-altitude winter logistics.
+                        </p>
+                      </div>
+
+                      {/* Route 4 Acts Preview */}
+                      <div>
+                        <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-2 font-bold">
+                          EXPEDITION HIGHWAY LEGS:
+                        </span>
+                        <div className="space-y-1.5">
+                          {EXPEDITION_ROUTE_STAGES.map((st, idx) => (
+                            <div key={idx} className="flex items-center justify-between p-2 bg-black/40 border border-white/5 text-[11px] font-mono">
+                              <span className="text-yellow-400">{st.stage}</span>
+                              <span className="text-slate-300">{st.title}</span>
+                              <span className="text-slate-400 text-[10px]">{st.loc}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {pathway === 'crew' && (
+                  <div className="bg-[#050A14] border border-emerald-900/40 overflow-hidden shadow-xl">
+                    <div className="relative aspect-16/10 overflow-hidden bg-black">
+                      <img
+                        src="/characters/vandana.jpg"
+                        alt="Cinema Technical Crew"
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover filter contrast-110 brightness-80"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#050A14] via-[#050A14]/50 to-transparent" />
+                      
+                      <div className="absolute top-3 left-3">
+                        <span className="px-2 py-0.5 bg-emerald-600/90 text-white font-mono text-[9px] uppercase font-bold tracking-wider">
+                          TECHNICAL & CREATIVE CREW
+                        </span>
+                      </div>
+
+                      <div className="absolute bottom-3 left-4 right-4">
+                        <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest font-semibold block">
+                          DEPARTMENT RECRUITMENT
+                        </span>
+                        <h3 className="font-title text-2xl font-black text-white uppercase tracking-tight">
+                          {CREW_DEPARTMENTS_META[crewDepartment]?.tag || 'FILM CRAFT'}
+                        </h3>
+                      </div>
+                    </div>
+
+                    <div className="p-4 sm:p-5 space-y-4">
+                      {/* Department Spotlight */}
+                      <div className="p-3.5 bg-emerald-950/40 border border-emerald-500/30">
+                        <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest block font-bold mb-1">
+                          ASSIGNMENT FOCUS:
+                        </span>
+                        <p className="text-xs text-slate-300 leading-relaxed font-light">
+                          {CREW_DEPARTMENTS_META[crewDepartment]?.desc || 'Work directly with camera, lighting, sound and narrative leads.'}
+                        </p>
+                      </div>
+
+                      {/* Technical Specs Guarantee */}
+                      <div className="space-y-2 text-[11px] font-mono text-slate-300">
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                          <span>Official IMDb Department Head Credit</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                          <span>4K Master Footage Portfolio Rights</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                          <span>Global Film Festival Delegation Pass</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Trust & Guarantee Callout */}
+                <div className="p-3.5 bg-[#060B14] border border-white/10 flex items-start gap-2.5">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <div className="text-[11px] text-slate-300 leading-relaxed">
+                    <span className="text-white font-medium block">Parindaa Assurance:</span>
+                    All accepted cast and travelers operate under transparent legal contracts with verified transit insurance and guaranteed refundable terms.
+                  </div>
+                </div>
+
+              </div>
+
+              {/* RIGHT COLUMN: APPLICATION FORM CONTROLS */}
+              <div className="lg:col-span-7 space-y-6">
+                
+                {/* Form Section Header */}
+                <div className="pb-3 border-b border-white/10 flex items-center justify-between">
+                  <div>
+                    <h3 className="text-base sm:text-lg font-title font-black text-white uppercase tracking-wider">
+                      {pathway === 'actor' && 'ACTOR AUDITION APPLICATION'}
+                      {pathway === 'participant' && 'PARTICIPANT RESERVATION FORM'}
+                      {pathway === 'crew' && 'TECHNICAL CREW REGISTRATION'}
+                    </h3>
+                    <p className="text-xs text-slate-400 font-light mt-0.5">
+                      {pathway === 'actor' && 'Submit your headshot photograph & monologue link to audition for the lead cast.'}
+                      {pathway === 'participant' && 'No portfolio or auditions required. Reserve your seat in the expedition convoy.'}
+                      {pathway === 'crew' && 'Provide your portfolio or showreel link for department head evaluation.'}
+                    </p>
+                  </div>
+                  <span className="px-2.5 py-1 bg-white/5 border border-white/10 text-[10px] font-mono text-yellow-400 font-bold uppercase tracking-wider shrink-0">
+                    STEP 1 OF 1
+                  </span>
+                </div>
+
+                {/* 1. Core Personal Details */}
+                <div className="space-y-4">
+                  <div className="text-[10px] font-mono text-yellow-400 uppercase tracking-widest font-bold">
+                    01 // PERSONAL CREDENTIALS
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
+                        Full Legal Name *
+                      </label>
+                      <input
+                        type="text"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        placeholder="e.g. Arjun Sharma"
+                        className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400 transition-colors"
+                      />
+                      {errors.fullName && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.fullName}</p>}
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
+                          Age *
+                        </label>
+                        <input
+                          type="number"
+                          value={age}
+                          onChange={(e) => setAge(e.target.value)}
+                          placeholder="24"
+                          min="18"
+                          max="75"
+                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400 transition-colors"
+                        />
+                        {errors.age && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.age}</p>}
+                      </div>
+
+                      <div>
+                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
+                          Current City *
+                        </label>
+                        <input
+                          type="text"
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
+                          placeholder="Mumbai"
+                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400 transition-colors"
+                        />
+                        {errors.city && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.city}</p>}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
+                        WhatsApp Phone Number *
+                      </label>
+                      <input
+                        type="tel"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        placeholder="+91 98765 43210"
+                        className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400 transition-colors"
+                      />
+                      {errors.phoneNumber && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.phoneNumber}</p>}
+                    </div>
+
+                    <div>
+                      <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
+                        Email Address *
+                      </label>
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="you@email.com"
+                        className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400 transition-colors"
+                      />
+                      {errors.email && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.email}</p>}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
+                      Instagram / Social Link (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={instagramProfile}
+                      onChange={(e) => setInstagramProfile(e.target.value)}
+                      placeholder="@yourhandle or profile URL"
+                      className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400 transition-colors"
+                    />
+                  </div>
+                </div>
+
+                {/* 2. PATHWAY SPECIFIC SECTION */}
+                <div className="pt-4 border-t border-white/10 space-y-4">
+                  
+                  {/* PATHWAY 1: ACTOR FIELDS */}
+                  {pathway === 'actor' && (
+                    <>
+                      <div className="text-[10px] font-mono text-yellow-400 uppercase tracking-widest font-bold">
+                        02 // ACTOR CASTING CRITERIA
+                      </div>
+
+                      <div>
+                        <label className="text-[11px] font-mono uppercase tracking-wider text-yellow-400 block mb-1.5">
+                          Desired Character Role *
+                        </label>
+                        <select
+                          value={selectedRoleId}
+                          onChange={(e) => setSelectedRoleId(e.target.value)}
+                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-yellow-400/40 text-white text-xs focus:outline-none focus:border-yellow-400 transition-colors"
+                        >
+                          {CHARACTERS.map((char) => (
+                            <option key={char.id} value={char.id}>
+                              {char.name} ({char.archetype}) — Age {char.ageRange} [{char.gender}]
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
+                          Acting Background / Storytelling Experience
+                        </label>
+                        <textarea
+                          rows={2}
+                          value={actingExperience}
+                          onChange={(e) => setActingExperience(e.target.value)}
+                          placeholder="Theatre, short films, street play, or passionate raw actor with no formal training..."
+                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400 transition-colors"
+                        />
+                      </div>
+
+                      {/* Headshot Upload + Live Visual Thumbnail */}
+                      <div className="p-4 bg-[#050A14] border border-white/15 space-y-3">
+                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-300 block font-semibold">
+                          Headshot Photograph *
+                        </label>
+                        
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                          {photoPreview ? (
+                            <div className="relative w-16 h-20 rounded border border-yellow-400 overflow-hidden shrink-0">
+                              <img src={photoPreview} alt="Headshot preview" className="w-full h-full object-cover" />
+                              <div className="absolute inset-0 bg-yellow-400/10" />
+                            </div>
+                          ) : (
+                            <div className="w-16 h-20 bg-white/5 border border-dashed border-white/20 flex flex-col items-center justify-center text-slate-500 shrink-0">
+                              <Camera className="w-5 h-5 text-slate-400 mb-1" />
+                              <span className="text-[8px] font-mono uppercase">PHOTO</span>
+                            </div>
+                          )}
+
+                          <div className="flex-1 space-y-1.5">
+                            <label className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/20 text-xs font-mono text-slate-200 cursor-pointer transition-colors inline-flex items-center gap-2">
+                              <Upload className="w-3.5 h-3.5 text-yellow-400" />
+                              <span>{photoFileName ? 'Change Photo' : 'Upload Headshot'}</span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handlePhotoUpload}
+                                className="hidden"
+                              />
+                            </label>
+                            <p className="text-[10px] font-mono text-slate-400 truncate max-w-sm">
+                              {photoFileName || 'Clear unedited portrait with natural lighting (JPG/PNG)'}
+                            </p>
+                          </div>
+                        </div>
+                        {errors.photo && <p className="text-[10px] text-red-400 font-mono">{errors.photo}</p>}
+                      </div>
+
+                      {/* Audition Monologue */}
+                      <div className="p-4 bg-[#050A14] border border-white/15 space-y-3">
+                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-300 block font-semibold">
+                          Audition Monologue Video *
+                        </label>
+
+                        <div className="space-y-3">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                            <label className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/20 text-xs font-mono text-slate-200 cursor-pointer transition-colors inline-flex items-center gap-2">
+                              <Video className="w-3.5 h-3.5 text-yellow-400" />
+                              <span>Upload Video File</span>
+                              <input
+                                type="file"
+                                accept="video/*"
+                                onChange={handleVideoUpload}
+                                className="hidden"
+                              />
+                            </label>
+                            <span className="text-xs font-mono text-slate-400 truncate">
+                              {auditionTapeFileName || 'Max 100MB MP4 / MOV'}
+                            </span>
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-mono text-slate-500 uppercase">OR</span>
+                            <div className="relative flex-1">
+                              <LinkIcon className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-2.5" />
+                              <input
+                                type="url"
+                                value={auditionTapeUrl}
+                                onChange={(e) => setAuditionTapeUrl(e.target.value)}
+                                placeholder="Paste Google Drive / YouTube unlisted link"
+                                className="w-full pl-8 pr-3.5 py-2 bg-black/60 border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400 transition-colors"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        {errors.auditionTape && <p className="text-[10px] text-red-400 font-mono">{errors.auditionTape}</p>}
+                      </div>
+                    </>
+                  )}
+
+                  {/* PATHWAY 2: PARTICIPANT FIELDS */}
+                  {pathway === 'participant' && (
+                    <>
+                      <div className="text-[10px] font-mono text-blue-300 uppercase tracking-widest font-bold">
+                        02 // EXPEDITION CONVOY PREFERENCES
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-[11px] font-mono uppercase tracking-wider text-blue-300 block mb-1.5">
+                            Departure Convoy Hub *
+                          </label>
+                          <select
+                            value={departureCity}
+                            onChange={(e) => setDepartureCity(e.target.value)}
+                            className="w-full px-3.5 py-2.5 bg-[#050A14] border border-blue-500/40 text-white text-xs focus:outline-none focus:border-blue-400 transition-colors"
+                          >
+                            <option value="Delhi Majnu Ka Tilla Hub">Delhi (Majnu Ka Tilla Hub)</option>
+                            <option value="Mumbai / Pune Convoy">Mumbai / Pune Convoy</option>
+                            <option value="Jaipur Gathering Hub">Jaipur Gathering Hub</option>
+                            <option value="Bengaluru Flying Hub">Bengaluru Fly-in Hub</option>
+                            <option value="Direct Srinagar Fly-in">Direct Srinagar Fly-in</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="text-[11px] font-mono uppercase tracking-wider text-blue-300 block mb-1.5">
+                            Travel Batch Date *
+                          </label>
+                          <select
+                            value={travelBatch}
+                            onChange={(e) => setTravelBatch(e.target.value)}
+                            className="w-full px-3.5 py-2.5 bg-[#050A14] border border-blue-500/40 text-white text-xs focus:outline-none focus:border-blue-400 transition-colors"
+                          >
+                            <option value="Batch Alpha (Oct 18 – Oct 28)">Batch Alpha (Oct 18 – Oct 28)</option>
+                            <option value="Batch Beta (Oct 29 – Nov 08)">Batch Beta (Oct 29 – Nov 08)</option>
+                            <option value="Batch Gamma (Nov 10 – Nov 20)">Batch Gamma (Nov 10 – Nov 20)</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
+                          Room / Base Camp Stay Preference
+                        </label>
+                        <select
+                          value={roomPreference}
+                          onChange={(e) => setRoomPreference(e.target.value)}
+                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs focus:outline-none focus:border-blue-400 transition-colors"
+                        >
+                          <option value="Twin Sharing with Fellow Traveler">Twin Sharing (Included in ₹11,000)</option>
+                          <option value="Private Camping Tent / Room">Private Camping Tent / Room (Subject to availability)</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
+                          Emergency Contact (Name & Phone) *
+                        </label>
+                        <input
+                          type="text"
+                          value={emergencyContact}
+                          onChange={(e) => setEmergencyContact(e.target.value)}
+                          placeholder="e.g. Meera Sharma (Mother) +91 98110 55667"
+                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-blue-400 transition-colors"
+                        />
+                        {errors.emergencyContact && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.emergencyContact}</p>}
+                      </div>
+                    </>
+                  )}
+
+                  {/* PATHWAY 3: CREW FIELDS */}
+                  {pathway === 'crew' && (
+                    <>
+                      <div className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest font-bold">
+                        02 // FILM DEPARTMENT CRAFT
+                      </div>
+
+                      <div>
+                        <label className="text-[11px] font-mono uppercase tracking-wider text-emerald-300 block mb-1.5">
+                          Department Selection *
+                        </label>
+                        <select
+                          value={crewDepartment}
+                          onChange={(e) => setCrewDepartment(e.target.value)}
+                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-emerald-500/40 text-white text-xs focus:outline-none focus:border-emerald-400 transition-colors"
+                        >
+                          {Object.keys(CREW_DEPARTMENTS_META).map((dept) => (
+                            <option key={dept} value={dept}>
+                              {dept}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-300 block mb-1.5">
+                          Proof of Skill Link (Public Drive, YouTube, Behance, Spotify) *
+                        </label>
+                        <div className="relative">
+                          <LinkIcon className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-3" />
+                          <input
+                            type="url"
+                            value={proofOfSkillLink}
+                            onChange={(e) => setProofOfSkillLink(e.target.value)}
+                            placeholder="https://drive.google.com/... or https://youtube.com/..."
+                            className="w-full pl-8 pr-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-emerald-400 transition-colors"
+                          />
+                        </div>
+                        {errors.proofOfSkillLink && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.proofOfSkillLink}</p>}
+                      </div>
+
+                      <div>
+                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
+                          Brief Note on Gear / Software Expertise
+                        </label>
+                        <textarea
+                          rows={2}
+                          value={portfolioSummary}
+                          onChange={(e) => setPortfolioSummary(e.target.value)}
+                          placeholder="Cameras owned, editing software used, past production experience..."
+                          className="w-full px-3.5 py-2 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-emerald-400 transition-colors"
+                        />
+                      </div>
+
+                      <div className="p-3.5 bg-[#050A14] border border-white/10 space-y-2.5 text-[11px] font-mono text-slate-300">
+                        <label className="flex items-start gap-2.5 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={opportunityFeeAgreed}
+                            onChange={(e) => setOpportunityFeeAgreed(e.target.checked)}
+                            className="accent-emerald-400 mt-0.5"
+                          />
+                          <span>I agree to pay the nominal opportunity fee if selected for on-location privileges</span>
+                        </label>
+                        {errors.opportunityFee && <p className="text-[10px] text-red-400 font-mono">{errors.opportunityFee}</p>}
+
+                        <label className="flex items-start gap-2.5 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={publicFilmmakingConsent}
+                            onChange={(e) => setPublicFilmmakingConsent(e.target.checked)}
+                            className="accent-emerald-400 mt-0.5"
+                          />
+                          <span>I grant full consent for character and filmmaking public usage</span>
+                        </label>
+                        {errors.publicConsent && <p className="text-[10px] text-red-400 font-mono">{errors.publicConsent}</p>}
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Submit Action Block */}
+                <div className="pt-4 border-t border-white/10 space-y-3">
+                  <CinemaButton
+                    type="submit"
+                    variant="primary"
+                    className="w-full !py-3.5 text-xs tracking-widest font-black"
+                  >
+                    {pathway === 'actor' && `SUBMIT AUDITION AS ${currentRole.name} (100% REFUND)`}
+                    {pathway === 'participant' && 'CONFIRM PRE-BOOKING TOKEN (₹1,000)'}
+                    {pathway === 'crew' && 'SUBMIT TECHNICAL CREW APPLICATION'}
+                  </CinemaButton>
+
+                  <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
+                    <span>* Zero submission fees for auditions & crew screening</span>
+                    <span className="text-yellow-400 font-semibold">ENCRYPTED & CONFIDENTIAL</span>
+                  </div>
+                </div>
+
+              </div>
+            </form>
+          )}
+        </div>
+
+        {/* Footer FAQ Accordion */}
+        <div className="border-t border-white/10 bg-[#050A14] px-5 sm:px-8 py-2.5 shrink-0">
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={() => setIsFaqOpen((prev) => !prev)}
+              className="flex items-center gap-2 text-left group cursor-pointer focus:outline-none"
+            >
+              <HelpCircle className="w-3.5 h-3.5 text-yellow-400 group-hover:scale-110 transition-transform" />
+              <span className="text-[10px] font-mono tracking-[0.2em] font-bold text-white uppercase">
+                FREQUENTLY ASKED QUESTIONS
+              </span>
+              <span className="hidden sm:inline-block text-[9px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/10 uppercase">
+                {pathway === 'actor' && '100% Actor Refund Policy'}
+                {pathway === 'participant' && '₹1,000 Token & Price Structure'}
+                {pathway === 'crew' && 'Opportunity Fee & Production Credits'}
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsFaqOpen((prev) => !prev)}
+              className="text-slate-400 hover:text-white transition-colors p-1 cursor-pointer focus:outline-none"
+              aria-label={isFaqOpen ? 'Collapse FAQ' : 'Expand FAQ'}
+            >
+              {isFaqOpen ? (
+                <ChevronUp className="w-4 h-4 text-yellow-400" />
+              ) : (
+                <ChevronDown className="w-4 h-4 text-slate-400" />
+              )}
+            </button>
+          </div>
+
+          {isFaqOpen && (
+            <div className="mt-2.5 pt-2 border-t border-white/5 space-y-1.5 max-h-36 overflow-y-auto pr-1">
+              {MODAL_FAQS[pathway].map((faq, idx) => {
+                const isOpen = activeFaqIndex === idx;
+                return (
+                  <div
+                    key={idx}
+                    className="border border-white/5 bg-[#080E1C] transition-colors"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setActiveFaqIndex(isOpen ? null : idx)}
+                      className="w-full text-left px-3 py-1.5 flex items-center justify-between gap-2 hover:bg-white/5 transition-colors cursor-pointer focus:outline-none"
+                    >
+                      <span className="text-[11px] font-medium text-slate-200">
+                        {faq.question}
+                      </span>
+                      <ChevronDown
+                        className={`w-3 h-3 text-slate-400 shrink-0 transition-transform duration-200 ${
+                          isOpen ? 'rotate-180 text-yellow-400' : ''
+                        }`}
+                      />
+                    </button>
+                    {isOpen && (
+                      <div className="px-3 pb-2 pt-0.5 text-[10.5px] text-slate-400 leading-relaxed font-light border-t border-white/5">
+                        {faq.answer}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

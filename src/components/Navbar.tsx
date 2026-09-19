@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, Compass } from 'lucide-react';
 import { CinemaButton } from './CinemaButton';
 import { cinemaAudio } from '../utils/audioSynthesizer';
+import { PathwayType } from '../types';
 
 interface NavbarProps {
-  onOpenNomination: (roleId?: string, type?: 'actor' | 'participant') => void;
+  onOpenNomination: (roleId?: string, type?: PathwayType) => void;
   onWatchFilm: () => void;
 }
 
@@ -32,11 +33,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
 
   const navLinks = [
     { name: 'FILM', href: '#film' },
-    { name: 'THE JOURNEY', href: '#journey' },
-    { name: 'CHARACTERS', href: '#characters' },
+    { name: 'KASHMIR TRIP', href: '#kashmir-expedition' },
+    { name: 'JOURNEY', href: '#journey' },
+    { name: 'ROLES', href: '#characters' },
     { name: 'WHY JOIN', href: '#why-join' },
-    { name: 'NOMINATION', href: '#nomination' },
-    { name: 'ABOUT', href: '#about' },
+    { name: 'PATHWAYS', href: '#nomination' },
+    { name: 'FAQ', href: '#faq' },
   ];
 
   const handleLinkClick = (href: string) => {
@@ -58,10 +60,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Brand Logo with Official Emblem and Full Name */}
+          {/* Brand Logo - Name removed as requested, keeping clean standalone emblem */}
           <a
             href="#hero"
-            className="flex items-center gap-3 sm:gap-4 group cursor-pointer"
+            className="flex items-center group cursor-pointer"
             aria-label="Chehra Films Home"
           >
             <img
@@ -69,15 +71,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
               onError={(e) => {
                 (e.currentTarget as HTMLImageElement).src = '/chehra-logo.png';
               }}
-              alt="Chehra Films Logo"
+              alt="Chehra Films Emblem"
               referrerPolicy="no-referrer"
               className="h-14 sm:h-16 md:h-18 lg:h-20 w-auto object-contain drop-shadow-[0_0_14px_rgba(245,208,97,0.55)] group-hover:scale-105 transition-transform duration-300 shrink-0"
             />
-            <div className="flex flex-col">
-              <span className="font-title text-base sm:text-xl font-normal tracking-[0.2em] text-white group-hover:text-yellow-400 transition-colors leading-none">
-                CHEHRA FILMS
-              </span>
-            </div>
           </a>
 
           {/* Desktop Navigation Links */}
@@ -95,8 +92,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
           </nav>
 
           {/* Right Controls: CTA */}
-          <div className="hidden sm:flex items-center gap-4">
-            {/* Header CTA */}
+          <div className="hidden sm:flex items-center gap-3">
             <CinemaButton
               id="nav-join-film-btn"
               variant="primary"
