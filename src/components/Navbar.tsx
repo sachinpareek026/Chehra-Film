@@ -7,9 +7,10 @@ import { PathwayType } from '../types';
 interface NavbarProps {
   onOpenNomination: (roleId?: string, type?: PathwayType) => void;
   onWatchFilm: () => void;
+  onOpenExcelPortal?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _onWatchFilm }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _onWatchFilm, onOpenExcelPortal }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [audioActive, setAudioActive] = useState(false);
@@ -92,7 +93,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
           </nav>
 
           {/* Right Controls: CTA */}
-          <div className="hidden sm:flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-2.5">
+            {onOpenExcelPortal && (
+              <button
+                type="button"
+                onClick={onOpenExcelPortal}
+                className="px-3 py-2 bg-[#0A1324] hover:bg-slate-800 border border-slate-700/60 hover:border-slate-500 text-slate-300 hover:text-white font-mono text-[10px] uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer"
+                title="Open Data Portal & Exports"
+              >
+                <span>DATA PORTAL</span>
+              </button>
+            )}
+
             <CinemaButton
               id="nav-join-film-btn"
               variant="primary"

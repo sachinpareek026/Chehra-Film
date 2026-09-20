@@ -8,7 +8,6 @@ import {
   Eye,
   Star,
   Clapperboard,
-  Sparkles,
   Compass,
   ShieldCheck,
   ChevronRight,

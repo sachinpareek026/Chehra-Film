@@ -13,23 +13,37 @@ import {
 interface ExcelDataPortalModalProps {
   isOpen: boolean;
   onClose: () => void;
-  actors: ActorSubmission[];
-  participants: ParticipantSubmission[];
-  crew: CrewSubmission[];
+  actors?: ActorSubmission[];
+  participants?: ParticipantSubmission[];
+  crew?: CrewSubmission[];
   onRefresh?: () => void;
 }
 
 export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
   isOpen,
   onClose,
-  actors,
-  participants,
-  crew,
+  actors = [],
+  participants = [],
+  crew = [],
   onRefresh,
 }) => {
-  const [activeTab, setActiveTab] = useState<'actors' | 'participants' | 'crew' | 'all'>('actors');
+  const safeActors = actors || [];
+  const safeParticipants = participants || [];
+  const safeCrew = crew || [];
+
+  const [activeTab, setActiveTab] = useState<'actors' | 'participants' | 'crew' | 'all'>('participants');
   const [searchQuery, setSearchQuery] = useState('');
   const [copiedFormula, setCopiedFormula] = useState<string | null>(null);
+  const [isTestingSheet, setIsTestingSheet] = useState(false);
+  const [sheetTestResult, setSheetTestResult] = useState<{
+    success: boolean;
+    status?: number;
+    submissionId?: string;
+    message?: string;
+    details?: string;
+  } | null>(null);
+  const [isSyncingAll, setIsSyncingAll] = useState(false);
+  const [syncAllResult, setSyncAllResult] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
@@ -42,19 +56,85 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
     setTimeout(() => setCopiedFormula(null), 2500);
   };
 
-  const filteredActors = actors.filter((a) =>
+  const handleTestParticipantSync = async () => {
+    setIsTestingSheet(true);
+    setSheetTestResult(null);
+    try {
+      const res = await fetch('/api/google-sheet/test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'participant',
+          fullName: 'Sachin Pareek (Live eSheet Test)',
+          phoneNumber: '+919828497392',
+          email: 'sachinpareek026@gmail.com',
+          city: 'Lachhmangarh, Sikar',
+          departureCity: 'Delhi Majnu Ka Tilla Hub',
+          travelBatch: 'Batch Alpha (Oct 18 – Oct 28)',
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSheetTestResult({
+          success: true,
+          status: data.status || 200,
+          submissionId: data.submission?.id,
+          message: `Participant row was successfully received by Google Apps Script!`,
+          details: typeof data.webhookResponse === 'string' ? data.webhookResponse : JSON.stringify(data.webhookResponse),
+        });
+        if (onRefresh) onRefresh();
+      } else {
+        setSheetTestResult({
+          success: false,
+          status: data.status,
+          message: 'Webhook returned an issue',
+          details: data.webhookResponse || data.error || 'Check Apps Script deployment',
+        });
+      }
+    } catch (err: any) {
+      setSheetTestResult({
+        success: false,
+        message: 'Could not connect to server test endpoint',
+        details: err.message,
+      });
+    } finally {
+      setIsTestingSheet(false);
+    }
+  };
+
+  const handleSyncAllToSheet = async () => {
+    setIsSyncingAll(true);
+    setSyncAllResult(null);
+    try {
+      const res = await fetch('/api/google-sheet/sync-all', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSyncAllResult(`Successfully dispatched all ${data.count} submissions to Google Sheet!`);
+      } else {
+        setSyncAllResult(`Sync error: ${data.error || 'Failed to sync'}`);
+      }
+    } catch (err: any) {
+      setSyncAllResult(`Error: ${err.message}`);
+    } finally {
+      setIsSyncingAll(false);
+    }
+  };
+
+  const filteredActors = safeActors.filter((a) =>
     `${a.fullName} ${a.city} ${a.selectedRole} ${a.phoneNumber} ${a.email}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
   );
 
-  const filteredParticipants = participants.filter((p) =>
+  const filteredParticipants = safeParticipants.filter((p) =>
     `${p.fullName} ${p.city} ${p.departureCity} ${p.travelBatch} ${p.phoneNumber}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
   );
 
-  const filteredCrew = crew.filter((c) =>
+  const filteredCrew = safeCrew.filter((c) =>
     `${c.fullName} ${c.city} ${c.crewDepartment} ${c.categoryType} ${c.proofOfSkillLink}`
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
@@ -72,14 +152,11 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-title text-sm sm:text-base font-black text-white tracking-wider uppercase">
-                  CHEHRA FILMS • LIVE EXCEL SHEETS PORTAL
-                </span>
-                <span className="text-[10px] font-mono px-2 py-0.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 uppercase font-bold">
-                  LIVE SYNC
+                  CHEHRA FILMS • DATA & SPREADSHEET EXPORT PORTAL
                 </span>
               </div>
               <span className="text-[11px] font-mono text-slate-400">
-                Direct export to Microsoft Excel (.xlsx), CSV, and Google Sheets Live Sync
+                Direct export to Microsoft Excel (.xlsx), CSV, and Google Sheets format
               </span>
             </div>
           </div>
@@ -104,34 +181,106 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
           </div>
         </div>
 
-        {/* Global Google Sheets Sync Helper Bar */}
-        <div className="px-6 py-3 bg-[#080E1B] border-b border-blue-900/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-xs font-mono">
-          <div className="flex items-center gap-2 text-slate-300">
-            <span className="text-yellow-400 font-bold">📊 GOOGLE SHEETS LIVE SYNC:</span>
-            <span className="text-slate-400">Paste formula in cell A1 of any blank Google Sheet to stream live data:</span>
+        {/* Global Google Sheets Sync & Webhook Diagnostic Center */}
+        <div className="px-6 py-3 bg-[#080E1B] border-b border-blue-900/30 space-y-2.5 text-xs font-mono">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-slate-300">
+              <span className="text-yellow-400 font-bold flex items-center gap-1.5">
+                GOOGLE APPS SCRIPT WEBHOOK:
+              </span>
+              <span className="text-emerald-400 font-semibold">CONNECTED</span>
+              <span className="text-slate-400 hidden sm:inline text-[11px]">
+                (https://script.google.com/macros/s/AKfycbz.../exec)
+              </span>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                onClick={handleTestParticipantSync}
+                disabled={isTestingSheet}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400 text-emerald-300 hover:text-white transition-all cursor-pointer font-bold tracking-wider text-[11px] disabled:opacity-50"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${isTestingSheet ? 'animate-spin' : ''}`} />
+                <span>{isTestingSheet ? 'SENDING TO SHEET...' : 'TEST PARTICIPANT TO ESHEET'}</span>
+              </button>
+
+              <button
+                onClick={handleSyncAllToSheet}
+                disabled={isSyncingAll}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-blue-600/20 hover:bg-blue-600/30 border border-blue-400 text-blue-300 hover:text-white transition-all cursor-pointer text-[11px] disabled:opacity-50"
+              >
+                <span>{isSyncingAll ? 'SYNCING ALL...' : 'PUSH ALL ROWS TO SHEET'}</span>
+              </button>
+            </div>
           </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <button
-              onClick={() => handleCopyFormula('actors')}
-              className="inline-flex items-center gap-1 px-2.5 py-1 bg-yellow-400/10 hover:bg-yellow-400/20 border border-yellow-400/40 text-yellow-300 hover:text-white transition-colors cursor-pointer text-[11px]"
-            >
-              {copiedFormula === 'actors' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-              <span>{copiedFormula === 'actors' ? 'COPIED ACTORS FORMULA!' : 'COPY ACTORS FORMULA'}</span>
-            </button>
-            <button
-              onClick={() => handleCopyFormula('participants')}
-              className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-400/40 text-blue-300 hover:text-white transition-colors cursor-pointer text-[11px]"
-            >
-              {copiedFormula === 'participants' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-              <span>{copiedFormula === 'participants' ? 'COPIED PARTICIPANTS!' : 'COPY PARTICIPANTS FORMULA'}</span>
-            </button>
-            <button
-              onClick={() => handleCopyFormula('crew')}
-              className="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 hover:text-white transition-colors cursor-pointer text-[11px]"
-            >
-              {copiedFormula === 'crew' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-              <span>{copiedFormula === 'crew' ? 'COPIED CREW FORMULA!' : 'COPY CREW FORMULA'}</span>
-            </button>
+
+          {/* Test Result Message Box */}
+          {sheetTestResult && (
+            <div className={`p-2.5 rounded border text-[11px] flex items-start justify-between gap-2 ${
+              sheetTestResult.success
+                ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300'
+                : 'bg-red-950/40 border-red-500/40 text-red-300'
+            }`}>
+              <div>
+                <span className="font-bold block">
+                  {sheetTestResult.success ? '✓ TEST SUCCESSFUL:' : '⚠ TEST ISSUE:'}
+                </span>
+                <span>{sheetTestResult.message}</span>
+                {sheetTestResult.submissionId && (
+                  <span className="ml-2 font-mono text-yellow-400 font-bold">
+                    [ID: {sheetTestResult.submissionId}]
+                  </span>
+                )}
+                {sheetTestResult.details && (
+                  <p className="text-[10px] text-slate-300 font-mono mt-0.5 opacity-90">
+                    Webhook Response: {sheetTestResult.details}
+                  </p>
+                )}
+              </div>
+              <button
+                onClick={() => setSheetTestResult(null)}
+                className="text-slate-400 hover:text-white text-xs font-mono"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+
+          {syncAllResult && (
+            <div className="p-2 bg-blue-950/40 border border-blue-500/40 text-blue-300 text-[11px] flex items-center justify-between">
+              <span>{syncAllResult}</span>
+              <button onClick={() => setSyncAllResult(null)} className="text-slate-400 hover:text-white">✕</button>
+            </div>
+          )}
+
+          {/* One-click Google Sheets Formula Bar */}
+          <div className="pt-1.5 border-t border-white/5 flex flex-col md:flex-row items-start md:items-center justify-between gap-2 text-[11px]">
+            <span className="text-slate-400">
+              Or import into Google Sheets via <code className="text-yellow-300">=IMPORTDATA(...)</code>:
+            </span>
+            <div className="flex flex-wrap items-center gap-1.5">
+              <button
+                onClick={() => handleCopyFormula('participants')}
+                className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-400/40 text-blue-300 transition-colors cursor-pointer text-[10px]"
+              >
+                {copiedFormula === 'participants' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                <span>{copiedFormula === 'participants' ? 'COPIED PARTICIPANTS FORMULA!' : 'COPY PARTICIPANTS FORMULA'}</span>
+              </button>
+              <button
+                onClick={() => handleCopyFormula('actors')}
+                className="inline-flex items-center gap-1 px-2 py-0.5 bg-yellow-400/10 hover:bg-yellow-400/20 border border-yellow-400/40 text-yellow-300 transition-colors cursor-pointer text-[10px]"
+              >
+                {copiedFormula === 'actors' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                <span>{copiedFormula === 'actors' ? 'COPIED ACTORS!' : 'COPY ACTORS FORMULA'}</span>
+              </button>
+              <button
+                onClick={() => handleCopyFormula('crew')}
+                className="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 transition-colors cursor-pointer text-[10px]"
+              >
+                {copiedFormula === 'crew' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                <span>{copiedFormula === 'crew' ? 'COPIED CREW!' : 'COPY CREW FORMULA'}</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -148,7 +297,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
               }`}
             >
               <Film className="w-3 h-3" />
-              <span>1. ACTORS ({actors.length})</span>
+              <span>1. ACTORS ({safeActors.length})</span>
               <span className="text-[10px] opacity-75 font-normal">100% Refund</span>
             </button>
 
@@ -161,7 +310,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
               }`}
             >
               <Compass className="w-3 h-3" />
-              <span>2. PARTICIPANTS ({participants.length})</span>
+              <span>2. PARTICIPANTS ({safeParticipants.length})</span>
               <span className="text-[10px] opacity-75 font-normal">₹1,000 Token</span>
             </button>
 
@@ -174,7 +323,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
               }`}
             >
               <Wrench className="w-3 h-3" />
-              <span>3. CREW ({crew.length})</span>
+              <span>3. CREW ({safeCrew.length})</span>
               <span className="text-[10px] opacity-75 font-normal">Skill Links</span>
             </button>
 
@@ -187,7 +336,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
               }`}
             >
               <Table className="w-3 h-3" />
-              <span>MASTER ({actors.length + participants.length + crew.length})</span>
+              <span>MASTER ({safeActors.length + safeParticipants.length + safeCrew.length})</span>
             </button>
           </div>
 
@@ -208,7 +357,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
             {activeTab === 'actors' && (
               <>
                 <button
-                  onClick={() => downloadActorsExcel(actors)}
+                  onClick={() => downloadActorsExcel(safeActors)}
                   className="inline-flex items-center gap-1 px-3 py-1.5 bg-yellow-400 text-black hover:bg-yellow-300 text-xs font-mono font-bold transition-all cursor-pointer shrink-0"
                   title="Download Actors Excel (.xlsx)"
                 >
@@ -216,7 +365,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                   <span>EXPORT .XLSX</span>
                 </button>
                 <button
-                  onClick={() => downloadCSV('actors', actors)}
+                  onClick={() => downloadCSV('actors', safeActors)}
                   className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#0A1324] hover:bg-slate-800 border border-blue-900/50 text-slate-300 hover:text-white text-xs font-mono transition-all cursor-pointer shrink-0"
                   title="Download Actors CSV"
                 >
@@ -228,7 +377,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
             {activeTab === 'participants' && (
               <>
                 <button
-                  onClick={() => downloadParticipantsExcel(participants)}
+                  onClick={() => downloadParticipantsExcel(safeParticipants)}
                   className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-500 text-white hover:bg-blue-400 text-xs font-mono font-bold transition-all cursor-pointer shrink-0"
                   title="Download Participants Excel (.xlsx)"
                 >
@@ -236,7 +385,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                   <span>EXPORT .XLSX</span>
                 </button>
                 <button
-                  onClick={() => downloadCSV('participants', participants)}
+                  onClick={() => downloadCSV('participants', safeParticipants)}
                   className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#0A1324] hover:bg-slate-800 border border-blue-900/50 text-slate-300 hover:text-white text-xs font-mono transition-all cursor-pointer shrink-0"
                   title="Download Participants CSV"
                 >
@@ -248,7 +397,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
             {activeTab === 'crew' && (
               <>
                 <button
-                  onClick={() => downloadCrewExcel(crew)}
+                  onClick={() => downloadCrewExcel(safeCrew)}
                   className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-500 text-black hover:bg-emerald-400 text-xs font-mono font-bold transition-all cursor-pointer shrink-0"
                   title="Download Crew Excel (.xlsx)"
                 >
@@ -256,7 +405,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                   <span>EXPORT .XLSX</span>
                 </button>
                 <button
-                  onClick={() => downloadCSV('crew', crew)}
+                  onClick={() => downloadCSV('crew', safeCrew)}
                   className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-[#0A1324] hover:bg-slate-800 border border-blue-900/50 text-slate-300 hover:text-white text-xs font-mono transition-all cursor-pointer shrink-0"
                   title="Download Crew CSV"
                 >
@@ -267,7 +416,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
 
             {activeTab === 'all' && (
               <button
-                onClick={() => downloadMasterExcel(actors, participants, crew)}
+                onClick={() => downloadMasterExcel(safeActors, safeParticipants, safeCrew)}
                 className="inline-flex items-center gap-1 px-3 py-1.5 bg-purple-500 text-white hover:bg-purple-400 text-xs font-mono font-bold transition-all cursor-pointer shrink-0"
                 title="Download Master All-Pathways Workbook (.xlsx)"
               >
@@ -503,17 +652,17 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono">
                 <div className="p-4 bg-[#060B14] border border-yellow-500/30">
                   <span className="text-[10px] text-slate-400 uppercase">Track 01 • Actors</span>
-                  <div className="text-2xl font-bold text-yellow-400">{actors.length} Registered</div>
+                  <div className="text-2xl font-bold text-yellow-400">{safeActors.length} Registered</div>
                   <p className="text-[11px] text-slate-400 mt-1">100% Refund Eligible upon completion</p>
                 </div>
                 <div className="p-4 bg-[#060B14] border border-blue-500/30">
                   <span className="text-[10px] text-slate-400 uppercase">Track 02 • Participants</span>
-                  <div className="text-2xl font-bold text-blue-400">{participants.length} Pre-Booked</div>
+                  <div className="text-2xl font-bold text-blue-400">{safeParticipants.length} Pre-Booked</div>
                   <p className="text-[11px] text-slate-400 mt-1">₹1,000 Token / ₹11,000 Locked (Hike after 30 Oct)</p>
                 </div>
                 <div className="p-4 bg-[#060B14] border border-emerald-500/30">
                   <span className="text-[10px] text-slate-400 uppercase">Track 03 • Crew</span>
-                  <div className="text-2xl font-bold text-emerald-400">{crew.length} Applied</div>
+                  <div className="text-2xl font-bold text-emerald-400">{safeCrew.length} Applied</div>
                   <p className="text-[11px] text-slate-400 mt-1">Prime & Creative Heads of Department (Link Only)</p>
                 </div>
               </div>
@@ -521,7 +670,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
               <div className="p-4 bg-[#060B14] border border-blue-900/40 font-mono text-xs text-slate-300 space-y-2">
                 <div className="text-white font-bold uppercase flex items-center gap-2">
                   <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
-                  <span>DIRECT LIVE SPREADSHEET ACCESS ENDPOINTS:</span>
+                  <span>DIRECT SPREADSHEET ACCESS ENDPOINTS:</span>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-2 pt-2">
                   <a

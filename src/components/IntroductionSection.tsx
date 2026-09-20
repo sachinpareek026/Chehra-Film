@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Compass, Users, Camera, Clapperboard, Sparkles, Maximize2, X, Check, MapPin } from 'lucide-react';
+import { Compass, Users, Camera, Clapperboard, ChevronRight, Maximize2, X, Check, MapPin } from 'lucide-react';
 
 interface PillarDetail {
   icon: React.ReactNode;
@@ -181,7 +181,7 @@ export const IntroductionSection: React.FC = () => {
 
               <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[9px] font-mono text-slate-400 group-hover:text-yellow-400 uppercase tracking-widest transition-colors">
                 <span>VIEW DOSSIER</span>
-                <Sparkles className="w-3 h-3" />
+                <ChevronRight className="w-3.5 h-3.5" />
               </div>
             </div>
           ))}

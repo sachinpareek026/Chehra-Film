@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, MapPin, Sparkles, Clapperboard, Check, Film, User, Volume2, ShieldAlert } from 'lucide-react';
+import { X, MapPin, Compass, Clapperboard, Check, Film, User, Volume2, ShieldAlert } from 'lucide-react';
 import { CharacterRole } from '../types';
 import { CinemaButton } from './CinemaButton';
 
@@ -98,7 +98,7 @@ export const CharacterDetailModal: React.FC<CharacterDetailModalProps> = ({
             {/* Deep Narrative Arc */}
             <div className="space-y-2">
               <h4 className="text-xs font-mono tracking-widest text-slate-300 uppercase flex items-center gap-2 font-bold">
-                <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
+                <Compass className="w-3.5 h-3.5 text-yellow-400" />
                 <span>NARRATIVE ARC & PSYCHOLOGICAL BACKSTORY</span>
               </h4>
               <div className="p-4 bg-[#050A14] border border-white/10 text-xs sm:text-sm text-slate-300 leading-relaxed font-light space-y-2">

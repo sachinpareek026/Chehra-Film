@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Quote, Sparkles, Compass, ShieldCheck, Maximize2, X, Film, Volume2, Award } from 'lucide-react';
+import { Quote, Compass, ShieldCheck, Maximize2, X, Film, Volume2, Award, Clapperboard } from 'lucide-react';
 
 interface ManifestoPillar {
   title: string;
@@ -21,7 +21,7 @@ const MANIFESTO_PILLARS: ManifestoPillar[] = [
       'We do not write manufactured dialogue in quiet metropolitan rooms. The road introduces dust, puncture delays, unexpected rainstorms, and accidental encounters with village elders. In Chehra, these are not interruptions—they are the turning points of the narrative.',
     technicalManifesto:
       'Continuous rolling cameras with dual audio boom mics capture dialogue in raw ambient environments without synthetic acoustic studio looping (ADR).',
-    icon: <Sparkles className="w-4 h-4 text-yellow-400" />
+    icon: <Clapperboard className="w-4 h-4 text-yellow-400" />
   },
   {
     title: 'AUTHENTICITY',

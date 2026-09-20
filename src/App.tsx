@@ -6,7 +6,7 @@
  * Premium cinematic streaming + auteur film + travel editorial + casting website.
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { IntroductionSection } from './components/IntroductionSection';
@@ -24,6 +24,7 @@ import { Footer } from './components/Footer';
 import { NominationModal } from './components/NominationModal';
 import { VideoModal } from './components/VideoModal';
 import { CharacterDetailModal } from './components/CharacterDetailModal';
+import { ExcelDataPortalModal } from './components/ExcelDataPortalModal';
 import { CharacterRole, PathwayType, AnySubmission, ActorSubmission, ParticipantSubmission, CrewSubmission } from './types';
 import { CHARACTERS } from './data/cinemaData';
 import {
@@ -34,6 +35,7 @@ import {
 
 export default function App() {
   const [nominationModalOpen, setNominationModalOpen] = useState(false);
+  const [excelPortalOpen, setExcelPortalOpen] = useState(false);
   const [selectedRoleId, setSelectedRoleId] = useState<string>(CHARACTERS[0].id);
   const [selectedPathway, setSelectedPathway] = useState<PathwayType>('actor');
   
@@ -72,7 +74,7 @@ export default function App() {
   });
 
   // Fetch initial data from server if available
-  useEffect(() => {
+  const fetchSubmissions = useCallback(() => {
     fetch('/api/submissions')
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
@@ -86,6 +88,10 @@ export default function App() {
         console.log('Local API sync fallback:', err.message);
       });
   }, []);
+
+  useEffect(() => {
+    fetchSubmissions();
+  }, [fetchSubmissions]);
 
   const handleOpenNomination = (roleId?: string, pathway?: PathwayType) => {
     if (roleId) {
@@ -157,6 +163,7 @@ export default function App() {
       <Navbar
         onOpenNomination={(roleId, pathway) => handleOpenNomination(roleId, pathway)}
         onWatchFilm={() => setVideoModalOpen(true)}
+        onOpenExcelPortal={() => setExcelPortalOpen(true)}
       />
 
       <main>
@@ -217,7 +224,10 @@ export default function App() {
       </main>
 
       {/* 11. Footer */}
-      <Footer onOpenNomination={() => handleOpenNomination()} />
+      <Footer
+        onOpenNomination={() => handleOpenNomination()}
+        onOpenExcelPortal={() => setExcelPortalOpen(true)}
+      />
 
       {/* Multi-Pathway Nomination / Booking / Crew Modal */}
       <NominationModal
@@ -226,6 +236,17 @@ export default function App() {
         initialRoleId={selectedRoleId}
         initialPathway={selectedPathway}
         onSubmissionSuccess={handleNewSubmission}
+        onOpenExcelPortal={() => setExcelPortalOpen(true)}
+      />
+
+      {/* Excel / Google Sheet Live Telemetry Portal Modal */}
+      <ExcelDataPortalModal
+        isOpen={excelPortalOpen}
+        onClose={() => setExcelPortalOpen(false)}
+        actors={actors}
+        participants={participants}
+        crew={crew}
+        onRefresh={fetchSubmissions}
       />
 
       {/* Interactive Cinematic Video Player / Teaser Modal */}

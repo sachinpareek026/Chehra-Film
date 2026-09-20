@@ -6,7 +6,7 @@ import {
   TrendingUp,
   Compass,
   Film,
-  Sparkles,
+  Award,
   ArrowUpRight,
   Maximize2,
   X,
@@ -108,10 +108,10 @@ export const WhyJoinSection: React.FC = () => {
         return <Compass className="w-5 h-5 text-amber-400" />;
       case 'Film':
         return <Film className="w-5 h-5 text-yellow-400" />;
-      case 'Sparkles':
-        return <Sparkles className="w-5 h-5 text-purple-400" />;
+      case 'Award':
+        return <Award className="w-5 h-5 text-purple-400" />;
       default:
-        return <Sparkles className="w-5 h-5 text-yellow-400" />;
+        return <Award className="w-5 h-5 text-yellow-400" />;
     }
   };
 

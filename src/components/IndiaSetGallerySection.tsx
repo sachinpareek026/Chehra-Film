@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { INDIA_LOCATIONS } from '../data/cinemaData';
 import { FilmLocation } from '../types';
-import { Maximize2, X, ChevronLeft, ChevronRight, MapPin, Compass, Camera, Sparkles } from 'lucide-react';
+import { Maximize2, X, ChevronLeft, ChevronRight, MapPin, Compass, Camera } from 'lucide-react';
 import { CinemaButton } from './CinemaButton';
 
 interface LocationEnhancedInfo {

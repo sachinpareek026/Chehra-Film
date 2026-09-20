@@ -163,7 +163,7 @@ export const BENEFITS: BenefitItem[] = [
     number: '06',
     title: 'A MEMORY FOR LIFE',
     description: 'Take home a lifetime memory of the journey and film.',
-    iconName: 'Sparkles',
+    iconName: 'Award',
     highlight: 'Permanent Legacy'
   }
 ];

@@ -4,23 +4,24 @@ import {
   Calendar,
   MapPin,
   Clock,
-  Sparkles,
+  Award,
   CheckCircle2,
   XCircle,
   ChevronDown,
   ChevronUp,
   Snowflake,
-  ExternalLink,
-  ShieldCheck,
   AlertTriangle,
   Info,
-  Layers,
-  Plane,
   Train,
   Car,
   Camera,
-  Music,
-  Users
+  Film,
+  Users,
+  ShieldCheck,
+  Flame,
+  Waves,
+  Mountain,
+  Phone
 } from 'lucide-react';
 import { CinemaButton } from './CinemaButton';
 import { PathwayType } from '../types';
@@ -32,134 +33,191 @@ interface KashmirExpeditionSectionProps {
 export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> = ({
   onOpenBooking,
 }) => {
-  const [activeTab, setActiveTab] = useState<'itinerary' | 'pricing' | 'inclusions' | 'optional'>('itinerary');
+  const [activeTab, setActiveTab] = useState<'itinerary' | 'pricing' | 'inclusions' | 'optional' | 'packing'>('itinerary');
   const [expandedDay, setExpandedDay] = useState<number | null>(0);
   const [showExtensionModal, setShowExtensionModal] = useState(false);
 
+  // 8-Day Itinerary (24 – 31 Dec 2026) matching user brief
   const itineraryDays = [
     {
-      day: 0,
-      title: 'DELHI → JAMMU',
+      day: 1,
+      dateLabel: '24 DEC',
+      title: 'DELHI → KATRA',
       subtitle: 'The Journey Begins',
       badge: 'OVERNIGHT TRANSIT',
       icon: <Train className="w-4 h-4 text-yellow-400" />,
-      overnight: 'Travel / Train',
+      overnight: 'Overnight Travel',
       timing: 'Evening Departure',
-      description: 'Reporting at designated point in Delhi, participant registration, safety & gear briefing, and group introduction before overnight journey towards Jammu.',
+      cinemaChapter: 'The Gathering',
+      description:
+        'Meet the group at the designated reporting point in Delhi, complete participant registration, and begin our comfortable overnight journey towards Katra.',
       highlights: [
-        'Reporting at designated hub in Delhi',
-        'Participant registration & production kit briefing',
-        'Official introduction to the expedition group & crew',
-        'Departure from Delhi — overnight journey towards Jammu'
+        'Participant reporting & group briefing in Delhi',
+        'Official introduction to fellow travelers & Parindaa coordinators',
+        'Departure from Delhi — overnight highway journey towards Katra'
       ]
-    },
-    {
-      day: 1,
-      title: 'JAMMU → GULMARG',
-      subtitle: 'Into the Himalayas',
-      badge: 'VALLEY ASCENT',
-      icon: <Car className="w-4 h-4 text-yellow-400" />,
-      overnight: 'Gulmarg Mountain Stay',
-      timing: 'Morning to Sunset',
-      description: 'Arrival at Jammu, breakfast, meet local winter transport convoy, and begin ascent into Kashmir Valley as landscape transforms from plains to snow-capped peaks.',
-      highlights: [
-        'Arrival in Jammu & traditional morning breakfast',
-        'Meet dedicated local mountain transport convoy',
-        'Scenic highway ascent into Kashmir Valley',
-        'Winter transfer from Tangmarg up to snowbound Gulmarg',
-        'Hotel check-in, heated room allocation & rest',
-        'First twilight snow walk, photography & group interaction'
-      ],
-      note: 'During winter, the final Tangmarg–Gulmarg mountain section strictly requires vehicles equipped for snow conditions.'
     },
     {
       day: 2,
-      title: 'GULMARG — THE SKI DAY',
-      subtitle: 'The Hero Winter Experience',
-      badge: 'HERO SKI SESSION',
-      icon: <Snowflake className="w-4 h-4 text-yellow-400" />,
-      overnight: 'Gulmarg Mountain Stay',
-      timing: 'Full Day Snow Activity',
-      description: 'The centerpiece snowfield experience. Professional ski gear allocation, safety briefing, beginner ski lesson, instructor-assisted practice, and the Parindaa Winter Circle in the evening.',
+      dateLabel: '25 DEC',
+      title: 'VAISHNO DEVI 🛕',
+      subtitle: 'The Sacred Pilgrimage',
+      badge: 'SACRED YATRA',
+      icon: <Flame className="w-4 h-4 text-amber-400" />,
+      overnight: 'Katra Hotel Stay',
+      timing: 'Morning to Night',
+      cinemaChapter: 'Sacred Heights',
+      description:
+        'Arrive in Katra, check in, freshen up, and commence the sacred Shri Mata Vaishno Devi Yatra through the holy Trikuta mountain trail: Katra → Banganga → Ardhkuwari → Bhawan, concluding with return to Katra.',
       highlights: [
-        'Full ski equipment allocation (boots, skis & poles)',
-        'Comprehensive mountain safety briefing & posture introduction',
-        'Certified instructor-assisted ski practice on gentle powder slopes',
-        'Wide-angle group photography & cinematic action captures',
-        'Afternoon free exploration across Gulmarg snowfields',
-        'Evening "Parindaa Winter Circle" — warm acoustic music, conversations, stories & bonding'
-      ]
+        'Arrival in Katra, check-in, rest & freshen up',
+        'Begin Vaishno Devi Yatra: Banganga ➔ Ardhkuwari ➔ Bhawan',
+        'Darshan at the sacred shrine and spiritual Himalayan immersion',
+        'Descent back to Katra hotel for overnight rest'
+      ],
+      note: 'Yatra involves substantial walking and cold mountain air; participants can progress at their own comfortable pace.'
     },
     {
       day: 3,
-      title: 'GULMARG → SRINAGAR',
-      subtitle: 'From Snowfields to the Valley',
-      badge: 'GONDOLA & DAL LAKE',
-      icon: <Compass className="w-4 h-4 text-yellow-400" />,
-      overnight: 'Srinagar Valley Stay',
-      timing: 'Morning to Evening',
-      description: 'Morning checkout with optional Gulmarg Gondola ascent reaching up to ~13,000 ft at Apharwat Peak, followed by scenic descent to Srinagar and evening at Dal Lake.',
+      dateLabel: '26 DEC',
+      title: 'KATRA → SRINAGAR → GULMARG ❄️',
+      subtitle: 'Into the Kashmir Valley & Snow',
+      badge: 'VALLEY TRANSIT',
+      icon: <Car className="w-4 h-4 text-cyan-400" />,
+      overnight: 'Gulmarg Mountain Stay',
+      timing: 'Early Morning to Sunset',
+      cinemaChapter: 'The Arrival',
+      description:
+        'Early departure from Katra through the picturesque mountain tunnels and scenic landscapes of the Kashmir Valley, climbing towards the winter wonderland of Gulmarg.',
       highlights: [
-        'Breakfast & morning check-out from Gulmarg lodge',
-        'Optional Gulmarg Gondola ascent (Phase I Kongdoori & Phase II Apharwat ~13,000 ft)',
-        'Afternoon descent transfer towards Srinagar Valley',
-        'Hotel check-in & rest in Srinagar',
-        'Evening stroll along Dal Lake Boulevard Road & vibrant local bazaars'
+        'Early scenic road departure from Katra into Kashmir Valley',
+        'Arrival in snowbound Gulmarg & lodge check-in',
+        'Gulmarg Meadow & iconic Pine Forest snow walk',
+        'Visit Maharani Temple & historic St. Mary’s Church amidst snow landscapes',
+        'Cinematic framing for "The Life of Nandi" documentary chapter'
       ],
-      note: 'Gondola tickets are separate/optional and subject to real-time weather and mountain operating conditions.'
+      note: 'During winter, the Tangmarg to Gulmarg ascent strictly requires snow-chain equipped vehicles.'
     },
     {
       day: 4,
-      title: 'SRINAGAR — KASHMIR CULTURE & CINEMA',
-      subtitle: 'Shikara Waters & Film Experience',
-      badge: 'CINEMATIC SHOOT',
-      icon: <Camera className="w-4 h-4 text-yellow-400" />,
-      overnight: 'Srinagar Valley Stay',
-      timing: 'Full Day Shoot & Heritage',
-      description: 'A dual heritage and filmmaking day. Gentle Shikara cruises across Dal Lake, Mughal garden heritage spots, artisanal Kashmiri crafts, paired with documentary film shoots.',
+      dateLabel: '27 DEC',
+      title: 'GULMARG — SKIING DAY 1 🎿',
+      subtitle: 'Learn to Ski in the Himalayas',
+      badge: 'BEGINNER SKI COURSE',
+      icon: <Snowflake className="w-4 h-4 text-yellow-400" />,
+      overnight: 'Gulmarg Mountain Stay',
+      timing: 'Full Day Snow Activity',
+      cinemaChapter: 'Balance & Fall',
+      description:
+        'Begin your included 2-day beginner skiing course on the gentle powder snow slopes of Gulmarg with dedicated instructors and complete gear.',
       highlights: [
-        'Sunrise/morning Dal Lake traditional Shikara experience',
-        'Mughal Gardens heritage walk & Kashmiri handicraft exploration',
-        'Film production shoot: group cinematic frames, participant portraits & travel footage',
-        'Unscripted documentary-style moments & behind-the-scenes captures',
-        'Final expedition farewell gathering and Kashmiri cuisine exploration'
+        'Full gear allocation: certified ski boots, skis & poles',
+        'Dedicated ski instructor safety briefing & posture mechanics',
+        'Practical snow training: balance, stance, movement, gliding & controlled stopping',
+        'Supervised practice sessions around Gulmarg beginner slopes',
+        'Optional Gondola excursion towards Phase 1 (Kongdoori) / Phase 2 (Apharwat)',
+        'Evening group bonding & storytelling in the mountain warmth'
       ]
     },
     {
       day: 5,
-      title: 'SRINAGAR → DELHI',
-      subtitle: 'The Journey Home',
-      badge: 'FLIGHT RETURN',
-      icon: <Plane className="w-4 h-4 text-yellow-400" />,
-      overnight: 'Expedition Wrap',
-      timing: 'Morning Departure',
-      description: 'Expedition wrap-up, final breakfast, farewell group photographs, checkout and return flight departure from Srinagar back to Delhi.',
+      dateLabel: '28 DEC',
+      title: 'GULMARG — SKIING DAY 2 🎿 → SRINAGAR',
+      subtitle: 'Technique Mastery & Dal Lake Evening',
+      badge: 'SKI COURSE GRADUATION',
+      icon: <Waves className="w-4 h-4 text-cyan-400" />,
+      overnight: 'Srinagar Valley Stay',
+      timing: 'Morning Skiing → Evening Srinagar',
+      cinemaChapter: 'Reflection',
+      description:
+        'Continue day 2 of the skiing course with guided technique improvement, turning, and supervised runs. In the afternoon, transfer to Srinagar for a magical sunset along Dal Lake.',
       highlights: [
-        'Farewell breakfast & final group photo session',
-        'Hotel checkout & transfer to Srinagar International Airport',
-        'Scheduled flight departure back to New Delhi',
-        'Official wrap of the 5-Day Kashmir Winter Expedition'
+        'Second day of ski instruction: turning techniques, speed control & snow confidence',
+        'Group skiing photographs & certificate of completion moments',
+        'Scenic afternoon drive descending from Gulmarg to Srinagar',
+        'Hotel check-in & rest in Srinagar',
+        'Evening at Dal Lake & Boulevard Road against glowing winter houseboats',
+        'Optional traditional Shikara ride on Dal Lake waters'
+      ]
+    },
+    {
+      day: 6,
+      dateLabel: '29 DEC',
+      title: 'SRINAGAR EXPLORATION 🌊',
+      subtitle: 'Lakes, Gardens, Heritage & Cinema',
+      badge: 'HERITAGE & CINEMA',
+      icon: <Camera className="w-4 h-4 text-amber-400" />,
+      overnight: 'Srinagar Valley Stay',
+      timing: 'Full Day Exploration',
+      cinemaChapter: 'Faith & Questions',
+      description:
+        'Experience Srinagar’s cultural and spiritual soul: sunrise on Dal Lake, Mughal terraced gardens, Pari Mahal vistas, historic downtown lanes, and Lal Chowk markets.',
+      highlights: [
+        'Serene Dal Lake sunrise & morning mist photography',
+        'Heritage exploration: Shankaracharya temple, Chashme Shahi & Pari Mahal',
+        'Winter walks through royal Nishat Bagh & Shalimar Bagh',
+        'Old Srinagar alleys, Jhelum riverfronts & vibrant Lal Chowk bazaars',
+        'Authentic Kashmiri handicrafts, saffron, pashminas & dry fruit tasting',
+        'Cinema filming scenes for "The Life of Nandi"'
+      ]
+    },
+    {
+      day: 7,
+      dateLabel: '30 DEC',
+      title: 'SRINAGAR → DELHI',
+      subtitle: 'Final Cinematic Moments & Return',
+      badge: 'OVERNIGHT RETURN',
+      icon: <Compass className="w-4 h-4 text-yellow-400" />,
+      overnight: 'Overnight Travel',
+      timing: 'Morning Exploration → Afternoon Departure',
+      cinemaChapter: 'The Journey Home',
+      description:
+        'Morning free time for Dal Lake strolls, local shopping, and final portraits before boarding group transportation for the return journey towards Delhi.',
+      highlights: [
+        'Morning free time along Boulevard & local markets for souvenir shopping',
+        'Final group photographs and production wrap interviews',
+        'Lunch and departure preparations',
+        'Commence the return journey towards New Delhi'
+      ]
+    },
+    {
+      day: 8,
+      dateLabel: '31 DEC',
+      title: 'DELHI',
+      subtitle: 'New Year’s Eve Arrival',
+      badge: 'EXPEDITION WRAP',
+      icon: <Award className="w-4 h-4 text-emerald-400" />,
+      overnight: 'Expedition Concludes',
+      timing: 'Morning Arrival',
+      cinemaChapter: 'The Story Stays',
+      description:
+        'Arrive back in Delhi on New Year’s Eve with unforgettable memories, new friendships, skiing skills, and your chapter captured in independent cinema.',
+      highlights: [
+        'Arrival in Delhi in time for New Year celebrations',
+        'Farewell group hugs, contact exchanges & digital photo drop',
+        'Official wrap: "The journey ends. The story stays."'
       ]
     }
   ];
 
+  // Pricing Tiers with updated requested rates: ₹13,000 Early Bird / ₹14,500 Regular / ₹15,000 Actors
   const pricingTiers = [
     {
       id: 'early-bird',
       name: 'EARLY BIRD EXPEDITION',
-      price: '₹12,000',
+      price: '₹13,000',
       period: 'per person',
       tag: 'LIMITED EARLY BIRD SEATS',
       highlightColor: 'emerald',
       status: 'AVAILABLE NOW',
-      description: 'Special early-access participant slot. Christmas and New Year are the busiest peak seasons in Gulmarg, making advance reservation vital.',
+      description: 'Special early-bird rate for selected advance bookings. Christmas peak week in Gulmarg demands early transport & room lock-in.',
       features: [
-        'Full 5 Days / 4 Nights core expedition',
-        '4 Nights accommodation (heated rooms where available)',
-        'Complete transport Delhi → Jammu → Gulmarg → Srinagar → Delhi',
-        'Beginner ski equipment & instructor guidance session',
-        'Parindaa Winter Circle & group activities',
-        'Documentary travel-film captures & portraits'
+        'Full 8 Days / 7 Nights comprehensive expedition',
+        '5 Nights hotel stay (1N Katra + 2N Gulmarg + 2N Srinagar)',
+        '2 Nights comfortable group transit (Delhi ↔ Kashmir loop)',
+        '2-Day beginner skiing course with instructor + gear included',
+        'Vaishno Devi Yatra experience + Gulmarg snow exploration',
+        'Srinagar heritage tour, Dal Lake & "The Life of Nandi" film participation'
       ],
       pathway: 'participant' as PathwayType,
       btnLabel: 'LOCK EARLY BIRD (₹1,000 TOKEN)'
@@ -167,18 +225,18 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
     {
       id: 'regular',
       name: 'REGULAR EXPEDITION',
-      price: '₹14,000',
+      price: '₹14,500',
       period: 'per person',
       tag: 'STANDARD EXPEDITION RATE',
       highlightColor: 'amber',
       status: 'APPLICABLE AFTER 20 NOV 2026',
-      description: 'Standard booking tier applied once early-bird allocations conclude or after 20 November 2026 due to peak Christmas resort tariffs.',
+      description: 'Standard booking tier applied after 20 November 2026 due to surging peak Christmas hotel tariffs and winter transport rates.',
       features: [
-        'Full 5 Days / 4 Nights core expedition',
-        '4 Nights mountain & valley accommodation',
-        'All interstate & local internal transport vehicles',
-        'Skiing gear rental & beginner guidance',
-        'Trip manager & emergency medical coordination',
+        'Full 8 Days / 7 Nights complete itinerary',
+        '5 Nights hotel stays across Katra, Gulmarg & Srinagar',
+        'All interstate & local internal transport vehicles included',
+        '2-Day beginner skiing course + instructor + gear included',
+        'Trip coordinator, safety oversight & medical assistance',
         'High-resolution participant photo & video package'
       ],
       pathway: 'participant' as PathwayType,
@@ -192,14 +250,14 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
       tag: '100% REFUND SECURITY DEPOSIT',
       highlightColor: 'yellow',
       status: 'UNSCRIPTED LEAD CASTING',
-      description: 'Presented strictly for auditioning lead cast candidates. Held as a 100% refundable security deposit returned in full upon project wrap.',
+      description: 'Fixed participant rate for auditioning lead cast candidates. Held as a 100% refundable security deposit returned in full upon project wrap.',
       features: [
-        'Official on-screen character casting & scripted/unscripted scenes',
+        'Official on-screen character casting in "The Life of Nandi" / "Chehra"',
         '100% refundable security deposit clause in written contract',
         'IMDb verified film credits & theatrical festival eligibility',
-        'All lodging, heated rooms, ski gear & internal expedition transit included',
+        'All lodging, 2-day skiing course & internal transit included',
         'Dedicated camera crew & Arri anamorphic cinematic framing',
-        'Direct collaborative participation in the feature film "Chehra"'
+        'Full creative collaboration with director & technical team'
       ],
       pathway: 'actor' as PathwayType,
       btnLabel: 'AUDITION AS LEAD CAST'
@@ -208,53 +266,68 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
 
   const inclusions = [
     {
-      category: 'Lodging & Stays',
-      items: [
-        '4 Nights premium accommodation across Gulmarg and Srinagar',
-        'Double / triple / multi-sharing arrangements as applicable',
-        'Heating arrangements subject to mountain property availability'
-      ]
-    },
-    {
       category: 'Transportation',
       items: [
-        'Interstate transit Delhi → Jammu',
-        'Scenic highway transfer Jammu → Kashmir Valley',
-        'Winter-equipped mountain transfers Gulmarg ↔ Srinagar',
-        'Srinagar local transfers, Dal Lake & airport connections',
-        'Flight transit Srinagar → Delhi concluding the loop'
+        'Delhi → Katra group transport',
+        'Katra → Kashmir Valley scenic transfer',
+        'Kashmir local transportation as per itinerary',
+        'Srinagar → Delhi return transport'
       ]
     },
     {
-      category: 'Ski & Snow Adventure',
+      category: 'Accommodation (5 Nights Stays)',
       items: [
-        'Beginner skiing experience on Gulmarg slopes',
-        'Certified ski equipment (skis, boots, poles) for included session',
-        'Trained mountain ski instructor & safety orientation',
-        'First snow walk & guided snow photography exploration'
+        '1 Night hotel accommodation in Katra',
+        '2 Full Nights accommodation in snowy Gulmarg',
+        '2 Nights hotel accommodation in Srinagar',
+        'Shared room arrangements as specified during booking'
       ]
     },
     {
-      category: 'Trip Logistics & Film',
+      category: '2-Day Skiing Course (Included)',
       items: [
-        'Dedicated Parindaa trip coordinator throughout 5 days',
-        'Local Kashmir logistics, road coordination & group safety',
-        'Basic first-aid kit & emergency assistance protocols',
-        'Parindaa Winter Circle evening gatherings with music & stories',
-        'Documentary-style cinematic travel portraits & group footage'
+        '2-day beginner skiing course in Gulmarg snowfields',
+        'Dedicated beginner ski instructor guidance',
+        'Complete ski equipment included: Skis, boots & poles',
+        'Practical balance, movement, turning & stopping sessions'
+      ]
+    },
+    {
+      category: 'Experiences & Film Integration',
+      items: [
+        'Shri Mata Vaishno Devi Yatra experience',
+        'Gulmarg winter meadow & pine forest snow walks',
+        'Srinagar sightseeing: Dal Lake Boulevard, Mughal gardens & Lal Chowk',
+        '"The Life of Nandi" experimental travel cinema participation',
+        'Parindaa trip coordinator & group safety assistance'
       ]
     }
   ];
 
   const exclusions = [
-    'Lunch and dinner (flexibility to explore authentic Kashmiri cuisine)',
-    'Gulmarg Gondola tickets (optional add-on, tariffs subject to weather/authorities)',
-    'Advanced ski lessons or specialized downhill backcountry gear',
-    'Optional snow adventures (snowmobiles, sledges, pony rides)',
-    'Personal winter attire (heavy feather downs, thermal wear, snow boots, gloves)',
-    'Personal shopping, souvenirs, handicrafts or personal snacks',
-    'Personal travel insurance & specialized medical expenses',
-    'Disruptions or delays caused by severe weather, road blocks or force majeure'
+    'Gulmarg Gondola tickets (optional add-on, subject to weather & official availability)',
+    'Shikara ride on Dal Lake (available as optional paid experience)',
+    'Pony rides / sledge / snowmobile rentals',
+    'Helicopter / battery car services for Vaishno Devi Yatra',
+    'Lunch and dinner (flexibility to savor authentic Kashmiri Wazwan & local food)',
+    'Personal shopping, dry fruits, saffron, handicrafts or souvenirs',
+    'Personal winter attire (heavy jacket, thermals, gloves, snow shoes)',
+    'Travel insurance & personal emergency medical expenses',
+    'Any additional expense caused by weather disruptions, road closures, or force majeure'
+  ];
+
+  const packingEssentials = [
+    { name: 'Heavy Winter Jacket', desc: 'Down feather or windproof heavy insulated jacket for sub-zero temperatures.' },
+    { name: 'Thermal Innerwear', desc: 'At least 2–3 pairs of top and bottom thermal base layers.' },
+    { name: 'Waterproof Winter Boots', desc: 'Insulated shoes/boots with sturdy grip for snow walking.' },
+    { name: 'Waterproof Gloves', desc: 'Crucial for skiing and snow handling; avoid thin wool gloves that soak.' },
+    { name: 'Woollen Cap & Muffler', desc: 'To protect ears and head from mountain wind chill.' },
+    { name: 'Warm Woollen Socks', desc: '4–5 pairs of thick woollen or thermal socks.' },
+    { name: 'UV Sunglasses / Ski Goggles', desc: 'Protects eyes from intense snow glare and high-altitude UV.' },
+    { name: 'Sunscreen & Lip Balm', desc: 'SPF 50+ to prevent mountain sunburn and windburn chapping.' },
+    { name: 'Power Bank', desc: 'Sub-zero temperatures rapidly drain phone batteries; keep a 10,000+ mAh pack.' },
+    { name: 'Personal Medicines', desc: 'Motion sickness pills, cold/flu relief, pain relief & prescription medicines.' },
+    { name: 'Government ID', desc: 'Original Aadhaar / Voter ID / Passport required for check-in and checkpoints.' }
   ];
 
   return (
@@ -270,41 +343,109 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-        {/* Section Header */}
+        {/* Above-the-fold Quick Understanding Banner */}
+        <div className="mb-6 p-4 sm:p-5 bg-gradient-to-r from-blue-950/60 via-[#071124] to-cyan-950/50 border border-cyan-400/30 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="space-y-1 text-center md:text-left">
+            <div className="flex items-center justify-center md:justify-start gap-2">
+              <span className="px-2 py-0.5 bg-yellow-400 text-black font-mono font-bold text-[9px] uppercase tracking-wider">
+                CONFIRMED DEPARTURE
+              </span>
+              <span className="text-cyan-300 font-mono text-xs uppercase tracking-widest font-semibold">
+                24 – 31 DEC 2026 • 7 NIGHTS / 8 DAYS
+              </span>
+            </div>
+            <h1 className="font-title text-xl sm:text-2xl font-black text-white uppercase tracking-tight">
+              🍁 KASHMIR WINTER ESCAPE — VAISHNO DEVI × GULMARG × SRINAGAR
+            </h1>
+            <p className="text-xs text-slate-300 font-light">
+              🎿 <strong className="text-white">2-Day Skiing Course</strong> + Certified Instructor + Equipment Included • <span className="text-yellow-400 font-medium">₹13,000 Early Bird</span> / ₹14,500 Regular
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <CinemaButton
+              variant="primary"
+              onClick={() => onOpenBooking('participant')}
+              className="!py-2.5 !px-5 text-xs tracking-wider font-bold"
+            >
+              BOOK YOUR SEAT
+            </CinemaButton>
+            <a
+              href="#kashmir-itinerary-tabs"
+              onClick={() => setActiveTab('itinerary')}
+              className="px-4 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 text-slate-200 text-xs font-mono uppercase tracking-wider transition-colors"
+            >
+              VIEW ITINERARY
+            </a>
+          </div>
+        </div>
+
+        {/* 5-Second Micro-Summary Chips */}
+        <div className="mb-10 grid grid-cols-2 sm:grid-cols-5 gap-2 text-center">
+          <div className="p-2.5 bg-black/50 border border-white/10 text-[11px] font-mono text-slate-300">
+            🛕 <span className="font-bold text-white">VAISHNO DEVI</span>
+            <span className="block text-[9px] text-slate-400">Sacred Trikuta Yatra</span>
+          </div>
+          <div className="p-2.5 bg-black/50 border border-cyan-500/30 text-[11px] font-mono text-cyan-300">
+            ❄️ <span className="font-bold text-white">2 FULL DAYS GULMARG</span>
+            <span className="block text-[9px] text-cyan-400/80">Peak Winter Snow</span>
+          </div>
+          <div className="p-2.5 bg-black/50 border border-yellow-400/30 text-[11px] font-mono text-yellow-300">
+            🎿 <span className="font-bold text-white">2-DAY SKI COURSE</span>
+            <span className="block text-[9px] text-yellow-400/80">Instructor & Gear Incl.</span>
+          </div>
+          <div className="p-2.5 bg-black/50 border border-white/10 text-[11px] font-mono text-slate-300">
+            🌊 <span className="font-bold text-white">SRINAGAR & DAL LAKE</span>
+            <span className="block text-[9px] text-slate-400">Boulevard & Heritage</span>
+          </div>
+          <div className="p-2.5 bg-black/50 border border-amber-500/30 text-[11px] font-mono text-amber-300 col-span-2 sm:col-span-1">
+            🎬 <span className="font-bold text-white">THE LIFE OF NANDI</span>
+            <span className="block text-[9px] text-amber-400/80">Experimental Cinema</span>
+          </div>
+        </div>
+
+        {/* Section Title & Positioning */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <div className="inline-flex items-center gap-2 mb-2">
               <span className="w-4 h-[1px] bg-cyan-400" />
               <span className="text-[10px] font-mono tracking-[0.3em] text-cyan-400 uppercase font-bold">
-                SHOOTING EXPEDITION LOCATION
+                CHEHRA FILMS × PARINDAA TRAVELS
               </span>
             </div>
             <h2 className="font-title text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase leading-tight">
-              KASHMIR — THE WINTER EXPEDITION
+              EXPERIENCE KASHMIR DIFFERENTLY
             </h2>
-            <p className="mt-2 text-xs sm:text-sm text-slate-300 font-light max-w-2xl">
-              Gulmarg • Skiing • Snow • Kashmir — A 5-Day winter journey into the mountains, where Kashmir becomes our playground and Gulmarg becomes our cinema snowfield.
+            <p className="mt-2 text-xs sm:text-sm text-slate-300 font-light max-w-3xl leading-relaxed">
+              This December, leave the ordinary sightseeing trip behind. Journey from the sacred mountains of Vaishno Devi into the snow-covered landscapes of Gulmarg, experience a 2-day beginner skiing course, and discover the lakes, gardens and streets of Srinagar.
             </p>
+            <div className="mt-3 inline-block px-3 py-1 bg-white/5 border-l-2 border-yellow-400 text-xs text-yellow-300 font-mono italic">
+              "Snow. Mountains. Faith. Adventure. Cinema. Your journey becomes part of The Life of Nandi — where travel becomes a story."
+            </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
             <span className="px-3 py-1.5 bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 font-mono text-[11px] uppercase tracking-wider inline-flex items-center gap-1.5">
               <Calendar className="w-3.5 h-3.5 text-cyan-400" />
-              <span>CHRISTMAS WEEK • DEC 2026</span>
+              <span>24 – 31 DEC 2026</span>
             </span>
             <span className="px-3 py-1.5 bg-white/5 border border-white/15 text-slate-200 font-mono text-[11px] uppercase tracking-wider inline-flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-yellow-400" />
-              <span>STARTING FROM DELHI</span>
+              <Clock className="w-3.5 h-3.5 text-yellow-400" />
+              <span>7 NIGHTS / 8 DAYS</span>
+            </span>
+            <span className="px-3 py-1.5 bg-emerald-500/10 border border-emerald-400/30 text-emerald-300 font-mono text-[11px] uppercase tracking-wider inline-flex items-center gap-1.5">
+              <Award className="w-3.5 h-3.5 text-emerald-400" />
+              <span>EARLY BIRD: ₹13,000</span>
             </span>
           </div>
         </div>
 
         {/* Hero Visual Banner with Split Graphic */}
         <div className="relative mb-14 overflow-hidden border border-white/15 bg-black shadow-2xl">
-          <div className="relative h-[280px] sm:h-[380px] md:h-[460px] w-full overflow-hidden group">
+          <div className="relative h-[300px] sm:h-[400px] md:h-[480px] w-full overflow-hidden group">
             <img
               src="https://res.cloudinary.com/x1dci3fh/image/upload/v1789814827/splitimage.im-2_7.png"
-              alt="Kashmir Winter Expedition - Gulmarg and Srinagar"
+              alt="Kashmir Winter Escape - Gulmarg, Vaishno Devi and Srinagar"
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover object-center filter contrast-105 brightness-90 group-hover:scale-102 transition-all duration-1000 ease-out"
             />
@@ -316,15 +457,15 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
             <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
               <div className="flex items-center gap-2">
                 <span className="px-2.5 py-1 bg-yellow-400 text-black font-mono font-bold text-[9px] uppercase tracking-wider">
-                  5 DAYS / 4 NIGHTS
+                  7 NIGHTS / 8 DAYS
                 </span>
                 <span className="px-2.5 py-1 bg-black/80 border border-white/20 text-white font-mono text-[9px] uppercase tracking-wider backdrop-blur-md">
-                  DECEMBER 2026
+                  CHRISTMAS HOLIDAY WEEK
                 </span>
               </div>
               <span className="px-2.5 py-1 bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-mono text-[9px] uppercase tracking-wider backdrop-blur-md hidden sm:inline-flex items-center gap-1">
                 <Snowflake className="w-3 h-3 text-cyan-400" />
-                PEAK WINTER SNOW
+                PEAK WINTER SNOW IN GULMARG
               </span>
             </div>
 
@@ -333,13 +474,13 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               <div className="max-w-2xl">
                 <div className="flex items-center gap-2 text-cyan-400 font-mono text-[10px] tracking-widest uppercase mb-1">
                   <Snowflake className="w-3.5 h-3.5" />
-                  <span>KASHMIR VALLEY & GULMARG POWDER SLOPES</span>
+                  <span>VAISHNO DEVI • GULMARG POWDER SLOPES • SRINAGAR DAL LAKE</span>
                 </div>
                 <h3 className="font-title text-2xl sm:text-3xl md:text-4xl font-black text-white uppercase tracking-tight leading-tight">
-                  WINTER FIELDWORK & CINEMA EXPEDITION
+                  KASHMIR WINTER ESCAPE 2026
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 font-light mt-1 max-w-xl">
-                  Ski across Asia’s finest powder snow, drift through mist on Dal Lake shikaras, and step before the Arri LF camera in unscripted Himalayan cinematography.
+                  Step into 2 full days in Gulmarg snow, master the basics of skiing with dedicated instructors and gear, climb the holy Trikuta trail, and film inside independent Indian travel cinema.
                 </p>
               </div>
 
@@ -347,16 +488,16 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                 <CinemaButton
                   variant="primary"
                   onClick={() => onOpenBooking('participant')}
-                  className="!py-3 !px-5 text-xs tracking-wider"
+                  className="!py-3 !px-6 text-xs tracking-wider font-bold"
                 >
-                  LOCK EXPEDITION SEAT
+                  BOOK YOUR SEAT — ₹13,000
                 </CinemaButton>
                 <button
                   type="button"
                   onClick={() => setShowExtensionModal(true)}
                   className="px-4 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-slate-200 text-xs font-mono uppercase tracking-wider transition-colors cursor-pointer"
                 >
-                  + VAISHNO DEVI
+                  EXPEDITION DETAILS
                 </button>
               </div>
             </div>
@@ -370,7 +511,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               </div>
               <div>
                 <span className="block text-[10px] font-mono text-slate-400 uppercase">DURATION</span>
-                <span className="text-sm sm:text-base font-bold text-white font-title">5D / 4N Winter Route</span>
+                <span className="text-sm sm:text-base font-bold text-white font-title">7N / 8D Winter Plan</span>
               </div>
             </div>
 
@@ -380,34 +521,68 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               </div>
               <div>
                 <span className="block text-[10px] font-mono text-slate-400 uppercase">HERO ACTIVITY</span>
-                <span className="text-sm sm:text-base font-bold text-white font-title">Gulmarg Beginner Ski</span>
+                <span className="text-sm sm:text-base font-bold text-white font-title">2-Day Skiing Course</span>
               </div>
             </div>
 
             <div className="p-4 sm:p-5 flex items-center gap-3">
               <div className="p-2.5 bg-emerald-400/10 text-emerald-400 border border-emerald-400/20">
-                <Sparkles className="w-4 h-4" />
+                <Award className="w-4 h-4" />
               </div>
               <div>
                 <span className="block text-[10px] font-mono text-slate-400 uppercase">EARLY BIRD</span>
-                <span className="text-sm sm:text-base font-bold text-emerald-400 font-title">₹12,000 / Person</span>
+                <span className="text-sm sm:text-base font-bold text-emerald-400 font-title">₹13,000 / Person</span>
               </div>
             </div>
 
             <div className="p-4 sm:p-5 flex items-center gap-3">
               <div className="p-2.5 bg-amber-400/10 text-amber-400 border border-amber-400/20">
-                <Camera className="w-4 h-4" />
+                <Film className="w-4 h-4" />
               </div>
               <div>
-                <span className="block text-[10px] font-mono text-slate-400 uppercase">FILM CAPTURE</span>
-                <span className="text-sm sm:text-base font-bold text-white font-title">Travel-Film & Portraits</span>
+                <span className="block text-[10px] font-mono text-slate-400 uppercase">CINEMA PROJECT</span>
+                <span className="text-sm sm:text-base font-bold text-white font-title">The Life of Nandi</span>
               </div>
             </div>
           </div>
         </div>
 
+        {/* Route Flow Diagram */}
+        <div className="mb-12 p-5 bg-[#050B14] border border-white/10">
+          <div className="flex items-center justify-between mb-3 text-xs font-mono text-slate-400">
+            <span className="font-bold text-cyan-400 uppercase tracking-wider">🗺️ THE EXPEDITION ROUTE:</span>
+            <span>ROUND-TRIP FROM DELHI</span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 text-center font-mono text-xs">
+            <div className="p-3 bg-white/5 border border-white/10">
+              <span className="block text-[10px] text-slate-500">ORIGIN</span>
+              <strong className="text-white">DELHI</strong>
+            </div>
+            <div className="p-3 bg-white/5 border border-white/10">
+              <span className="block text-[10px] text-slate-500">STAGE 1</span>
+              <strong className="text-amber-400">KATRA</strong>
+            </div>
+            <div className="p-3 bg-white/5 border border-white/10">
+              <span className="block text-[10px] text-slate-500">PILGRIMAGE</span>
+              <strong className="text-yellow-400">VAISHNO DEVI 🛕</strong>
+            </div>
+            <div className="p-3 bg-white/5 border border-cyan-400/30">
+              <span className="block text-[10px] text-cyan-400">2 DAYS SKI</span>
+              <strong className="text-cyan-300">GULMARG ❄️</strong>
+            </div>
+            <div className="p-3 bg-white/5 border border-white/10">
+              <span className="block text-[10px] text-slate-500">STAGE 3</span>
+              <strong className="text-white">SRINAGAR 🌊</strong>
+            </div>
+            <div className="p-3 bg-white/5 border border-emerald-400/30">
+              <span className="block text-[10px] text-emerald-400">DESTINATION</span>
+              <strong className="text-emerald-300">DELHI</strong>
+            </div>
+          </div>
+        </div>
+
         {/* Interactive Tab Switcher */}
-        <div className="flex border-b border-white/10 mb-8 overflow-x-auto no-scrollbar gap-2 sm:gap-4">
+        <div id="kashmir-itinerary-tabs" className="flex border-b border-white/10 mb-8 overflow-x-auto no-scrollbar gap-2 sm:gap-4">
           <button
             onClick={() => setActiveTab('itinerary')}
             className={`pb-3 px-3 text-xs sm:text-sm font-mono uppercase tracking-wider cursor-pointer border-b-2 transition-all whitespace-nowrap ${
@@ -416,7 +591,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                 : 'border-transparent text-slate-400 hover:text-white'
             }`}
           >
-            🗓️ 5-DAY ITINERARY
+            📅 8-DAY ITINERARY
           </button>
           <button
             onClick={() => setActiveTab('pricing')}
@@ -446,15 +621,25 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                 : 'border-transparent text-slate-400 hover:text-white'
             }`}
           >
-            🚠 GONDOLA & EXTENSIONS
+            🚠 GONDOLA & EXPERIENCES
+          </button>
+          <button
+            onClick={() => setActiveTab('packing')}
+            className={`pb-3 px-3 text-xs sm:text-sm font-mono uppercase tracking-wider cursor-pointer border-b-2 transition-all whitespace-nowrap ${
+              activeTab === 'packing'
+                ? 'border-cyan-400 text-cyan-300 font-bold'
+                : 'border-transparent text-slate-400 hover:text-white'
+            }`}
+          >
+            🧥 WHAT TO PACK
           </button>
         </div>
 
-        {/* TAB 1: 5-DAY ITINERARY */}
+        {/* TAB 1: 8-DAY ITINERARY */}
         {activeTab === 'itinerary' && (
           <div className="space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 gap-2 text-xs font-mono text-slate-400 border-b border-white/5">
-              <span>EXPEDITION ROUTE: DELHI ➔ JAMMU ➔ GULMARG ➔ SRINAGAR ➔ DELHI</span>
+              <span>EXPEDITION ROUTE: DELHI ➔ KATRA ➔ VAISHNO DEVI ➔ GULMARG ➔ SRINAGAR ➔ DELHI</span>
               <span className="text-cyan-400">CLICK ANY DAY TO EXPAND DETAILED SCHEDULE</span>
             </div>
 
@@ -482,7 +667,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                         <div>
                           <div className="flex items-center gap-2">
                             <span className="text-[10px] font-mono tracking-widest text-cyan-400 font-bold uppercase">
-                              DAY {item.day}
+                              DAY {item.day} — {item.dateLabel}
                             </span>
                             <span className="px-2 py-0.5 bg-white/5 text-[9px] font-mono text-slate-400 uppercase">
                               {item.badge}
@@ -506,9 +691,16 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
 
                     {isExpanded && (
                       <div className="px-5 pb-6 pt-2 border-t border-white/5 space-y-4">
-                        <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed">
-                          {item.description}
-                        </p>
+                        <div className="flex items-center justify-between">
+                          <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed">
+                            {item.description}
+                          </p>
+                          {item.cinemaChapter && (
+                            <span className="hidden sm:inline-block shrink-0 ml-4 px-2.5 py-1 bg-yellow-400/10 border border-yellow-400/30 text-yellow-300 font-mono text-[10px] uppercase">
+                              🎬 Cinema: {item.cinemaChapter}
+                            </span>
+                          )}
+                        </div>
 
                         <div className="space-y-2 pt-2">
                           <span className="text-[10px] font-mono text-cyan-400 tracking-wider uppercase font-bold block">
@@ -618,7 +810,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                     <CinemaButton
                       variant={tier.id === 'early-bird' ? 'primary' : 'outline'}
                       onClick={() => onOpenBooking(tier.pathway)}
-                      className="w-full !py-3 text-xs tracking-wider"
+                      className="w-full !py-3 text-xs tracking-wider font-bold"
                     >
                       {tier.btnLabel}
                     </CinemaButton>
@@ -627,20 +819,66 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               ))}
             </div>
 
-            {/* Note banner regarding Gulmarg Christmas Season */}
+            {/* Quick Price Table */}
+            <div className="p-6 bg-[#060c18] border border-white/10 space-y-4">
+              <div className="flex items-center justify-between">
+                <h4 className="font-title text-lg font-black text-white uppercase tracking-wider">
+                  📋 EXPEDITION RATE COMPARISON TABLE
+                </h4>
+                <span className="text-[10px] font-mono text-slate-400 uppercase">7 NIGHTS / 8 DAYS FULL ESCAPE</span>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs font-mono text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-white/15 text-slate-400 uppercase">
+                      <th className="py-2.5 pr-4">Package</th>
+                      <th className="py-2.5 px-4">Duration</th>
+                      <th className="py-2.5 px-4 text-emerald-400">Early Bird (Before 20 Nov)</th>
+                      <th className="py-2.5 px-4 text-amber-300">Regular (After 20 Nov)</th>
+                      <th className="py-2.5 pl-4">Key Inclusions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5 text-slate-300">
+                    <tr>
+                      <td className="py-3 pr-4 font-bold text-white">🏔️ Kashmir Winter Escape (Full Transport)</td>
+                      <td className="py-3 px-4">7N / 8D</td>
+                      <td className="py-3 px-4 font-bold text-emerald-400">₹13,000 / Person</td>
+                      <td className="py-3 px-4 font-bold text-amber-300">₹14,500 / Person</td>
+                      <td className="py-3 pl-4 text-slate-400">Vaishno Devi + 2D Gulmarg Ski + Srinagar</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 pr-4 font-bold text-white">🎬 Actors / Lead Cast Role</td>
+                      <td className="py-3 px-4">7N / 8D</td>
+                      <td className="py-3 px-4 font-bold text-yellow-400">₹15,000 (100% Refund Deposit)</td>
+                      <td className="py-3 px-4 font-bold text-yellow-400">₹15,000 Fixed</td>
+                      <td className="py-3 pl-4 text-slate-400">Lead Screen Role + IMDb Credit + All Inclusions</td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 pr-4 font-bold text-white">🚠 Optional Gulmarg Gondola (Phase 1/2)</td>
+                      <td className="py-3 px-4">—</td>
+                      <td className="py-3 px-4 text-slate-400">Separate Ticket</td>
+                      <td className="py-3 px-4 text-slate-400">Separate Ticket</td>
+                      <td className="py-3 pl-4 text-slate-400">Apharwat / Kongdoori Cable Car Access</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Early bird deadline notice */}
             <div className="p-5 bg-gradient-to-r from-blue-950/40 to-cyan-950/30 border border-cyan-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex items-start gap-3">
                 <Info className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  <strong className="text-white">Peak Season Notice:</strong> Christmas and New Year represent the busiest periods for Gulmarg. Accommodations and winter road permits must be locked in advance to ensure slot availability.
+                  <strong className="text-white">Early Bird Guarantee:</strong> Lock your seat today with only a <span className="text-yellow-400 font-bold">₹1,000 token</span>. Rate is ₹13,000/person for early-bird slots; increases to ₹14,500 after 20 November 2026 due to Christmas peak rush.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => onOpenBooking('participant')}
-                className="shrink-0 px-4 py-2 bg-cyan-400 text-black font-mono font-bold text-xs uppercase tracking-wider hover:bg-cyan-300 transition-colors"
+                className="shrink-0 px-5 py-2.5 bg-cyan-400 text-black font-mono font-bold text-xs uppercase tracking-wider hover:bg-cyan-300 transition-colors"
               >
-                LOCK ₹1,000 TOKEN
+                LOCK WITH ₹1,000 TOKEN
               </button>
             </div>
           </div>
@@ -654,7 +892,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               <div className="flex items-center gap-2 pb-2 border-b border-emerald-500/30">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                 <h3 className="font-title text-lg font-black text-white uppercase tracking-wider">
-                  WHAT IS INCLUDED IN THE EXPEDITION
+                  WHAT IS INCLUDED IN YOUR EXPEDITION
                 </h3>
               </div>
 
@@ -688,7 +926,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
 
               <div className="p-5 bg-[#070e1c] border border-white/10 space-y-3">
                 <p className="text-xs text-slate-400">
-                  The following personal requirements or optional excursions are not included in the standard base trip fee:
+                  The following optional excursions or personal requirements are not covered under the base package:
                 </p>
                 <ul className="space-y-2 text-xs text-slate-300">
                   {exclusions.map((item, idx) => (
@@ -702,17 +940,17 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
 
               <div className="p-4 bg-white/5 border border-white/10 text-xs text-slate-400 space-y-2">
                 <span className="font-mono text-[10px] text-yellow-400 uppercase tracking-wider font-bold block">
-                  ❄️ WEATHER CONTINGENCY CLAUSE
+                  ❄️ WEATHER & SNOW CONTINGENCY CLAUSE
                 </span>
                 <p className="leading-relaxed">
-                  Snowfall is nature, not a manufactured product. Gulmarg has strong winter-snow potential, but actual skiing conditions, road clearances, and Gondola operations depend on real-time mountain weather. The team reserves the right to adapt itineraries for safety.
+                  December in Kashmir brings intense winter conditions. Snowfall, road accessibility, Gondola operations and skiing terrain depend on real-time mountain safety. Parindaa trip coordinators reserve the authority to adjust routes for group welfare.
                 </p>
               </div>
             </div>
           </div>
         )}
 
-        {/* TAB 4: GONDOLA & OPTIONAL EXTENSIONS */}
+        {/* TAB 4: GONDOLA & OPTIONAL EXPERIENCES */}
         {activeTab === 'optional' && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Gulmarg Gondola Card */}
@@ -722,100 +960,166 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                   OPTIONAL HIGH-ALTITUDE CABLE CAR
                 </span>
                 <span className="px-2 py-0.5 bg-cyan-400/10 text-cyan-300 text-[9px] font-mono uppercase">
-                  ADDITIONAL DIRECT TARIFF
+                  DIRECT OFFICIAL TICKET
                 </span>
               </div>
               <h3 className="font-title text-2xl font-black text-white uppercase tracking-tight">
-                GULMARG GONDOLA (PHASE I & II)
+                🚠 GULMARG GONDOLA (PHASE I & II)
               </h3>
               <p className="text-xs text-slate-300 font-light leading-relaxed">
-                Experience Asia’s highest operating cable car. Phase I connects Gulmarg base to Kongdoori station (~10,000 ft), and Phase II ascends to Apharwat Peak (~13,000 ft) right beneath the snowbound ridges.
+                Experience Asia’s highest operating cable car. Phase 1 ascends towards Kongdoori station (~10,000 ft), and Phase 2 reaches Apharwat Peak (~13,000 ft) right beneath the snowbound ridges.
               </p>
               <div className="space-y-2 text-xs text-slate-300 pt-2 border-t border-white/10">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-slate-400">PHASE I (KONGDOORI):</span>
-                  <span className="text-white font-mono">Official Winter Tariff</span>
+                  <span className="font-mono text-slate-400">PHASE 1 (KONGDOORI):</span>
+                  <span className="text-white font-mono">Separate Official Ticket</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-slate-400">PHASE II (APHARWAT ~13,000 FT):</span>
-                  <span className="text-white font-mono">Official Winter Tariff</span>
+                  <span className="font-mono text-slate-400">PHASE 2 (APHARWAT ~13,000 FT):</span>
+                  <span className="text-white font-mono">Subject to weather & operation</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-slate-400">STATUS:</span>
-                  <span className="text-amber-400 font-mono">Weather & slot dependent</span>
+                  <span className="font-mono text-slate-400">SKI COURSE REQUIREMENT:</span>
+                  <span className="text-emerald-400 font-mono">Not required for included ski course</span>
                 </div>
               </div>
               <p className="text-[11px] text-slate-400 italic">
-                *Note: Not included in the base package. Tariffs and ticket quotas are verified directly with official authorities prior to collection.
+                *The Gondola is completely optional and is not required for the included 2-day beginner skiing course conducted on Gulmarg beginner snow meadows.
               </p>
             </div>
 
-            {/* Vaishno Devi Extension Card */}
-            <div className="p-6 bg-[#070e1c] border border-amber-500/30 space-y-4">
+            {/* The Life of Nandi Cinema Experience */}
+            <div className="p-6 bg-[#070e1c] border border-yellow-400/30 space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono tracking-widest text-amber-400 uppercase font-bold">
-                  OPTIONAL 6D / 5N EXTENSION
+                <span className="text-[10px] font-mono tracking-widest text-yellow-400 uppercase font-bold">
+                  INDEPENDENT CINEMA PROJECT
                 </span>
-                <span className="px-2 py-0.5 bg-amber-400/10 text-amber-300 text-[9px] font-mono uppercase">
-                  PAID PILGRIMAGE ADD-ON
+                <span className="px-2 py-0.5 bg-yellow-400/10 text-yellow-300 text-[9px] font-mono uppercase">
+                  CHEHRA FILMS
                 </span>
               </div>
               <h3 className="font-title text-2xl font-black text-white uppercase tracking-tight">
-                🛕 KASHMIR + VAISHNO DEVI
+                🎬 THE LIFE OF NANDI
               </h3>
               <p className="text-xs text-slate-300 font-light leading-relaxed">
-                For travelers wishing to combine the winter snow expedition with Mata Vaishno Devi Darshan at Katra. Configured as a structured extension to preserve the integrity of the core 5-day mountain filmmaking itinerary.
+                Travel through Kashmir while becoming part of an experimental travel cinema experience. A cinematic exploration of travel, nature, faith, questions, people, and silence across the Himalayan snowfields.
               </p>
               <div className="space-y-2 text-xs text-slate-300 pt-2 border-t border-white/10">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-slate-400">EXTENDED ROUTE:</span>
-                  <span className="text-white font-mono text-[11px]">Delhi ➔ Katra ➔ Vaishno Devi ➔ Gulmarg ➔ Srinagar ➔ Delhi</span>
+                  <span className="font-mono text-slate-400">CINEMA CHAPTERS:</span>
+                  <span className="text-white font-mono text-[11px]">Arrival • Balance • Reflection • Silence</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-slate-400">TOTAL DURATION:</span>
-                  <span className="text-white font-mono">6 Days / 5 Nights</span>
+                  <span className="font-mono text-slate-400">CAMERA GEAR:</span>
+                  <span className="text-white font-mono">Arri 4K & Anamorphic Lenses</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-slate-400">SEAT RESERVATION:</span>
-                  <span className="text-cyan-400 font-mono">Dedicated Route Add-on</span>
+                  <span className="font-mono text-slate-400">PARTICIPANT ROLE:</span>
+                  <span className="text-yellow-400 font-mono">Naturalistic / Unscripted</span>
                 </div>
               </div>
               <CinemaButton
                 variant="outline"
-                onClick={() => onOpenBooking('participant')}
-                className="w-full !py-2.5 text-xs tracking-wider !border-amber-400/40 hover:!border-amber-400"
+                onClick={() => onOpenBooking('actor')}
+                className="w-full !py-2.5 text-xs tracking-wider !border-yellow-400/40 hover:!border-yellow-400"
               >
-                ENQUIRE VAISHNO DEVI EXTENSION
+                EXPLORE ACTOR / SCREEN ROLES
               </CinemaButton>
             </div>
           </div>
         )}
 
+        {/* TAB 5: WHAT TO PACK */}
+        {activeTab === 'packing' && (
+          <div className="space-y-6">
+            <div className="p-4 bg-blue-950/30 border border-blue-500/20 text-xs text-slate-300">
+              <strong className="text-white font-bold">Kashmir in December is sub-zero cold.</strong> Gulmarg temperatures regularly drop below -5°C to -10°C at night. Carrying appropriate thermal layers and waterproof footwear is mandatory.
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {packingEssentials.map((item, idx) => (
+                <div key={idx} className="p-4 bg-[#070f1e] border border-white/10 space-y-1">
+                  <div className="flex items-center gap-2 text-yellow-400 text-xs font-mono font-bold uppercase">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                    <span>{item.name}</span>
+                  </div>
+                  <p className="text-xs text-slate-300 font-light leading-relaxed pl-5">
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="p-4 bg-white/5 border border-white/10 text-xs text-slate-300">
+              <span className="text-cyan-400 font-mono font-bold uppercase block mb-1">🎿 SKIING SPECIFIC ATTIRE RECOMMENDATION:</span>
+              <p>
+                We recommend waterproof ski jackets or windproof winter trousers over warm thermal innerwear, thick woollen socks, and waterproof gloves to ensure snow doesn't seep through during ski lessons.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Final Booking Call to Action */}
+        <div className="mt-14 p-8 bg-gradient-to-r from-[#071120] via-[#09152b] to-[#071120] border border-cyan-400/40 text-center space-y-4">
+          <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-cyan-400 font-bold block">
+            PARINDAA TRAVELS • LIMITED WINTER SEATS
+          </span>
+          <h3 className="font-title text-2xl sm:text-3xl md:text-4xl font-black text-white uppercase tracking-tight">
+            DON'T JUST VISIT KASHMIR. EXPERIENCE ITS WINTER.
+          </h3>
+          <p className="text-xs sm:text-sm text-slate-300 font-light max-w-xl mx-auto">
+            7 Nights / 8 Days • 2 Full Days in Gulmarg • 2-Day Beginner Skiing Course with Gear & Instructor Included • Vaishno Devi Yatra • Dal Lake • The Life of Nandi
+          </p>
+          <div className="flex items-center justify-center gap-4 py-2">
+            <span className="text-emerald-400 font-title text-3xl sm:text-4xl font-black">₹13,000</span>
+            <span className="text-slate-400 text-xs font-mono uppercase">Early Bird / Person</span>
+            <span className="text-slate-500 text-xs font-mono line-through">₹14,500 after 20 Nov</span>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <CinemaButton
+              variant="primary"
+              onClick={() => onOpenBooking('participant')}
+              className="!py-3.5 !px-8 text-sm tracking-wider font-bold"
+            >
+              BOOK YOUR SEAT (₹1,000 TOKEN)
+            </CinemaButton>
+            <button
+              type="button"
+              onClick={() => setShowExtensionModal(true)}
+              className="px-6 py-3.5 bg-white/10 hover:bg-white/20 border border-white/20 text-slate-200 text-xs font-mono uppercase tracking-wider transition-colors cursor-pointer"
+            >
+              VIEW FULL DETAILS
+            </button>
+          </div>
+        </div>
+
       </div>
 
-      {/* Extension Modal */}
+      {/* Full Details Modal */}
       {showExtensionModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-          <div className="bg-[#070e1c] border border-cyan-400/40 p-6 sm:p-8 max-w-lg w-full space-y-4 shadow-2xl relative">
+          <div className="bg-[#070e1c] border border-cyan-400/40 p-6 sm:p-8 max-w-xl w-full max-h-[90vh] overflow-y-auto space-y-4 shadow-2xl relative">
             <button
               onClick={() => setShowExtensionModal(false)}
               className="absolute top-4 right-4 text-slate-400 hover:text-white font-mono text-sm"
             >
               ✕
             </button>
-            <div className="flex items-center gap-2 text-amber-400 font-mono text-xs uppercase font-bold">
-              <span>🛕 DEDICATED EXTENSION</span>
+            <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase font-bold">
+              <span>🍁 KASHMIR WINTER ESCAPE 2026</span>
             </div>
             <h3 className="font-title text-2xl font-black text-white uppercase">
-              KASHMIR + VAISHNO DEVI (6D / 5N)
+              VAISHNO DEVI × GULMARG × SRINAGAR
             </h3>
             <p className="text-xs text-slate-300 leading-relaxed font-light">
-              This extension provides a dedicated route for participants who wish to perform darshan at Mata Vaishno Devi Shrine at Katra before advancing into the Kashmir snowfields.
+              This expedition unites the spiritual pilgrimage of Mata Vaishno Devi at Katra with 2 full days of snow immersion in Gulmarg (featuring an included 2-day beginner skiing course), cultural exploration in Srinagar & Dal Lake, and film documentation in "The Life of Nandi".
             </p>
-            <div className="p-3 bg-white/5 border border-white/10 text-xs font-mono text-slate-300 space-y-1">
-              <div>• Route: Delhi → Katra → Vaishno Devi → Gulmarg → Srinagar → Delhi</div>
-              <div>• Separate ticketing & Katra hotel booking provided</div>
-              <div>• Seamless integration with the main Chehra film convoy</div>
+            <div className="p-3 bg-white/5 border border-white/10 text-xs font-mono text-slate-300 space-y-1.5">
+              <div>• <strong>Dates:</strong> 24 – 31 December 2026 (7N / 8D)</div>
+              <div>• <strong>Route:</strong> Delhi → Katra → Vaishno Devi → Gulmarg → Srinagar → Delhi</div>
+              <div>• <strong>Skiing:</strong> 2-Day Beginner Course + Instructor + Boots/Skis/Poles included</div>
+              <div>• <strong>Pricing:</strong> ₹13,000 Early Bird / ₹14,500 after 20 Nov 2026</div>
+              <div>• <strong>Pre-booking Token:</strong> ₹1,000 only to lock early bird pricing</div>
             </div>
             <div className="pt-2 flex items-center gap-3">
               <CinemaButton
@@ -824,9 +1128,9 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                   setShowExtensionModal(false);
                   onOpenBooking('participant');
                 }}
-                className="flex-1 !py-3 text-xs"
+                className="flex-1 !py-3 text-xs font-bold"
               >
-                RESERVE WITH EXTENSION
+                BOOK YOUR SEAT NOW
               </CinemaButton>
               <button
                 type="button"

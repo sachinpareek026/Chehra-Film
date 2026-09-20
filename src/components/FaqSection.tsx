@@ -349,79 +349,89 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
             })}
           </div>
 
-          {/* Expanded Section with Remaining Grouped Questions */}
+          {/* Expanded Section with Remaining Grouped Questions organized by Category */}
           {showAllFaqs && (
-            <div className="pt-6 space-y-6 animate-fade-in">
-              <div className="text-[10px] font-mono text-slate-400 uppercase tracking-widest flex items-center justify-between pb-2 border-b border-white/10">
-                <span className="text-cyan-400 font-bold">ADDITIONAL PRODUCTION & DETAILED FAQS ({remainingFaqs.length} MORE)</span>
-                <span className="text-slate-500 hidden sm:inline">FULL LEGAL & AUDITION DIRECTORY</span>
-              </div>
+            <div className="pt-6 space-y-8 animate-fade-in">
+              {(['actor', 'participant', 'crew', 'general'] as const).map((catKey) => {
+                const catRemaining = remainingFaqs.filter((f) => f.category === catKey);
+                if (catRemaining.length === 0) return null;
+                const meta = CATEGORY_INFO[catKey];
 
-              <div className="space-y-3">
-                {remainingFaqs.map((faq) => {
-                  const isOpen = openItems.includes(faq.id);
-                  const meta = CATEGORY_INFO[faq.category];
-                  return (
-                    <div
-                      key={faq.id}
-                      className={`border transition-all duration-200 ${
-                        isOpen
-                          ? 'border-yellow-400/50 bg-[#08101E] shadow-lg shadow-black/40'
-                          : 'border-white/10 bg-[#070D1A] hover:border-white/20'
-                      }`}
-                    >
-                      <button
-                        type="button"
-                        onClick={() => toggleItem(faq.id)}
-                        className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 cursor-pointer focus:outline-none"
-                        aria-expanded={isOpen}
-                      >
-                        <div className="flex items-center gap-3">
-                          <span className={`text-[9px] font-mono px-2 py-0.5 border bg-white/5 uppercase font-bold shrink-0 flex items-center gap-1.5 ${meta?.color || 'text-slate-300'}`}>
-                            {meta?.icon}
-                            <span>{faq.category}</span>
-                          </span>
-                          <span className="font-title text-sm sm:text-base font-bold text-white tracking-wide">
-                            {faq.question}
-                          </span>
-                        </div>
-                        <div
-                          className={`w-6 h-6 rounded-none flex items-center justify-center border border-white/10 shrink-0 transition-transform duration-200 ${
-                            isOpen ? 'rotate-180 bg-yellow-400 text-black border-yellow-400' : 'text-slate-400'
-                          }`}
-                        >
-                          <ChevronDown className="w-4 h-4" />
-                        </div>
-                      </button>
+                return (
+                  <div key={catKey} className="space-y-3">
+                    <div className="flex items-center gap-2 pb-2 border-b border-white/10">
+                      <div className="p-1 bg-white/5 border border-white/10 text-yellow-400">
+                        {meta.icon}
+                      </div>
+                      <span className="text-xs font-mono font-bold tracking-widest text-slate-200 uppercase">
+                        {meta.label}
+                      </span>
+                      <span className="text-[10px] font-mono text-slate-500 uppercase ml-auto">
+                        {catRemaining.length} {catRemaining.length === 1 ? 'QUESTION' : 'QUESTIONS'}
+                      </span>
+                    </div>
 
-                      {isOpen && (
-                        <div className="px-4 sm:px-5 pb-5 pt-1 text-xs sm:text-sm text-slate-300 font-light leading-relaxed border-t border-white/5 space-y-3">
-                          <p>{faq.answer}</p>
-                          
-                          <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-                            {faq.highlight ? (
-                              <div className="inline-block text-[10px] font-mono tracking-widest font-semibold px-2.5 py-1 bg-yellow-400/10 text-yellow-300 border border-yellow-400/30 uppercase">
-                                ✓ {faq.highlight}
-                              </div>
-                            ) : <div />}
-
-                            {faq.legalClause && (
-                              <button
-                                type="button"
-                                onClick={() => setInspectedFaq(faq)}
-                                className="inline-flex items-center gap-1.5 text-[10px] font-mono text-slate-400 hover:text-yellow-400 uppercase tracking-wider transition-colors cursor-pointer"
+                    <div className="space-y-2.5">
+                      {catRemaining.map((faq) => {
+                        const isOpen = openItems.includes(faq.id);
+                        return (
+                          <div
+                            key={faq.id}
+                            className={`border transition-all duration-200 ${
+                              isOpen
+                                ? 'border-yellow-400/50 bg-[#08101E] shadow-lg shadow-black/40'
+                                : 'border-white/10 bg-[#070D1A] hover:border-white/20'
+                            }`}
+                          >
+                            <button
+                              type="button"
+                              onClick={() => toggleItem(faq.id)}
+                              className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 cursor-pointer focus:outline-none"
+                              aria-expanded={isOpen}
+                            >
+                              <span className="font-title text-sm sm:text-base font-bold text-white tracking-wide">
+                                {faq.question}
+                              </span>
+                              <div
+                                className={`w-6 h-6 rounded-none flex items-center justify-center border border-white/10 shrink-0 transition-transform duration-200 ${
+                                  isOpen ? 'rotate-180 bg-yellow-400 text-black border-yellow-400' : 'text-slate-400'
+                                }`}
                               >
-                                <FileText className="w-3.5 h-3.5" />
-                                <span>READ FORMAL CLAUSE</span>
-                              </button>
+                                <ChevronDown className="w-4 h-4" />
+                              </div>
+                            </button>
+
+                            {isOpen && (
+                              <div className="px-4 sm:px-5 pb-5 pt-1 text-xs sm:text-sm text-slate-300 font-light leading-relaxed border-t border-white/5 space-y-3">
+                                <p>{faq.answer}</p>
+                                
+                                <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+                                  {faq.highlight ? (
+                                    <div className="inline-block text-[10px] font-mono tracking-widest font-semibold px-2.5 py-1 bg-yellow-400/10 text-yellow-300 border border-yellow-400/30 uppercase">
+                                      ✓ {faq.highlight}
+                                    </div>
+                                  ) : <div />}
+
+                                  {faq.legalClause && (
+                                    <button
+                                      type="button"
+                                      onClick={() => setInspectedFaq(faq)}
+                                      className="inline-flex items-center gap-1.5 text-[10px] font-mono text-slate-400 hover:text-yellow-400 uppercase tracking-wider transition-colors cursor-pointer"
+                                    >
+                                      <FileText className="w-3.5 h-3.5" />
+                                      <span>READ FORMAL CLAUSE</span>
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
                             )}
                           </div>
-                        </div>
-                      )}
+                        );
+                      })}
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
             </div>
           )}
 

@@ -12,7 +12,7 @@ import {
   Clock,
   MapPin,
   Calendar,
-  Sparkles,
+  Award,
   HelpCircle
 } from 'lucide-react';
 import { PathwayType } from '../types';
@@ -505,7 +505,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
               {/* Perks & Inclusions */}
               <div className="p-5 bg-[#09101F] border border-white/10">
                 <div className="text-xs font-mono text-yellow-400 font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
-                  <Sparkles className="w-4 h-4" />
+                  <Award className="w-4 h-4" />
                   <span>KEY DELIVERABLES & CREDITS</span>
                 </div>
                 <ul className="space-y-3">

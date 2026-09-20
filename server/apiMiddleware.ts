@@ -239,23 +239,155 @@ function saveGoogleSheetWebhookUrl(url: string) {
   }
 }
 
-async function forwardToGoogleSheet(submission: any) {
+async function forwardToGoogleSheet(submission: any): Promise<{ success: boolean; status?: number; responseText?: string; error?: string }> {
   const webhookUrl = getGoogleSheetWebhookUrl();
-  if (!webhookUrl) return;
+  if (!webhookUrl) {
+    return { success: false, error: 'No Google Sheet webhook URL configured' };
+  }
 
   try {
-    const res = await fetch(webhookUrl, {
+    const timestamp = submission.submittedAt || new Date().toISOString().replace('T', ' ').substring(0, 16);
+    
+    // 1. Comprehensive flattened dictionary covering standard fields, aliases, and human column headers
+    const flatRecord: Record<string, any> = {
+      // Raw original fields
+      ...submission,
+
+      // Normalized key aliases
+      id: submission.id,
+      type: submission.type,
+      pathway: submission.type,
+      track: submission.type,
+      date: timestamp,
+      timestamp: timestamp,
+      submittedAt: timestamp,
+      fullName: submission.fullName,
+      name: submission.fullName,
+      age: submission.age,
+      city: submission.city,
+      phoneNumber: submission.phoneNumber,
+      phone: submission.phoneNumber,
+      email: submission.email,
+      instagramProfile: submission.instagramProfile || 'N/A',
+      instagram: submission.instagramProfile || 'N/A',
+
+      // Participant specific
+      departureCity: submission.departureCity || '',
+      departure: submission.departureCity || '',
+      travelBatch: submission.travelBatch || '',
+      batch: submission.travelBatch || '',
+      roomPreference: submission.roomPreference || '',
+      room: submission.roomPreference || '',
+      emergencyContact: submission.emergencyContact || '',
+      prebookingTokenPrice: submission.prebookingTokenPrice || 1000,
+      tokenPrice: submission.prebookingTokenPrice ? `₹${submission.prebookingTokenPrice}` : '₹1000',
+      lockedTripPrice: submission.lockedTripPrice || 11000,
+      tripPrice: submission.lockedTripPrice ? `₹${submission.lockedTripPrice}` : '₹11000',
+      oct30PriceIncreaseNotice: submission.oct30PriceIncreaseNotice ? 'Acknowledged' : 'Standard',
+      paymentMode: submission.paymentMode || 'UPI / Card (₹1,000 Token)',
+      transactionRef: submission.transactionRef || `TOKEN-${submission.id}`,
+
+      // Actor specific
+      selectedRole: submission.selectedRole || '',
+      role: submission.selectedRole || '',
+      actingExperience: submission.actingExperience || '',
+      photoFileName: submission.photoFileName || '',
+      photoPreviewUrl: submission.photoPreviewUrl || '',
+      auditionTapeFileName: submission.auditionTapeFileName || '',
+      auditionTapeUrl: submission.auditionTapeUrl || '',
+      whyJoin: submission.whyJoin || '',
+      refundEligible: submission.refundEligible !== false,
+
+      // Crew specific
+      crewDepartment: submission.crewDepartment || '',
+      department: submission.crewDepartment || '',
+      categoryType: submission.categoryType || '',
+      proofOfSkillLink: submission.proofOfSkillLink || '',
+      portfolioLink: submission.proofOfSkillLink || '',
+      portfolioSummary: submission.portfolioSummary || '',
+      gearOrSoftware: submission.gearOrSoftware || '',
+      opportunityFeeAgreed: submission.opportunityFeeAgreed ? 'Yes' : 'Pending',
+      publicFilmmakingConsent: submission.publicFilmmakingConsent ? 'Granted' : 'Pending',
+
+      // Human-readable Excel column headers (e.g. for scripts that iterate through sheet headers)
+      'Full Name': submission.fullName,
+      'Name': submission.fullName,
+      'Phone': submission.phoneNumber,
+      'Phone Number': submission.phoneNumber,
+      'Email': submission.email,
+      'Email Address': submission.email,
+      'City': submission.city,
+      'Age': submission.age,
+      'Type': submission.type,
+      'Pathway': submission.type,
+      'Track': submission.type === 'participant' ? 'Participant (Kashmir Caravan)' : (submission.type === 'actor' ? 'Lead Actor Audition' : 'Crew Department Head'),
+      'Departure City': submission.departureCity || 'N/A',
+      'Travel Batch': submission.travelBatch || 'N/A',
+      'Room Preference': submission.roomPreference || 'N/A',
+      'Emergency Contact': submission.emergencyContact || 'N/A',
+      'Pre-booking Token': submission.prebookingTokenPrice ? `₹${submission.prebookingTokenPrice}` : '₹1,000',
+      'Locked Trip Price': submission.lockedTripPrice ? `₹${submission.lockedTripPrice}` : '₹11,000',
+      'Role': submission.selectedRole || 'N/A',
+      'Audition / Reel Link': submission.auditionTapeUrl || submission.proofOfSkillLink || 'N/A',
+      'Department': submission.crewDepartment || 'N/A',
+      'Application ID': submission.id,
+      'Submission Date': timestamp,
+    };
+
+    // 2. Multi-envelope payload: supports direct root reads, or .submission / .data / .payload wrapper
+    const payload = {
+      ...flatRecord,
+      action: 'append_submission',
+      submission: flatRecord,
+      data: flatRecord,
+      payload: flatRecord,
+      timestamp: new Date().toISOString(),
+    };
+
+    // 3. Attach URL query params so if the script parses e.parameter, it gets all primary values!
+    const queryParams = new URLSearchParams({
+      action: 'append_submission',
+      id: String(submission.id || ''),
+      type: String(submission.type || ''),
+      name: String(submission.fullName || ''),
+      fullName: String(submission.fullName || ''),
+      phone: String(submission.phoneNumber || ''),
+      email: String(submission.email || ''),
+      city: String(submission.city || ''),
+      age: String(submission.age || ''),
+      departureCity: String(submission.departureCity || ''),
+      travelBatch: String(submission.travelBatch || ''),
+      emergencyContact: String(submission.emergencyContact || ''),
+      role: String(submission.selectedRole || ''),
+      department: String(submission.crewDepartment || ''),
+    }).toString();
+
+    const separator = webhookUrl.includes('?') ? '&' : '?';
+    const targetUrl = `${webhookUrl}${separator}${queryParams}`;
+
+    const res = await fetch(targetUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        action: 'append_submission',
-        submission: submission,
-        timestamp: new Date().toISOString(),
-      }),
+      redirect: 'follow',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json, text/plain, */*',
+      },
+      body: JSON.stringify(payload),
     });
-    console.log('[GoogleSheetSync] Status:', res.status);
+
+    const responseText = await res.text();
+    console.log(`[GoogleSheetSync] Status: ${res.status}, Response: ${responseText.substring(0, 300)}`);
+    return {
+      success: res.status >= 200 && res.status < 400,
+      status: res.status,
+      responseText,
+    };
   } catch (err: any) {
     console.error('[GoogleSheetSync] Error:', err.message);
+    return {
+      success: false,
+      error: err.message,
+    };
   }
 }
 
@@ -394,7 +526,7 @@ export function apiMiddleware(): Connect.NextHandleFunction {
       req.on('data', (chunk) => {
         body += chunk;
       });
-      req.on('end', () => {
+      req.on('end', async () => {
         try {
           const item = JSON.parse(body);
           if (!item.type) {
@@ -413,13 +545,113 @@ export function apiMiddleware(): Connect.NextHandleFunction {
 
           saveSubmissions(cache);
 
-          // Asynchronously forward to connected Google Sheet
-          forwardToGoogleSheet(item).catch((err) => {
-            console.error('Async Google Sheet forward failed:', err);
-          });
+          // Forward to connected Google Sheet and return sync status
+          const sheetResult = await forwardToGoogleSheet(item);
 
           res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify({ success: true, submission: item }));
+          res.end(JSON.stringify({
+            success: true,
+            submission: item,
+            googleSheet: sheetResult,
+          }));
+        } catch (err: any) {
+          res.statusCode = 500;
+          res.end(JSON.stringify({ error: err.message }));
+        }
+      });
+      return;
+    }
+
+    // Direct test endpoint to send a sample participant (or specified pathway) to Google Sheet
+    if (url === '/api/google-sheet/test' && req.method === 'POST') {
+      let body = '';
+      req.on('data', (c) => { body += c; });
+      req.on('end', async () => {
+        try {
+          const parsed = JSON.parse(body || '{}');
+          const testType = parsed.type || 'participant';
+          const randomId = Math.floor(100000 + Math.random() * 900000);
+          const dateStr = new Date().toISOString().replace('T', ' ').substring(0, 16);
+
+          let sampleItem: any;
+          if (testType === 'participant') {
+            sampleItem = {
+              id: `CF-PART-${randomId}`,
+              type: 'participant',
+              submittedAt: dateStr,
+              fullName: parsed.fullName || 'Sachin Pareek (Test Traveler)',
+              age: parsed.age || '24',
+              city: parsed.city || 'Lachhmangarh, Sikar',
+              phoneNumber: parsed.phoneNumber || '+919828497392',
+              email: parsed.email || 'sachinpareek026@gmail.com',
+              instagramProfile: '@sachin_travels',
+              departureCity: parsed.departureCity || 'Delhi Majnu Ka Tilla Hub',
+              travelBatch: parsed.travelBatch || 'Batch Alpha (Oct 18 – Oct 28)',
+              roomPreference: 'Twin Sharing with Fellow Traveler',
+              emergencyContact: 'Family (+91 98284 97392)',
+              prebookingTokenPrice: 1000,
+              lockedTripPrice: 11000,
+              oct30PriceIncreaseNotice: true,
+              paymentMode: 'UPI / Card (₹1,000 Token)',
+              transactionRef: `UPI-TEST-${randomId}`,
+              confirmed: true,
+            };
+            cache.participants.unshift(sampleItem);
+          } else if (testType === 'actor') {
+            sampleItem = {
+              id: `CF-ACT-${randomId}`,
+              type: 'actor',
+              submittedAt: dateStr,
+              fullName: parsed.fullName || 'Sachin Pareek (Test Actor)',
+              age: parsed.age || '24',
+              city: parsed.city || 'Lachhmangarh, Sikar',
+              phoneNumber: parsed.phoneNumber || '+919828497392',
+              email: parsed.email || 'sachinpareek026@gmail.com',
+              instagramProfile: '@sachin_actor',
+              selectedRole: 'KABIR — The Restless Wanderer',
+              actingExperience: 'Stage and cinematic monologue',
+              photoFileName: 'headshot.jpg',
+              auditionTapeFileName: 'monologue.mp4',
+              auditionTapeUrl: 'https://youtube.com/watch?v=sample-actor-tape',
+              whyJoin: 'Testing cinema submission pipeline',
+              refundEligible: true,
+              confirmed: true,
+            };
+            cache.actors.unshift(sampleItem);
+          } else {
+            sampleItem = {
+              id: `CF-CREW-${randomId}`,
+              type: 'crew',
+              submittedAt: dateStr,
+              fullName: parsed.fullName || 'Sachin Pareek (Test Crew)',
+              age: parsed.age || '24',
+              city: parsed.city || 'Lachhmangarh, Sikar',
+              phoneNumber: parsed.phoneNumber || '+919828497392',
+              email: parsed.email || 'sachinpareek026@gmail.com',
+              instagramProfile: 'N/A',
+              crewDepartment: 'Cinematography & Camera Operation',
+              categoryType: 'Prime Department',
+              proofOfSkillLink: 'https://drive.google.com/drive/my-drive',
+              portfolioSummary: 'Cinematography showreel verification test',
+              gearOrSoftware: 'Sony FX3, DJI Ronin',
+              opportunityFeeAgreed: true,
+              publicFilmmakingConsent: true,
+              confirmed: true,
+            };
+            cache.crew.unshift(sampleItem);
+          }
+
+          saveSubmissions(cache);
+
+          const sheetResult = await forwardToGoogleSheet(sampleItem);
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({
+            success: sheetResult.success,
+            status: sheetResult.status,
+            submission: sampleItem,
+            webhookResponse: sheetResult.responseText || sheetResult.error,
+            rawResult: sheetResult,
+          }));
         } catch (err: any) {
           res.statusCode = 500;
           res.end(JSON.stringify({ error: err.message }));
