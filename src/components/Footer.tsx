@@ -95,7 +95,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenNomination }) => {
             <ul className="space-y-2.5 text-xs font-mono text-white/60">
               <li>
                 <a
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/chehrafilms/"
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center gap-2 hover:text-yellow-400/90 transition-colors"
@@ -106,29 +106,32 @@ export const Footer: React.FC<FooterProps> = ({ onOpenNomination }) => {
               </li>
               <li>
                 <a
-                  href={FILM_METADATA.trailerUrl}
+                  href="https://www.youtube.com/@chehrafilm"
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center gap-2 hover:text-yellow-400/90 transition-colors"
                 >
                   <Youtube className="w-3.5 h-3.5 text-yellow-400/90" />
-                  <span>YouTube • Official Trailer</span>
+                  <span>YouTube • @chehrafilm</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:sachinpareek026@gmail.com"
+                  href="mailto:chehrafilms@gmail.com"
                   className="flex items-center gap-2 hover:text-yellow-400/90 transition-colors"
                 >
                   <Mail className="w-3.5 h-3.5 text-yellow-400/90" />
-                  <span>Email • sachinpareek026@gmail.com</span>
+                  <span>Email • chehrafilms@gmail.com</span>
                 </a>
               </li>
               <li>
-                <div className="flex items-center gap-2 text-white/70">
+                <a
+                  href="tel:+919326632288"
+                  className="flex items-center gap-2 text-white/70 hover:text-yellow-400/90 transition-colors"
+                >
                   <Phone className="w-3.5 h-3.5 text-yellow-400/90" />
-                  <span>Direct • +91 95096 85223</span>
-                </div>
+                  <span>Direct • +91 93266 32288</span>
+                </a>
               </li>
             </ul>
 

@@ -1,0 +1,7 @@
+# Robots.txt for Chehra Films (chehrafilms.com)
+User-agent: *
+Allow: /
+
+# Host & Sitemaps
+Sitemap: https://chehrafilms.com/sitemap.xml
+Sitemap: /sitemap.xml
