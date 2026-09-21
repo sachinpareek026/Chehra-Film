@@ -215,7 +215,7 @@ export default function App() {
           onOpenNomination={(roleId, pathway) => handleOpenNomination(roleId, pathway)}
         />
 
-        {/* 11. Final CTA with 70% transparency image background */}
+        {/* 11. Final CTA */}
         <FinalCtaSection
           onJoinFilm={() => handleOpenNomination(undefined, 'participant')}
           onNominateRole={() => handleOpenNomination(undefined, 'actor')}
@@ -235,6 +235,7 @@ export default function App() {
         onClose={() => setNominationModalOpen(false)}
         initialRoleId={selectedRoleId}
         initialPathway={selectedPathway}
+        existingSubmissions={[...actors, ...participants, ...crew]}
         onSubmissionSuccess={handleNewSubmission}
         onOpenExcelPortal={() => setExcelPortalOpen(true)}
       />

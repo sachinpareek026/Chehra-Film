@@ -81,12 +81,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-8 text-[12px]">
             {navLinks.map((link) => (
               <button
                 key={link.name}
                 onClick={() => handleLinkClick(link.href)}
-                className="font-sans text-[11px] font-semibold tracking-[0.10em] leading-[1.3] text-[#B8B4AC] hover:text-[#F4F1EA] transition-colors py-1 relative uppercase cursor-pointer"
+                className="font-sans text-[12px] font-semibold tracking-[0.10em] leading-[1.3] text-[#B8B4AC] hover:text-[#F4F1EA] transition-colors py-1 relative uppercase cursor-pointer"
               >
                 {link.name}
               </button>
@@ -99,7 +99,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
               id="nav-join-film-btn"
               variant="primary"
               onClick={() => onOpenNomination()}
-              className="!py-2 !px-4 !text-[10px]"
+              className="!py-2 !px-4 !text-[12px]"
             >
               APPLY →
             </CinemaButton>

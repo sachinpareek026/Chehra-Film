@@ -46,7 +46,7 @@ export function formatParticipantRows(participants: ParticipantSubmission[]) {
     'PRE-BOOKING TOKEN (PAID)': `₹${p.prebookingTokenPrice.toLocaleString('en-IN')}/-`,
     'LOCKED EXPEDITION PRICE': `₹${p.lockedTripPrice.toLocaleString('en-IN')}/-`,
     'PRICE INCREASE NOTICE': p.oct30PriceIncreaseNotice ? 'ACKNOWLEDGED (+₹1,500 after 30 Oct)' : 'Standard',
-    'PAYMENT STATUS': 'TOKEN CONFIRMED (₹1,000)',
+    'PAYMENT STATUS': 'TOKEN CONFIRMED (₹2,000)',
     'TRANSACTION REF': p.transactionRef || 'DIRECT-TOKEN',
     'FILE UPLOADS': 'ZERO UPLOADS (Traveler Track)',
   }));
@@ -171,7 +171,7 @@ export function downloadMasterExcel(
   // Summary sheet
   const summaryData = [
     { 'METRIC / CATEGORY': 'TOTAL ACTOR NOMINATIONS', 'VALUE': actors.length, 'DETAILS': '100% Refund Eligible Track' },
-    { 'METRIC / CATEGORY': 'TOTAL PARTICIPANT PRE-BOOKINGS', 'VALUE': participants.length, 'DETAILS': '₹1,000 Token / ₹11,000 Locked (Hike by ₹1,500 after 30 Oct)' },
+    { 'METRIC / CATEGORY': 'TOTAL PARTICIPANT PRE-BOOKINGS', 'VALUE': participants.length, 'DETAILS': '₹2,000 Token / ₹11,000 Locked (Hike by ₹1,500 after 30 Oct)' },
     { 'METRIC / CATEGORY': 'TOTAL CREW APPLICATIONS', 'VALUE': crew.length, 'DETAILS': 'Prime & Creative Heads of Department (Link Proof Only)' },
     { 'METRIC / CATEGORY': 'GRAND TOTAL REGISTRATIONS', 'VALUE': actors.length + participants.length + crew.length, 'DETAILS': 'Chehra Films Live Production Roster' },
     { 'METRIC / CATEGORY': 'EXPORT GENERATED AT', 'VALUE': new Date().toLocaleString(), 'DETAILS': 'Official Chehra Films Database Sync' },

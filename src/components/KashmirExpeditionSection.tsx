@@ -220,7 +220,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
         'Srinagar heritage tour, Dal Lake & "The Life of Nandi" film participation'
       ],
       pathway: 'participant' as PathwayType,
-      btnLabel: 'LOCK EARLY BIRD (₹1,000 TOKEN)'
+      btnLabel: 'LOCK EARLY BIRD (₹2,000 TOKEN)'
     },
     {
       id: 'regular',
@@ -379,7 +379,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               src="https://res.cloudinary.com/x1dci3fh/image/upload/v1789814827/splitimage.im-2_7.png"
               alt="Kashmir Winter Escape - Gulmarg, Vaishno Devi and Srinagar"
               referrerPolicy="no-referrer"
-              className="w-full h-full object-cover object-center filter contrast-105 brightness-90 group-hover:scale-102 transition-all duration-1000 ease-out"
+              className="w-full h-[300px] sm:h-full object-cover object-[52%_42%] sm:object-center scale-[2.3] origin-[52%_42%] sm:scale-100 sm:origin-center filter contrast-105 brightness-90 group-hover:scale-[2.35] sm:group-hover:scale-102 transition-all duration-700 ease-out"
             />
             {/* Cinematic Gradients */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#06080D] via-[#06080D]/40 to-black/40" />
@@ -589,23 +589,21 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                       onClick={() => setExpandedDay(isExpanded ? null : index)}
                       className="w-full p-4 sm:p-5 flex items-center justify-between text-left cursor-pointer"
                     >
-                      <div className="flex items-center gap-3 sm:gap-4">
-                        <div className="w-10 h-10 bg-white/[0.03] border border-white/10 flex items-center justify-center shrink-0">
-                          {item.icon}
+                      <div className="flex-1 min-w-0 pr-3">
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-1.5">
+                          <span className="text-base sm:text-lg md:text-xl font-mono tracking-wider text-yellow-400/90 font-bold uppercase">
+                            DAY {item.day}
+                          </span>
+                          <span className="text-xs sm:text-sm font-mono tracking-wide text-white/70">
+                            • {item.dateLabel}
+                          </span>
+                          <span className="px-2 py-0.5 bg-white/5 text-[9px] sm:text-[10px] font-mono text-white/60 uppercase">
+                            {item.badge}
+                          </span>
                         </div>
-                        <div>
-                          <div className="flex items-center gap-2 mb-0.5">
-                            <span className="text-[10px] font-mono tracking-widest text-yellow-400/90 font-semibold uppercase">
-                              DAY {item.day} • {item.dateLabel}
-                            </span>
-                            <span className="px-2 py-0.5 bg-white/5 text-[9px] font-mono text-white/60 uppercase">
-                              {item.badge}
-                            </span>
-                          </div>
-                          <h3 className="font-serif text-base sm:text-lg text-white tracking-wide">
-                            {item.title} <span className="text-white/50 font-sans text-sm font-light">— {item.subtitle}</span>
-                          </h3>
-                        </div>
+                        <h3 className="font-serif text-base sm:text-lg text-white tracking-wide">
+                          {item.title} <span className="text-white/50 font-sans text-sm font-light">— {item.subtitle}</span>
+                        </h3>
                       </div>
 
                       <div className="flex items-center gap-4 shrink-0">
@@ -799,7 +797,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               <div className="flex items-start gap-3">
                 <Info className="w-5 h-5 text-yellow-400/90 shrink-0 mt-0.5" />
                 <p className="text-xs text-white/70 leading-relaxed font-sans">
-                  <strong className="text-white">Early Bird Guarantee:</strong> Lock your seat today with a <span className="text-yellow-400/90 font-mono font-medium">₹1,000 token</span>. Rate is ₹13,000/person for early-bird slots; increases to ₹14,500 after 20 November 2026 due to Christmas peak rush.
+                  <strong className="text-white">Early Bird Guarantee:</strong> Lock your seat today with a <span className="text-yellow-400/90 font-mono font-medium">₹2,000 token</span>. Rate is ₹13,000/person for early-bird slots; increases to ₹14,500 after 20 November 2026 due to Christmas peak rush.
                 </p>
               </div>
               <button
@@ -807,7 +805,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                 onClick={() => onOpenBooking('participant')}
                 className="shrink-0 px-5 py-2.5 bg-yellow-400/90 text-[#070A0F] font-mono font-medium text-xs uppercase tracking-wider hover:bg-yellow-300/90 transition-colors cursor-pointer"
               >
-                LOCK WITH ₹1,000 TOKEN
+                LOCK WITH ₹2,000 TOKEN
               </button>
             </div>
           </div>
@@ -1010,7 +1008,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               onClick={() => onOpenBooking('participant')}
               className="!py-3.5 !px-8 text-xs tracking-wider font-medium"
             >
-              BOOK YOUR SEAT (₹1,000 TOKEN)
+              BOOK YOUR SEAT (₹2,000 TOKEN)
             </CinemaButton>
             <button
               type="button"
@@ -1048,7 +1046,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               <div>• <strong>Route:</strong> Delhi → Katra → Vaishno Devi → Gulmarg → Srinagar → Delhi</div>
               <div>• <strong>Skiing:</strong> 2-Day Beginner Course + Instructor + Boots/Skis/Poles included</div>
               <div>• <strong>Pricing:</strong> ₹13,000 Early Bird / ₹14,500 after 20 Nov 2026</div>
-              <div>• <strong>Pre-booking Token:</strong> ₹1,000 only to lock early bird pricing</div>
+              <div>• <strong>Pre-booking Token:</strong> ₹2,000 only to lock early bird pricing</div>
             </div>
             <div className="pt-2 flex items-center gap-3">
               <CinemaButton

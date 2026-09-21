@@ -70,11 +70,11 @@ const FAQS: FaqItem[] = [
   {
     id: 'participant-pricing',
     category: 'participant',
-    question: 'How does the ₹1,000 token & ₹13,000 early bird expedition pricing work?',
+    question: 'How does the ₹2,000 token & ₹13,000 early bird expedition pricing work?',
     answer:
-      'You only pay a ₹1,000 token today to reserve your seat in the expedition convoy. Paying the token permanently locks your registration at the early-bird rate of ₹13,000 (regular rate is ₹14,500 after 20 Nov 2026), protecting you from holiday surges. The remaining balance is settled prior to departure.',
-    highlight: 'LOCK ₹13,000 EARLY BIRD RATE WITH ₹1,000 TOKEN',
-    legalClause: 'Section 5.1 (Price Lock Guarantee): The initial ₹1,000 token protects the traveler against all peak-winter vehicle lease and lodging rate surges.',
+      'You only pay a ₹2,000 token today to reserve your seat in the expedition convoy. Paying the token permanently locks your registration at the early-bird rate of ₹13,000 (regular rate is ₹14,500 after 20 Nov 2026), protecting you from holiday surges. The remaining balance is settled prior to departure.',
+    highlight: 'LOCK ₹13,000 EARLY BIRD RATE WITH ₹2,000 TOKEN',
+    legalClause: 'Section 5.1 (Price Lock Guarantee): The initial ₹2,000 token protects the traveler against all peak-winter vehicle lease and lodging rate surges.',
     relatedDoc: 'Expedition Convoy Booking Terms'
   },
   {
@@ -260,7 +260,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                 </span>
               </div>
               <p className="text-xs text-white/70 leading-relaxed font-light font-sans">
-                Reserve with a <strong className="text-white font-normal">₹1,000 token</strong> to permanently freeze the early-bird rate (₹13,000) and safeguard against late-winter transport surcharges.
+                Reserve with a <strong className="text-white font-normal">₹2,000 token</strong> to permanently freeze the early-bird rate (₹13,000) and safeguard against late-winter transport surcharges.
               </p>
             </div>
           </div>
@@ -293,9 +293,6 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                     aria-expanded={isOpen}
                   >
                     <div className="flex items-center gap-3">
-                      <span className={`text-[9px] font-mono px-2 py-0.5 border bg-white/[0.02] uppercase tracking-wider shrink-0 ${meta?.color || 'text-white/70'}`}>
-                        {faq.category}
-                      </span>
                       <span className="font-sans font-semibold text-sm sm:text-base text-[#F4F1EA] tracking-normal">
                         {faq.question}
                       </span>

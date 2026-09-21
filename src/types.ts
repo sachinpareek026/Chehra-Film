@@ -1,7 +1,7 @@
 export interface CharacterRole {
   id: string;
   name: string;
-  gender: 'Male' | 'Female' | 'Any';
+  gender: 'Male' | 'Female' | 'Any' | 'Any / Open';
   ageRange: string;
   tagline: string;
   physicalTrait?: string;
@@ -96,7 +96,7 @@ export interface ParticipantSubmission {
   travelBatch: string;
   roomPreference: string;
   emergencyContact: string;
-  prebookingTokenPrice: number; // 1000
+  prebookingTokenPrice: number; // 2000
   lockedTripPrice: number; // 11000
   oct30PriceIncreaseNotice: boolean; // increases by 1500 after 30 Oct
   paymentMode: string;

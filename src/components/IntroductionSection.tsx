@@ -17,7 +17,7 @@ export const IntroductionSection: React.FC = () => {
   const stats = [
     { value: '2,400+', unit: 'KM', label: 'Overland Route', sub: 'Himalayas to the Great Indian Desert' },
     { value: '06', unit: 'ROLES', label: 'Unscripted Characters', sub: '100% Refundable Security Deposit' },
-    { value: '₹1,000', unit: 'TOKEN', label: 'Expedition Lock', sub: 'Secures Seat & Contributor Credit' },
+    { value: '₹2,000', unit: 'TOKEN', label: 'Expedition Lock', sub: 'Secures Seat & Contributor Credit' },
     { value: '2.39:1', unit: 'SCOPE', label: 'Anamorphic 4K', sub: 'Natural Light & Environmental Audio' },
   ];
 
@@ -27,7 +27,7 @@ export const IntroductionSection: React.FC = () => {
       tag: '01 / TERRAIN',
       title: 'Unscripted Route',
       desc: 'Delhi • Katra • Gulmarg • Srinagar • Spiti • Thar. 28 days of uninterrupted road travel.',
-      image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1000&q=80',
+      image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957420/Travel_india.jpg',
       deepDive:
         'A continuous overland odyssey traversing sub-zero 13,000-foot Himalayan mountain passes down to the shifting sand dunes of the Thar desert. The route is not a scenic backdrop; its altitude, weather, and physical isolation directly evoke genuine character reactions.',
       protocols: [
@@ -41,7 +41,7 @@ export const IntroductionSection: React.FC = () => {
       tag: '02 / ENSEMBLE',
       title: 'Real People As Cast',
       desc: 'Actors & participants travel together. Chemistry unfolds in natural motion.',
-      image: '/characters/vandana.jpg',
+      image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957432/Rahul.png',
       deepDive:
         'Selected lead characters and non-actor expedition participants live in identical conditions throughout the journey. Shared campfires, late-night roadside halts, and morning tea dissolve rehearsed facades into genuine human camaraderie.',
       protocols: [
@@ -69,7 +69,7 @@ export const IntroductionSection: React.FC = () => {
       tag: '04 / RELEASE',
       title: 'Global Festival Run',
       desc: 'IMDb official credentials, premiere festival circuits, and worldwide digital release.',
-      image: 'https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?auto=format&fit=crop&w=1000&q=80',
+      image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957412/Show.jpg',
       deepDive:
         'Chehra is positioned for competitive entry into top international indie film festivals before a global digital premiere. Every verified actor and expedition contributor receives authenticated digital credentials and theatrical credit.',
       protocols: [
@@ -99,13 +99,13 @@ export const IntroductionSection: React.FC = () => {
               </span>
             </div>
             <h2 className="font-title text-[47px] leading-[53.2px] font-bold text-[#EDE8DF] tracking-tight uppercase">
-              A ROAD EXPEDITION <br />
-              <span className="text-yellow-400/90">THAT BECOMES CINEMA.</span>
+              India&apos;s 1st <br />
+              <span className="text-yellow-400/90">Experimental Travel Cinema Project</span>
             </h2>
           </div>
 
           <p className="max-w-md text-xs sm:text-sm text-[#A5A196] font-light leading-relaxed border-l border-white/15 pl-4">
-            India&apos;s first unscripted narrative feature. We strip away artificial studios, taking 6 lead characters and an intimate convoy across India&apos;s wildest mountain roads.
+            India&apos;s first unscripted narrative feature. We strip away artificial studios, taking 7 lead characters and an intimate convoy across India&apos;s wildest mountain roads.
           </p>
         </div>
 
@@ -143,12 +143,12 @@ export const IntroductionSection: React.FC = () => {
               className="p-5 bg-[#0C111A] border border-white/10 hover:border-yellow-400/90 transition-colors flex flex-col justify-between group cursor-pointer relative"
             >
               {/* Top image thumbnail */}
-              <div className="relative h-32 -mx-5 -mt-5 mb-4 overflow-hidden bg-black">
+              <div className="relative h-48 sm:h-52 -mx-5 -mt-5 mb-4 overflow-hidden bg-black">
                 <img
                   src={pillar.image}
                   alt={pillar.title}
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover filter contrast-105 brightness-85 group-hover:scale-103 transition-transform duration-500 ease-out"
+                  className="w-full h-full object-cover object-top filter contrast-105 brightness-90 group-hover:scale-103 transition-transform duration-500 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0C111A] via-transparent to-transparent" />
 
@@ -219,12 +219,12 @@ export const IntroductionSection: React.FC = () => {
             </div>
 
             {/* Visual Hero */}
-            <div className="relative h-48 sm:h-56 mb-6 overflow-hidden border border-white/15">
+            <div className="relative h-56 sm:h-64 mb-6 overflow-hidden border border-white/15">
               <img
                 src={inspectedPillar.image}
                 alt={inspectedPillar.title}
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover filter contrast-105"
+                className="w-full h-full object-cover object-top filter contrast-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0A0E16] via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">

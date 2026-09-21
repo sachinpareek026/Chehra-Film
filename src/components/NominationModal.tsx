@@ -28,6 +28,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import { CHARACTERS, FILM_METADATA } from '../data/cinemaData';
+import { INITIAL_ACTOR_SUBMISSIONS, INITIAL_PARTICIPANT_SUBMISSIONS, INITIAL_CREW_SUBMISSIONS } from '../data/initialSubmissions';
 import { CinemaButton } from './CinemaButton';
 import { PathwayType, AnySubmission, ActorSubmission, ParticipantSubmission, CrewSubmission } from '../types';
 
@@ -58,7 +59,7 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
     {
       question: 'How does the booking price structure work?',
       answer:
-        'Pay a ₹1,000 token today to reserve your expedition seat and permanently lock the early-bird rate of ₹13,000. The remaining ₹12,000 balance is settled prior to departure.',
+        'Pay a ₹2,000 token today to reserve your expedition seat and permanently lock the early-bird rate of ₹13,000. The remaining ₹11,000 balance is settled prior to departure.',
     },
     {
       question: 'Why does the expedition rate increase after November 20?',
@@ -86,10 +87,10 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
 };
 
 const EXPEDITION_ROUTE_STAGES = [
-  { stage: 'STAGE 01', title: 'High Mountain Ascent', loc: 'Rohtang Pass & Spiti', img: '/characters/shankar.jpg' },
-  { stage: 'STAGE 02', title: 'Shadow Monasteries', loc: 'Key Gompa & Kaza', img: '/characters/vandana.jpg' },
-  { stage: 'STAGE 03', title: 'Overhanging Cliffs', loc: 'Kinnaur & Chitkul', img: '/characters/shiva.jpg' },
-  { stage: 'STAGE 04', title: 'Dune Nightfall & Camp', loc: 'Thar Desert & Jaisalmer', img: '/characters/jyoti.jpg' },
+  { stage: 'STAGE 01', title: 'High Mountain Ascent', loc: 'Rohtang Pass & Spiti', img: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957437/Shankar.png' },
+  { stage: 'STAGE 02', title: 'Shadow Monasteries', loc: 'Key Gompa & Kaza', img: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957431/Vandana.png' },
+  { stage: 'STAGE 03', title: 'Overhanging Cliffs', loc: 'Kinnaur & Chitkul', img: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957433/SHiva.png' },
+  { stage: 'STAGE 04', title: 'Dune Nightfall & Camp', loc: 'Thar Desert & Jaisalmer', img: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957433/Jyoti.png' },
 ];
 
 const CREW_DEPARTMENTS_META: Record<string, { desc: string; icon: string; tag: string }> = {
@@ -109,6 +110,7 @@ interface NominationModalProps {
   onClose: () => void;
   initialRoleId?: string;
   initialPathway?: PathwayType;
+  existingSubmissions?: AnySubmission[];
   onSubmissionSuccess?: (submission: AnySubmission) => void;
   onOpenExcelPortal?: () => void;
 }
@@ -118,6 +120,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
   onClose,
   initialRoleId,
   initialPathway = 'actor',
+  existingSubmissions = [],
   onSubmissionSuccess,
   onOpenExcelPortal,
 }) => {
@@ -125,6 +128,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
   const [selectedRoleId, setSelectedRoleId] = useState<string>(initialRoleId || CHARACTERS[0].id);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [sheetSyncStatus, setSheetSyncStatus] = useState<{ success: boolean; message?: string } | null>(null);
+  const [duplicateError, setDuplicateError] = useState<string | null>(null);
 
   // Core Personal Details
   const [fullName, setFullName] = useState('');
@@ -207,6 +211,94 @@ export const NominationModal: React.FC<NominationModalProps> = ({
     }
   };
 
+  const checkDuplicateApplication = (): { isDuplicate: boolean; message: string; duplicateField?: 'phone' | 'email' | 'both' } => {
+    const allRecords: { email: string; phoneNumber: string; fullName?: string }[] = [];
+
+    const addRecords = (items: any[]) => {
+      if (!Array.isArray(items)) return;
+      for (const item of items) {
+        if (item && (item.email || item.phoneNumber)) {
+          allRecords.push({
+            email: String(item.email || '').trim().toLowerCase(),
+            phoneNumber: String(item.phoneNumber || '').trim(),
+            fullName: item.fullName,
+          });
+        }
+      }
+    };
+
+    // 1. Live memory records passed from parent App
+    if (existingSubmissions && existingSubmissions.length > 0) {
+      addRecords(existingSubmissions);
+    }
+
+    // 2. Initial curated records
+    addRecords(INITIAL_ACTOR_SUBMISSIONS);
+    addRecords(INITIAL_PARTICIPANT_SUBMISSIONS);
+    addRecords(INITIAL_CREW_SUBMISSIONS);
+
+    // 3. LocalStorage records
+    try {
+      const localActors = localStorage.getItem('chehra_actors');
+      if (localActors) addRecords(JSON.parse(localActors));
+      const localParticipants = localStorage.getItem('chehra_participants');
+      if (localParticipants) addRecords(JSON.parse(localParticipants));
+      const localCrew = localStorage.getItem('chehra_crew');
+      if (localCrew) addRecords(JSON.parse(localCrew));
+    } catch (e) {
+      console.error('Error reading saved submissions:', e);
+    }
+
+    const cleanDigits = (val: string) => {
+      const digits = val.replace(/\D/g, '');
+      return digits.length >= 10 ? digits.slice(-10) : digits;
+    };
+
+    const targetPhoneDigits = cleanDigits(phoneNumber);
+    const targetEmail = email.trim().toLowerCase();
+
+    let matchedPhone = false;
+    let matchedEmail = false;
+
+    for (const record of allRecords) {
+      const recPhoneDigits = cleanDigits(record.phoneNumber);
+      const recEmail = record.email.trim().toLowerCase();
+
+      if (targetPhoneDigits.length >= 10 && recPhoneDigits.length >= 10 && targetPhoneDigits === recPhoneDigits) {
+        matchedPhone = true;
+      }
+      if (targetEmail.length > 4 && recEmail.length > 4 && targetEmail === recEmail) {
+        matchedEmail = true;
+      }
+
+      if (matchedPhone || matchedEmail) break;
+    }
+
+    if (matchedPhone && matchedEmail) {
+      return {
+        isDuplicate: true,
+        duplicateField: 'both',
+        message: 'You have already applied! Both this phone number and email address are already registered in our records. Please use a different email or phone number.',
+      };
+    }
+    if (matchedPhone) {
+      return {
+        isDuplicate: true,
+        duplicateField: 'phone',
+        message: 'You have already applied! This phone number is already registered in our records. Please use a different phone number or email.',
+      };
+    }
+    if (matchedEmail) {
+      return {
+        isDuplicate: true,
+        duplicateField: 'email',
+        message: 'You have already applied! This email address is already registered in our records. Please use a different email or phone number.',
+      };
+    }
+
+    return { isDuplicate: false, message: '' };
+  };
+
   const validate = () => {
     const errs: { [key: string]: string } = {};
 
@@ -215,6 +307,27 @@ export const NominationModal: React.FC<NominationModalProps> = ({
     if (!city.trim()) errs.city = 'Current city is required';
     if (!phoneNumber.trim() || phoneNumber.length < 8) errs.phoneNumber = 'Active phone number is required';
     if (!email.trim() || !email.includes('@')) errs.email = 'Valid email is required';
+
+    // Duplicate verification against existing casting roster
+    if (phoneNumber.trim().length >= 8 || (email.trim() && email.includes('@'))) {
+      const duplicateResult = checkDuplicateApplication();
+      if (duplicateResult.isDuplicate) {
+        setDuplicateError(duplicateResult.message);
+        if (duplicateResult.duplicateField === 'both') {
+          errs.phoneNumber = 'You already applied! Phone number already exists.';
+          errs.email = 'You already applied! Email address already exists.';
+        } else if (duplicateResult.duplicateField === 'phone') {
+          errs.phoneNumber = 'You already applied! Phone number already exists. Please use a different phone number.';
+        } else if (duplicateResult.duplicateField === 'email') {
+          errs.email = 'You already applied! Email address already exists. Please use a different email.';
+        }
+        errs.duplicate = duplicateResult.message;
+      } else {
+        setDuplicateError(null);
+      }
+    } else {
+      setDuplicateError(null);
+    }
 
     if (pathway === 'actor') {
       if (!photoFileName && !photoPreview) errs.photo = 'Headshot photograph is required';
@@ -237,7 +350,9 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
+    if (!validate()) {
+      return;
+    }
 
     setIsSubmitting(true);
     setSheetSyncStatus(null);
@@ -284,10 +399,10 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         travelBatch,
         roomPreference,
         emergencyContact,
-        prebookingTokenPrice: 1000,
+        prebookingTokenPrice: 2000,
         lockedTripPrice: 13000,
         oct30PriceIncreaseNotice: true,
-        paymentMode: 'UPI / Card (₹1,000 Token)',
+        paymentMode: 'UPI / Card (₹2,000 Token)',
         transactionRef: `UPI-PREBOOK-${randomSuffix}`,
         confirmed: true,
       };
@@ -435,7 +550,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   <div className="text-[11px] font-mono font-bold uppercase tracking-wider">
                     02. PARTICIPANT
                   </div>
-                  <div className="text-[9px] text-blue-400 font-mono mt-0.5">₹1,000 Token • Zero Uploads</div>
+                  <div className="text-[9px] text-blue-400 font-mono mt-0.5">₹2,000 Token • Zero Uploads</div>
                 </div>
                 <Compass className={`w-4 h-4 hidden sm:block ${pathway === 'participant' ? 'text-blue-400' : 'text-slate-600'}`} />
               </button>
@@ -633,41 +748,6 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         <span className="text-slate-300">SOUNDSTAGES:</span>
                         <span className="text-yellow-400/90">{currentRole.filmingLocations.join(' • ')}</span>
                       </div>
-
-                      {/* Role Switcher Visual Thumbnails */}
-                      <div className="pt-2 border-t border-white/10">
-                        <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-2">
-                          QUICK SWITCH ROLE:
-                        </span>
-                        <div className="grid grid-cols-6 gap-1.5">
-                          {CHARACTERS.map((char) => {
-                            const isSelected = char.id === selectedRoleId;
-                            return (
-                              <button
-                                key={char.id}
-                                type="button"
-                                onClick={() => setSelectedRoleId(char.id)}
-                                title={`${char.name} (${char.archetype})`}
-                                className={`relative aspect-square overflow-hidden border transition-all cursor-pointer ${
-                                  isSelected
-                                    ? 'border-yellow-400/90 ring-2 ring-yellow-400/40 scale-105'
-                                    : 'border-white/15 opacity-60 hover:opacity-100 hover:border-white/40'
-                                }`}
-                              >
-                                <img
-                                  src={char.image}
-                                  alt={char.name}
-                                  referrerPolicy="no-referrer"
-                                  className="w-full h-full object-cover object-top"
-                                />
-                                {isSelected && (
-                                  <div className="absolute inset-0 bg-yellow-400/20" />
-                                )}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
                     </div>
                   </div>
                 )}
@@ -677,7 +757,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                     {/* Visual Map/Convoy Route Image */}
                     <div className="relative aspect-16/10 overflow-hidden bg-black">
                       <img
-                        src="/characters/shankar.jpg"
+                        src="https://res.cloudinary.com/x1dci3fh/image/upload/v1789957421/Participant.jpg"
                         alt="Expedition Route"
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover filter contrast-110 brightness-80"
@@ -709,7 +789,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         </div>
                         <div className="flex items-center justify-between text-[11px] font-mono text-emerald-400">
                           <span>Pre-booking Token Today:</span>
-                          <span className="font-bold">₹1,000/- Only</span>
+                          <span className="font-bold">₹2,000/- Only</span>
                         </div>
                         <p className="text-[10px] text-slate-400 mt-2 font-mono">
                           * Early bird price ₹13,000; increases to ₹14,500 after 20 November 2026.
@@ -739,7 +819,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   <div className="bg-[#050A14] border border-emerald-900/40 overflow-hidden shadow-xl">
                     <div className="relative aspect-16/10 overflow-hidden bg-black">
                       <img
-                        src="/characters/vandana.jpg"
+                        src="https://res.cloudinary.com/x1dci3fh/image/upload/v1789957420/Crew.jpg"
                         alt="Cinema Technical Crew"
                         referrerPolicy="no-referrer"
                         className="w-full h-full object-cover filter contrast-110 brightness-80"
@@ -825,6 +905,94 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   </span>
                 </div>
 
+                {/* Important Casting Notice (Sample Images Disclaimer Note) */}
+                <div className="p-3.5 bg-amber-500/10 border border-amber-500/30 flex items-start gap-3">
+                  <AlertCircle className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
+                  <div className="text-xs text-amber-100/95 leading-relaxed font-sans">
+                    <span className="font-mono text-[10px] font-bold text-yellow-400 uppercase tracking-widest block mb-0.5">
+                      CASTING NOTE // SAMPLE IMAGES IN NATURE
+                    </span>
+                    These images are sample in nature. Do not form or get any predefined idea of the character from these images — casting is completely open to all authentic faces, backgrounds, and interpretations.
+                  </div>
+                </div>
+
+                {/* Character Selection Images (At the top of form for actors) */}
+                {pathway === 'actor' && (
+                  <div className="p-4 bg-[#070D18] border border-yellow-400/40 space-y-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 bg-yellow-400 rounded-full" />
+                        <label className="text-[11px] font-mono uppercase tracking-wider text-yellow-400 font-bold">
+                          SELECT CHARACTER ROLE * (CLICK IMAGE TO CHOOSE)
+                        </label>
+                      </div>
+                      <span className="text-[10px] font-mono text-[#A5A196] uppercase">
+                        {CHARACTERS.length} ROLES AVAILABLE
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+                      {CHARACTERS.map((char, idx) => {
+                        const isSelected = char.id === selectedRoleId;
+                        return (
+                          <button
+                            key={char.id}
+                            type="button"
+                            onClick={() => setSelectedRoleId(char.id)}
+                            title={`${char.name} (${char.archetype})`}
+                            className={`group relative flex flex-col p-1.5 border transition-all text-left cursor-pointer ${
+                              isSelected
+                                ? 'bg-yellow-400/15 border-yellow-400 ring-2 ring-yellow-400/50 scale-[1.02] shadow-lg shadow-yellow-400/10'
+                                : 'bg-[#040810] border-white/10 hover:border-yellow-400/40 hover:bg-white/[0.04]'
+                            }`}
+                          >
+                            <div className="relative w-full aspect-square overflow-hidden bg-black mb-1.5">
+                              <img
+                                src={char.image}
+                                alt={char.name}
+                                referrerPolicy="no-referrer"
+                                className={`w-full h-full object-cover object-top transition-transform duration-300 ${
+                                  isSelected ? 'scale-105' : 'group-hover:scale-105 opacity-80 group-hover:opacity-100'
+                                }`}
+                              />
+                              <span className="absolute bottom-1 left-1 px-1 py-0.2 text-[8px] font-mono bg-black/80 text-yellow-400/90 font-bold">
+                                0{idx + 1}
+                              </span>
+                              {isSelected && (
+                                <div className="absolute top-1 right-1 w-4 h-4 bg-yellow-400 text-black rounded-full flex items-center justify-center text-[10px] font-black shadow">
+                                  ✓
+                                </div>
+                              )}
+                            </div>
+                            <div className="w-full">
+                              <div className={`text-[10px] font-mono font-bold uppercase truncate ${
+                                isSelected ? 'text-yellow-400' : 'text-[#EDE8DF]'
+                              }`}>
+                                {char.name}
+                              </div>
+                              <div className="text-[9px] text-[#A5A196] font-mono truncate">
+                                {char.gender} • {char.ageRange}
+                              </div>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <div className="px-3 py-2 bg-black/50 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] font-mono">
+                      <div className="flex items-center gap-2">
+                        <span className="text-yellow-400 font-bold uppercase tracking-wider">SELECTED:</span>
+                        <span className="text-white font-semibold">{currentRole.name}</span>
+                        <span className="text-slate-400">•</span>
+                        <span className="text-slate-300 italic">{currentRole.archetype}</span>
+                      </div>
+                      <span className="text-yellow-400/90 text-[10px]">
+                        Age {currentRole.ageRange} [{currentRole.gender}]
+                      </span>
+                    </div>
+                  </div>
+                )}
+
                 {/* 1. Core Personal Details */}
                 <div className="space-y-4">
                   <div className="text-[10px] font-mono text-yellow-400/90 uppercase tracking-widest font-bold">
@@ -887,9 +1055,19 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       <input
                         type="tel"
                         value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        onChange={(e) => {
+                          setPhoneNumber(e.target.value);
+                          if (duplicateError) setDuplicateError(null);
+                          if (errors.phoneNumber) {
+                            setErrors((prev) => ({ ...prev, phoneNumber: '' }));
+                          }
+                        }}
                         placeholder="+91 98765 43210"
-                        className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400/90 transition-colors"
+                        className={`w-full px-3.5 py-2.5 bg-[#050A14] border text-white text-xs placeholder-slate-600 focus:outline-none transition-colors ${
+                          errors.phoneNumber || duplicateError?.includes('phone')
+                            ? 'border-red-500 focus:border-red-400 bg-red-950/10'
+                            : 'border-white/15 focus:border-yellow-400/90'
+                        }`}
                       />
                       {errors.phoneNumber && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.phoneNumber}</p>}
                     </div>
@@ -901,13 +1079,42 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       <input
                         type="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                          if (duplicateError) setDuplicateError(null);
+                          if (errors.email) {
+                            setErrors((prev) => ({ ...prev, email: '' }));
+                          }
+                        }}
                         placeholder="you@email.com"
-                        className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400/90 transition-colors"
+                        className={`w-full px-3.5 py-2.5 bg-[#050A14] border text-white text-xs placeholder-slate-600 focus:outline-none transition-colors ${
+                          errors.email || duplicateError?.includes('email')
+                            ? 'border-red-500 focus:border-red-400 bg-red-950/10'
+                            : 'border-white/15 focus:border-yellow-400/90'
+                        }`}
                       />
                       {errors.email && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.email}</p>}
                     </div>
                   </div>
+
+                  {/* Duplicate Application Alert Box */}
+                  {duplicateError && (
+                    <div className="p-4 bg-red-950/60 border-2 border-red-500/90 flex items-start gap-3 shadow-lg shadow-red-950/50 animate-in fade-in duration-200">
+                      <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                      <div className="space-y-1">
+                        <div className="font-mono text-[11px] font-bold text-red-300 uppercase tracking-widest flex items-center gap-2">
+                          <span>DUPLICATE APPLICATION DETECTED</span>
+                          <span className="px-1.5 py-0.2 bg-red-500 text-black text-[9px] font-mono font-black">SUBMISSION BLOCKED</span>
+                        </div>
+                        <p className="text-xs text-red-100 font-sans leading-relaxed">
+                          {duplicateError}
+                        </p>
+                        <p className="text-[10px] font-mono text-red-300/80">
+                          To apply for another role or convoy seat, please enter a unique phone number and email ID not previously registered.
+                        </p>
+                      </div>
+                    </div>
+                  )}
 
                   <div>
                     <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
@@ -1197,6 +1404,20 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
                 {/* Submit Action Block */}
                 <div className="pt-4 border-t border-white/10 space-y-3">
+                  {duplicateError && (
+                    <div className="p-3.5 bg-red-950/90 border border-red-500 flex items-start gap-2.5 text-red-200">
+                      <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                      <div className="text-xs">
+                        <span className="font-mono text-[10px] font-bold text-red-400 uppercase tracking-wider block">
+                          APPLICATION ALREADY ON FILE
+                        </span>
+                        <p className="mt-0.5 text-red-200/90">
+                          {duplicateError}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
                   <CinemaButton
                     type="submit"
                     variant="primary"
@@ -1211,7 +1432,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                     ) : (
                       <>
                         {pathway === 'actor' && `SUBMIT AUDITION AS ${currentRole.name} (100% REFUND)`}
-                        {pathway === 'participant' && 'CONFIRM PRE-BOOKING TOKEN (₹1,000)'}
+                        {pathway === 'participant' && 'CONFIRM PRE-BOOKING TOKEN (₹2,000)'}
                         {pathway === 'crew' && 'SUBMIT TECHNICAL CREW APPLICATION'}
                       </>
                     )}
@@ -1242,7 +1463,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
               </span>
               <span className="hidden sm:inline-block text-[9px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/10 uppercase">
                 {pathway === 'actor' && '100% Actor Refund Policy'}
-                {pathway === 'participant' && '₹1,000 Token & Price Structure'}
+                {pathway === 'participant' && '₹2,000 Token & Price Structure'}
                 {pathway === 'crew' && 'Opportunity Fee & Production Credits'}
               </span>
             </button>

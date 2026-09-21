@@ -34,7 +34,7 @@ export const CHARACTERS: CharacterRole[] = [
     description:
       'Quiet, watchful, carrying an unspoken weight from his past. He travels not to escape his memory, but to find a landscape quiet enough to bear it.',
     archetype: 'The Wandering Philosopher',
-    image: '/characters/shankar.jpg',
+    image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957437/Shankar.png',
     accentColor: '#d97706', // warm amber
     filmingLocations: ['Spiti Valley (12,500 ft)', 'Varanasi Old Alleyways', 'Rohtang Pass'],
     keyScenePreview:
@@ -49,7 +49,7 @@ export const CHARACTERS: CharacterRole[] = [
     description:
       'Fiercely introspective with an arresting gaze. She documents unseen micro-moments with an antique medium format camera, seeking the roots of an inherited mystery.',
     archetype: 'The Intuitive Seeker',
-    image: '/characters/vandana.jpg',
+    image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957431/Vandana.png',
     accentColor: '#c25e38', // terracotta
     filmingLocations: ['Assi Ghat, Varanasi', 'Shekhawati Havelis', 'Chitkul Border'],
     keyScenePreview:
@@ -65,7 +65,7 @@ export const CHARACTERS: CharacterRole[] = [
     description:
       'A magnetic nomad with wild curls and an ear tuned to microtonal vibrations. He collects soundscapes from forgotten temple bells, nomadic campfires, and train whistles.',
     archetype: 'The Free Spirit',
-    image: '/characters/shiva.jpg',
+    image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957433/SHiva.png',
     accentColor: '#eab308', // saffron
     filmingLocations: ['Pushkar Dunes', 'Kinner Kailash Base', 'Rishikesh Riverbed'],
     keyScenePreview:
@@ -81,7 +81,7 @@ export const CHARACTERS: CharacterRole[] = [
     description:
       'Built like granite, with hands accustomed to rock faces and mountain ropes. A man of few words whose physical presence anchors the fragile psychological journeys of the group.',
     archetype: 'The Unshakable Protector',
-    image: '/characters/nandi.jpg',
+    image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957433/Nandi.png',
     accentColor: '#78716c', // raw stone/charcoal
     filmingLocations: ['Hampi Boulder Fields', 'Zanskar River Gorge', 'Dhanushkodi Coast'],
     keyScenePreview:
@@ -96,7 +96,7 @@ export const CHARACTERS: CharacterRole[] = [
     description:
       'Spontaneous, razor-sharp, and refusing conventional boundaries. She challenges every unspoken secret and brings raw humor and vulnerability when the road turns hostile.',
     archetype: 'The Provocateur',
-    image: '/characters/jyoti.jpg',
+    image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957433/Jyoti.png',
     accentColor: '#ea580c', // ember orange
     filmingLocations: ['Jaisalmer Fort Ramparts', 'Gokarna Cliffs', 'Kolkata Tramlines'],
     keyScenePreview:
@@ -111,11 +111,26 @@ export const CHARACTERS: CharacterRole[] = [
     description:
       'Grounded, deeply loyal, and grappling with the contrast between corporate urban expectations and the wild allure of this spontaneous cinema pilgrimage.',
     archetype: 'The Realist Companion',
-    image: '/characters/rahul.jpg',
+    image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957432/Rahul.png',
     accentColor: '#0284c7', // cool deep blue
     filmingLocations: ['Jaipur Night Bazaars', 'Kaza Monastic Roads', 'Majuli Island'],
     keyScenePreview:
       'Scene 50: Rahul confronts Shankar beside an abandoned stone bridge, asking if he ever plans to return to reality or if this journey is his final act.'
+  },
+  {
+    id: 'kabir',
+    name: 'KABIR / OPEN ROLE',
+    gender: 'Any / Open',
+    ageRange: '20–35',
+    tagline: 'The Enigmatic Wayfarer',
+    description:
+      'An unpredictable nomad who joins the overland convoy at high altitude. Guarded, intensely perceptive, and carrying an untold story that gradually unfolds under open desert skies.',
+    archetype: 'The Drifter at the Crossroads',
+    image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957432/ChatGPT_Image_Sep_21_2026_07_35_54_AM.png',
+    accentColor: '#10b981', // emerald
+    filmingLocations: ['Pangong Tso Lake Edge', 'Kuldhara Ghost Village', 'Chambal Badlands'],
+    keyScenePreview:
+      'Scene 61: At dusk on the salt flats, Kabir lights a solitary lantern on the roof of the expedition vehicle, watching the horizon fade into obsidian silence.'
   }
 ];
 
@@ -188,7 +203,7 @@ export const TIMELINE_STEPS: TimelineStep[] = [
     subtitle: 'Open Submissions',
     duration: 'Ongoing',
     description:
-      'Submit your profile, audition tapes, or travel motivation for one of 6 lead character roles or participant spots.',
+      'Submit your profile, audition tapes, or travel motivation for one of 7 lead character roles or participant spots.',
     deliverable: 'Verified casting portfolio'
   },
   {

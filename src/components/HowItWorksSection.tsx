@@ -33,7 +33,7 @@ const STEP_EXTENDED_DATA: Record<string, StepDetailedDossier> = {
     unscriptedDynamic: 'Defining core character traumas and personal motives that will be tested by real journey friction.'
   },
   '02': {
-    stepImage: '/characters/vandana.jpg',
+    stepImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957431/Vandana.png',
     locationFocus: 'Nationwide Open Submissions (Delhi, Mumbai, Bengaluru & Independent Circles)',
     telemetryLog: 'Talent nominations intake portal open. Audition video reels, monologues, and travel motivations reviewed on a rolling basis.',
     milestones: [
@@ -45,7 +45,7 @@ const STEP_EXTENDED_DATA: Record<string, StepDetailedDossier> = {
     unscriptedDynamic: 'Selecting individuals with raw authenticity and high psychological endurance rather than polished artificial acting.'
   },
   '03': {
-    stepImage: '/characters/shankar.jpg',
+    stepImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957437/Shankar.png',
     locationFocus: 'Directorial Chemistry Round & Screen Tests',
     telemetryLog: 'Virtual & on-camera chemistry workshops. Pairing contrasting personas to spark organic conversational tension during convoy transit.',
     milestones: [
@@ -57,7 +57,7 @@ const STEP_EXTENDED_DATA: Record<string, StepDetailedDossier> = {
     unscriptedDynamic: 'Testing how actors react to unexpected physical fatigue, sudden changes in weather, and unstructured dialogues.'
   },
   '04': {
-    stepImage: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',
+    stepImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957421/Participant.jpg',
     locationFocus: 'Delhi • Manali • Rohtang Pass • Spiti Valley (12,500 ft)',
     telemetryLog: 'Convoy rollout. Multi-vehicle expedition carrying actors, participants, technical crew, and mobile field gear freight.',
     milestones: [
@@ -69,7 +69,7 @@ const STEP_EXTENDED_DATA: Record<string, StepDetailedDossier> = {
     unscriptedDynamic: 'Living out of suitcases and braving sub-zero winds dissolves performative artifice, revealing true human character.'
   },
   '05': {
-    stepImage: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1200&q=80',
+    stepImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957420/Crew.jpg',
     locationFocus: 'On-Location Mountain Soundstages & Night Deserts',
     telemetryLog: 'Live shooting in natural twilight and midnight campfires. Multi-angle 4K CinemaScope cameras capture spontaneous events as they happen.',
     milestones: [

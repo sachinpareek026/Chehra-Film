@@ -10,21 +10,18 @@ interface FinalCtaSectionProps {
 export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({ onJoinFilm, onNominateRole, onJoinCrew }) => {
   return (
     <section className="relative py-28 md:py-36 bg-[#05070B] overflow-hidden flex items-center justify-center border-t border-white/10">
-      {/* Background imagery */}
+      {/* Background imagery: 80% opacity fitting full layout */}
       <div
-        className="absolute inset-0 bg-cover bg-center filter grayscale contrast-125 opacity-30 scale-105 transition-transform duration-1000"
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-80"
         style={{
           backgroundImage:
-            "url('https://res.cloudinary.com/x1dci3fh/image/upload/v1789634480/images_-_2026-09-14T173720.993.jpg')",
+            "radial-gradient(ellipse at center, transparent 20%, #05070B 90%), url('https://res.cloudinary.com/x1dci3fh/image/upload/v1789634480/images_-_2026-09-14T173720.993.jpg')",
         }}
       />
 
-      {/* Cinematic Vignette */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#05070B] via-[#05070B]/75 to-[#05070B] pointer-events-none" />
-
-      {/* Subtle Anamorphic Letterbox */}
-      <div className="absolute top-0 left-0 right-0 h-4 sm:h-6 bg-black/90 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 right-0 h-4 sm:h-6 bg-black/90 pointer-events-none" />
+      {/* Atmospheric theme color gradient fade */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#05070B] via-[#05070B]/60 to-[#05070B] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(234,179,8,0.03)_0%,transparent_70%)] pointer-events-none" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
         {/* Initiative Marker */}
@@ -37,9 +34,9 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({ onJoinFilm, on
         </div>
 
         {/* Headline */}
-        <h2 className="font-title text-3xl sm:text-5xl md:text-[57px] font-bold text-[#F4F1EA] tracking-[0.02em] leading-[1.12] mb-6">
+        <h2 className="font-title text-3xl sm:text-4xl md:text-[52px] not-italic font-bold text-[#F4F1EA] tracking-[0.02em] leading-[1.12] mb-6">
           Your journey could become <br />
-          <span className="italic text-yellow-400/90 font-bold">a feature film.</span>
+          <span className="not-italic text-yellow-400/90 font-bold">a feature film.</span>
         </h2>
 
         {/* Subtext */}
@@ -55,7 +52,7 @@ export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({ onJoinFilm, on
             onClick={onJoinFilm}
             className="!px-8 !py-4 text-xs tracking-widest font-medium"
           >
-            BOOK SEAT (₹1,000 TOKEN)
+            BOOK SEAT (₹2,000 TOKEN)
           </CinemaButton>
 
           <CinemaButton

@@ -120,18 +120,18 @@ export const IndiaSetGallerySection: React.FC = () => {
             onClick={() => setActiveLocation(loc)}
             className="group relative shrink-0 w-[290px] sm:w-[380px] md:w-[440px] h-[360px] sm:h-[420px] bg-[#020817] border border-blue-900/40 hover:border-sky-400/80 overflow-hidden cursor-pointer snap-start transition-all duration-300"
           >
-            {/* Cinematic Image - Dark Blue Transparent */}
+            {/* Cinematic Image - 90% Opacity with slight dark blue effect */}
             <img
               src={loc.image}
               alt={loc.state}
               referrerPolicy="no-referrer"
-              className="w-full h-full object-cover object-center filter contrast-110 opacity-45 group-hover:opacity-65 group-hover:scale-105 transition-all duration-700 ease-out"
+              className="w-full h-full object-cover object-center filter contrast-105 brightness-95 opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
             />
 
-            {/* Rich Dark Blue Transparent Overlays */}
-            <div className="absolute inset-0 bg-[#030d29]/70 mix-blend-multiply pointer-events-none" />
-            <div className="absolute inset-0 bg-blue-950/50 pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#020817] via-transparent to-[#020b22]/60 pointer-events-none" />
+            {/* Slight dark blue color effect and subtle gradient */}
+            <div className="absolute inset-0 bg-[#061536]/25 mix-blend-multiply pointer-events-none" />
+            <div className="absolute inset-0 bg-blue-950/20 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#020817] via-transparent to-[#020b22]/40 pointer-events-none" />
           </div>
         ))}
       </div>
@@ -166,10 +166,10 @@ export const IndiaSetGallerySection: React.FC = () => {
                   src={activeLocation.image}
                   alt={activeLocation.state}
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover object-center opacity-50"
+                  className="w-full h-full object-cover object-center filter contrast-105 brightness-95 opacity-90"
                 />
-                <div className="absolute inset-0 bg-[#030d29]/70 mix-blend-multiply pointer-events-none" />
-                <div className="absolute inset-0 bg-blue-950/50 pointer-events-none" />
+                <div className="absolute inset-0 bg-[#061536]/25 mix-blend-multiply pointer-events-none" />
+                <div className="absolute inset-0 bg-blue-950/20 pointer-events-none" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A0E16] via-transparent to-transparent pointer-events-none" />
               </div>
 

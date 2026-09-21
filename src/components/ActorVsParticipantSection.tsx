@@ -131,7 +131,7 @@ export const ActorVsParticipantSection: React.FC<ActorVsParticipantSectionProps>
                   <span className="w-4 h-4 border border-yellow-400/50 flex items-center justify-center text-yellow-400/90 shrink-0">
                     <Check className="w-2.5 h-2.5" />
                   </span>
-                  <span>₹1,000 token today; ₹13,000 early bird (₹14,500 after 20 Nov).</span>
+                  <span>₹2,000 token today; ₹13,000 early bird (₹14,500 after 20 Nov).</span>
                 </div>
               </div>
 

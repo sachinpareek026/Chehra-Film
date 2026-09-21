@@ -52,7 +52,7 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
               </span>
             </div>
             <h2 className="font-title text-3xl sm:text-4xl md:text-5xl font-semibold text-[#F4F1EA] tracking-[0.02em] uppercase leading-[1.15]">
-              SIX UNWRITTEN CHARACTERS
+              SEVEN UNWRITTEN CHARACTERS
             </h2>
             <p className="text-xs sm:text-sm text-[#B8B4AC] font-normal font-sans max-w-xl leading-[1.6]">
               Select any role to inspect background backstory, terrain soundstages, and audition criteria. No casting charges; 100% refundable security deposit.
@@ -95,7 +95,7 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
             <div className="px-5 py-3 bg-[#0E1420] border-b border-white/10 flex flex-wrap items-center justify-between gap-3 text-[10px] font-mono tracking-widest uppercase">
               <div className="flex items-center gap-3">
                 <span className="text-yellow-400/90 font-medium">
-                  ROLE 0{selectedIndex + 1} OF 06
+                  ROLE 0{selectedIndex + 1} OF 0{CHARACTERS.length}
                 </span>
                 <span className="text-white/20">•</span>
                 <span className="text-[#A5A196]">
@@ -288,7 +288,7 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
             {/* Filter Tabs */}
             <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/10">
               <span className="text-xs font-mono text-[#A5A196] uppercase tracking-widest">
-                6 CHARACTER DOSSIERS • CLICK TO INSPECT
+                {CHARACTERS.length} CHARACTER DOSSIERS • CLICK TO INSPECT
               </span>
 
               <div className="flex items-center gap-1.5 p-1 bg-[#0C111A] border border-white/10">

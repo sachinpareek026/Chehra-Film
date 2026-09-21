@@ -53,7 +53,7 @@ const BENEFIT_EXTENDED_DATA: Record<string, BenefitDetailedInfo> = {
     ],
     operationalMechanism: 'Equitable profit alignment sharing cinematic upside with the actual faces seen on screen.',
     quote: 'When the film succeeds globally, the artists who brought it to life share in the harvest.',
-    visualImage: 'https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?auto=format&fit=crop&w=1000&q=80'
+    visualImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957419/Win_win_case_-_Revenue_participation.jpg'
   },
   b4: {
     legalClause: 'Section 6.2 (Overland Transit Logistics): 2,400+ KM across 4 states, spanning high-altitude Himalayan passes of Spiti to the sand dunes of Thar.',
@@ -64,7 +64,7 @@ const BENEFIT_EXTENDED_DATA: Record<string, BenefitDetailedInfo> = {
     ],
     operationalMechanism: 'A curated expedition route connecting remote geographic marvels inaccessible via conventional commercial tourism.',
     quote: 'We travel through landscapes where GPS gives way to raw mountain horizons.',
-    visualImage: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1000&q=80'
+    visualImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957420/Travel_india.jpg'
   },
   b5: {
     legalClause: 'Section 9.4 (Accreditation & Digital Credentials): Official IMDb listing, festival program billing, and archival digital credit for all participants.',
@@ -75,7 +75,7 @@ const BENEFIT_EXTENDED_DATA: Record<string, BenefitDetailedInfo> = {
     ],
     operationalMechanism: 'Authentic film festival circuit submission with formal cast & contributor documentation.',
     quote: 'More than a travel memory—a permanent footprint in the archives of cinema.',
-    visualImage: 'https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?auto=format&fit=crop&w=1000&q=80'
+    visualImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957420/Become_part_of_the_film.webp'
   },
   b6: {
     legalClause: 'Section 14.1 (Media Archive & Showreel Access): Full access to the private high-definition digital archive of expedition footage and unscripted recordings.',
@@ -86,7 +86,7 @@ const BENEFIT_EXTENDED_DATA: Record<string, BenefitDetailedInfo> = {
     ],
     operationalMechanism: 'Dedicated post-production archival team curating custom showreel packages for each expedition member.',
     quote: 'Ten years from now, you will look back at this film and remember the dust, the campfire, and the truth.',
-    visualImage: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=80'
+    visualImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957420/Memory_for_life.png'
   }
 };
 
@@ -161,10 +161,11 @@ export const WhyJoinSection: React.FC = () => {
                       src={ext.visualImage}
                       alt={benefit.title}
                       referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover filter contrast-110 opacity-45 group-hover:opacity-65 group-hover:scale-105 transition-all duration-700 ease-out"
+                      className="w-full h-full object-cover filter contrast-105 brightness-95 opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
                     />
-                    <div className="absolute inset-0 bg-[#030d29]/70 mix-blend-multiply pointer-events-none" />
-                    <div className="absolute inset-0 bg-blue-950/50 pointer-events-none" />
+                    {/* Slight dark blue color effect */}
+                    <div className="absolute inset-0 bg-[#061536]/25 mix-blend-multiply pointer-events-none" />
+                    <div className="absolute inset-0 bg-blue-950/20 pointer-events-none" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0C111A] via-transparent to-transparent pointer-events-none" />
                   </div>
                 )}

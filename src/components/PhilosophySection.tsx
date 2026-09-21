@@ -51,7 +51,22 @@ export const PhilosophySection: React.FC = () => {
   const [activePillar, setActivePillar] = useState<ManifestoPillar | null>(null);
 
   return (
-    <section id="philosophy" className="relative py-24 md:py-32 bg-[#090D15] border-t border-white/[0.08] text-[#EDE8DF]">
+    <section id="philosophy" className="relative py-24 md:py-32 bg-[#090D15] border-t border-white/[0.08] text-[#EDE8DF] overflow-hidden">
+      {/* Background Video with 70% opacity */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover opacity-70"
+          src="https://res.cloudinary.com/x1dci3fh/video/upload/v1788120738/AQMBbpZw0O27IfOX0FfiwjYewf9od743cEPsbx7NeMCl2TTnHx6WX-iF-tKwCPhKGLymGw_0P8LS0TdAIe8p1z0.mp4"
+        />
+        {/* Cinematic subtle edge fade overlays to harmonize with neighboring sections */}
+        <div className="absolute inset-0 bg-[#090D15]/30 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#090D15] via-transparent to-[#090D15] pointer-events-none" />
+      </div>
+
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         
         {/* Editorial Section Marker */}

@@ -47,12 +47,12 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
     badgeColor: 'bg-yellow-400/90 text-black',
     title: 'AS AN ACTOR',
     subtitle: 'Lead Character Arc • Unscripted Cinema Realism',
-    heroImage: '/characters/shankar.jpg',
+    heroImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957437/Shankar.png',
     pricingTag: '100% REFUNDABLE',
     pricingSubtitle: 'Zero audition or casting charges. Security deposit wired back upon shoot wrap.',
     guaranteeText: 'Full bank transfer refund immediately following completion of your on-location shoot schedule.',
     overview:
-      'Step directly into the shoes of one of the 6 lead character personas across extreme Himalayan and desert terrain. You travel with the production convoy, improvising dialogue against real-life natural light, dawn mist, and roadside encounters.',
+      'Step directly into the shoes of one of the 7 lead character personas across extreme Himalayan and desert terrain. You travel with the production convoy, improvising dialogue against real-life natural light, dawn mist, and roadside encounters.',
     keyPerks: [
       'Official IMDb lead character billing & international festival premiere accreditation',
       'Dedicated multi-camera coverage with 4K Arri Alexa LF & Anamorphic lenses',
@@ -75,13 +75,13 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
   participant: {
     id: 'participant',
     number: '02',
-    badge: '₹1,000 TOKEN LOCK',
+    badge: '₹2,000 TOKEN LOCK',
     badgeColor: 'bg-yellow-400/90 text-black',
     title: 'AS A PARTICIPANT',
     subtitle: 'Front-Row Convoy Immersion • No Auditions Required',
-    heroImage: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',
+    heroImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957421/Participant.jpg',
     pricingTag: '₹13,000 EARLY BIRD',
-    pricingSubtitle: 'Lock with ₹1,000 token today. Early bird ₹13,000; rises to ₹14,500 after 20 Nov.',
+    pricingSubtitle: 'Lock with ₹2,000 token today. Early bird ₹13,000; rises to ₹14,500 after 20 Nov.',
     guaranteeText: 'Price locked permanently against holiday tariff surges. Balance settled prior to departure.',
     overview:
       'Join the live production convoy as a traveler and witness a feature film being made in real time across Kashmir. Experience Katra & Vaishno Devi, a 2-day skiing course in Gulmarg, and Dal Lake in Srinagar.',
@@ -92,7 +92,7 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
       'No portfolio, acting audition, or past filmmaking experience needed'
     ],
     timeline: [
-      { phase: 'Immediate Token', details: 'Pay ₹1,000 now to freeze ₹13,000 early-bird expedition rate' },
+      { phase: 'Immediate Token', details: 'Pay ₹2,000 now to freeze ₹13,000 early-bird expedition rate' },
       { phase: 'Convoy Briefing', details: 'Digital route map, gear checklist & base camp coordinates sent' },
       { phase: 'Expedition Rollout', details: 'Depart with the cast and camera trucks on 24 December 2026' }
     ],
@@ -102,7 +102,7 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
       'High-Resolution Expedition Photo Archive',
       'Chehra Production Member Pass'
     ],
-    ctaText: 'LOCK SEAT (₹1,000 TOKEN)'
+    ctaText: 'LOCK SEAT (₹2,000 TOKEN)'
   },
   crew: {
     id: 'crew',
@@ -111,7 +111,7 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
     badgeColor: 'bg-emerald-500 text-black',
     title: 'AS CREW MEMBER',
     subtitle: 'Cinematography • Field Sound • Art & Logistics',
-    heroImage: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1200&q=80',
+    heroImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957420/Crew.jpg',
     pricingTag: 'SUBSIDIZED LOGISTICS',
     pricingSubtitle: 'Production stipend, equipment transit, mountain base camp lodging and IMDb crew credit.',
     guaranteeText: 'Hands-on cinematography & field audio on an official multi-camera feature film production.',
@@ -166,7 +166,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
             </h2>
           </div>
           <p className="max-w-md text-xs sm:text-sm text-[#B8B4AC] font-normal font-sans leading-[1.6]">
-            Whether leading on camera with a 100% refund guarantee, securing an expedition seat with a ₹1,000 token, or capturing sound and visuals as technical crew.
+            Whether leading on camera with a 100% refund guarantee, securing an expedition seat with a ₹2,000 token, or capturing sound and visuals as technical crew.
           </p>
         </div>
 
@@ -184,10 +184,10 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                 src={PATHWAY_DATA.actor.heroImage}
                 alt="Actor Pathway - Chehra Films"
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-top filter contrast-110 opacity-45 group-hover:opacity-65 group-hover:scale-105 transition-all duration-700 ease-out"
+                className="w-full h-full object-cover object-top filter contrast-105 brightness-95 opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
               />
-              <div className="absolute inset-0 bg-[#030d29]/70 mix-blend-multiply pointer-events-none" />
-              <div className="absolute inset-0 bg-blue-950/50 pointer-events-none" />
+              <div className="absolute inset-0 bg-[#061536]/25 mix-blend-multiply pointer-events-none" />
+              <div className="absolute inset-0 bg-blue-950/20 pointer-events-none" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-transparent to-transparent pointer-events-none" />
             </div>
 
@@ -211,7 +211,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                 </p>
 
                 {/* Micro Financial Terms Banner */}
-                <div className="p-3.5 bg-[#050811] border border-white/10 mb-5">
+                <div className="p-3.5 bg-[#050811] border border-white/10 mb-4">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-sans font-semibold text-[#B8B4AC] uppercase tracking-wider">
                       PRODUCTION DEPOSIT
@@ -223,14 +223,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                   <div className="text-xl font-title font-bold text-emerald-400 mt-0.5">
                     100% REFUNDABLE
                   </div>
-                  <p className="text-[11px] text-[#B8B4AC] font-normal font-sans mt-0.5">
-                    Security deposit wired back in full upon wrap of shoot schedule.
-                  </p>
                 </div>
-
-                <p className="text-xs text-[#B8B4AC] font-normal font-sans leading-[1.6] mb-6">
-                  Perform in unscripted scenes across the Himalayas and Thar desert. Get official IMDb lead character billing and festival credits.
-                </p>
               </div>
 
               {/* Action Buttons */}
@@ -261,10 +254,10 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                 src={PATHWAY_DATA.participant.heroImage}
                 alt="Participant Pathway - Chehra Films"
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-center filter contrast-110 opacity-45 group-hover:opacity-65 group-hover:scale-105 transition-all duration-700 ease-out"
+                className="w-full h-full object-cover object-center filter contrast-105 brightness-95 opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
               />
-              <div className="absolute inset-0 bg-[#030d29]/70 mix-blend-multiply pointer-events-none" />
-              <div className="absolute inset-0 bg-blue-950/50 pointer-events-none" />
+              <div className="absolute inset-0 bg-[#061536]/25 mix-blend-multiply pointer-events-none" />
+              <div className="absolute inset-0 bg-blue-950/20 pointer-events-none" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#091224] via-transparent to-transparent pointer-events-none" />
             </div>
 
@@ -277,7 +270,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                     PATHWAY 02
                   </span>
                   <span className="px-2.5 py-0.5 bg-yellow-400/90 text-black text-[9px] font-sans font-bold uppercase tracking-wider">
-                    EARLY LOCK ₹1,000
+                    EARLY LOCK ₹2,000
                   </span>
                 </div>
                 <h3 className="font-title text-2xl font-semibold text-[#F4F1EA] uppercase tracking-[0.02em] group-hover:text-yellow-400/90 transition-colors mb-1">
@@ -288,7 +281,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                 </p>
 
                 {/* Micro Pricing Banner */}
-                <div className="p-3.5 bg-[#050A16] border border-yellow-400/40 mb-5">
+                <div className="p-3.5 bg-[#050A16] border border-yellow-400/40 mb-4">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-sans text-yellow-400/90 uppercase tracking-wider font-bold">
                       PRICE FREEZE GUARANTEE
@@ -300,14 +293,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                   <div className="text-xl font-title font-bold text-[#F4F1EA] mt-0.5">
                     ₹11,000 <span className="text-xs font-sans text-yellow-400/90 font-normal">/ TOTAL</span>
                   </div>
-                  <p className="text-[11px] text-yellow-300/90 font-sans font-medium mt-0.5">
-                    Pay ₹1,000 token today. Rate increases by +₹1,500 after Oct 30.
-                  </p>
                 </div>
-
-                <p className="text-xs text-[#B8B4AC] font-normal font-sans leading-[1.6] mb-6">
-                  Travel inside the 2,400+ KM convoy side-by-side with cast & crew. Stays, route permits, and festival contributor credits included.
-                </p>
               </div>
 
               {/* Action Buttons */}
@@ -321,7 +307,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                   }}
                   className="w-full !py-3.5 text-xs tracking-wider"
                 >
-                  LOCK SEAT (₹1,000 TOKEN)
+                  LOCK SEAT (₹2,000 TOKEN)
                 </CinemaButton>
               </div>
             </div>
@@ -338,10 +324,10 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                 src={PATHWAY_DATA.crew.heroImage}
                 alt="Crew Pathway - Chehra Films"
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-center filter contrast-110 opacity-45 group-hover:opacity-65 group-hover:scale-105 transition-all duration-700 ease-out"
+                className="w-full h-full object-cover object-center filter contrast-105 brightness-95 opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
               />
-              <div className="absolute inset-0 bg-[#030d29]/70 mix-blend-multiply pointer-events-none" />
-              <div className="absolute inset-0 bg-blue-950/50 pointer-events-none" />
+              <div className="absolute inset-0 bg-[#061536]/25 mix-blend-multiply pointer-events-none" />
+              <div className="absolute inset-0 bg-blue-950/20 pointer-events-none" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-transparent to-transparent pointer-events-none" />
             </div>
 
@@ -365,7 +351,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                 </p>
 
                 {/* Micro Compensation Banner */}
-                <div className="p-3.5 bg-[#050811] border border-white/10 mb-5">
+                <div className="p-3.5 bg-[#050811] border border-white/10 mb-4">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
                       COMPENSATION & CREDITS
@@ -377,14 +363,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                   <div className="text-xl font-title font-black text-white mt-0.5">
                     TECHNICAL ACCREDITATION
                   </div>
-                  <p className="text-[11px] text-slate-300 font-light mt-0.5">
-                    Production stipend, cross-state freight, stays and official IMDb credit.
-                  </p>
                 </div>
-
-                <p className="text-xs text-slate-300 font-light leading-relaxed mb-6">
-                  Operate camera rigs, record microtonal audio, or coordinate live sets on wheels. No file upload: simply submit portfolio reel links.
-                </p>
               </div>
 
               {/* Action Buttons */}
@@ -447,10 +426,10 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                   src={activeModalData.heroImage}
                   alt={activeModalData.title}
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover filter contrast-110 opacity-50"
+                  className="w-full h-full object-cover filter contrast-105 brightness-95 opacity-90"
                 />
-                <div className="absolute inset-0 bg-[#030d29]/70 mix-blend-multiply pointer-events-none" />
-                <div className="absolute inset-0 bg-blue-950/50 pointer-events-none" />
+                <div className="absolute inset-0 bg-[#061536]/25 mix-blend-multiply pointer-events-none" />
+                <div className="absolute inset-0 bg-blue-950/20 pointer-events-none" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-transparent to-transparent pointer-events-none" />
               </div>
 
