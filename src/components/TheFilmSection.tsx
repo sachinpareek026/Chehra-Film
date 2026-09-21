@@ -8,7 +8,6 @@ import {
   Check,
   RotateCcw
 } from 'lucide-react';
-import { CinemaButton } from './CinemaButton';
 import { FILM_METADATA } from '../data/cinemaData';
 
 interface TheFilmSectionProps {
@@ -28,66 +27,64 @@ export const TheFilmSection: React.FC<TheFilmSectionProps> = ({ onWatchTeaser, o
   };
 
   const specs = [
-    { label: 'FORMAT', val: '4K CinemaScope 2.39:1' },
-    { label: 'AUDIO', val: 'Dolby Atmos Spatial' },
-    { label: 'RUNTIME', val: '118 Mins Feature' },
-    { label: 'PREMIERE', val: '2026 Festival Circuit' },
+    { label: 'ASPECT RATIO', val: '2.39:1 CinemaScope' },
+    { label: 'SOUND FORMAT', val: 'Dolby Atmos Field Audio' },
+    { label: 'RUNNING TIME', val: '118 Mins Feature' },
+    { label: 'PRODUCTION', val: 'Unscripted Overland' },
   ];
 
   return (
-    <section id="film" className="relative py-20 md:py-28 bg-[#040813] border-t border-b border-white/10 overflow-hidden">
-      {/* Subtle ambient glows */}
-      <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-red-600/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute inset-0 film-grain opacity-20 pointer-events-none" />
-
+    <section id="film" className="relative py-24 md:py-32 bg-[#090D15] border-t border-white/[0.08] text-[#EDE8DF]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header: Visuals First */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-          <div>
-            <div className="inline-flex items-center gap-2 mb-2">
-              <span className="w-4 h-[1px] bg-yellow-400" />
-              <span className="text-[10px] font-mono tracking-[0.3em] text-yellow-400 uppercase font-bold">
-                02 / OFFICIAL CINEMA SHOWCASE
+        {/* Editorial Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] font-mono tracking-[0.25em] text-yellow-400/90 uppercase font-medium">
+                {FILM_METADATA.projectCode} // SHOWCASE
+              </span>
+              <span className="text-white/20">•</span>
+              <span className="text-[10px] font-mono tracking-[0.25em] text-[#A5A196] uppercase">
+                VOL. I
               </span>
             </div>
-            <h2 className="font-title text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase leading-tight">
-              CHEHRA <span className="text-yellow-400 font-light">•</span> THE FEATURE FILM
+            <h2 className="font-title text-3xl sm:text-4xl md:text-5xl font-bold text-[#EDE8DF] tracking-tight uppercase leading-tight">
+              {FILM_METADATA.projectTitle}
             </h2>
-            <p className="mt-1 text-xs sm:text-sm text-slate-400 font-light">
-              4K cinematic footage captured along 2,400 KM of extreme Indian terrain.
+            <p className="text-xs sm:text-sm text-[#A5A196] font-normal max-w-xl">
+              {FILM_METADATA.projectSubtitle}. An unscripted narrative captured across 2,400 kilometers of high-altitude passes and remote river valleys.
             </p>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-1 bg-white/5 border border-white/10 text-slate-300 font-mono text-[10px] uppercase tracking-wider">
-              OFFICIAL SELECTION 2026
+            <span className="px-3 py-1 bg-white/[0.04] border border-white/10 text-[#A5A196] font-mono text-[10px] uppercase tracking-wider">
+              FESTIVAL PREVIEW
             </span>
-            <span className="px-2.5 py-1 bg-yellow-400/10 border border-yellow-400/30 text-yellow-300 font-mono text-[10px] uppercase tracking-wider">
-              2.39:1 ANAMORPHIC
+            <span className="px-3 py-1 bg-yellow-400/10 border border-yellow-400/30 text-yellow-400/90 font-mono text-[10px] uppercase tracking-wider">
+              4K ANAMORPHIC
             </span>
           </div>
         </div>
 
         {/* 1. Cinematic Video Player & Specs */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           {/* Main Video Frame (8 cols on lg) */}
           <div className="lg:col-span-8 relative group">
-            <div className="relative overflow-hidden border border-white/15 bg-black shadow-2xl shadow-black/80 aspect-video">
+            <div className="relative overflow-hidden border border-white/15 bg-black aspect-video">
               {isPlaying ? (
                 <div className="relative w-full h-full bg-black">
                   <iframe
                     className="w-full h-full"
                     src={`https://www.youtube.com/embed/${FILM_METADATA.trailerYoutubeId}?autoplay=1&rel=0&modestbranding=1`}
-                    title="Chehra Films Official Trailer"
+                    title="Chehra Films - Official 4K Teaser"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
                   />
                   <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-auto">
                     <button
                       onClick={() => setIsPlaying(false)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 bg-black/90 hover:bg-yellow-400 text-slate-200 hover:text-black border border-white/20 text-[10px] font-mono uppercase tracking-wider transition-colors cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-black/90 hover:bg-yellow-400/90 text-[#EDE8DF] hover:text-black border border-white/20 text-[10px] font-mono uppercase tracking-wider transition-colors cursor-pointer"
                     >
                       <RotateCcw className="w-3 h-3" />
                       <span>CLOSE PLAYER</span>
@@ -96,10 +93,10 @@ export const TheFilmSection: React.FC<TheFilmSectionProps> = ({ onWatchTeaser, o
                       href={FILM_METADATA.trailerUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-600/90 hover:bg-red-500 text-white text-[10px] font-mono uppercase tracking-wider transition-colors"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-black/90 hover:bg-red-700 text-white border border-white/20 text-[10px] font-mono uppercase tracking-wider transition-colors"
                     >
-                      <Youtube className="w-3.5 h-3.5 text-white" />
-                      <span>YOUTUBE 4K</span>
+                      <Youtube className="w-3.5 h-3.5 text-red-500" />
+                      <span>OPEN IN YOUTUBE</span>
                     </a>
                   </div>
                 </div>
@@ -112,34 +109,34 @@ export const TheFilmSection: React.FC<TheFilmSectionProps> = ({ onWatchTeaser, o
                     }}
                     alt="Chehra Films Official Trailer"
                     referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover object-center filter contrast-105 brightness-95 group-hover/card:scale-105 group-hover/card:brightness-100 transition-all duration-700"
+                    className="w-full h-full object-cover object-center filter contrast-105 brightness-90 group-hover/card:scale-102 transition-transform duration-500 ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-black/30" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30" />
 
                   {/* Top Bar Badges */}
-                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10 pointer-events-auto">
+                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10 pointer-events-auto">
                     <div className="flex items-center gap-2">
-                      <span className="px-2.5 py-0.5 bg-yellow-400 text-black font-mono font-bold text-[9px] uppercase tracking-wider">
+                      <span className="px-2.5 py-1 bg-yellow-400/90 text-black font-mono font-medium text-[9px] uppercase tracking-wider">
                         4K PROLOGUE
                       </span>
-                      <span className="text-[10px] font-mono text-slate-300 hidden sm:inline">
+                      <span className="text-[10px] font-mono text-[#A5A196] hidden sm:inline">
                         2.39:1 CINEMASCOPE
                       </span>
                     </div>
 
                     <button
                       onClick={handleCopyLink}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 bg-black/80 hover:bg-slate-800 text-slate-200 border border-white/20 text-[10px] font-mono tracking-wider transition-colors cursor-pointer backdrop-blur-sm"
-                      title="Copy trailer video link"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-black/80 hover:bg-white/10 text-[#A5A196] hover:text-white border border-white/15 text-[10px] font-mono tracking-wider transition-colors cursor-pointer"
+                      title="Copy trailer link"
                     >
                       {copied ? (
                         <>
                           <Check className="w-3 h-3 text-emerald-400" />
-                          <span className="text-emerald-400 font-bold">COPIED</span>
+                          <span className="text-emerald-400">COPIED</span>
                         </>
                       ) : (
                         <>
-                          <Copy className="w-3 h-3 text-slate-300" />
+                          <Copy className="w-3 h-3" />
                           <span>COPY LINK</span>
                         </>
                       )}
@@ -147,22 +144,22 @@ export const TheFilmSection: React.FC<TheFilmSectionProps> = ({ onWatchTeaser, o
                   </div>
 
                   {/* Center Floating Play Button */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-yellow-400 text-black flex items-center justify-center shadow-2xl shadow-yellow-500/50 group-hover/card:scale-110 group-hover/card:bg-yellow-300 transition-all duration-300">
-                      <Play className="w-7 h-7 fill-black text-black ml-1" />
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="w-16 h-16 rounded-full bg-white/15 border border-white/30 text-white flex items-center justify-center transition-all duration-300 group-hover/card:bg-yellow-400/90 group-hover/card:text-black group-hover/card:border-yellow-400/90">
+                      <Play className="w-6 h-6 fill-current ml-1" />
                     </div>
                   </div>
 
                   {/* Bottom Slate Title */}
-                  <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 flex items-center justify-between border-t border-white/10 bg-black/80 backdrop-blur-sm">
+                  <div className="absolute bottom-0 left-0 right-0 p-4 flex items-center justify-between border-t border-white/10 bg-black/75">
                     <div className="flex items-center gap-2">
-                      <Film className="w-4 h-4 text-yellow-400" />
-                      <span className="text-xs font-title font-bold text-white uppercase tracking-wider">
-                        WATCH OFFICIAL TEASER
+                      <Film className="w-4 h-4 text-yellow-400/90" />
+                      <span className="text-xs font-mono uppercase tracking-wider text-[#EDE8DF]">
+                        {FILM_METADATA.projectTitle} — OFFICIAL TEASER
                       </span>
                     </div>
-                    <span className="text-[10px] font-mono text-yellow-400 uppercase tracking-widest font-semibold flex items-center gap-1">
-                      <span>CLICK TO PLAY</span>
+                    <span className="text-[10px] font-mono text-yellow-400/90 uppercase tracking-wider flex items-center gap-1">
+                      <span>WATCH</span>
                       <ExternalLink className="w-3 h-3" />
                     </span>
                   </div>
@@ -173,36 +170,42 @@ export const TheFilmSection: React.FC<TheFilmSectionProps> = ({ onWatchTeaser, o
 
           {/* Quick Specifications (4 cols on lg) */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="p-4 bg-[#070D1A] border border-white/10">
-              <span className="text-[10px] font-mono text-yellow-400 uppercase tracking-widest font-bold block mb-1">
+            <div className="p-5 bg-[#0C111A] border border-white/10">
+              <span className="text-[10px] font-mono text-yellow-400/90 uppercase tracking-widest font-medium block mb-2">
                 OVERLAND LOGLINE
               </span>
-              <p className="text-sm text-white font-light leading-relaxed">
-                Six strangers on a 2,400 KM Himalayan caravan with zero script. Travel dissolves into pure cinema.
+              <p className="text-xs sm:text-sm text-[#EDE8DF] font-light leading-relaxed">
+                Six strangers on a 2,400-kilometer Himalayan convoy with zero scripted dialogue. Travel dissolves into unscripted cinema.
               </p>
             </div>
 
             {/* Technical Specs 2x2 Grid */}
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2.5">
               {specs.map((item, idx) => (
-                <div key={idx} className="p-3 bg-[#070D1A] border border-white/10">
-                  <span className="text-[9px] font-mono text-yellow-400 block uppercase tracking-widest font-semibold">
+                <div key={idx} className="p-3.5 bg-[#0C111A] border border-white/10">
+                  <span className="text-[9px] font-mono text-[#A5A196] block uppercase tracking-widest">
                     {item.label}
                   </span>
-                  <span className="text-xs font-title font-bold text-slate-200 mt-0.5 block truncate">
+                  <span className="text-xs font-title font-medium text-[#EDE8DF] mt-1 block truncate">
                     {item.val}
                   </span>
                 </div>
               ))}
             </div>
 
-            <div className="flex items-center gap-3 pt-1">
-              <CinemaButton variant="primary" onClick={onWatchTeaser} className="flex-1 !py-3 !text-xs">
-                WATCH TEASER
-              </CinemaButton>
-              <CinemaButton variant="secondary" onClick={onExploreJourney} className="flex-1 !py-3 !text-xs">
-                LOCATION MAP
-              </CinemaButton>
+            <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+              <button
+                onClick={onWatchTeaser}
+                className="w-full sm:flex-1 py-3 px-4 bg-yellow-400/90 hover:bg-yellow-300/90 text-black font-semibold text-xs uppercase tracking-wider transition-colors cursor-pointer"
+              >
+                PLAY TEASER →
+              </button>
+              <button
+                onClick={onExploreJourney}
+                className="w-full sm:flex-1 py-3 px-4 bg-[#0C111A] hover:bg-[#151C28] text-[#EDE8DF] border border-white/15 hover:border-yellow-400/90 text-xs font-mono uppercase tracking-wider transition-colors cursor-pointer"
+              >
+                LOCATIONS →
+              </button>
             </div>
           </div>
         </div>
@@ -211,3 +214,4 @@ export const TheFilmSection: React.FC<TheFilmSectionProps> = ({ onWatchTeaser, o
     </section>
   );
 };
+

@@ -1,11 +1,15 @@
 import { CharacterRole, BenefitItem, TimelineStep, FilmLocation, ExpeditionEpisode } from '../types';
 
 export const FILM_METADATA = {
+  projectCode: 'PROJECT CF01',
+  projectTitle: 'THE LIFE OF NANDI',
+  projectSubtitle: 'THE SUPREME GUARD OF SHIVA',
   title: 'CHEHRA FILMS',
   tagline: 'An initiative of Parindaa Travels',
   positioning: "INDIA'S 1ST EXPERIMENTAL CINEMA PROJECT",
   motto: 'A journey where travel becomes cinema.',
   directorNotes: 'A radical cinematic venture eliminating studio sets. India is our soundstage, travelers are our cast.',
+  synopsis: 'An unscripted overland cinema odyssey across 2,400 kilometers of real Indian terrain. As a fragile caravan navigates sub-zero Himalayan passes, sacred ancient rivers, and silent dunes, Nandi stands as the silent guardian — protecting the unvarnished truths of six wanderers who refuse to look back.',
   trailerUrl: 'https://youtu.be/Rz5jQK4KQ2o?si=POsuNzsMIyrYhcAx',
   trailerYoutubeId: 'Rz5jQK4KQ2o',
   trailerThumbnail: 'https://img.youtube.com/vi/Rz5jQK4KQ2o/maxresdefault.jpg',
@@ -228,58 +232,58 @@ export const TIMELINE_STEPS: TimelineStep[] = [
 export const INDIA_LOCATIONS: FilmLocation[] = [
   {
     id: 'loc-1',
-    title: 'Meghalaya',
+    title: 'Living Root Bridges & Khasi Canopy',
     state: 'Meghalaya',
-    tagline: '',
-    terrain: '',
-    coordinates: '',
+    tagline: 'Ancient Sub-Tropical Cloud Forest',
+    terrain: 'Cascading valleys, bio-engineered root bridges, perennial mist',
+    coordinates: '25.2986° N, 91.5822° E',
     image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789639316/images_74_-_Copy.jpg',
-    moodColor: '#f59e0b',
-    sceneRole: ''
+    moodColor: 'rgba(250, 204, 21, 0.9)',
+    sceneRole: 'Acts II & III: The Descent into the Unconscious'
   },
   {
     id: 'loc-2',
-    title: 'Andaman and Nicobar Islands',
+    title: 'Havelock Island & Trench Atolls',
     state: 'Andaman & Nicobar Islands',
-    tagline: '',
-    terrain: '',
-    coordinates: '',
+    tagline: 'Deep Ocean Trench & Volcanic Reefs',
+    terrain: 'Secluded coves, turquoise depths, dense mangrove borders',
+    coordinates: '11.9761° N, 92.9876° E',
     image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789639320/180125112457-glass-bottom-boat-ride-activity-180125111234_-_Copy_-_Copy.jpg',
-    moodColor: '#0ea5e9',
-    sceneRole: ''
+    moodColor: '#38BDF8',
+    sceneRole: 'Prologue: The Horizon Before the Overland Crossing'
   },
   {
     id: 'loc-3',
-    title: 'Meghalaya',
+    title: 'Krem Chympe Limestone Caverns',
     state: 'Meghalaya',
-    tagline: '',
-    terrain: '',
-    coordinates: '',
+    tagline: 'Subterranean River Cave System',
+    terrain: 'Limestone galleries, underground cascades, natural acoustic echo',
+    coordinates: '25.3211° N, 92.4109° E',
     image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789639319/this-is-krem-chympe-cave_-_Copy.jpg',
-    moodColor: '#10b981',
-    sceneRole: ''
+    moodColor: '#10B981',
+    sceneRole: 'Act IV: The Trial of Silence'
   },
   {
     id: 'loc-4',
-    title: 'Meghalaya',
+    title: 'Mawsynram Torrential Gorges',
     state: 'Meghalaya',
-    tagline: '',
-    terrain: '',
-    coordinates: '',
+    tagline: 'The Wettest Place on Earth',
+    terrain: 'Precipitous cloudburst cliffs, emerald moss, relentless rain',
+    coordinates: '25.2975° N, 91.5826° E',
     image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789639214/Mawsynram-Falls_-_Copy.jpg',
-    moodColor: '#38bdf8',
-    sceneRole: ''
+    moodColor: '#60A5FA',
+    sceneRole: 'Act V: Climax of the Monsoon'
   },
   {
     id: 'loc-5',
-    title: 'Meghalaya',
-    state: 'Meghalaya',
-    tagline: '',
-    terrain: '',
-    coordinates: '',
+    title: 'Gulmarg & Pir Panjal High Slopes',
+    state: 'Jammu & Kashmir',
+    tagline: 'Sub-Zero Snowbound Alpine Ridges',
+    terrain: 'Powder snow slopes, silent pine valleys, Apharwat peak ridges',
+    coordinates: '34.0484° N, 74.3805° E',
     image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789639214/images_80_-_Copy.jpg',
-    moodColor: '#a855f7',
-    sceneRole: ''
+    moodColor: '#EDE8DF',
+    sceneRole: 'The Life of Nandi: Winter Expedition Chapter'
   }
 ];
 

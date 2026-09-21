@@ -34,7 +34,7 @@ export const ChehraLogo: React.FC<ChehraLogoProps> = ({
       {showText && (
         <div className="flex flex-col justify-center text-left">
           <div className="flex items-center gap-1.5">
-            <span className="font-title text-base sm:text-lg font-black tracking-[0.18em] text-white group-hover:text-yellow-400 transition-colors uppercase leading-none">
+            <span className="font-title text-base sm:text-lg font-black tracking-[0.18em] text-white group-hover:text-yellow-400/90 transition-colors uppercase leading-none">
               CHEHRA FILMS
             </span>
           </div>

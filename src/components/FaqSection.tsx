@@ -70,30 +70,30 @@ const FAQS: FaqItem[] = [
   {
     id: 'participant-pricing',
     category: 'participant',
-    question: 'How does the ₹1,000 token & ₹11,000 expedition pricing work?',
+    question: 'How does the ₹1,000 token & ₹13,000 early bird expedition pricing work?',
     answer:
-      'You only pay a ₹1,000 token today to reserve your seat in the expedition convoy. Paying the token permanently locks your registration at the early-bird rate of ₹11,000, protecting you from future price hikes. The remaining balance is settled 7 days prior to departure.',
-    highlight: 'LOCK ₹11,000 EXPEDITION RATE WITH ₹1,000 TOKEN',
-    legalClause: 'Section 5.1 (Price Lock Guarantee): The initial ₹1,000 token protects the traveler against all peak-winter vehicle lease rate surges.',
+      'You only pay a ₹1,000 token today to reserve your seat in the expedition convoy. Paying the token permanently locks your registration at the early-bird rate of ₹13,000 (regular rate is ₹14,500 after 20 Nov 2026), protecting you from holiday surges. The remaining balance is settled prior to departure.',
+    highlight: 'LOCK ₹13,000 EARLY BIRD RATE WITH ₹1,000 TOKEN',
+    legalClause: 'Section 5.1 (Price Lock Guarantee): The initial ₹1,000 token protects the traveler against all peak-winter vehicle lease and lodging rate surges.',
     relatedDoc: 'Expedition Convoy Booking Terms'
   },
   {
     id: 'participant-hike',
     category: 'participant',
-    question: 'Why does the expedition rate increase after October 30?',
+    question: 'Why does the expedition rate increase after November 20?',
     answer:
-      'High-altitude mountain permits, specialized winter vehicle convoy leases, and remote camp bookings surge during peak winter. Registrations received after October 30 will increase by ₹1,500 (totaling ₹12,500). Booking now guarantees the ₹11,000 rate.',
-    highlight: '+₹1,500 RATE INCREASE AFTER OCTOBER 30',
+      'High-altitude mountain permits, specialized winter vehicle convoy leases, and Gulmarg hotel reservations surge during peak Christmas week. Registrations received after 20 November 2026 are ₹14,500. Booking early guarantees the ₹13,000 rate.',
+    highlight: '₹14,500 AFTER 20 NOVEMBER 2026',
     legalClause: 'Section 5.4 (Peak Winter Logistics Surcharge): Government pass permits and heating provisions surge in late autumn.',
     relatedDoc: 'Winter Convoy Logistics Schedule'
   },
   {
     id: 'participant-inclusions',
     category: 'participant',
-    question: 'What is included in the ₹11,000 participant package?',
+    question: 'What is included in the ₹13,000 early bird package?',
     answer:
-      'Your booking includes curated inter-state convoy transit across the entire 2,400+ km route, verified twin-sharing base camps & mountain stays, daily breakfast & bonfire dinners, mountain route permits, and front-row immersion witnessing a feature film shot in real time.',
-    legalClause: 'Section 7.1 (Logistical Inclusions): Vehicle fuel, verified stays, permits, and shared group logistics covered without hidden add-ons.',
+      'Your booking includes 7 nights / 8 days travel from Delhi across Katra (Vaishno Devi), 2 full days in Gulmarg (including a 2-day beginner skiing course with equipment and instructor), and Srinagar (Dal Lake houseboat stay and shikara ride).',
+    legalClause: 'Section 7.1 (Logistical Inclusions): Vehicle transit, verified stays, ski course, and shared group logistics covered without hidden add-ons.',
     relatedDoc: 'Participant Journey Schedule & Menu'
   },
   {
@@ -132,7 +132,7 @@ const FAQS: FaqItem[] = [
     category: 'general',
     question: 'What safety protocols and medical provisions are in place?',
     answer:
-      'Every convoy vehicle travels with satellite tracking, certified mountain drivers, oxygen cylinders, emergency first-aid kits, and dedicated expedition leads from Parindaa Travels who know the terrain intimately.',
+      'Every convoy vehicle travels with certified mountain drivers, oxygen cylinders, emergency first-aid kits, and dedicated expedition leads from Parindaa Travels who know the terrain intimately.',
     legalClause: 'Section 12.3 (High-Altitude Emergency Protocol): Immediate descent vehicles and medical escort accompany convoy at all times above 10,000 ft.',
     relatedDoc: 'Expedition Health & Mountain Safety Manual'
   },
@@ -147,23 +147,23 @@ interface FaqSectionProps {
 const CATEGORY_INFO: Record<string, { label: string; icon: React.ReactNode; color: string }> = {
   actor: {
     label: 'ACTOR CASTING & 100% REFUND',
-    icon: <Film className="w-3.5 h-3.5 text-yellow-400" />,
-    color: 'border-yellow-400/30 text-yellow-300'
+    icon: <Film className="w-3.5 h-3.5 text-yellow-400/90" />,
+    color: 'border-yellow-400/30 text-yellow-400/90'
   },
   participant: {
     label: 'EXPEDITION SEATS & TOKEN PRICING',
-    icon: <Compass className="w-3.5 h-3.5 text-cyan-400" />,
-    color: 'border-cyan-400/30 text-cyan-300'
+    icon: <Compass className="w-3.5 h-3.5 text-white/70" />,
+    color: 'border-white/20 text-white/80'
   },
   crew: {
     label: 'TECHNICAL CREW & SHOWREEL',
-    icon: <Wrench className="w-3.5 h-3.5 text-amber-400" />,
-    color: 'border-amber-400/30 text-amber-300'
+    icon: <Wrench className="w-3.5 h-3.5 text-white/70" />,
+    color: 'border-white/20 text-white/80'
   },
   general: {
     label: 'SAFETY, PROTOCOLS & CONVOY',
-    icon: <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />,
-    color: 'border-emerald-400/30 text-emerald-300'
+    icon: <ShieldCheck className="w-3.5 h-3.5 text-yellow-400/90" />,
+    color: 'border-yellow-400/30 text-yellow-400/90'
   }
 };
 
@@ -177,10 +177,7 @@ const SAMPLE_FAQ_IDS = [
 
 export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
   const [showAllFaqs, setShowAllFaqs] = useState(false);
-  const [openItems, setOpenItems] = useState<string[]>([
-    'actor-refund',
-    'participant-pricing',
-  ]);
+  const [openItems, setOpenItems] = useState<string[]>([]);
   const [inspectedFaq, setInspectedFaq] = useState<FaqItem | null>(null);
 
   const toggleItem = (id: string) => {
@@ -196,32 +193,25 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
   return (
     <section
       id="faq"
-      className="relative py-20 md:py-28 bg-[#040813] border-t border-b border-white/10 overflow-hidden"
+      className="relative py-24 md:py-32 bg-[#05070B] border-t border-b border-white/10"
     >
-      {/* Ambient background glows */}
-      <div className="absolute top-1/4 -left-32 w-80 h-80 bg-yellow-500/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />
-
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
             <div className="inline-flex items-center gap-2 mb-3">
-              <span className="w-4 h-[1px] bg-yellow-400" />
-              <span className="text-[10px] font-mono tracking-[0.3em] text-yellow-400 uppercase font-bold">
-                10 / TRANSPARENCY & CLARITY
+              <span className="w-4 h-[1px] bg-yellow-400/90" />
+              <span className="text-[10px] font-mono tracking-[0.3em] text-yellow-400/90 uppercase">
+                10 / TRANSPARENCY & TERMS
               </span>
             </div>
-            <h2 className="font-title text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase leading-tight">
-              FREQUENTLY ASKED QUESTIONS
+            <h2 className="font-title text-3xl sm:text-4xl md:text-5xl font-semibold text-[#F4F1EA] tracking-[0.02em] leading-[1.18]">
+              Frequently Asked Questions
             </h2>
-            <p className="mt-2 text-xs sm:text-sm text-slate-300 font-light max-w-xl">
-              Key transparency questions curated by pathway: actor refund escrow, expedition seat price locks, technical crew benefits, and mountain safety.
-            </p>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1.5 bg-white/5 border border-white/15 text-slate-300 font-mono text-[10px] uppercase tracking-wider">
+            <span className="px-3 py-1.5 bg-white/5 border border-white/10 text-white/60 font-mono text-[10px] uppercase tracking-widest">
               {showAllFaqs ? 'SHOWING ALL 11 QUESTIONS' : 'SHOWING 4 ESSENTIAL QUESTIONS'}
             </span>
           </div>
@@ -231,46 +221,46 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <div
             onClick={() => setInspectedFaq(FAQS[0])}
-            className="group p-5 bg-[#070D1A] border border-yellow-500/30 hover:border-yellow-400 transition-all duration-300 flex items-start gap-4 cursor-pointer shadow-lg"
+            className="group p-5 bg-[#080B12] border border-yellow-400/30 hover:border-yellow-400/90 transition-all duration-300 flex items-start gap-4 cursor-pointer"
           >
-            <div className="p-2.5 bg-yellow-400/10 text-yellow-400 border border-yellow-400/30 shrink-0 mt-0.5">
+            <div className="p-2.5 bg-white/5 text-yellow-400/90 border border-white/10 shrink-0 mt-0.5">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div className="flex-1">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-[10px] font-mono tracking-widest text-yellow-400 uppercase font-bold">
+                <span className="text-[10px] font-mono tracking-widest text-yellow-400/90 uppercase">
                   ACTOR REFUND GUARANTEE
                 </span>
-                <span className="text-[9px] font-mono text-slate-400 group-hover:text-yellow-400 uppercase tracking-wider flex items-center gap-1">
+                <span className="text-[9px] font-mono text-white/40 group-hover:text-yellow-400/90 uppercase tracking-wider flex items-center gap-1">
                   <Maximize2 className="w-2.5 h-2.5" />
                   <span>TERMS</span>
                 </span>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed font-light">
-                <strong className="text-white font-medium">100% of the actor security deposit</strong> is wired back directly to your bank account upon shoot completion. Zero audition fees.
+              <p className="text-xs text-white/70 leading-relaxed font-light font-sans">
+                <strong className="text-white font-normal">100% of the actor security deposit</strong> is wired back directly to your bank account upon shoot completion. Zero audition fees.
               </p>
             </div>
           </div>
 
           <div
             onClick={() => setInspectedFaq(FAQS[4])}
-            className="group p-5 bg-[#070D1A] border border-cyan-500/30 hover:border-cyan-400 transition-all duration-300 flex items-start gap-4 cursor-pointer shadow-lg"
+            className="group p-5 bg-[#080B12] border border-white/15 hover:border-white/30 transition-all duration-300 flex items-start gap-4 cursor-pointer"
           >
-            <div className="p-2.5 bg-cyan-400/10 text-cyan-400 border border-cyan-400/30 shrink-0 mt-0.5">
+            <div className="p-2.5 bg-white/5 text-white/70 border border-white/10 shrink-0 mt-0.5">
               <Tag className="w-5 h-5" />
             </div>
             <div className="flex-1">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-[10px] font-mono tracking-widest text-cyan-400 uppercase font-bold">
+                <span className="text-[10px] font-mono tracking-widest text-white/60 uppercase">
                   PARTICIPANT PRICE LOCK
                 </span>
-                <span className="text-[9px] font-mono text-slate-400 group-hover:text-cyan-400 uppercase tracking-wider flex items-center gap-1">
+                <span className="text-[9px] font-mono text-white/40 group-hover:text-white uppercase tracking-wider flex items-center gap-1">
                   <Maximize2 className="w-2.5 h-2.5" />
                   <span>TERMS</span>
                 </span>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed font-light">
-                Reserve with a <strong className="text-white font-medium">₹1,000 token</strong> to permanently freeze the early-bird rate and safeguard against late-winter transport surcharges.
+              <p className="text-xs text-white/70 leading-relaxed font-light font-sans">
+                Reserve with a <strong className="text-white font-normal">₹1,000 token</strong> to permanently freeze the early-bird rate (₹13,000) and safeguard against late-winter transport surcharges.
               </p>
             </div>
           </div>
@@ -278,9 +268,9 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
 
         {/* Primary View: One Curated Question per Category */}
         <div className="space-y-4">
-          <div className="text-[10px] font-mono text-slate-400 uppercase tracking-widest flex items-center justify-between pb-2 border-b border-white/10">
-            <span className="text-yellow-400 font-bold">CORE ESSENTIAL QUESTIONS (1 PER CATEGORY)</span>
-            <span className="text-slate-500 hidden sm:inline">CLICK QUESTION TO EXPAND ANSWER</span>
+          <div className="text-[10px] font-mono text-white/50 uppercase tracking-widest flex items-center justify-between pb-2 border-b border-white/10">
+            <span className="text-yellow-400/90">CORE ESSENTIAL QUESTIONS</span>
+            <span className="text-white/40 hidden sm:inline">SELECT ANY QUESTION TO EXPAND</span>
           </div>
 
           <div className="space-y-3">
@@ -292,8 +282,8 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                   key={faq.id}
                   className={`border transition-all duration-200 ${
                     isOpen
-                      ? 'border-yellow-400/50 bg-[#08101E] shadow-lg shadow-black/40'
-                      : 'border-white/10 bg-[#070D1A] hover:border-white/20'
+                      ? 'border-yellow-400/40 bg-[#080B12]'
+                      : 'border-white/10 bg-[#080B12]/60 hover:border-white/20'
                   }`}
                 >
                   <button
@@ -303,17 +293,16 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                     aria-expanded={isOpen}
                   >
                     <div className="flex items-center gap-3">
-                      <span className={`text-[9px] font-mono px-2 py-0.5 border bg-white/5 uppercase font-bold shrink-0 flex items-center gap-1.5 ${meta?.color || 'text-slate-300'}`}>
-                        {meta?.icon}
-                        <span>{faq.category}</span>
+                      <span className={`text-[9px] font-mono px-2 py-0.5 border bg-white/[0.02] uppercase tracking-wider shrink-0 ${meta?.color || 'text-white/70'}`}>
+                        {faq.category}
                       </span>
-                      <span className="font-title text-sm sm:text-base font-bold text-white tracking-wide">
+                      <span className="font-sans font-semibold text-sm sm:text-base text-[#F4F1EA] tracking-normal">
                         {faq.question}
                       </span>
                     </div>
                     <div
-                      className={`w-6 h-6 rounded-none flex items-center justify-center border border-white/10 shrink-0 transition-transform duration-200 ${
-                        isOpen ? 'rotate-180 bg-yellow-400 text-black border-yellow-400' : 'text-slate-400'
+                      className={`w-6 h-6 flex items-center justify-center border border-white/10 shrink-0 transition-transform duration-200 ${
+                        isOpen ? 'rotate-180 text-yellow-400/90 border-yellow-400/40' : 'text-white/40'
                       }`}
                     >
                       <ChevronDown className="w-4 h-4" />
@@ -321,12 +310,12 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                   </button>
 
                   {isOpen && (
-                    <div className="px-4 sm:px-5 pb-5 pt-1 text-xs sm:text-sm text-slate-300 font-light leading-relaxed border-t border-white/5 space-y-3">
+                    <div className="px-4 sm:px-5 pb-5 pt-1 text-xs sm:text-sm text-[#B8B4AC] font-normal leading-[1.65] border-t border-white/5 space-y-3 font-sans">
                       <p>{faq.answer}</p>
                       
                       <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                         {faq.highlight ? (
-                          <div className="inline-block text-[10px] font-mono tracking-widest font-semibold px-2.5 py-1 bg-yellow-400/10 text-yellow-300 border border-yellow-400/30 uppercase">
+                          <div className="inline-block text-[10px] font-mono tracking-widest font-medium px-2.5 py-1 bg-white/[0.02] text-yellow-400/90 border border-yellow-400/30 uppercase">
                             ✓ {faq.highlight}
                           </div>
                         ) : <div />}
@@ -335,7 +324,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                           <button
                             type="button"
                             onClick={() => setInspectedFaq(faq)}
-                            className="inline-flex items-center gap-1.5 text-[10px] font-mono text-slate-400 hover:text-yellow-400 uppercase tracking-wider transition-colors cursor-pointer"
+                            className="inline-flex items-center gap-1.5 text-[10px] font-mono text-white/50 hover:text-yellow-400/90 uppercase tracking-wider transition-colors cursor-pointer"
                           >
                             <FileText className="w-3.5 h-3.5" />
                             <span>READ FORMAL CLAUSE</span>
@@ -351,7 +340,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
 
           {/* Expanded Section with Remaining Grouped Questions organized by Category */}
           {showAllFaqs && (
-            <div className="pt-6 space-y-8 animate-fade-in">
+            <div className="pt-6 space-y-8">
               {(['actor', 'participant', 'crew', 'general'] as const).map((catKey) => {
                 const catRemaining = remainingFaqs.filter((f) => f.category === catKey);
                 if (catRemaining.length === 0) return null;
@@ -360,13 +349,13 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                 return (
                   <div key={catKey} className="space-y-3">
                     <div className="flex items-center gap-2 pb-2 border-b border-white/10">
-                      <div className="p-1 bg-white/5 border border-white/10 text-yellow-400">
+                      <div className="p-1 bg-white/5 border border-white/10 text-yellow-400/90">
                         {meta.icon}
                       </div>
-                      <span className="text-xs font-mono font-bold tracking-widest text-slate-200 uppercase">
+                      <span className="text-xs font-mono tracking-widest text-white/80 uppercase">
                         {meta.label}
                       </span>
-                      <span className="text-[10px] font-mono text-slate-500 uppercase ml-auto">
+                      <span className="text-[10px] font-mono text-white/40 uppercase ml-auto">
                         {catRemaining.length} {catRemaining.length === 1 ? 'QUESTION' : 'QUESTIONS'}
                       </span>
                     </div>
@@ -379,8 +368,8 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                             key={faq.id}
                             className={`border transition-all duration-200 ${
                               isOpen
-                                ? 'border-yellow-400/50 bg-[#08101E] shadow-lg shadow-black/40'
-                                : 'border-white/10 bg-[#070D1A] hover:border-white/20'
+                                ? 'border-yellow-400/40 bg-[#080B12]'
+                                : 'border-white/10 bg-[#080B12]/60 hover:border-white/20'
                             }`}
                           >
                             <button
@@ -389,12 +378,12 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                               className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 cursor-pointer focus:outline-none"
                               aria-expanded={isOpen}
                             >
-                              <span className="font-title text-sm sm:text-base font-bold text-white tracking-wide">
+                              <span className="font-sans font-semibold text-sm sm:text-base text-[#F4F1EA] tracking-normal">
                                 {faq.question}
                               </span>
                               <div
-                                className={`w-6 h-6 rounded-none flex items-center justify-center border border-white/10 shrink-0 transition-transform duration-200 ${
-                                  isOpen ? 'rotate-180 bg-yellow-400 text-black border-yellow-400' : 'text-slate-400'
+                                className={`w-6 h-6 flex items-center justify-center border border-white/10 shrink-0 transition-transform duration-200 ${
+                                  isOpen ? 'rotate-180 text-yellow-400/90 border-yellow-400/40' : 'text-white/40'
                                 }`}
                               >
                                 <ChevronDown className="w-4 h-4" />
@@ -402,12 +391,12 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                             </button>
 
                             {isOpen && (
-                              <div className="px-4 sm:px-5 pb-5 pt-1 text-xs sm:text-sm text-slate-300 font-light leading-relaxed border-t border-white/5 space-y-3">
+                              <div className="px-4 sm:px-5 pb-5 pt-1 text-xs sm:text-sm text-[#B8B4AC] font-normal leading-[1.65] border-t border-white/5 space-y-3 font-sans">
                                 <p>{faq.answer}</p>
                                 
                                 <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                                   {faq.highlight ? (
-                                    <div className="inline-block text-[10px] font-mono tracking-widest font-semibold px-2.5 py-1 bg-yellow-400/10 text-yellow-300 border border-yellow-400/30 uppercase">
+                                    <div className="inline-block text-[10px] font-mono tracking-widest font-medium px-2.5 py-1 bg-white/[0.02] text-yellow-400/90 border border-yellow-400/30 uppercase">
                                       ✓ {faq.highlight}
                                     </div>
                                   ) : <div />}
@@ -416,7 +405,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                                     <button
                                       type="button"
                                       onClick={() => setInspectedFaq(faq)}
-                                      className="inline-flex items-center gap-1.5 text-[10px] font-mono text-slate-400 hover:text-yellow-400 uppercase tracking-wider transition-colors cursor-pointer"
+                                      className="inline-flex items-center gap-1.5 text-[10px] font-mono text-white/50 hover:text-yellow-400/90 uppercase tracking-wider transition-colors cursor-pointer"
                                     >
                                       <FileText className="w-3.5 h-3.5" />
                                       <span>READ FORMAL CLAUSE</span>
@@ -440,9 +429,9 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
             <button
               type="button"
               onClick={() => setShowAllFaqs(!showAllFaqs)}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#070D1A] hover:bg-[#0A1428] border border-white/20 hover:border-yellow-400 text-slate-200 hover:text-white font-mono text-xs uppercase tracking-widest transition-all cursor-pointer shadow-lg"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-yellow-400/90 text-white/80 hover:text-white font-mono text-xs uppercase tracking-widest transition-all cursor-pointer"
             >
-              <span>{showAllFaqs ? '▲ COLLAPSE TO ESSENTIAL QUESTIONS' : `▼ EXPAND ALL ${FAQS.length} QUESTIONS (${remainingFaqs.length} MORE)`}</span>
+              <span>{showAllFaqs ? '▲ COLLAPSE TO ESSENTIAL QUESTIONS' : `▼ VIEW ALL ${FAQS.length} QUESTIONS (${remainingFaqs.length} MORE)`}</span>
             </button>
           </div>
         </div>
@@ -453,20 +442,20 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
          ========================================================================= */}
       {inspectedFaq && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-xl animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm"
           onClick={() => setInspectedFaq(null)}
         >
           <div
-            className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#070D1A] border border-white/20 shadow-2xl p-6 sm:p-8"
+            className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#0A0D14] border border-yellow-400/30 shadow-2xl p-6 sm:p-8"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
             <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
               <div className="flex items-center gap-3">
-                <span className="px-2.5 py-0.5 bg-yellow-400 text-black text-[10px] font-mono font-black uppercase tracking-wider">
+                <span className="px-2.5 py-0.5 bg-yellow-400/90 text-black text-[10px] font-mono font-semibold uppercase tracking-wider">
                   LEGAL & TRANSPARENCY
                 </span>
-                <span className="text-xs font-mono text-slate-400 uppercase tracking-widest">
+                <span className="text-xs font-mono text-white/50 uppercase tracking-widest">
                   DOCUMENTATION
                 </span>
               </div>
@@ -474,7 +463,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
               <button
                 type="button"
                 onClick={() => setInspectedFaq(null)}
-                className="p-1.5 text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                className="p-1.5 text-white/40 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
@@ -482,24 +471,24 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
             </div>
 
             {/* Question Heading */}
-            <h3 className="font-title text-xl sm:text-2xl font-black text-white uppercase tracking-tight mb-4">
+            <h3 className="font-serif text-xl sm:text-2xl text-white tracking-tight mb-4">
               {inspectedFaq.question}
             </h3>
 
             {/* Answer Body */}
-            <div className="p-4 bg-[#050811] border border-white/10 mb-6 text-xs sm:text-sm text-slate-300 font-light leading-relaxed">
+            <div className="p-4 bg-white/[0.02] border border-white/10 mb-6 text-xs sm:text-sm text-white/70 font-light leading-relaxed font-sans">
               {inspectedFaq.answer}
             </div>
 
             {/* Formal Legal Clause */}
             {inspectedFaq.legalClause && (
-              <div className="p-4 bg-[#050A14] border border-emerald-500/30 mb-6 flex items-start gap-3">
-                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+              <div className="p-4 bg-white/[0.02] border-l-2 border-yellow-400/90 mb-6 flex items-start gap-3">
+                <ShieldCheck className="w-4 h-4 text-yellow-400/90 shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-widest block mb-1">
+                  <span className="text-[10px] font-mono text-yellow-400/90 uppercase tracking-widest block mb-1">
                     BINDING CONTRACTUAL PROVISION
                   </span>
-                  <p className="text-xs font-mono text-slate-200 leading-relaxed">
+                  <p className="text-xs font-mono text-white/80 leading-relaxed">
                     {inspectedFaq.legalClause}
                   </p>
                 </div>
@@ -508,8 +497,8 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
 
             {/* Related Agreement Reference */}
             {inspectedFaq.relatedDoc && (
-              <div className="text-xs font-mono text-slate-400 mb-6 flex items-center gap-2">
-                <FileText className="w-4 h-4 text-yellow-400" />
+              <div className="text-xs font-mono text-white/50 mb-6 flex items-center gap-2">
+                <FileText className="w-4 h-4 text-yellow-400/90" />
                 <span>REFERENCED AGREEMENT: <strong className="text-white">{inspectedFaq.relatedDoc}</strong></span>
               </div>
             )}
@@ -519,7 +508,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
               <button
                 type="button"
                 onClick={() => setInspectedFaq(null)}
-                className="px-4 py-2 bg-transparent border border-white/20 text-slate-300 hover:text-white text-xs font-mono uppercase tracking-wider"
+                className="px-4 py-2 bg-transparent border border-white/20 text-white/60 hover:text-white text-xs font-mono uppercase tracking-wider cursor-pointer"
               >
                 CLOSE
               </button>
@@ -534,7 +523,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                   else if (cat === 'crew') onOpenNomination(undefined, 'crew');
                   else onOpenNomination();
                 }}
-                className="text-xs !py-2.5 !px-5"
+                className="text-xs !py-2.5 !px-5 font-medium"
               >
                 APPLY UNDER THIS TERM
               </CinemaButton>

@@ -44,7 +44,7 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
     id: 'actor',
     number: '01',
     badge: '100% REFUNDABLE',
-    badgeColor: 'bg-yellow-400 text-black',
+    badgeColor: 'bg-yellow-400/90 text-black',
     title: 'AS AN ACTOR',
     subtitle: 'Lead Character Arc • Unscripted Cinema Realism',
     heroImage: '/characters/shankar.jpg',
@@ -76,25 +76,25 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
     id: 'participant',
     number: '02',
     badge: '₹1,000 TOKEN LOCK',
-    badgeColor: 'bg-blue-500 text-white',
+    badgeColor: 'bg-yellow-400/90 text-black',
     title: 'AS A PARTICIPANT',
     subtitle: 'Front-Row Convoy Immersion • No Auditions Required',
     heroImage: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',
-    pricingTag: '₹11,000 TOTAL',
-    pricingSubtitle: 'Lock with ₹1,000 token today. Early bird price rises by ₹1,500 after October 30.',
-    guaranteeText: 'Price locked permanently against peak-winter rate surge. Balance settled 7 days prior to departure.',
+    pricingTag: '₹13,000 EARLY BIRD',
+    pricingSubtitle: 'Lock with ₹1,000 token today. Early bird ₹13,000; rises to ₹14,500 after 20 Nov.',
+    guaranteeText: 'Price locked permanently against holiday tariff surges. Balance settled prior to departure.',
     overview:
-      'Join the live production convoy as a traveler and witness a feature film being made in real time. Sit at night campfires with the actors, drive through remote mountain passes, and optionally appear on-camera during unscripted road encounters.',
+      'Join the live production convoy as a traveler and witness a feature film being made in real time across Kashmir. Experience Katra & Vaishno Devi, a 2-day skiing course in Gulmarg, and Dal Lake in Srinagar.',
     keyPerks: [
-      'Guaranteed seat in the 2,400+ KM multi-state production convoy',
-      'Verified twin-sharing mountain base camps, heritage desert stays & daily meals',
-      'On-screen Contributor Film Credit in the official festival theatrical release',
+      'Guaranteed seat in the 7-night / 8-day Kashmir winter expedition convoy',
+      '2-day skiing course in Gulmarg with certified instructor and ski equipment included',
+      'Accommodations across Katra, Gulmarg, and Srinagar (including Dal Lake houseboat)',
       'No portfolio, acting audition, or past filmmaking experience needed'
     ],
     timeline: [
-      { phase: 'Immediate Token', details: 'Pay ₹1,000 now to freeze ₹11,000 early-bird expedition rate' },
+      { phase: 'Immediate Token', details: 'Pay ₹1,000 now to freeze ₹13,000 early-bird expedition rate' },
       { phase: 'Convoy Briefing', details: 'Digital route map, gear checklist & base camp coordinates sent' },
-      { phase: 'Expedition Rollout', details: 'Depart with the cast and camera trucks across India' }
+      { phase: 'Expedition Rollout', details: 'Depart with the cast and camera trucks on 24 December 2026' }
     ],
     deliverables: [
       'Official Film Contributor IMDb Credit',
@@ -148,7 +148,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
   return (
     <section id="nomination" className="relative py-20 md:py-28 bg-[#040813] border-t border-b border-white/10 overflow-hidden">
       {/* Ambient background glows */}
-      <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-yellow-400/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -156,16 +156,16 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-6">
           <div>
             <div className="inline-flex items-center gap-2 mb-3">
-              <span className="w-4 h-[1px] bg-yellow-400" />
-              <span className="text-[10px] font-mono tracking-[0.3em] text-yellow-400 uppercase font-bold">
+              <span className="w-4 h-[1px] bg-yellow-400/90" />
+              <span className="text-[10px] font-mono tracking-[0.3em] text-yellow-400/90 uppercase font-bold">
                 09 / THREE PATHWAYS INTO CHEHRA
               </span>
             </div>
-            <h2 className="font-title text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase leading-tight">
+            <h2 className="font-title text-3xl sm:text-4xl md:text-5xl font-semibold text-[#F4F1EA] tracking-[0.02em] uppercase leading-[1.15]">
               CHOOSE YOUR INVOLVEMENT
             </h2>
           </div>
-          <p className="max-w-md text-xs sm:text-sm text-slate-400 font-light leading-relaxed">
+          <p className="max-w-md text-xs sm:text-sm text-[#B8B4AC] font-normal font-sans leading-[1.6]">
             Whether leading on camera with a 100% refund guarantee, securing an expedition seat with a ₹1,000 token, or capturing sound and visuals as technical crew.
           </p>
         </div>
@@ -175,68 +175,60 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
           
           {/* CARD 1: ACTOR */}
           <div
-            className="group relative bg-[#070D1A] border border-white/10 hover:border-yellow-400 transition-all duration-500 shadow-2xl flex flex-col justify-between overflow-hidden cursor-pointer"
+            className="group relative bg-[#070D1A] border border-white/10 hover:border-yellow-400/90 transition-all duration-500 shadow-2xl flex flex-col justify-between overflow-hidden cursor-pointer"
             onClick={() => setInspectedPathway('actor')}
           >
             {/* Top Visual Banner */}
-            <div className="relative h-64 overflow-hidden bg-black">
+            <div className="relative h-64 overflow-hidden bg-[#020817]">
               <img
                 src={PATHWAY_DATA.actor.heroImage}
                 alt="Actor Pathway - Chehra Films"
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-top filter grayscale-[10%] brightness-90 group-hover:scale-105 group-hover:brightness-100 transition-all duration-700 ease-out"
+                className="w-full h-full object-cover object-top filter contrast-110 opacity-45 group-hover:opacity-65 group-hover:scale-105 transition-all duration-700 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-[#070D1A]/40 to-transparent" />
-
-              {/* Corner Badges */}
-              <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10 pointer-events-none">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-black/80 border border-white/20 text-yellow-400 text-[10px] font-mono uppercase font-bold tracking-widest backdrop-blur-md">
-                  <Film className="w-3 h-3" />
-                  PATHWAY 01
-                </span>
-                <span className="px-2.5 py-1 bg-yellow-400 text-black text-[9px] font-mono font-black uppercase tracking-wider shadow-lg">
-                  100% REFUND
-                </span>
-              </div>
-
-              {/* Inspect Button Pill */}
-              <div className="absolute bottom-3 right-4 z-10">
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-black/80 border border-white/20 text-slate-300 group-hover:text-yellow-400 text-[10px] font-mono uppercase tracking-wider backdrop-blur-md transition-colors">
-                  <Maximize2 className="w-3 h-3" />
-                  <span>INSPECT DETAILS</span>
-                </span>
-              </div>
+              <div className="absolute inset-0 bg-[#030d29]/70 mix-blend-multiply pointer-events-none" />
+              <div className="absolute inset-0 bg-blue-950/50 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-transparent to-transparent pointer-events-none" />
             </div>
 
             {/* Content Body: Clean & Punchy */}
             <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
               <div>
-                <h3 className="font-title text-2xl font-black text-white uppercase tracking-tight group-hover:text-yellow-400 transition-colors mb-1">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="inline-flex items-center gap-1.5 text-yellow-400/90 text-[10px] font-sans uppercase font-semibold tracking-[0.14em]">
+                    <Film className="w-3 h-3" />
+                    PATHWAY 01
+                  </span>
+                  <span className="px-2.5 py-0.5 bg-yellow-400/90 text-black text-[9px] font-sans font-bold uppercase tracking-wider">
+                    100% REFUND
+                  </span>
+                </div>
+                <h3 className="font-title text-2xl font-semibold text-[#F4F1EA] uppercase tracking-[0.02em] group-hover:text-yellow-400/90 transition-colors mb-1">
                   AS AN ACTOR
                 </h3>
-                <p className="text-xs text-yellow-400/90 font-mono mb-4">
+                <p className="text-xs text-yellow-400/90 font-sans font-medium mb-4">
                   Lead Character Arc • Audition Reel Required
                 </p>
 
                 {/* Micro Financial Terms Banner */}
                 <div className="p-3.5 bg-[#050811] border border-white/10 mb-5">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                    <span className="text-[10px] font-sans font-semibold text-[#B8B4AC] uppercase tracking-wider">
                       PRODUCTION DEPOSIT
                     </span>
-                    <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase">
+                    <span className="text-[10px] font-sans font-bold text-emerald-400 uppercase">
                       GUARANTEED
                     </span>
                   </div>
-                  <div className="text-xl font-title font-black text-emerald-400 mt-0.5">
+                  <div className="text-xl font-title font-bold text-emerald-400 mt-0.5">
                     100% REFUNDABLE
                   </div>
-                  <p className="text-[11px] text-slate-300 font-light mt-0.5">
+                  <p className="text-[11px] text-[#B8B4AC] font-normal font-sans mt-0.5">
                     Security deposit wired back in full upon wrap of shoot schedule.
                   </p>
                 </div>
 
-                <p className="text-xs text-slate-300 font-light leading-relaxed mb-6">
+                <p className="text-xs text-[#B8B4AC] font-normal font-sans leading-[1.6] mb-6">
                   Perform in unscripted scenes across the Himalayas and Thar desert. Get official IMDb lead character billing and festival credits.
                 </p>
               </div>
@@ -260,68 +252,60 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
 
           {/* CARD 2: PARTICIPANT (Featured) */}
           <div
-            className="group relative bg-[#091224] border-2 border-yellow-400 hover:border-yellow-300 transition-all duration-500 shadow-2xl shadow-yellow-500/10 flex flex-col justify-between overflow-hidden cursor-pointer lg:-translate-y-2"
+            className="group relative bg-[#091224] border-2 border-yellow-400/90 hover:border-yellow-300/90 transition-all duration-500 shadow-2xl shadow-yellow-400/10 flex flex-col justify-between overflow-hidden cursor-pointer lg:-translate-y-2"
             onClick={() => setInspectedPathway('participant')}
           >
             {/* Top Visual Banner */}
-            <div className="relative h-64 overflow-hidden bg-black">
+            <div className="relative h-64 overflow-hidden bg-[#020817]">
               <img
                 src={PATHWAY_DATA.participant.heroImage}
                 alt="Participant Pathway - Chehra Films"
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-center filter contrast-105 brightness-90 group-hover:scale-105 group-hover:brightness-100 transition-all duration-700 ease-out"
+                className="w-full h-full object-cover object-center filter contrast-110 opacity-45 group-hover:opacity-65 group-hover:scale-105 transition-all duration-700 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#091224] via-[#091224]/40 to-transparent" />
-
-              {/* Corner Badges */}
-              <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10 pointer-events-none">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-black/80 border border-white/20 text-blue-300 text-[10px] font-mono uppercase font-bold tracking-widest backdrop-blur-md">
-                  <Compass className="w-3 h-3" />
-                  PATHWAY 02
-                </span>
-                <span className="px-2.5 py-1 bg-yellow-400 text-black text-[9px] font-mono font-black uppercase tracking-wider shadow-lg">
-                  EARLY LOCK ₹1,000
-                </span>
-              </div>
-
-              {/* Inspect Button Pill */}
-              <div className="absolute bottom-3 right-4 z-10">
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-black/80 border border-white/20 text-slate-300 group-hover:text-yellow-400 text-[10px] font-mono uppercase tracking-wider backdrop-blur-md transition-colors">
-                  <Maximize2 className="w-3 h-3" />
-                  <span>INSPECT DETAILS</span>
-                </span>
-              </div>
+              <div className="absolute inset-0 bg-[#030d29]/70 mix-blend-multiply pointer-events-none" />
+              <div className="absolute inset-0 bg-blue-950/50 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#091224] via-transparent to-transparent pointer-events-none" />
             </div>
 
             {/* Content Body: Clean & Punchy */}
             <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
               <div>
-                <h3 className="font-title text-2xl font-black text-white uppercase tracking-tight group-hover:text-yellow-400 transition-colors mb-1">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="inline-flex items-center gap-1.5 text-blue-300 text-[10px] font-sans uppercase font-semibold tracking-[0.14em]">
+                    <Compass className="w-3 h-3" />
+                    PATHWAY 02
+                  </span>
+                  <span className="px-2.5 py-0.5 bg-yellow-400/90 text-black text-[9px] font-sans font-bold uppercase tracking-wider">
+                    EARLY LOCK ₹1,000
+                  </span>
+                </div>
+                <h3 className="font-title text-2xl font-semibold text-[#F4F1EA] uppercase tracking-[0.02em] group-hover:text-yellow-400/90 transition-colors mb-1">
                   AS A PARTICIPANT
                 </h3>
-                <p className="text-xs text-blue-300 font-mono mb-4">
+                <p className="text-xs text-blue-300 font-sans font-medium mb-4">
                   Front-Row Convoy • Zero Auditions
                 </p>
 
                 {/* Micro Pricing Banner */}
                 <div className="p-3.5 bg-[#050A16] border border-yellow-400/40 mb-5">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono text-yellow-400 uppercase tracking-wider font-bold">
+                    <span className="text-[10px] font-sans text-yellow-400/90 uppercase tracking-wider font-bold">
                       PRICE FREEZE GUARANTEE
                     </span>
-                    <span className="text-[10px] font-mono text-slate-400 line-through">
+                    <span className="text-[10px] font-sans text-[#B8B4AC] line-through">
                       ₹12,500
                     </span>
                   </div>
-                  <div className="text-xl font-title font-black text-white mt-0.5">
-                    ₹11,000 <span className="text-xs font-mono text-yellow-400 font-normal">/ TOTAL</span>
+                  <div className="text-xl font-title font-bold text-[#F4F1EA] mt-0.5">
+                    ₹11,000 <span className="text-xs font-sans text-yellow-400/90 font-normal">/ TOTAL</span>
                   </div>
-                  <p className="text-[11px] text-yellow-300/90 font-mono mt-0.5">
+                  <p className="text-[11px] text-yellow-300/90 font-sans font-medium mt-0.5">
                     Pay ₹1,000 token today. Rate increases by +₹1,500 after Oct 30.
                   </p>
                 </div>
 
-                <p className="text-xs text-slate-300 font-light leading-relaxed mb-6">
+                <p className="text-xs text-[#B8B4AC] font-normal font-sans leading-[1.6] mb-6">
                   Travel inside the 2,400+ KM convoy side-by-side with cast & crew. Stays, route permits, and festival contributor credits included.
                 </p>
               </div>
@@ -349,39 +333,31 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
             onClick={() => setInspectedPathway('crew')}
           >
             {/* Top Visual Banner */}
-            <div className="relative h-64 overflow-hidden bg-black">
+            <div className="relative h-64 overflow-hidden bg-[#020817]">
               <img
                 src={PATHWAY_DATA.crew.heroImage}
                 alt="Crew Pathway - Chehra Films"
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-center filter grayscale-[10%] brightness-90 group-hover:scale-105 group-hover:brightness-100 transition-all duration-700 ease-out"
+                className="w-full h-full object-cover object-center filter contrast-110 opacity-45 group-hover:opacity-65 group-hover:scale-105 transition-all duration-700 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-[#070D1A]/40 to-transparent" />
-
-              {/* Corner Badges */}
-              <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10 pointer-events-none">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-black/80 border border-white/20 text-emerald-400 text-[10px] font-mono uppercase font-bold tracking-widest backdrop-blur-md">
-                  <Wrench className="w-3 h-3" />
-                  PATHWAY 03
-                </span>
-                <span className="px-2.5 py-1 bg-emerald-950 border border-emerald-500/40 text-emerald-300 text-[9px] font-mono font-bold uppercase tracking-wider">
-                  PORTFOLIO CALL
-                </span>
-              </div>
-
-              {/* Inspect Button Pill */}
-              <div className="absolute bottom-3 right-4 z-10">
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-black/80 border border-white/20 text-slate-300 group-hover:text-emerald-400 text-[10px] font-mono uppercase tracking-wider backdrop-blur-md transition-colors">
-                  <Maximize2 className="w-3 h-3" />
-                  <span>INSPECT DETAILS</span>
-                </span>
-              </div>
+              <div className="absolute inset-0 bg-[#030d29]/70 mix-blend-multiply pointer-events-none" />
+              <div className="absolute inset-0 bg-blue-950/50 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-transparent to-transparent pointer-events-none" />
             </div>
 
             {/* Content Body: Clean & Punchy */}
             <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
               <div>
-                <h3 className="font-title text-2xl font-black text-white uppercase tracking-tight group-hover:text-emerald-400 transition-colors mb-1">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="inline-flex items-center gap-1.5 text-emerald-400 text-[10px] font-sans uppercase font-semibold tracking-[0.14em]">
+                    <Wrench className="w-3 h-3" />
+                    PATHWAY 03
+                  </span>
+                  <span className="px-2.5 py-0.5 bg-emerald-950 border border-emerald-500/40 text-emerald-300 text-[9px] font-sans font-bold uppercase tracking-wider">
+                    PORTFOLIO CALL
+                  </span>
+                </div>
+                <h3 className="font-title text-2xl font-semibold text-[#F4F1EA] uppercase tracking-[0.02em] group-hover:text-emerald-400 transition-colors mb-1">
                   AS CREW MEMBER
                 </h3>
                 <p className="text-xs text-emerald-400/90 font-mono mb-4">
@@ -466,24 +442,23 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
 
             {/* Modal Hero Section */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-8 items-center">
-              <div className="md:col-span-5 h-56 sm:h-64 rounded-none overflow-hidden border border-white/15 relative">
+              <div className="md:col-span-5 h-56 sm:h-64 rounded-none overflow-hidden border border-white/15 relative bg-[#020817]">
                 <img
                   src={activeModalData.heroImage}
                   alt={activeModalData.title}
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover filter contrast-105"
+                  className="w-full h-full object-cover filter contrast-110 opacity-50"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-transparent to-transparent" />
-                <div className="absolute bottom-3 left-3 text-[10px] font-mono text-yellow-400 font-bold uppercase tracking-widest">
-                  OFFICIAL PRODUCTION CALL
-                </div>
+                <div className="absolute inset-0 bg-[#030d29]/70 mix-blend-multiply pointer-events-none" />
+                <div className="absolute inset-0 bg-blue-950/50 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-transparent to-transparent pointer-events-none" />
               </div>
 
               <div className="md:col-span-7 space-y-3">
                 <h3 className="font-title text-3xl font-black text-white uppercase tracking-tight">
                   {activeModalData.title}
                 </h3>
-                <p className="text-xs font-mono text-yellow-400 uppercase tracking-wider">
+                <p className="text-xs font-mono text-yellow-400/90 uppercase tracking-wider">
                   {activeModalData.subtitle}
                 </p>
                 <p className="text-xs sm:text-sm text-slate-300 font-light leading-relaxed">
@@ -504,14 +479,14 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               {/* Perks & Inclusions */}
               <div className="p-5 bg-[#09101F] border border-white/10">
-                <div className="text-xs font-mono text-yellow-400 font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
+                <div className="text-xs font-mono text-yellow-400/90 font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
                   <Award className="w-4 h-4" />
                   <span>KEY DELIVERABLES & CREDITS</span>
                 </div>
                 <ul className="space-y-3">
                   {activeModalData.keyPerks.map((perk, i) => (
                     <li key={i} className="flex items-start gap-2.5 text-xs text-slate-300 font-light">
-                      <Check className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
+                      <Check className="w-4 h-4 text-yellow-400/90 shrink-0 mt-0.5" />
                       <span>{perk}</span>
                     </li>
                   ))}
@@ -520,14 +495,14 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
 
               {/* Roadmap Timeline */}
               <div className="p-5 bg-[#09101F] border border-white/10">
-                <div className="text-xs font-mono text-yellow-400 font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
+                <div className="text-xs font-mono text-yellow-400/90 font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
                   <Clock className="w-4 h-4" />
                   <span>PRODUCTION TIMELINE</span>
                 </div>
                 <div className="space-y-4">
                   {activeModalData.timeline.map((step, i) => (
                     <div key={i} className="border-l-2 border-yellow-400/40 pl-3">
-                      <div className="text-[10px] font-mono text-yellow-400 font-bold uppercase tracking-wider">
+                      <div className="text-[10px] font-mono text-yellow-400/90 font-bold uppercase tracking-wider">
                         {step.phase}
                       </div>
                       <div className="text-xs text-slate-300 font-light mt-0.5">

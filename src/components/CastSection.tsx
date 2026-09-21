@@ -6,13 +6,9 @@ import {
   UserCheck,
   MapPin,
   Eye,
-  Star,
-  Clapperboard,
   Compass,
   ShieldCheck,
   ChevronRight,
-  Film,
-  Volume2,
   Maximize2
 } from 'lucide-react';
 import { CinemaButton } from './CinemaButton';
@@ -39,56 +35,54 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
   return (
     <section
       id="characters"
-      className="relative py-20 md:py-28 bg-[#040813] border-t border-b border-white/10 overflow-hidden"
+      className="relative py-24 md:py-32 bg-[#090D15] border-t border-white/[0.08] text-[#EDE8DF]"
     >
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/4 -left-40 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 -right-40 w-96 h-96 bg-red-600/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute inset-0 film-grain opacity-20 pointer-events-none" />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header: Focused, clean, visuals-first */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
-          <div>
-            <div className="inline-flex items-center gap-2 mb-2">
-              <span className="w-4 h-[1px] bg-yellow-400" />
-              <span className="text-[10px] font-mono tracking-[0.3em] text-yellow-400 uppercase font-bold">
-                03 / CASTING DOSSIER
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] font-mono tracking-[0.25em] text-yellow-400/90 uppercase font-medium">
+                02 // ENSEMBLE CALL
+              </span>
+              <span className="text-white/20">•</span>
+              <span className="text-[10px] font-mono tracking-[0.25em] text-[#A5A196] uppercase">
+                OPEN AUDITIONS
               </span>
             </div>
-            <h2 className="font-title text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase leading-tight">
+            <h2 className="font-title text-3xl sm:text-4xl md:text-5xl font-semibold text-[#F4F1EA] tracking-[0.02em] uppercase leading-[1.15]">
               SIX UNWRITTEN CHARACTERS
             </h2>
-            <p className="mt-1 text-xs sm:text-sm text-slate-400 font-light">
-              Select any role to preview unscripted scene footage, soundstages & audition criteria.
+            <p className="text-xs sm:text-sm text-[#B8B4AC] font-normal font-sans max-w-xl leading-[1.6]">
+              Select any role to inspect background backstory, terrain soundstages, and audition criteria. No casting charges; 100% refundable security deposit.
             </p>
           </div>
 
           {/* View Toggle Buttons */}
           <div className="flex items-center gap-2 self-start md:self-auto">
-            <div className="flex items-center p-1 bg-[#09101F] border border-white/10">
+            <div className="flex items-center p-1 bg-[#0C111A] border border-white/10">
               <button
                 type="button"
                 onClick={() => setViewMode('spotlight')}
-                className={`px-3.5 py-1.5 text-[10px] font-mono uppercase tracking-widest transition-all cursor-pointer ${
+                className={`px-3.5 py-1.5 text-[10px] font-mono uppercase tracking-widest transition-colors cursor-pointer ${
                   viewMode === 'spotlight'
-                    ? 'bg-yellow-400 text-black font-bold shadow-sm'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-yellow-400/90 text-black font-semibold'
+                    : 'text-[#A5A196] hover:text-[#EDE8DF]'
                 }`}
               >
-                CINEMATIC SHOWCASE
+                CINEMATIC SPOTLIGHT
               </button>
               <button
                 type="button"
                 onClick={() => setViewMode('grid')}
-                className={`px-3.5 py-1.5 text-[10px] font-mono uppercase tracking-widest transition-all cursor-pointer ${
+                className={`px-3.5 py-1.5 text-[10px] font-mono uppercase tracking-widest transition-colors cursor-pointer ${
                   viewMode === 'grid'
-                    ? 'bg-yellow-400 text-black font-bold shadow-sm'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-yellow-400/90 text-black font-semibold'
+                    : 'text-[#A5A196] hover:text-[#EDE8DF]'
                 }`}
               >
-                6-POSTER GALLERY
+                POSTER GALLERY
               </button>
             </div>
           </div>
@@ -96,22 +90,22 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
 
         {/* MODE 1: CINEMATIC SHOWCASE (Large Visuals, Minimal Exterior Text) */}
         {viewMode === 'spotlight' && (
-          <div className="bg-[#070D1A] border border-white/15 shadow-2xl relative overflow-hidden">
+          <div className="bg-[#0C111A] border border-white/15 relative overflow-hidden">
             {/* Top Bar Ribbon */}
-            <div className="px-5 py-2.5 bg-[#091122] border-b border-white/10 flex flex-wrap items-center justify-between gap-3 text-[10px] font-mono tracking-widest uppercase">
+            <div className="px-5 py-3 bg-[#0E1420] border-b border-white/10 flex flex-wrap items-center justify-between gap-3 text-[10px] font-mono tracking-widest uppercase">
               <div className="flex items-center gap-3">
-                <span className="text-yellow-400 font-bold">
+                <span className="text-yellow-400/90 font-medium">
                   ROLE 0{selectedIndex + 1} OF 06
                 </span>
-                <span className="text-slate-500">•</span>
-                <span className="text-slate-300">
+                <span className="text-white/20">•</span>
+                <span className="text-[#A5A196]">
                   {selectedChar.gender} • AGE {selectedChar.ageRange}
                 </span>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 bg-yellow-400/10 border border-yellow-400/40 text-yellow-300 font-bold">
-                  100% REFUNDABLE UPON PRODUCTION COMPLETION
+                <span className="px-2.5 py-1 bg-yellow-400/10 border border-yellow-400/30 text-yellow-400/90 font-medium">
+                  100% REFUNDABLE DEPOSIT UPON PRODUCTION WRAP
                 </span>
               </div>
             </div>
@@ -119,17 +113,17 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[580px]">
               
               {/* Visual Avatar Rail (Left 4 cols) */}
-              <div className="lg:col-span-4 border-b lg:border-b-0 lg:border-r border-white/10 bg-[#060B16] p-4 flex flex-col justify-between">
+              <div className="lg:col-span-4 border-b lg:border-b-0 lg:border-r border-white/10 bg-[#0A0E16] p-4 flex flex-col justify-between">
                 <div>
-                  <div className="text-[10px] font-mono tracking-[0.2em] text-slate-400 uppercase font-bold mb-3 flex items-center justify-between">
+                  <div className="text-[10px] font-mono tracking-[0.2em] text-[#A5A196] uppercase font-medium mb-3 flex items-center justify-between">
                     <span className="flex items-center gap-1.5">
-                      <Compass className="w-3.5 h-3.5 text-yellow-400" />
-                      <span>SELECT FACE</span>
+                      <Compass className="w-3.5 h-3.5 text-yellow-400/90" />
+                      <span>SELECT ROLE</span>
                     </span>
-                    <span className="text-yellow-400/80">CLICK TO VIEW</span>
+                    <span className="text-yellow-400/80">CHOOSE PROFILE</span>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     {CHARACTERS.map((char, idx) => {
                       const isActive = char.id === selectedChar.id;
                       return (
@@ -137,19 +131,19 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
                           key={char.id}
                           type="button"
                           onClick={() => setSelectedCharacterId(char.id)}
-                          className={`w-full flex items-center justify-between p-2 transition-all text-left cursor-pointer border ${
+                          className={`w-full flex items-center justify-between p-2.5 transition-colors text-left cursor-pointer border ${
                             isActive
-                              ? 'bg-[#0E1C38] border-yellow-400 shadow-md'
-                              : 'bg-transparent border-white/5 hover:border-white/20 hover:bg-white/5'
+                              ? 'bg-[#141B26] border-yellow-400/90'
+                              : 'bg-transparent border-white/5 hover:border-white/20 hover:bg-white/[0.02]'
                           }`}
                         >
                           <div className="flex items-center gap-3">
                             <div className="relative">
                               <div
-                                className={`w-12 h-12 rounded overflow-hidden border-2 transition-all ${
+                                className={`w-11 h-11 overflow-hidden border transition-all ${
                                   isActive
-                                    ? 'border-yellow-400 ring-2 ring-yellow-400/40 scale-105'
-                                    : 'border-white/20 opacity-70 group-hover:opacity-100'
+                                    ? 'border-yellow-400/90'
+                                    : 'border-white/20 opacity-70'
                                 }`}
                               >
                                 <img
@@ -160,24 +154,24 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
                                 />
                               </div>
                               {isActive && (
-                                <span className="absolute -bottom-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full border-2 border-[#060B16]" />
+                                <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-yellow-400/90 border border-black" />
                               )}
                             </div>
 
                             <div>
                               <div className="flex items-center gap-2">
-                                <span className="text-[9px] font-mono text-slate-400">
+                                <span className="text-[9px] font-mono text-[#68665E]">
                                   0{idx + 1}
                                 </span>
                                 <h4
-                                  className={`font-title text-sm font-bold uppercase tracking-wider ${
-                                    isActive ? 'text-white' : 'text-slate-300'
+                                  className={`font-title text-sm font-medium uppercase tracking-wider ${
+                                    isActive ? 'text-[#EDE8DF]' : 'text-[#A5A196]'
                                   }`}
                                 >
                                   {char.name}
                                 </h4>
                               </div>
-                              <p className="text-[11px] text-yellow-400/90 font-mono tracking-tight">
+                              <p className="text-[10px] text-yellow-400/90 font-mono tracking-tight">
                                 {char.archetype}
                               </p>
                             </div>
@@ -185,7 +179,7 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
 
                           <ChevronRight
                             className={`w-4 h-4 transition-transform ${
-                              isActive ? 'text-yellow-400 translate-x-1' : 'text-slate-600'
+                              isActive ? 'text-yellow-400/90 translate-x-0.5' : 'text-[#68665E]'
                             }`}
                           />
                         </button>
@@ -194,9 +188,9 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
                   </div>
                 </div>
 
-                <div className="mt-4 p-3 bg-[#0A1324] border border-white/5 text-[10px] text-slate-400 flex items-center gap-2">
+                <div className="mt-4 p-3 bg-[#0C111A] border border-white/5 text-[10px] text-[#A5A196] flex items-center gap-2 font-mono">
                   <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>100% deposit refunded upon shoot schedule completion.</span>
+                  <span>Zero audition fees. 100% security deposit wired upon shoot wrap.</span>
                 </div>
               </div>
 
@@ -211,48 +205,42 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
                     src={selectedChar.image}
                     alt={selectedChar.name}
                     referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover object-top filter grayscale-[5%] brightness-90 contrast-105 group-hover/stage:scale-105 transition-all duration-1000 ease-out"
+                    className="w-full h-full object-cover object-top filter grayscale-[5%] brightness-90 contrast-105 group-hover/stage:scale-102 transition-transform duration-700 ease-out"
                   />
-                  {/* Subtle Cinematic Vignette & Bottom Shading */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#060B14] via-[#060B14]/40 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#060B14]/80 via-transparent to-transparent hidden lg:block" />
-
-                  {/* Atmospheric Film Particles */}
-                  <div className="absolute top-1/4 left-1/3 w-2 h-2 rounded-full bg-yellow-400/80 blur-xs animate-ember-slow" />
-                  <div className="absolute top-1/2 left-2/3 w-1.5 h-1.5 rounded-full bg-amber-400/90 blur-xs animate-ember-fast" />
-                  <div className="absolute top-1/3 right-1/4 w-1 h-1 rounded-full bg-yellow-300/80 animate-ember-fast" />
+                  {/* Subtle Cinematic Vignette */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0C111A] via-[#0C111A]/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#0C111A]/80 via-transparent to-transparent hidden lg:block" />
                 </div>
 
                 {/* Top Corner Visual Pill */}
                 <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
-                  <div className="px-3 py-1 bg-black/80 border border-white/20 text-[10px] font-mono text-yellow-400 uppercase tracking-widest backdrop-blur-md flex items-center gap-1.5 group-hover/stage:border-yellow-400 transition-colors">
+                  <div className="px-3 py-1 bg-black/80 border border-white/20 text-[10px] font-mono text-yellow-400/90 uppercase tracking-widest flex items-center gap-1.5 group-hover/stage:border-yellow-400/90 transition-colors">
                     <Maximize2 className="w-3 h-3" />
-                    <span>CLICK FOR FULL DOSSIER</span>
+                    <span>INSPECT FULL DOSSIER</span>
                   </div>
                 </div>
 
-                {/* Bottom Stage Overlay: Clean, Punchy & Visually Balanced */}
-                <div className="relative z-10 p-6 sm:p-8 bg-gradient-to-t from-[#050A14] via-[#050A14]/90 to-transparent">
+                {/* Bottom Stage Overlay */}
+                <div className="relative z-10 p-6 sm:p-8 bg-gradient-to-t from-[#0C111A] via-[#0C111A]/90 to-transparent">
                   <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="px-2 py-0.5 bg-yellow-400/20 border border-yellow-400/50 text-[10px] font-mono font-bold text-yellow-400 uppercase tracking-widest">
+                    <span className="px-2 py-0.5 bg-yellow-400/20 border border-yellow-400/40 text-[10px] font-mono text-yellow-400/90 uppercase tracking-widest">
                       {selectedChar.archetype}
                     </span>
-                    <span className="text-slate-400 font-mono text-xs">
+                    <span className="text-[#A5A196] font-mono text-xs">
                       • {selectedChar.filmingLocations[0]}
                     </span>
                   </div>
 
-                  <h3 className="font-title text-4xl sm:text-5xl lg:text-6xl font-black text-white uppercase tracking-tight leading-none mb-2">
+                  <h3 className="font-title text-3xl sm:text-4xl lg:text-5xl font-semibold text-[#F4F1EA] uppercase tracking-[0.02em] leading-tight mb-2">
                     {selectedChar.name}
                   </h3>
 
-                  <p className="text-sm sm:text-base text-yellow-300/90 font-light italic mb-4 max-w-xl">
+                  <p className="font-sans text-xs sm:text-sm text-yellow-300/90 font-medium italic mb-4 max-w-xl leading-[1.6]">
                     &ldquo;{selectedChar.tagline}&rdquo;
                   </p>
 
-                  {/* Single Clean Highlight Bar */}
-                  <div className="flex items-center gap-3 text-xs font-mono text-slate-300 mb-6 flex-wrap">
-                    <div className="flex items-center gap-1.5 text-yellow-400">
+                  <div className="flex items-center gap-3 text-xs font-mono text-[#A5A196] mb-6 flex-wrap">
+                    <div className="flex items-center gap-1.5 text-yellow-400/90">
                       <MapPin className="w-3.5 h-3.5" />
                       <span>{selectedChar.filmingLocations.join(' • ')}</span>
                     </div>
@@ -277,14 +265,14 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
                         id={`inspect-btn-${selectedChar.id}`}
                         variant="outline"
                         onClick={() => onInspectCharacter(selectedChar)}
-                        className="!px-5 !py-3 text-xs tracking-wider !border-white/30 hover:!border-white"
+                        className="!px-5 !py-3 text-xs tracking-wider !border-white/20 hover:!border-white"
                       >
                         OPEN FULL DOSSIER
                       </CinemaButton>
                     </div>
 
-                    <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest">
-                      [CLICK CARD TO READ STORY ARC]
+                    <span className="text-[10px] font-mono text-[#68665E] uppercase tracking-widest">
+                      CLICK CARD TO READ STORY ARC
                     </span>
                   </div>
                 </div>
@@ -299,20 +287,20 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
           <div>
             {/* Filter Tabs */}
             <div className="flex items-center justify-between mb-6 pb-3 border-b border-white/10">
-              <span className="text-xs font-mono text-slate-400 uppercase tracking-widest">
-                6 CHARACTER POSTERS • CLICK TO AUDITION OR INSPECT
+              <span className="text-xs font-mono text-[#A5A196] uppercase tracking-widest">
+                6 CHARACTER DOSSIERS • CLICK TO INSPECT
               </span>
 
-              <div className="flex items-center gap-1.5 p-1 bg-[#09101F] border border-white/10">
+              <div className="flex items-center gap-1.5 p-1 bg-[#0C111A] border border-white/10">
                 {(['ALL', 'FEMALE', 'MALE'] as const).map((tab) => (
                   <button
                     key={tab}
                     type="button"
                     onClick={() => setGridFilter(tab)}
-                    className={`px-3 py-1 text-[10px] font-mono uppercase tracking-widest transition-all cursor-pointer ${
+                    className={`px-3 py-1 text-[10px] font-mono uppercase tracking-widest transition-colors cursor-pointer ${
                       gridFilter === tab
-                        ? 'bg-yellow-400 text-black font-bold shadow-sm'
-                        : 'text-slate-400 hover:text-white'
+                        ? 'bg-yellow-400/90 text-black font-semibold'
+                        : 'text-[#A5A196] hover:text-[#EDE8DF]'
                     }`}
                   >
                     {tab === 'ALL' ? 'ALL' : tab}
@@ -328,39 +316,39 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
                   key={char.id}
                   id={`character-card-${char.id}`}
                   onClick={() => onInspectCharacter(char)}
-                  className="group relative h-[440px] bg-[#0A1324] border border-white/10 hover:border-yellow-400 overflow-hidden cursor-pointer shadow-xl transition-all duration-300 flex flex-col justify-end"
+                  className="group relative h-[440px] bg-[#0C111A] border border-white/10 hover:border-yellow-400/90 overflow-hidden cursor-pointer transition-colors duration-300 flex flex-col justify-end"
                 >
                   <img
                     src={char.image}
                     alt={`${char.name} - Chehra Films`}
                     referrerPolicy="no-referrer"
-                    className="absolute inset-0 w-full h-full object-cover object-top filter grayscale-[5%] brightness-95 group-hover:scale-105 group-hover:brightness-100 transition-all duration-700 ease-out"
+                    className="absolute inset-0 w-full h-full object-cover object-top filter grayscale-[5%] brightness-90 group-hover:scale-102 transition-transform duration-700 ease-out"
                   />
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#060B14] via-[#060B14]/40 to-black/20 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0C111A] via-[#0C111A]/40 to-black/20 pointer-events-none" />
 
                   {/* Top Badges */}
                   <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none z-10">
-                    <span className="px-2 py-0.5 text-[9px] font-mono font-bold tracking-widest uppercase bg-black/80 border border-white/20 text-white backdrop-blur-md">
+                    <span className="px-2 py-0.5 text-[9px] font-mono font-medium tracking-widest uppercase bg-black/80 border border-white/20 text-[#EDE8DF]">
                       {char.gender} • AGE {char.ageRange}
                     </span>
 
-                    <span className="px-2 py-0.5 text-[9px] font-mono font-bold tracking-widest uppercase bg-yellow-400 text-black backdrop-blur-md shadow-lg">
+                    <span className="px-2 py-0.5 text-[9px] font-mono font-medium tracking-widest uppercase bg-yellow-400/90 text-black">
                       100% REFUND
                     </span>
                   </div>
 
-                  {/* Bottom Info: Clean, Visual, Minimalist */}
-                  <div className="relative z-10 p-5 bg-gradient-to-t from-[#050A14] via-[#050A14]/90 to-transparent">
-                    <div className="text-[10px] font-mono tracking-[0.2em] text-yellow-400 uppercase font-bold mb-0.5">
+                  {/* Bottom Info */}
+                  <div className="relative z-10 p-5 bg-gradient-to-t from-[#0C111A] via-[#0C111A]/90 to-transparent">
+                    <div className="text-[10px] font-mono tracking-[0.2em] text-yellow-400/90 uppercase font-medium mb-0.5">
                       {char.archetype}
                     </div>
 
-                    <h3 className="font-title text-2xl sm:text-3xl font-black text-white uppercase tracking-wide group-hover:text-yellow-400 transition-colors mb-1">
+                    <h3 className="font-title text-2xl sm:text-3xl font-semibold text-[#F4F1EA] uppercase tracking-[0.02em] group-hover:text-yellow-400/90 transition-colors mb-1">
                       {char.name}
                     </h3>
 
-                    <p className="text-xs text-slate-300 font-light italic mb-3 line-clamp-1">
+                    <p className="text-xs text-[#B8B4AC] font-normal font-sans italic mb-3 line-clamp-1">
                       &ldquo;{char.tagline}&rdquo;
                     </p>
 
@@ -371,15 +359,15 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
                           e.stopPropagation();
                           onSelectRole(char.id);
                         }}
-                        className="flex items-center gap-1.5 text-xs font-mono font-bold tracking-wider text-yellow-400 hover:text-yellow-300 uppercase transition-colors"
+                        className="flex items-center gap-1.5 text-xs font-mono font-medium tracking-wider text-yellow-400/90 hover:text-yellow-300/90 uppercase transition-colors"
                       >
                         <UserCheck className="w-3.5 h-3.5" />
                         <span>AUDITION NOW</span>
                         <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
                       </button>
 
-                      <span className="text-[10px] font-mono text-slate-400 uppercase flex items-center gap-1">
-                        <Eye className="w-3 h-3 text-slate-400" />
+                      <span className="text-[10px] font-mono text-[#68665E] uppercase flex items-center gap-1">
+                        <Eye className="w-3 h-3" />
                         <span>DETAILS</span>
                       </span>
                     </div>
@@ -394,3 +382,4 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
     </section>
   );
 };
+

@@ -158,7 +158,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#060B14] text-[#e2e8f0] selection:bg-yellow-400/30 selection:text-white antialiased">
+    <div className="min-h-screen bg-[#05070B] text-[#f1f5f9] selection:bg-yellow-400/30 selection:text-white antialiased font-sans">
       {/* Fixed Header Navbar */}
       <Navbar
         onOpenNomination={(roleId, pathway) => handleOpenNomination(roleId, pathway)}

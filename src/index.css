@@ -1,108 +1,122 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-title: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-cinematic: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-body: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Manrope', monospace;
+  --font-title: 'Cinzel', Georgia, serif;
+  --font-cinematic: 'Cinzel', Georgia, serif;
+  --font-display: 'Cinzel', Georgia, serif;
+  --font-serif: 'Cinzel', Georgia, serif;
+  --font-body: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --color-gold: rgba(250, 204, 21, 0.9);
+  --color-gold-hover: rgba(253, 224, 71, 0.95);
+  --color-gold-light: rgba(253, 224, 71, 0.9);
+  --color-gold-soft: rgba(250, 204, 21, 0.9);
 }
 
 @layer base {
   :root {
-    --font-title: 'Poppins', sans-serif;
-    --font-cinematic: 'Poppins', sans-serif;
-    --font-display: 'Poppins', sans-serif;
-    --font-body: 'Poppins', sans-serif;
-    --font-mono: 'Poppins', sans-serif;
-    --font-sans: 'Poppins', sans-serif;
+    --font-title: 'Cinzel', Georgia, serif;
+    --font-cinematic: 'Cinzel', Georgia, serif;
+    --font-display: 'Cinzel', Georgia, serif;
+    --font-serif: 'Cinzel', Georgia, serif;
+    --font-body: 'Manrope', system-ui, -apple-system, sans-serif;
+    --font-mono: 'Manrope', monospace;
+    --font-sans: 'Manrope', system-ui, -apple-system, sans-serif;
+
+    --brand-gold: rgba(250, 204, 21, 0.9);
+    --brand-gold-hover: rgba(253, 224, 71, 0.95);
+    --brand-gold-soft: rgba(250, 204, 21, 0.9);
   }
 
-  html,
+  html {
+    font-family: var(--font-body);
+    background-color: #080808;
+    color: #F4F1EA;
+  }
+
   body {
-    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-body);
+    background-color: #080808;
+    color: #F4F1EA;
+    line-height: 1.65;
+    letter-spacing: normal;
+  }
+
+  h1 {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    color: #F4F1EA;
+  }
+
+  h2 {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 600;
+    line-height: 1.18;
+    letter-spacing: 0.02em;
+    color: #F4F1EA;
+  }
+
+  h3 {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 600;
+    line-height: 1.22;
+    letter-spacing: 0.02em;
+    color: #F4F1EA;
+  }
+
+  p {
+    line-height: 1.65;
   }
 
   button, input, optgroup, select, textarea {
-    font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Manrope', system-ui, -apple-system, sans-serif;
   }
 }
 
 .font-title,
 .font-cinematic,
 .font-display,
+.font-serif {
+  font-family: 'Cinzel', Georgia, serif !important;
+}
+
 .font-body,
-.font-sans,
+.font-sans {
+  font-family: 'Manrope', system-ui, -apple-system, sans-serif !important;
+}
+
 .font-mono {
-  font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-family: 'Manrope', monospace !important;
+  letter-spacing: 0.12em;
 }
 
-/* Custom subtle film grain overlay */
+/* Authentic tactile film grain overlay */
 .film-grain {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
-  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 0);
+  background-size: 20px 20px;
 }
 
-/* Cinematic glowing embers & particles */
-@keyframes float-ember-slow {
-  0% { transform: translateY(0) translateX(0) scale(0.8); opacity: 0.15; }
-  50% { transform: translateY(-35px) translateX(12px) scale(1.2); opacity: 0.7; }
-  100% { transform: translateY(-70px) translateX(-8px) scale(0.6); opacity: 0; }
-}
-
-@keyframes float-ember-fast {
-  0% { transform: translateY(0) translateX(0) scale(0.9); opacity: 0.2; }
-  50% { transform: translateY(-45px) translateX(-15px) scale(1.4); opacity: 0.85; }
-  100% { transform: translateY(-90px) translateX(10px) scale(0.7); opacity: 0; }
-}
-
-.animate-ember-slow {
-  animation: float-ember-slow 6s ease-in-out infinite;
-}
-
-.animate-ember-fast {
-  animation: float-ember-fast 4.5s ease-in-out infinite;
-}
-
-/* Cinematic letterbox styling */
-.letterbox-bars {
-  position: relative;
-}
-.letterbox-bars::before,
-.letterbox-bars::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 48px;
-  background: #050b14;
-  z-index: 20;
-  pointer-events: none;
-}
-.letterbox-bars::before {
-  top: 0;
-}
-.letterbox-bars::after {
-  bottom: 0;
-}
-
-/* Custom smooth scrollbar in blue and yellow */
+/* Subtle, dignified smooth scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #050b14;
+  background: #070a0f;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e3a8a;
-  border-radius: 3px;
+  background: #1f2532;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #facc15;
+  background: #FACC15;
 }
+
 

@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 import { TIMELINE_STEPS } from '../data/cinemaData';
 import {
-  ChevronRight,
   ArrowRight,
-  Maximize2,
   X,
   Clock,
   Compass,
   CheckCircle2,
-  MapPin,
-  Camera,
-  Film,
-  Users,
-  Award
+  MapPin
 } from 'lucide-react';
 import { TimelineStep } from '../types';
 
@@ -138,7 +132,7 @@ const PROCESS_METADATA: Record<string, ProcessStageMeta> = {
     stageNumber: '04',
     stageName: 'FIELD EXPEDITION',
     stageGroup: 'ON-LOCATION JOURNEY',
-    stageGroupColor: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/30',
+    stageGroupColor: 'text-yellow-400/90 bg-yellow-400/10 border-yellow-400/30',
     input: '4x4 Convoy fleet, altitude camps & cross-state travel',
     nextStep: { number: '05', name: 'PRINCIPAL SHOOT' }
   },
@@ -146,7 +140,7 @@ const PROCESS_METADATA: Record<string, ProcessStageMeta> = {
     stageNumber: '05',
     stageName: 'CINEMATOGRAPHY',
     stageGroup: 'PRINCIPAL PRODUCTION',
-    stageGroupColor: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/30',
+    stageGroupColor: 'text-yellow-400/90 bg-yellow-400/10 border-yellow-400/30',
     input: 'Arri Alexa LF multi-camera & Dolby Atmos field sound',
     nextStep: { number: '06', name: 'PREMIERE & WRAP' }
   },
@@ -162,7 +156,6 @@ const PROCESS_METADATA: Record<string, ProcessStageMeta> = {
 
 export const HowItWorksSection: React.FC = () => {
   const [inspectedStep, setInspectedStep] = useState<TimelineStep | null>(null);
-  const [activeStageFilter, setActiveStageFilter] = useState<string>('all');
 
   const activeStepDossier = inspectedStep ? STEP_EXTENDED_DATA[inspectedStep.step] : null;
 
@@ -172,7 +165,7 @@ export const HowItWorksSection: React.FC = () => {
       className="relative py-20 md:py-28 bg-[#050912] border-t border-b border-white/10 overflow-hidden"
     >
       {/* Background ambient lighting */}
-      <div className="absolute top-1/4 right-10 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 right-10 w-96 h-96 bg-yellow-400/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -180,8 +173,8 @@ export const HowItWorksSection: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
           <div>
             <div className="inline-flex items-center gap-2 mb-3">
-              <span className="w-4 h-[1px] bg-yellow-400" />
-              <span className="text-[10px] font-mono tracking-[0.3em] text-yellow-400 uppercase font-bold">
+              <span className="w-4 h-[1px] bg-yellow-400/90" />
+              <span className="text-[10px] font-mono tracking-[0.3em] text-yellow-400/90 uppercase font-bold">
                 05 / PRODUCTION PROCESS & PIPELINE
               </span>
             </div>
@@ -194,8 +187,8 @@ export const HowItWorksSection: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="px-3 py-1.5 bg-yellow-400/10 border border-yellow-400/20 text-yellow-300 font-mono text-[10px] uppercase tracking-wider hidden sm:inline-flex items-center gap-1.5">
-              <Clock className="w-3 h-3 text-yellow-400" />
+            <span className="px-3 py-1.5 bg-yellow-400/10 border border-yellow-400/20 text-yellow-300/90 font-mono text-[10px] uppercase tracking-wider hidden sm:inline-flex items-center gap-1.5">
+              <Clock className="w-3 h-3 text-yellow-400/90" />
               <span>SEQUENTIAL 6-PHASE ROADMAP</span>
             </span>
           </div>
@@ -204,7 +197,7 @@ export const HowItWorksSection: React.FC = () => {
         {/* Process Horizontal Stepper Track (Visual Linear Pipeline) */}
         <div className="mb-12 p-4 sm:p-6 bg-[#070D1A] border border-white/10 relative overflow-hidden">
           <div className="text-[10px] font-mono text-slate-400 uppercase tracking-widest mb-4 flex items-center justify-between">
-            <span className="flex items-center gap-2 text-yellow-400 font-bold">
+            <span className="flex items-center gap-2 text-yellow-400/90 font-bold">
               <Compass className="w-3.5 h-3.5" />
               <span>LINEAR PRODUCTION WORKFLOW</span>
             </span>
@@ -225,20 +218,20 @@ export const HowItWorksSection: React.FC = () => {
                   onClick={() => setInspectedStep(step)}
                   className={`p-3 text-left border transition-all cursor-pointer relative group flex flex-col justify-between ${
                     isSelected
-                      ? 'bg-yellow-400/10 border-yellow-400 shadow-lg'
+                      ? 'bg-yellow-400/10 border-yellow-400/90 shadow-lg'
                       : 'bg-white/5 border-white/10 hover:border-yellow-400/60 hover:bg-white/10'
                   }`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-[10px] font-mono font-black text-yellow-400">
+                      <span className="text-[10px] font-mono font-black text-yellow-400/90">
                         {step.step}
                       </span>
                       <span className="text-[9px] font-mono text-slate-400 uppercase">
                         {step.duration}
                       </span>
                     </div>
-                    <div className="font-title text-xs sm:text-sm font-black text-white uppercase tracking-wider group-hover:text-yellow-400 transition-colors">
+                    <div className="font-title text-xs sm:text-sm font-black text-white uppercase tracking-wider group-hover:text-yellow-400/90 transition-colors">
                       {step.title}
                     </div>
                     <div className="text-[9px] font-mono text-slate-400 uppercase mt-0.5 truncate">
@@ -246,10 +239,10 @@ export const HowItWorksSection: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="mt-3 pt-2 border-t border-white/10 flex items-center justify-between text-[9px] font-mono text-slate-400 group-hover:text-yellow-400">
+                  <div className="mt-3 pt-2 border-t border-white/10 flex items-center justify-between text-[9px] font-mono text-slate-400 group-hover:text-yellow-400/90">
                     <span>INSPECT</span>
                     {idx < TIMELINE_STEPS.length - 1 ? (
-                      <ArrowRight className="w-3 h-3 text-slate-500 group-hover:text-yellow-400" />
+                      <ArrowRight className="w-3 h-3 text-slate-500 group-hover:text-yellow-400/90" />
                     ) : (
                       <CheckCircle2 className="w-3 h-3 text-emerald-400" />
                     )}
@@ -260,451 +253,10 @@ export const HowItWorksSection: React.FC = () => {
           </div>
         </div>
 
-        {/* 3-Stage Process Pillar Navigation & Flow Indicator */}
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4 p-4 bg-[#070D1A] border border-white/10">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-pulse" />
-            <span className="text-xs font-mono font-bold tracking-widest text-white uppercase">
-              PRODUCTION LIFECYCLE: 3 STAGES, 6 SEQUENTIAL MILESTONES
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setActiveStageFilter('all')}
-              className={`px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider transition-colors cursor-pointer border ${
-                activeStageFilter === 'all'
-                  ? 'bg-yellow-400 text-black border-yellow-400 font-bold'
-                  : 'bg-white/5 text-slate-300 border-white/10 hover:border-white/30'
-              }`}
-            >
-              ALL 6 PHASES (COMPLETE PIPELINE)
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveStageFilter('pre')}
-              className={`px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider transition-colors cursor-pointer border ${
-                activeStageFilter === 'pre'
-                  ? 'bg-cyan-400 text-black border-cyan-400 font-bold'
-                  : 'bg-white/5 text-slate-300 border-white/10 hover:border-white/30'
-              }`}
-            >
-              STAGE 1: PRE-PROD (01-02)
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveStageFilter('prep')}
-              className={`px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider transition-colors cursor-pointer border ${
-                activeStageFilter === 'prep'
-                  ? 'bg-amber-400 text-black border-amber-400 font-bold'
-                  : 'bg-white/5 text-slate-300 border-white/10 hover:border-white/30'
-              }`}
-            >
-              STAGE 2: CONVOY (03-04)
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveStageFilter('prod')}
-              className={`px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider transition-colors cursor-pointer border ${
-                activeStageFilter === 'prod'
-                  ? 'bg-emerald-400 text-black border-emerald-400 font-bold'
-                  : 'bg-white/5 text-slate-300 border-white/10 hover:border-white/30'
-              }`}
-            >
-              STAGE 3: FILMING & WRAP (05-06)
-            </button>
-          </div>
-        </div>
-
-        {/* 6-Step Detailed Process Pipeline Cards organized as a Process Flow */}
-        <div className="space-y-10 relative">
-          {/* Stage Group 1: Pre-Production & Casting */}
-          {(activeStageFilter === 'all' || activeStageFilter === 'pre') && (
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 pb-3 border-b border-cyan-500/30">
-                <span className="px-2.5 py-0.5 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-mono text-[10px] font-bold uppercase tracking-widest">
-                  STAGE 01
-                </span>
-                <h3 className="text-sm sm:text-base font-title font-black text-white uppercase tracking-wider">
-                  PRE-PRODUCTION & TALENT INTAKE (PHASES 01 — 02)
-                </h3>
-                <span className="text-[10px] font-mono text-slate-400 hidden sm:inline ml-auto">
-                  INPUT: DIRECTORIAL VISION ──► OUTPUT: LOCKED CAST ROSTER
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
-                {[TIMELINE_STEPS[0], TIMELINE_STEPS[1]].map((step) => {
-                  const ext = STEP_EXTENDED_DATA[step.step];
-                  const meta = PROCESS_METADATA[step.step];
-                  return (
-                    <div
-                      key={step.step}
-                      onClick={() => setInspectedStep(step)}
-                      className="group p-6 bg-[#070D1A] border border-white/15 hover:border-yellow-400 transition-all duration-300 flex flex-col justify-between cursor-pointer shadow-xl overflow-hidden relative"
-                    >
-                      {/* Top Process Header */}
-                      <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/10">
-                        <div className="flex items-center gap-2">
-                          <span className="px-2 py-0.5 bg-yellow-400 text-black font-mono font-black text-[10px] uppercase tracking-wider">
-                            PHASE {step.step}
-                          </span>
-                          <span className={`px-2 py-0.5 text-[9px] font-mono font-bold uppercase border ${meta.stageGroupColor}`}>
-                            {meta.stageName}
-                          </span>
-                        </div>
-                        <span className="text-[10px] font-mono text-slate-400 font-bold uppercase">
-                          {step.duration}
-                        </span>
-                      </div>
-
-                      {/* Visual Banner */}
-                      {ext && (
-                        <div className="relative h-36 -mx-6 mb-5 overflow-hidden bg-black">
-                          <img
-                            src={ext.stepImage}
-                            alt={step.title}
-                            referrerPolicy="no-referrer"
-                            className="w-full h-full object-cover filter contrast-105 brightness-75 group-hover:scale-105 group-hover:brightness-90 transition-all duration-700 ease-out"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-[#070D1A]/50 to-transparent" />
-                          <div className="absolute bottom-2.5 left-4 right-4 flex items-center justify-between z-10">
-                            <div>
-                              <div className="text-[9px] font-mono text-yellow-400 uppercase tracking-widest">
-                                GEOLOCATION FOCUS
-                              </div>
-                              <div className="text-xs font-title font-bold text-white uppercase tracking-wide truncate max-w-[220px]">
-                                {ext.locationFocus}
-                              </div>
-                            </div>
-                            <span className="inline-flex items-center gap-1 text-[9px] font-mono text-slate-300 group-hover:text-yellow-400 uppercase tracking-wider">
-                              <Maximize2 className="w-2.5 h-2.5" />
-                              <span>INSPECT</span>
-                            </span>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Content */}
-                      <div className="space-y-3.5">
-                        <div>
-                          <h4 className="font-title text-xl font-bold text-white uppercase tracking-wide group-hover:text-yellow-400 transition-colors">
-                            {step.title}
-                          </h4>
-                          <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400 mt-0.5">
-                            {step.subtitle}
-                          </div>
-                        </div>
-
-                        <div className="p-2.5 bg-white/5 border border-white/5 text-[11px] font-mono space-y-1">
-                          <span className="text-[9px] text-slate-400 uppercase tracking-wider block font-bold">
-                            PROCESS TRIGGER / INPUT:
-                          </span>
-                          <span className="text-slate-300 block">
-                            {meta.input}
-                          </span>
-                        </div>
-
-                        <p className="text-xs text-slate-300 font-light leading-relaxed line-clamp-3">
-                          {step.description}
-                        </p>
-                      </div>
-
-                      {/* Process Hand-off Footer */}
-                      <div className="pt-4 mt-4 border-t border-white/10 space-y-2">
-                        <div className="flex items-center justify-between text-[10px] font-mono">
-                          <span className="text-slate-400 uppercase">DELIVERABLE:</span>
-                          <span className="text-yellow-400 uppercase font-bold tracking-wide truncate ml-2 text-right">
-                            {step.deliverable}
-                          </span>
-                        </div>
-
-                        <div className="pt-2 border-t border-white/5 flex items-center justify-between text-[9px] font-mono">
-                          {meta.nextStep ? (
-                            <span className="text-slate-400 flex items-center gap-1 group-hover:text-white transition-colors">
-                              <span>HANDOFF:</span>
-                              <span className="text-yellow-400 font-bold">{meta.nextStep.number} {meta.nextStep.name}</span>
-                              <ArrowRight className="w-2.5 h-2.5 text-yellow-400" />
-                            </span>
-                          ) : (
-                            <span className="text-emerald-400 flex items-center gap-1 font-bold">
-                              <CheckCircle2 className="w-3 h-3" />
-                              <span>STAGE COMPLETED</span>
-                            </span>
-                          )}
-                          <span className="text-slate-400 group-hover:text-yellow-400 uppercase tracking-wider flex items-center gap-1">
-                            <span>DETAILS</span>
-                            <ChevronRight className="w-3 h-3" />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Stage Group 2: Chemistry & Convoy Rollout */}
-          {(activeStageFilter === 'all' || activeStageFilter === 'prep') && (
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 pb-3 border-b border-amber-500/30">
-                <span className="px-2.5 py-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 font-mono text-[10px] font-bold uppercase tracking-widest">
-                  STAGE 02
-                </span>
-                <h3 className="text-sm sm:text-base font-title font-black text-white uppercase tracking-wider">
-                  CHEMISTRY TESTS & 4X4 CONVOY ROLLOUT (PHASES 03 — 04)
-                </h3>
-                <span className="text-[10px] font-mono text-slate-400 hidden sm:inline ml-auto">
-                  INPUT: AUDITION TAPES ──► OUTPUT: 2,400 KM EXPEDITION FLEET
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
-                {[TIMELINE_STEPS[2], TIMELINE_STEPS[3]].map((step) => {
-                  const ext = STEP_EXTENDED_DATA[step.step];
-                  const meta = PROCESS_METADATA[step.step];
-                  return (
-                    <div
-                      key={step.step}
-                      onClick={() => setInspectedStep(step)}
-                      className="group p-6 bg-[#070D1A] border border-white/15 hover:border-yellow-400 transition-all duration-300 flex flex-col justify-between cursor-pointer shadow-xl overflow-hidden relative"
-                    >
-                      {/* Top Process Header */}
-                      <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/10">
-                        <div className="flex items-center gap-2">
-                          <span className="px-2 py-0.5 bg-yellow-400 text-black font-mono font-black text-[10px] uppercase tracking-wider">
-                            PHASE {step.step}
-                          </span>
-                          <span className={`px-2 py-0.5 text-[9px] font-mono font-bold uppercase border ${meta.stageGroupColor}`}>
-                            {meta.stageName}
-                          </span>
-                        </div>
-                        <span className="text-[10px] font-mono text-slate-400 font-bold uppercase">
-                          {step.duration}
-                        </span>
-                      </div>
-
-                      {/* Visual Banner */}
-                      {ext && (
-                        <div className="relative h-36 -mx-6 mb-5 overflow-hidden bg-black">
-                          <img
-                            src={ext.stepImage}
-                            alt={step.title}
-                            referrerPolicy="no-referrer"
-                            className="w-full h-full object-cover filter contrast-105 brightness-75 group-hover:scale-105 group-hover:brightness-90 transition-all duration-700 ease-out"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-[#070D1A]/50 to-transparent" />
-                          <div className="absolute bottom-2.5 left-4 right-4 flex items-center justify-between z-10">
-                            <div>
-                              <div className="text-[9px] font-mono text-yellow-400 uppercase tracking-widest">
-                                GEOLOCATION FOCUS
-                              </div>
-                              <div className="text-xs font-title font-bold text-white uppercase tracking-wide truncate max-w-[220px]">
-                                {ext.locationFocus}
-                              </div>
-                            </div>
-                            <span className="inline-flex items-center gap-1 text-[9px] font-mono text-slate-300 group-hover:text-yellow-400 uppercase tracking-wider">
-                              <Maximize2 className="w-2.5 h-2.5" />
-                              <span>INSPECT</span>
-                            </span>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Content */}
-                      <div className="space-y-3.5">
-                        <div>
-                          <h4 className="font-title text-xl font-bold text-white uppercase tracking-wide group-hover:text-yellow-400 transition-colors">
-                            {step.title}
-                          </h4>
-                          <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400 mt-0.5">
-                            {step.subtitle}
-                          </div>
-                        </div>
-
-                        <div className="p-2.5 bg-white/5 border border-white/5 text-[11px] font-mono space-y-1">
-                          <span className="text-[9px] text-slate-400 uppercase tracking-wider block font-bold">
-                            PROCESS TRIGGER / INPUT:
-                          </span>
-                          <span className="text-slate-300 block">
-                            {meta.input}
-                          </span>
-                        </div>
-
-                        <p className="text-xs text-slate-300 font-light leading-relaxed line-clamp-3">
-                          {step.description}
-                        </p>
-                      </div>
-
-                      {/* Process Hand-off Footer */}
-                      <div className="pt-4 mt-4 border-t border-white/10 space-y-2">
-                        <div className="flex items-center justify-between text-[10px] font-mono">
-                          <span className="text-slate-400 uppercase">DELIVERABLE:</span>
-                          <span className="text-yellow-400 uppercase font-bold tracking-wide truncate ml-2 text-right">
-                            {step.deliverable}
-                          </span>
-                        </div>
-
-                        <div className="pt-2 border-t border-white/5 flex items-center justify-between text-[9px] font-mono">
-                          {meta.nextStep ? (
-                            <span className="text-slate-400 flex items-center gap-1 group-hover:text-white transition-colors">
-                              <span>HANDOFF:</span>
-                              <span className="text-yellow-400 font-bold">{meta.nextStep.number} {meta.nextStep.name}</span>
-                              <ArrowRight className="w-2.5 h-2.5 text-yellow-400" />
-                            </span>
-                          ) : (
-                            <span className="text-emerald-400 flex items-center gap-1 font-bold">
-                              <CheckCircle2 className="w-3 h-3" />
-                              <span>STAGE COMPLETED</span>
-                            </span>
-                          )}
-                          <span className="text-slate-400 group-hover:text-yellow-400 uppercase tracking-wider flex items-center gap-1">
-                            <span>DETAILS</span>
-                            <ChevronRight className="w-3 h-3" />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Stage Group 3: Principal Cinematography & Theatrical Premiere */}
-          {(activeStageFilter === 'all' || activeStageFilter === 'prod') && (
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 pb-3 border-b border-emerald-500/30">
-                <span className="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-mono text-[10px] font-bold uppercase tracking-widest">
-                  STAGE 03
-                </span>
-                <h3 className="text-sm sm:text-base font-title font-black text-white uppercase tracking-wider">
-                  PRINCIPAL ARRI CINEMATOGRAPHY & THEATRICAL RELEASE (PHASES 05 — 06)
-                </h3>
-                <span className="text-[10px] font-mono text-slate-400 hidden sm:inline ml-auto">
-                  INPUT: CONVOY ON LOCATION ──► OUTPUT: 4K THEATRICAL CUT & 100% REFUND
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
-                {[TIMELINE_STEPS[4], TIMELINE_STEPS[5]].map((step) => {
-                  const ext = STEP_EXTENDED_DATA[step.step];
-                  const meta = PROCESS_METADATA[step.step];
-                  return (
-                    <div
-                      key={step.step}
-                      onClick={() => setInspectedStep(step)}
-                      className="group p-6 bg-[#070D1A] border border-white/15 hover:border-yellow-400 transition-all duration-300 flex flex-col justify-between cursor-pointer shadow-xl overflow-hidden relative"
-                    >
-                      {/* Top Process Header */}
-                      <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/10">
-                        <div className="flex items-center gap-2">
-                          <span className="px-2 py-0.5 bg-yellow-400 text-black font-mono font-black text-[10px] uppercase tracking-wider">
-                            PHASE {step.step}
-                          </span>
-                          <span className={`px-2 py-0.5 text-[9px] font-mono font-bold uppercase border ${meta.stageGroupColor}`}>
-                            {meta.stageName}
-                          </span>
-                        </div>
-                        <span className="text-[10px] font-mono text-slate-400 font-bold uppercase">
-                          {step.duration}
-                        </span>
-                      </div>
-
-                      {/* Visual Banner */}
-                      {ext && (
-                        <div className="relative h-36 -mx-6 mb-5 overflow-hidden bg-black">
-                          <img
-                            src={ext.stepImage}
-                            alt={step.title}
-                            referrerPolicy="no-referrer"
-                            className="w-full h-full object-cover filter contrast-105 brightness-75 group-hover:scale-105 group-hover:brightness-90 transition-all duration-700 ease-out"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-[#070D1A]/50 to-transparent" />
-                          <div className="absolute bottom-2.5 left-4 right-4 flex items-center justify-between z-10">
-                            <div>
-                              <div className="text-[9px] font-mono text-yellow-400 uppercase tracking-widest">
-                                GEOLOCATION FOCUS
-                              </div>
-                              <div className="text-xs font-title font-bold text-white uppercase tracking-wide truncate max-w-[220px]">
-                                {ext.locationFocus}
-                              </div>
-                            </div>
-                            <span className="inline-flex items-center gap-1 text-[9px] font-mono text-slate-300 group-hover:text-yellow-400 uppercase tracking-wider">
-                              <Maximize2 className="w-2.5 h-2.5" />
-                              <span>INSPECT</span>
-                            </span>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Content */}
-                      <div className="space-y-3.5">
-                        <div>
-                          <h4 className="font-title text-xl font-bold text-white uppercase tracking-wide group-hover:text-yellow-400 transition-colors">
-                            {step.title}
-                          </h4>
-                          <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400 mt-0.5">
-                            {step.subtitle}
-                          </div>
-                        </div>
-
-                        <div className="p-2.5 bg-white/5 border border-white/5 text-[11px] font-mono space-y-1">
-                          <span className="text-[9px] text-slate-400 uppercase tracking-wider block font-bold">
-                            PROCESS TRIGGER / INPUT:
-                          </span>
-                          <span className="text-slate-300 block">
-                            {meta.input}
-                          </span>
-                        </div>
-
-                        <p className="text-xs text-slate-300 font-light leading-relaxed line-clamp-3">
-                          {step.description}
-                        </p>
-                      </div>
-
-                      {/* Process Hand-off Footer */}
-                      <div className="pt-4 mt-4 border-t border-white/10 space-y-2">
-                        <div className="flex items-center justify-between text-[10px] font-mono">
-                          <span className="text-slate-400 uppercase">DELIVERABLE:</span>
-                          <span className="text-yellow-400 uppercase font-bold tracking-wide truncate ml-2 text-right">
-                            {step.deliverable}
-                          </span>
-                        </div>
-
-                        <div className="pt-2 border-t border-white/5 flex items-center justify-between text-[9px] font-mono">
-                          {meta.nextStep ? (
-                            <span className="text-slate-400 flex items-center gap-1 group-hover:text-white transition-colors">
-                              <span>HANDOFF:</span>
-                              <span className="text-yellow-400 font-bold">{meta.nextStep.number} {meta.nextStep.name}</span>
-                              <ArrowRight className="w-2.5 h-2.5 text-yellow-400" />
-                            </span>
-                          ) : (
-                            <span className="text-emerald-400 flex items-center gap-1 font-bold">
-                              <CheckCircle2 className="w-3 h-3" />
-                              <span>FINAL DELIVERY WRAP</span>
-                            </span>
-                          )}
-                          <span className="text-slate-400 group-hover:text-yellow-400 uppercase tracking-wider flex items-center gap-1">
-                            <span>DETAILS</span>
-                            <ChevronRight className="w-3 h-3" />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </div>
-
         {/* Bottom Process Guarantees Bar */}
         <div className="mt-12 p-5 bg-[#070D1A] border border-white/10 grid grid-cols-2 md:grid-cols-4 gap-4 text-center divide-y md:divide-y-0 md:divide-x divide-white/10">
           <div className="p-2">
-            <span className="block text-yellow-400 font-title text-base sm:text-lg font-black uppercase">100% REFUND</span>
+            <span className="block text-yellow-400/90 font-title text-base sm:text-lg font-black uppercase">100% REFUND</span>
             <span className="block text-[10px] font-mono text-slate-400 uppercase">Actor Escrow Guarantee</span>
           </div>
           <div className="p-2">
@@ -725,7 +277,7 @@ export const HowItWorksSection: React.FC = () => {
         <div className="mt-8 text-center">
           <a
             href="#nomination"
-            className="inline-flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-yellow-400 hover:text-yellow-300 uppercase transition-colors"
+            className="inline-flex items-center gap-2 text-xs font-mono font-bold tracking-widest text-yellow-400/90 hover:text-yellow-300/90 uppercase transition-colors"
           >
             <span>SELECT YOUR INVOLVEMENT PATHWAY</span>
             <ArrowRight className="w-4 h-4" />
@@ -748,7 +300,7 @@ export const HowItWorksSection: React.FC = () => {
             {/* Modal Header */}
             <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
               <div className="flex items-center gap-3">
-                <span className="px-2.5 py-0.5 bg-yellow-400 text-black text-[10px] font-mono font-black uppercase tracking-wider">
+                <span className="px-2.5 py-0.5 bg-yellow-400/90 text-black text-[10px] font-mono font-black uppercase tracking-wider">
                   PHASE {inspectedStep.step} / 06
                 </span>
                 <span className="text-xs font-mono text-slate-400 uppercase tracking-widest">
@@ -778,7 +330,7 @@ export const HowItWorksSection: React.FC = () => {
               
               <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
                 <div>
-                  <span className="text-[10px] font-mono text-yellow-400 font-bold uppercase tracking-widest block mb-1">
+                  <span className="text-[10px] font-mono text-yellow-400/90 font-bold uppercase tracking-widest block mb-1">
                     {inspectedStep.subtitle} • {inspectedStep.duration}
                   </span>
                   <h3 className="font-title text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">
@@ -790,9 +342,9 @@ export const HowItWorksSection: React.FC = () => {
 
             {/* Location & Context */}
             <div className="p-3.5 bg-[#050811] border border-white/10 mb-6 flex items-center gap-3">
-              <MapPin className="w-4 h-4 text-yellow-400 shrink-0" />
+              <MapPin className="w-4 h-4 text-yellow-400/90 shrink-0" />
               <div className="text-xs font-mono text-slate-200">
-                <strong className="text-yellow-400">GEOGRAPHIC FOCUS:</strong> {activeStepDossier.locationFocus}
+                <strong className="text-yellow-400/90">GEOGRAPHIC FOCUS:</strong> {activeStepDossier.locationFocus}
               </div>
             </div>
 
@@ -808,14 +360,14 @@ export const HowItWorksSection: React.FC = () => {
 
             {/* Milestones Checklist */}
             <div className="p-5 bg-[#09101F] border border-white/10 mb-6">
-              <div className="text-xs font-mono text-yellow-400 font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
+              <div className="text-xs font-mono text-yellow-400/90 font-bold uppercase tracking-wider mb-4 flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                 <span>PHASE MILESTONES & PROTOCOLS</span>
               </div>
               <ul className="space-y-3">
                 {activeStepDossier.milestones.map((item, i) => (
                   <li key={i} className="flex items-start gap-2.5 text-xs text-slate-300 font-light">
-                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 shrink-0 mt-1.5" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-400/90 shrink-0 mt-1.5" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -825,7 +377,7 @@ export const HowItWorksSection: React.FC = () => {
             {/* Unscripted Factor & Equipment */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
               <div className="p-4 bg-[#050A14] border border-white/10">
-                <div className="text-[10px] font-mono text-yellow-400 font-bold uppercase tracking-widest mb-1.5">
+                <div className="text-[10px] font-mono text-yellow-400/90 font-bold uppercase tracking-widest mb-1.5">
                   THE UNSCRIPTED DYNAMIC
                 </div>
                 <p className="text-xs text-slate-300 font-light leading-relaxed">
@@ -834,7 +386,7 @@ export const HowItWorksSection: React.FC = () => {
               </div>
 
               <div className="p-4 bg-[#050A14] border border-white/10">
-                <div className="text-[10px] font-mono text-yellow-400 font-bold uppercase tracking-widest mb-1.5">
+                <div className="text-[10px] font-mono text-yellow-400/90 font-bold uppercase tracking-widest mb-1.5">
                   DEPLOYED CREW & GEAR
                 </div>
                 <p className="text-xs text-slate-300 font-light leading-relaxed">
@@ -846,13 +398,13 @@ export const HowItWorksSection: React.FC = () => {
             {/* Modal Bottom Close */}
             <div className="flex items-center justify-between pt-4 border-t border-white/10">
               <div className="text-xs font-mono text-slate-400">
-                DELIVERABLE: <strong className="text-yellow-400">{inspectedStep.deliverable}</strong>
+                DELIVERABLE: <strong className="text-yellow-400/90">{inspectedStep.deliverable}</strong>
               </div>
 
               <button
                 type="button"
                 onClick={() => setInspectedStep(null)}
-                className="px-5 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-black font-title font-bold text-xs uppercase tracking-wider"
+                className="px-5 py-2.5 bg-yellow-400/90 hover:bg-yellow-300/90 text-black font-title font-bold text-xs uppercase tracking-wider"
               >
                 CLOSE DOSSIER
               </button>

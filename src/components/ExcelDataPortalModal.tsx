@@ -173,7 +173,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
             )}
             <button
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-yellow-400 transition-colors cursor-pointer"
+              className="p-1.5 text-slate-400 hover:text-yellow-400/90 transition-colors cursor-pointer"
               aria-label="Close Portal"
             >
               <X className="w-5 h-5" />
@@ -185,7 +185,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
         <div className="px-6 py-3 bg-[#080E1B] border-b border-blue-900/30 space-y-2.5 text-xs font-mono">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3">
             <div className="flex items-center gap-2 text-slate-300">
-              <span className="text-yellow-400 font-bold flex items-center gap-1.5">
+              <span className="text-yellow-400/90 font-bold flex items-center gap-1.5">
                 GOOGLE APPS SCRIPT WEBHOOK:
               </span>
               <span className="text-emerald-400 font-semibold">CONNECTED</span>
@@ -227,7 +227,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                 </span>
                 <span>{sheetTestResult.message}</span>
                 {sheetTestResult.submissionId && (
-                  <span className="ml-2 font-mono text-yellow-400 font-bold">
+                  <span className="ml-2 font-mono text-yellow-400/90 font-bold">
                     [ID: {sheetTestResult.submissionId}]
                   </span>
                 )}
@@ -256,7 +256,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
           {/* One-click Google Sheets Formula Bar */}
           <div className="pt-1.5 border-t border-white/5 flex flex-col md:flex-row items-start md:items-center justify-between gap-2 text-[11px]">
             <span className="text-slate-400">
-              Or import into Google Sheets via <code className="text-yellow-300">=IMPORTDATA(...)</code>:
+              Or import into Google Sheets via <code className="text-yellow-300/90">=IMPORTDATA(...)</code>:
             </span>
             <div className="flex flex-wrap items-center gap-1.5">
               <button
@@ -268,7 +268,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
               </button>
               <button
                 onClick={() => handleCopyFormula('actors')}
-                className="inline-flex items-center gap-1 px-2 py-0.5 bg-yellow-400/10 hover:bg-yellow-400/20 border border-yellow-400/40 text-yellow-300 transition-colors cursor-pointer text-[10px]"
+                className="inline-flex items-center gap-1 px-2 py-0.5 bg-yellow-400/10 hover:bg-yellow-400/20 border border-yellow-400/40 text-yellow-300/90 transition-colors cursor-pointer text-[10px]"
               >
                 {copiedFormula === 'actors' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
                 <span>{copiedFormula === 'actors' ? 'COPIED ACTORS!' : 'COPY ACTORS FORMULA'}</span>
@@ -292,7 +292,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
               onClick={() => setActiveTab('actors')}
               className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1.5 border ${
                 activeTab === 'actors'
-                  ? 'bg-yellow-400 text-black border-yellow-300 font-bold shadow-md'
+                  ? 'bg-yellow-400/90 text-black border-yellow-300/90 font-bold shadow-md'
                   : 'bg-[#0A1324] text-slate-400 border-blue-900/40 hover:text-white'
               }`}
             >
@@ -349,7 +349,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search spreadsheet..."
-                className="w-full pl-8 pr-3 py-1.5 bg-[#0A1324] border border-blue-900/50 text-xs font-mono text-white placeholder-slate-500 focus:outline-none focus:border-yellow-400"
+                className="w-full pl-8 pr-3 py-1.5 bg-[#0A1324] border border-blue-900/50 text-xs font-mono text-white placeholder-slate-500 focus:outline-none focus:border-yellow-400/90"
               />
             </div>
 
@@ -358,7 +358,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
               <>
                 <button
                   onClick={() => downloadActorsExcel(safeActors)}
-                  className="inline-flex items-center gap-1 px-3 py-1.5 bg-yellow-400 text-black hover:bg-yellow-300 text-xs font-mono font-bold transition-all cursor-pointer shrink-0"
+                  className="inline-flex items-center gap-1 px-3 py-1.5 bg-yellow-400/90 text-black hover:bg-yellow-300/90 text-xs font-mono font-bold transition-all cursor-pointer shrink-0"
                   title="Download Actors Excel (.xlsx)"
                 >
                   <Download className="w-3.5 h-3.5" />
@@ -448,7 +448,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                 {filteredActors.map((a) => (
                   <tr key={a.id} className="hover:bg-blue-950/20 transition-colors">
                     <td className="p-3">
-                      <span className="text-yellow-400 font-bold">{a.id}</span>
+                      <span className="text-yellow-400/90 font-bold">{a.id}</span>
                       <div className="text-[10px] text-slate-500">{a.submittedAt}</div>
                     </td>
                     <td className="p-3 font-medium text-white">
@@ -461,7 +461,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                       {a.age} yrs • {a.city}
                     </td>
                     <td className="p-3">
-                      <span className="px-2 py-0.5 bg-yellow-400/10 text-yellow-300 border border-yellow-400/30 font-semibold text-[11px]">
+                      <span className="px-2 py-0.5 bg-yellow-400/10 text-yellow-300/90 border border-yellow-400/30 font-semibold text-[11px]">
                         {a.selectedRole}
                       </span>
                     </td>
@@ -480,7 +480,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                             href={a.auditionTapeUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="text-yellow-400 hover:underline flex items-center gap-1"
+                            className="text-yellow-400/90 hover:underline flex items-center gap-1"
                           >
                             <span>Audition Tape</span>
                             <ExternalLink className="w-2.5 h-2.5" />
@@ -536,7 +536,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                       <div className="text-[10px] text-blue-300">{p.travelBatch}</div>
                     </td>
                     <td className="p-3">
-                      <span className="px-2 py-0.5 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 font-bold text-xs">
+                      <span className="px-2 py-0.5 bg-yellow-400/20 text-yellow-300/90 border border-yellow-400/40 font-bold text-xs">
                         ₹{p.prebookingTokenPrice.toLocaleString('en-IN')}/-
                       </span>
                       <div className="text-[10px] text-emerald-400 font-semibold mt-0.5">SEAT RESERVED</div>
@@ -591,7 +591,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                       <div className="text-[10px] text-slate-400">{c.city} • Age {c.age}</div>
                     </td>
                     <td className="p-3">
-                      <div className="text-yellow-300 font-bold">{c.crewDepartment}</div>
+                      <div className="text-yellow-300/90 font-bold">{c.crewDepartment}</div>
                       <span className="text-[10px] px-1.5 py-0.2 bg-emerald-950 text-emerald-400 border border-emerald-500/30 uppercase">
                         {c.categoryType}
                       </span>
@@ -650,9 +650,9 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
           {activeTab === 'all' && (
             <div className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono">
-                <div className="p-4 bg-[#060B14] border border-yellow-500/30">
+                <div className="p-4 bg-[#060B14] border border-yellow-400/30">
                   <span className="text-[10px] text-slate-400 uppercase">Track 01 • Actors</span>
-                  <div className="text-2xl font-bold text-yellow-400">{safeActors.length} Registered</div>
+                  <div className="text-2xl font-bold text-yellow-400/90">{safeActors.length} Registered</div>
                   <p className="text-[11px] text-slate-400 mt-1">100% Refund Eligible upon completion</p>
                 </div>
                 <div className="p-4 bg-[#060B14] border border-blue-500/30">
@@ -677,7 +677,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                     href={`${currentOrigin}/api/export/actors.xlsx`}
                     target="_blank"
                     rel="noreferrer"
-                    className="p-2.5 bg-[#0A1324] hover:bg-slate-800 border border-yellow-400/30 text-yellow-300 flex items-center justify-between"
+                    className="p-2.5 bg-[#0A1324] hover:bg-slate-800 border border-yellow-400/30 text-yellow-300/90 flex items-center justify-between"
                   >
                     <span>1. Actors Excel (.xlsx)</span>
                     <Download className="w-3.5 h-3.5" />

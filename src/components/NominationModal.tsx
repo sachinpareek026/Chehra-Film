@@ -58,17 +58,17 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
     {
       question: 'How does the booking price structure work?',
       answer:
-        'Pay a ₹1,000 token today to reserve your expedition seat and permanently lock the early-bird rate of ₹11,000. The remaining ₹10,000 balance is settled 7 days before departure.',
+        'Pay a ₹1,000 token today to reserve your expedition seat and permanently lock the early-bird rate of ₹13,000. The remaining ₹12,000 balance is settled prior to departure.',
     },
     {
-      question: 'Why does the expedition rate increase after October 30?',
+      question: 'Why does the expedition rate increase after November 20?',
       answer:
-        'To secure early convoy vehicle leases and high-altitude base camp logistics before peak winter tariffs, registrations after October 30 increase by ₹1,500 (totaling ₹12,500).',
+        'To secure early convoy vehicle leases, Gulmarg ski equipment, and hotels before peak Christmas tariffs, registrations after 20 November 2026 are ₹14,500.',
     },
     {
-      question: 'What is included in the ₹11,000 expedition fee?',
+      question: 'What is included in the ₹13,000 expedition fee?',
       answer:
-        'All curated inter-state convoy transit, twin-sharing accommodations, mountain camp permits, guided trails, and front-row cinema immersion alongside the film crew.',
+        '7 nights / 8 days travel from Delhi, Katra (Vaishno Devi), Gulmarg (including a 2-day beginner skiing course with instructor & gear), and Srinagar (Dal Lake houseboat & shikara ride).',
     },
   ],
   crew: [
@@ -143,8 +143,8 @@ export const NominationModal: React.FC<NominationModalProps> = ({
   const [auditionTapeUrl, setAuditionTapeUrl] = useState('');
 
   // Pathway 2: Participant Fields (Zero uploads)
-  const [departureCity, setDepartureCity] = useState('Delhi Majnu Ka Tilla Hub');
-  const [travelBatch, setTravelBatch] = useState('Batch Alpha (Oct 18 – Oct 28)');
+  const [departureCity, setDepartureCity] = useState('Delhi Hub (Majnu Ka Tilla / ISBT)');
+  const [travelBatch, setTravelBatch] = useState('Christmas Expedition (24 – 31 Dec 2026)');
   const [roomPreference, setRoomPreference] = useState('Twin Sharing with Fellow Traveler');
   const [emergencyContact, setEmergencyContact] = useState('');
 
@@ -285,7 +285,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         roomPreference,
         emergencyContact,
         prebookingTokenPrice: 1000,
-        lockedTripPrice: 11000,
+        lockedTripPrice: 13000,
         oct30PriceIncreaseNotice: true,
         paymentMode: 'UPI / Card (₹1,000 Token)',
         transactionRef: `UPI-PREBOOK-${randomSuffix}`,
@@ -374,13 +374,13 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         {/* Top Editorial Film Ribbon */}
         <div className="flex items-center justify-between px-5 sm:px-8 py-3.5 border-b border-white/10 bg-[#050A14] shrink-0">
           <div className="flex items-center gap-3">
-            <span className="w-2.5 h-2.5 bg-yellow-400 rounded-full animate-pulse" />
+            <span className="w-2.5 h-2.5 bg-yellow-400/90 rounded-full animate-pulse" />
             <div className="flex items-center gap-2">
               <span className="font-title text-xs sm:text-sm font-black tracking-widest text-white uppercase">
                 CHEHRA FILMS
               </span>
               <span className="text-slate-500">•</span>
-              <span className="text-[11px] font-mono text-yellow-400 font-semibold tracking-wider uppercase">
+              <span className="text-[11px] font-mono text-yellow-400/90 font-semibold tracking-wider uppercase">
                 PRODUCTION DISPATCH PORTAL
               </span>
             </div>
@@ -409,7 +409,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                 onClick={() => setPathway('actor')}
                 className={`py-2 px-3 sm:px-4 text-left border transition-all cursor-pointer flex items-center justify-between ${
                   pathway === 'actor'
-                    ? 'bg-yellow-400/10 border-yellow-400 text-yellow-400 shadow-md'
+                    ? 'bg-yellow-400/10 border-yellow-400/90 text-yellow-400/90 shadow-md'
                     : 'bg-black/30 border-white/10 text-slate-400 hover:text-slate-200 hover:border-white/20'
                 }`}
               >
@@ -419,7 +419,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   </div>
                   <div className="text-[9px] text-emerald-400 font-mono mt-0.5">100% Refundable Deposit</div>
                 </div>
-                <Film className={`w-4 h-4 hidden sm:block ${pathway === 'actor' ? 'text-yellow-400' : 'text-slate-600'}`} />
+                <Film className={`w-4 h-4 hidden sm:block ${pathway === 'actor' ? 'text-yellow-400/90' : 'text-slate-600'}`} />
               </button>
 
               <button
@@ -473,7 +473,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
               </div>
 
               <div className="space-y-2">
-                <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-yellow-400 font-semibold block">
+                <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-yellow-400/90 font-semibold block">
                   PARINDAA TRAVELS CINEMATIC INITIATIVE
                 </span>
                 <h3 className="font-title text-2xl sm:text-3xl font-black text-white tracking-tight uppercase">
@@ -492,7 +492,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   Thank you for applying to be part of India&apos;s first experimental cinema project on the road. Our directorial and expedition team is reviewing your profile and credentials.
                 </p>
                 <p className="text-slate-400">
-                  We will contact you directly on <strong className="text-yellow-400">{submittedItem.phoneNumber}</strong> via WhatsApp and Email regarding casting decisions and convoy roll-out timings.
+                  We will contact you directly on <strong className="text-yellow-400/90">{submittedItem.phoneNumber}</strong> via WhatsApp and Email regarding casting decisions and convoy roll-out timings.
                 </p>
               </div>
 
@@ -501,7 +501,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   <span className="text-[9px] text-slate-400 uppercase tracking-wider block">
                     OFFICIAL REFERENCE ID
                   </span>
-                  <span className="text-lg font-bold text-yellow-400">
+                  <span className="text-lg font-bold text-yellow-400/90">
                     {submittedItem.id}
                   </span>
                 </div>
@@ -589,17 +589,17 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       
                       {/* Top Floating Badge */}
                       <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                        <span className="px-2 py-0.5 bg-black/80 border border-white/20 text-[9px] font-mono text-yellow-400 uppercase tracking-widest backdrop-blur-md">
+                        <span className="px-2 py-0.5 bg-black/80 border border-white/20 text-[9px] font-mono text-yellow-400/90 uppercase tracking-widest backdrop-blur-md">
                           SELECTED DOSSIER
                         </span>
-                        <span className="px-2 py-0.5 bg-yellow-400 text-black text-[9px] font-mono font-bold uppercase tracking-wider backdrop-blur-md">
+                        <span className="px-2 py-0.5 bg-yellow-400/90 text-black text-[9px] font-mono font-bold uppercase tracking-wider backdrop-blur-md">
                           100% REFUND
                         </span>
                       </div>
 
                       {/* Character Title overlay */}
                       <div className="absolute bottom-3 left-4 right-4">
-                        <span className="text-[10px] font-mono text-yellow-400 uppercase tracking-widest font-semibold block">
+                        <span className="text-[10px] font-mono text-yellow-400/90 uppercase tracking-widest font-semibold block">
                           {currentRole.archetype}
                         </span>
                         <h3 className="font-title text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">
@@ -619,7 +619,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
                       {/* Unscripted Scene Snippet */}
                       <div className="p-3 bg-black/60 border border-white/10 text-xs">
-                        <span className="text-[9px] font-mono text-yellow-400 uppercase tracking-widest block font-bold mb-1">
+                        <span className="text-[9px] font-mono text-yellow-400/90 uppercase tracking-widest block font-bold mb-1">
                           KEY UNSCRIPTED SCENE:
                         </span>
                         <p className="text-slate-300 italic font-light text-[11px] leading-relaxed">
@@ -629,7 +629,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
                       {/* Filming Soundstages */}
                       <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-400 flex-wrap">
-                        <MapPin className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
+                        <MapPin className="w-3.5 h-3.5 text-yellow-400/90 shrink-0" />
                         <span className="text-slate-300">SOUNDSTAGES:</span>
                         <span className="text-yellow-400/90">{currentRole.filmingLocations.join(' • ')}</span>
                       </div>
@@ -650,7 +650,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                                 title={`${char.name} (${char.archetype})`}
                                 className={`relative aspect-square overflow-hidden border transition-all cursor-pointer ${
                                   isSelected
-                                    ? 'border-yellow-400 ring-2 ring-yellow-400/40 scale-105'
+                                    ? 'border-yellow-400/90 ring-2 ring-yellow-400/40 scale-105'
                                     : 'border-white/15 opacity-60 hover:opacity-100 hover:border-white/40'
                                 }`}
                               >
@@ -705,7 +705,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       <div className="p-3.5 bg-blue-950/40 border border-blue-500/30">
                         <div className="flex items-center justify-between text-xs font-mono mb-1">
                           <span className="text-slate-300">LOCKED EXPEDITION FARE:</span>
-                          <span className="text-yellow-400 font-bold text-sm">₹13,000/-</span>
+                          <span className="text-yellow-400/90 font-bold text-sm">₹13,000/-</span>
                         </div>
                         <div className="flex items-center justify-between text-[11px] font-mono text-emerald-400">
                           <span>Pre-booking Token Today:</span>
@@ -724,7 +724,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         <div className="space-y-1.5">
                           {EXPEDITION_ROUTE_STAGES.map((st, idx) => (
                             <div key={idx} className="flex items-center justify-between p-2 bg-black/40 border border-white/5 text-[11px] font-mono">
-                              <span className="text-yellow-400">{st.stage}</span>
+                              <span className="text-yellow-400/90">{st.stage}</span>
                               <span className="text-slate-300">{st.title}</span>
                               <span className="text-slate-400 text-[10px]">{st.loc}</span>
                             </div>
@@ -820,14 +820,14 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       {pathway === 'crew' && 'Provide your portfolio or showreel link for department head evaluation.'}
                     </p>
                   </div>
-                  <span className="px-2.5 py-1 bg-white/5 border border-white/10 text-[10px] font-mono text-yellow-400 font-bold uppercase tracking-wider shrink-0">
+                  <span className="px-2.5 py-1 bg-white/5 border border-white/10 text-[10px] font-mono text-yellow-400/90 font-bold uppercase tracking-wider shrink-0">
                     STEP 1 OF 1
                   </span>
                 </div>
 
                 {/* 1. Core Personal Details */}
                 <div className="space-y-4">
-                  <div className="text-[10px] font-mono text-yellow-400 uppercase tracking-widest font-bold">
+                  <div className="text-[10px] font-mono text-yellow-400/90 uppercase tracking-widest font-bold">
                     01 // PERSONAL CREDENTIALS
                   </div>
 
@@ -841,7 +841,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
                         placeholder="e.g. Arjun Sharma"
-                        className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400 transition-colors"
+                        className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400/90 transition-colors"
                       />
                       {errors.fullName && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.fullName}</p>}
                     </div>
@@ -858,7 +858,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                           placeholder="24"
                           min="18"
                           max="75"
-                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400 transition-colors"
+                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400/90 transition-colors"
                         />
                         {errors.age && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.age}</p>}
                       </div>
@@ -872,7 +872,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                           value={city}
                           onChange={(e) => setCity(e.target.value)}
                           placeholder="Mumbai"
-                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400 transition-colors"
+                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400/90 transition-colors"
                         />
                         {errors.city && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.city}</p>}
                       </div>
@@ -889,7 +889,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         placeholder="+91 98765 43210"
-                        className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400 transition-colors"
+                        className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400/90 transition-colors"
                       />
                       {errors.phoneNumber && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.phoneNumber}</p>}
                     </div>
@@ -903,7 +903,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="you@email.com"
-                        className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400 transition-colors"
+                        className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400/90 transition-colors"
                       />
                       {errors.email && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.email}</p>}
                     </div>
@@ -918,7 +918,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       value={instagramProfile}
                       onChange={(e) => setInstagramProfile(e.target.value)}
                       placeholder="@yourhandle or profile URL"
-                      className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400 transition-colors"
+                      className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400/90 transition-colors"
                     />
                   </div>
                 </div>
@@ -929,18 +929,18 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   {/* PATHWAY 1: ACTOR FIELDS */}
                   {pathway === 'actor' && (
                     <>
-                      <div className="text-[10px] font-mono text-yellow-400 uppercase tracking-widest font-bold">
+                      <div className="text-[10px] font-mono text-yellow-400/90 uppercase tracking-widest font-bold">
                         02 // ACTOR CASTING CRITERIA
                       </div>
 
                       <div>
-                        <label className="text-[11px] font-mono uppercase tracking-wider text-yellow-400 block mb-1.5">
+                        <label className="text-[11px] font-mono uppercase tracking-wider text-yellow-400/90 block mb-1.5">
                           Desired Character Role *
                         </label>
                         <select
                           value={selectedRoleId}
                           onChange={(e) => setSelectedRoleId(e.target.value)}
-                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-yellow-400/40 text-white text-xs focus:outline-none focus:border-yellow-400 transition-colors"
+                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-yellow-400/40 text-white text-xs focus:outline-none focus:border-yellow-400/90 transition-colors"
                         >
                           {CHARACTERS.map((char) => (
                             <option key={char.id} value={char.id}>
@@ -959,7 +959,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                           value={actingExperience}
                           onChange={(e) => setActingExperience(e.target.value)}
                           placeholder="Theatre, short films, street play, or passionate raw actor with no formal training..."
-                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400 transition-colors"
+                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400/90 transition-colors"
                         />
                       </div>
 
@@ -971,7 +971,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         
                         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                           {photoPreview ? (
-                            <div className="relative w-16 h-20 rounded border border-yellow-400 overflow-hidden shrink-0">
+                            <div className="relative w-16 h-20 rounded border border-yellow-400/90 overflow-hidden shrink-0">
                               <img src={photoPreview} alt="Headshot preview" className="w-full h-full object-cover" />
                               <div className="absolute inset-0 bg-yellow-400/10" />
                             </div>
@@ -984,7 +984,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
                           <div className="flex-1 space-y-1.5">
                             <label className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/20 text-xs font-mono text-slate-200 cursor-pointer transition-colors inline-flex items-center gap-2">
-                              <Upload className="w-3.5 h-3.5 text-yellow-400" />
+                              <Upload className="w-3.5 h-3.5 text-yellow-400/90" />
                               <span>{photoFileName ? 'Change Photo' : 'Upload Headshot'}</span>
                               <input
                                 type="file"
@@ -1010,7 +1010,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         <div className="space-y-3">
                           <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                             <label className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/20 text-xs font-mono text-slate-200 cursor-pointer transition-colors inline-flex items-center gap-2">
-                              <Video className="w-3.5 h-3.5 text-yellow-400" />
+                              <Video className="w-3.5 h-3.5 text-yellow-400/90" />
                               <span>Upload Video File</span>
                               <input
                                 type="file"
@@ -1033,7 +1033,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                                 value={auditionTapeUrl}
                                 onChange={(e) => setAuditionTapeUrl(e.target.value)}
                                 placeholder="Paste Google Drive / YouTube unlisted link"
-                                className="w-full pl-8 pr-3.5 py-2 bg-black/60 border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400 transition-colors"
+                                className="w-full pl-8 pr-3.5 py-2 bg-black/60 border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400/90 transition-colors"
                               />
                             </div>
                           </div>
@@ -1077,9 +1077,9 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                             onChange={(e) => setTravelBatch(e.target.value)}
                             className="w-full px-3.5 py-2.5 bg-[#050A14] border border-blue-500/40 text-white text-xs focus:outline-none focus:border-blue-400 transition-colors"
                           >
-                            <option value="Batch Alpha (Oct 18 – Oct 28)">Batch Alpha (Oct 18 – Oct 28)</option>
-                            <option value="Batch Beta (Oct 29 – Nov 08)">Batch Beta (Oct 29 – Nov 08)</option>
-                            <option value="Batch Gamma (Nov 10 – Nov 20)">Batch Gamma (Nov 10 – Nov 20)</option>
+                            <option value="Christmas Winter Batch (24 – 31 Dec 2026)">Christmas Winter Batch (24 – 31 Dec 2026)</option>
+                            <option value="New Year Winter Batch (01 – 08 Jan 2027)">New Year Winter Batch (01 – 08 Jan 2027)</option>
+                            <option value="Deep Winter Skiing Batch (12 – 19 Jan 2027)">Deep Winter Skiing Batch (12 – 19 Jan 2027)</option>
                           </select>
                         </div>
                       </div>
@@ -1093,8 +1093,8 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                           onChange={(e) => setRoomPreference(e.target.value)}
                           className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs focus:outline-none focus:border-blue-400 transition-colors"
                         >
-                          <option value="Twin Sharing with Fellow Traveler">Twin Sharing (Included in ₹11,000)</option>
-                          <option value="Private Camping Tent / Room">Private Camping Tent / Room (Subject to availability)</option>
+                          <option value="Twin Sharing with Fellow Traveler">Twin Sharing (Included in ₹13,000 Early Bird)</option>
+                          <option value="Private Hotel / Houseboat Room">Private Hotel / Houseboat Room (Subject to tariff differential)</option>
                         </select>
                       </div>
 
@@ -1219,7 +1219,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
                   <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
                     <span>* Zero submission fees for auditions & crew screening</span>
-                    <span className="text-yellow-400 font-semibold">ENCRYPTED & CONFIDENTIAL</span>
+                    <span className="text-yellow-400/90 font-semibold">ENCRYPTED & CONFIDENTIAL</span>
                   </div>
                 </div>
 
@@ -1236,7 +1236,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
               onClick={() => setIsFaqOpen((prev) => !prev)}
               className="flex items-center gap-2 text-left group cursor-pointer focus:outline-none"
             >
-              <HelpCircle className="w-3.5 h-3.5 text-yellow-400 group-hover:scale-110 transition-transform" />
+              <HelpCircle className="w-3.5 h-3.5 text-yellow-400/90 group-hover:scale-110 transition-transform" />
               <span className="text-[10px] font-mono tracking-[0.2em] font-bold text-white uppercase">
                 FREQUENTLY ASKED QUESTIONS
               </span>
@@ -1254,7 +1254,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
               aria-label={isFaqOpen ? 'Collapse FAQ' : 'Expand FAQ'}
             >
               {isFaqOpen ? (
-                <ChevronUp className="w-4 h-4 text-yellow-400" />
+                <ChevronUp className="w-4 h-4 text-yellow-400/90" />
               ) : (
                 <ChevronDown className="w-4 h-4 text-slate-400" />
               )}
@@ -1280,7 +1280,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       </span>
                       <ChevronDown
                         className={`w-3 h-3 text-slate-400 shrink-0 transition-transform duration-200 ${
-                          isOpen ? 'rotate-180 text-yellow-400' : ''
+                          isOpen ? 'rotate-180 text-yellow-400/90' : ''
                         }`}
                       />
                     </button>

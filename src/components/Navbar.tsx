@@ -17,13 +17,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 40) {
+      // Transition starts right when scrolling begins from the top
+      if (window.scrollY > 15) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
       }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -53,18 +55,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
   return (
     <header
       id="main-navbar"
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled
-          ? 'translate-y-0 opacity-100 bg-[#060B14]/95 backdrop-blur-md border-b border-blue-900/50 shadow-2xl shadow-blue-950/40 py-3.5'
-          : '-translate-y-full opacity-0 pointer-events-none py-3.5'
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-out ${
+        isScrolled || mobileMenuOpen
+          ? 'bg-[#070A0F]/85 backdrop-blur-md border-b border-white/[0.08] py-3 shadow-lg shadow-black/50'
+          : 'bg-transparent border-b border-transparent py-4 sm:py-5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Brand Logo - Name removed as requested, keeping clean standalone emblem */}
+          {/* Brand Logo */}
           <a
             href="#hero"
-            className="flex items-center group cursor-pointer"
+            className="flex items-center group cursor-pointer my-0 py-0"
             aria-label="Chehra Films Home"
           >
             <img
@@ -74,44 +76,32 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
               }}
               alt="Chehra Films Emblem"
               referrerPolicy="no-referrer"
-              className="h-14 sm:h-16 md:h-18 lg:h-20 w-auto object-contain drop-shadow-[0_0_14px_rgba(245,208,97,0.55)] group-hover:scale-105 transition-transform duration-300 shrink-0"
+              className="w-16 h-16 sm:w-[72px] sm:h-[72px] object-contain mb-0 transition-opacity duration-300 group-hover:opacity-90 shrink-0 block"
             />
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-7">
+          <nav className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <button
                 key={link.name}
                 onClick={() => handleLinkClick(link.href)}
-                className="text-xs font-semibold tracking-[0.2em] text-slate-300 hover:text-yellow-400 transition-colors py-1 relative group uppercase cursor-pointer"
+                className="font-sans text-[11px] font-semibold tracking-[0.10em] leading-[1.3] text-[#B8B4AC] hover:text-[#F4F1EA] transition-colors py-1 relative uppercase cursor-pointer"
               >
                 {link.name}
-                <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-yellow-400 transition-all duration-300 group-hover:w-full" />
               </button>
             ))}
           </nav>
 
           {/* Right Controls: CTA */}
-          <div className="hidden sm:flex items-center gap-2.5">
-            {onOpenExcelPortal && (
-              <button
-                type="button"
-                onClick={onOpenExcelPortal}
-                className="px-3 py-2 bg-[#0A1324] hover:bg-slate-800 border border-slate-700/60 hover:border-slate-500 text-slate-300 hover:text-white font-mono text-[10px] uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer"
-                title="Open Data Portal & Exports"
-              >
-                <span>DATA PORTAL</span>
-              </button>
-            )}
-
+          <div className="hidden sm:flex items-center gap-3">
             <CinemaButton
               id="nav-join-film-btn"
               variant="primary"
               onClick={() => onOpenNomination()}
-              className="!py-2.5 !px-5 !text-[11px]"
+              className="!py-2 !px-4 !text-[10px]"
             >
-              JOIN THE FILM
+              APPLY →
             </CinemaButton>
           </div>
 
@@ -119,10 +109,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
           <div className="flex items-center gap-2 lg:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-slate-200 hover:text-white focus:outline-none"
+              className="p-2 text-[#F4F1EA] hover:text-yellow-400/90 focus:outline-none cursor-pointer"
               aria-label="Toggle Menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6 text-yellow-400" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-6 h-6 text-yellow-400/90" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
@@ -130,16 +120,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-[62px] bg-[#060B14]/98 border-b border-blue-900/50 backdrop-blur-xl px-6 py-8 shadow-2xl transition-all">
+        <div className="lg:hidden fixed inset-x-0 top-[58px] bg-[#080808] border-b border-white/10 px-6 py-8 shadow-2xl transition-all">
           <div className="flex flex-col gap-5">
-            <div className="text-[11px] font-mono tracking-widest text-yellow-400 uppercase">
-              INDIA&apos;S 1ST EXPERIMENTAL CINEMA PROJECT
+            <div className="text-[10px] font-sans font-semibold tracking-[0.14em] text-yellow-400/90 uppercase">
+              PROJECT CF01 • THE LIFE OF NANDI
             </div>
             {navLinks.map((link) => (
               <button
                 key={link.name}
                 onClick={() => handleLinkClick(link.href)}
-                className="text-left text-sm font-semibold tracking-[0.2em] text-slate-200 hover:text-yellow-400 py-2 border-b border-white/5 uppercase"
+                className="text-left text-sm font-semibold tracking-[0.10em] leading-[1.3] text-[#F4F1EA] hover:text-yellow-400/90 py-2 border-b border-white/5 uppercase cursor-pointer"
               >
                 {link.name}
               </button>
@@ -152,12 +142,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
                   onOpenNomination();
                 }}
               >
-                JOIN THE FILM
+                APPLY FOR ROLE →
               </CinemaButton>
-              <div className="flex items-center justify-center gap-2 text-xs text-slate-400 pt-2">
-                <Compass className="w-3.5 h-3.5 text-yellow-400" />
-                <span>Chehra Films • Experimental Cinema</span>
-              </div>
+              {onOpenExcelPortal && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onOpenExcelPortal();
+                  }}
+                  className="w-full py-2 text-center text-xs font-mono text-[#A5A196] border border-white/15 uppercase tracking-wider"
+                >
+                  DATA PORTAL & EXPORTS
+                </button>
+              )}
             </div>
           </div>
         </div>
