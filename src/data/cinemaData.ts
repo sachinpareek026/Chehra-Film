@@ -118,19 +118,19 @@ export const CHARACTERS: CharacterRole[] = [
       'Scene 50: Rahul confronts Shankar beside an abandoned stone bridge, asking if he ever plans to return to reality or if this journey is his final act.'
   },
   {
-    id: 'kabir',
-    name: 'KABIR / OPEN ROLE',
-    gender: 'Any / Open',
-    ageRange: '20–35',
-    tagline: 'The Enigmatic Wayfarer',
+    id: 'any-other-role',
+    name: 'ANY OTHER ROLE',
+    gender: 'Male / Female / Any',
+    ageRange: 'Open (Any Age)',
+    tagline: 'The Open Character Canvas',
     description:
-      'An unpredictable nomad who joins the overland convoy at high altitude. Guarded, intensely perceptive, and carrying an untold story that gradually unfolds under open desert skies.',
-    archetype: 'The Drifter at the Crossroads',
+      'Can be played by anyone, male or female. Bring your authentic personality, specialized skills, and raw presence to define an unscripted character in the film.',
+    archetype: 'Custom Unscripted Role',
     image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957432/ChatGPT_Image_Sep_21_2026_07_35_54_AM.png',
     accentColor: '#10b981', // emerald
     filmingLocations: ['Pangong Tso Lake Edge', 'Kuldhara Ghost Village', 'Chambal Badlands'],
     keyScenePreview:
-      'Scene 61: At dusk on the salt flats, Kabir lights a solitary lantern on the roof of the expedition vehicle, watching the horizon fade into obsidian silence.'
+      'Scene 61: At dusk on the salt flats, an unscripted traveler lights a solitary lantern on the roof of the expedition vehicle, watching the horizon fade into obsidian silence.'
   }
 ];
 

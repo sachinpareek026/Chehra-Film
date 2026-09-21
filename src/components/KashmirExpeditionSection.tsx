@@ -101,20 +101,20 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
     {
       day: 4,
       dateLabel: '27 DEC',
-      title: 'GULMARG — SKIING DAY 1 🎿',
-      subtitle: 'Learn to Ski in the Himalayas',
-      badge: 'BEGINNER SKI COURSE',
+      title: 'GULMARG — SKI 2-DAY CERTIFICATE COURSE (DAY 1) 🎿',
+      subtitle: 'Experts Training Program in the Himalayas',
+      badge: '2-DAY CERTIFICATE COURSE',
       icon: <Snowflake className="w-4 h-4 text-yellow-400/90" />,
       overnight: 'Gulmarg Mountain Stay',
       timing: 'Full Day Snow Activity',
       cinemaChapter: 'Balance & Fall',
       description:
-        'Begin your included 2-day beginner skiing course on the gentle powder snow slopes of Gulmarg with dedicated instructors and complete gear.',
+        'Begin your included Gulmarg Ski 2-Day Certificate Course under Experts Training Program on the powder snow slopes of Gulmarg with dedicated master instructors, certified curriculum, and complete gear.',
       highlights: [
         'Full gear allocation: certified ski boots, skis & poles',
         'Dedicated ski instructor safety briefing & posture mechanics',
         'Practical snow training: balance, stance, movement, gliding & controlled stopping',
-        'Supervised practice sessions around Gulmarg beginner slopes',
+        'Supervised practice sessions around Gulmarg beginner slopes under experts training program',
         'Optional Gondola excursion towards Phase 1 (Kongdoori) / Phase 2 (Apharwat)',
         'Evening group bonding & storytelling in the mountain warmth'
       ]
@@ -122,18 +122,18 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
     {
       day: 5,
       dateLabel: '28 DEC',
-      title: 'GULMARG — SKIING DAY 2 🎿 → SRINAGAR',
-      subtitle: 'Technique Mastery & Dal Lake Evening',
-      badge: 'SKI COURSE GRADUATION',
+      title: 'GULMARG — SKI 2-DAY CERTIFICATE COURSE (DAY 2) 🎿 → SRINAGAR',
+      subtitle: 'Technique Mastery & Course Certification',
+      badge: 'CERTIFICATE AWARDED',
       icon: <Waves className="w-4 h-4 text-cyan-400" />,
       overnight: 'Srinagar Valley Stay',
       timing: 'Morning Skiing → Evening Srinagar',
       cinemaChapter: 'Reflection',
       description:
-        'Continue day 2 of the skiing course with guided technique improvement, turning, and supervised runs. In the afternoon, transfer to Srinagar for a magical sunset along Dal Lake.',
+        'Complete Day 2 of the Gulmarg Ski 2-Day Certificate Course under Experts Training Program with guided technique improvement, turning mastery, supervised runs, and certificate of completion award.',
       highlights: [
         'Second day of ski instruction: turning techniques, speed control & snow confidence',
-        'Group skiing photographs & certificate of completion moments',
+        'Official certificate of course completion under experts training program',
         'Scenic afternoon drive descending from Gulmarg to Srinagar',
         'Hotel check-in & rest in Srinagar',
         'Evening at Dal Lake & Boulevard Road against glowing winter houseboats',
@@ -215,7 +215,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
         'Full 8 Days / 7 Nights comprehensive expedition',
         '5 Nights hotel stay (1N Katra + 2N Gulmarg + 2N Srinagar)',
         '2 Nights comfortable group transit (Delhi ↔ Kashmir loop)',
-        '2-Day beginner skiing course with instructor + gear included',
+        'Gulmarg Ski 2-Day Certificate Course under Experts Training Program with gear + mentor included',
         'Vaishno Devi Yatra experience + Gulmarg snow exploration',
         'Srinagar heritage tour, Dal Lake & "The Life of Nandi" film participation'
       ],
@@ -235,7 +235,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
         'Full 8 Days / 7 Nights complete itinerary',
         '5 Nights hotel stays across Katra, Gulmarg & Srinagar',
         'All interstate & local internal transport vehicles included',
-        '2-Day beginner skiing course + instructor + gear included',
+        'Gulmarg Ski 2-Day Certificate Course under Experts Training Program with gear + mentor included',
         'Trip coordinator, safety oversight & medical assistance',
         'High-resolution participant photo & video package'
       ],
@@ -255,7 +255,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
         'Official on-screen character casting in "The Life of Nandi" / "Chehra"',
         '100% refundable security deposit clause in written contract',
         'IMDb verified film credits & theatrical festival eligibility',
-        'All lodging, 2-day skiing course & internal transit included',
+        'All lodging, Gulmarg Ski 2-Day Certificate Course & internal transit included',
         'Dedicated camera crew & Arri anamorphic cinematic framing',
         'Full creative collaboration with director & technical team'
       ],
@@ -284,10 +284,11 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
       ]
     },
     {
-      category: '2-Day Skiing Course (Included)',
+      category: 'Gulmarg Ski 2-Day Certificate Course under Experts Training Program',
       items: [
-        '2-day beginner skiing course in Gulmarg snowfields',
-        'Dedicated beginner ski instructor guidance',
+        'Gulmarg Ski 2-Day Certificate Course under certified experts training program',
+        'Official certificate of course completion awarded upon training wrap',
+        'Dedicated master ski instructors & hands-on technique coaching',
         'Complete ski equipment included: Skis, boots & poles',
         'Practical balance, movement, turning & stopping sessions'
       ]
@@ -352,7 +353,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               Experience Kashmir Differently
             </h2>
             <p className="mt-3 text-sm text-[#B8B4AC] font-normal font-sans max-w-3xl leading-[1.65]">
-              This December, leave the ordinary sightseeing trip behind. Journey from the sacred mountains of Vaishno Devi into the snow-covered landscapes of Gulmarg, experience a 2-day beginner skiing course, and discover the lakes, gardens and streets of Srinagar.
+              This December, leave the ordinary sightseeing trip behind. Journey from the sacred mountains of Vaishno Devi into the snow-covered landscapes of Gulmarg, complete the Gulmarg Ski 2-Day Certificate Course under Experts Training Program, and discover the lakes, gardens and streets of Srinagar.
             </p>
           </div>
 
@@ -450,7 +451,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               </div>
               <div>
                 <span className="block text-[10px] font-mono text-white/50 uppercase tracking-widest">HERO ACTIVITY</span>
-                <span className="text-sm sm:text-base font-sans font-semibold text-[#F4F1EA]">2-Day Skiing Course</span>
+                <span className="text-sm sm:text-base font-sans font-semibold text-[#F4F1EA]">Ski 2D Certificate Course</span>
               </div>
             </div>
 
@@ -771,7 +772,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                       <td className="py-3 px-4">7N / 8D</td>
                       <td className="py-3 px-4 text-yellow-400/90 font-semibold">₹13,000 / Person</td>
                       <td className="py-3 px-4 text-white/70">₹14,500 / Person</td>
-                      <td className="py-3 pl-4 text-white/50 font-sans">Vaishno Devi + 2D Gulmarg Ski Course + Srinagar</td>
+                      <td className="py-3 pl-4 text-white/50 font-sans">Vaishno Devi + Gulmarg Ski 2D Certificate Course + Srinagar</td>
                     </tr>
                     <tr>
                       <td className="py-3 pr-4 font-medium text-white">Actors / Lead Cast Role</td>
@@ -911,7 +912,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                 </div>
               </div>
               <p className="text-[11px] text-white/50 italic font-sans">
-                *The Gondola is completely optional and is not required for the included 2-day beginner skiing course conducted on Gulmarg beginner snow meadows.
+                *The Gondola is completely optional and is not required for the included Gulmarg Ski 2-day certificate course conducted under experts training program on snow meadows.
               </p>
             </div>
 
@@ -995,7 +996,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
             Don't Just Visit Kashmir. Experience Its Winter.
           </h3>
           <p className="text-xs sm:text-sm text-white/70 font-light max-w-xl mx-auto leading-relaxed">
-            7 Nights / 8 Days • 2 Full Days in Gulmarg • 2-Day Beginner Skiing Course with Gear & Instructor Included • Vaishno Devi Yatra • Dal Lake • The Life of Nandi
+            7 Nights / 8 Days • 2 Full Days in Gulmarg • Gulmarg Ski 2-Day Certificate Course under Experts Training Program Included • Vaishno Devi Yatra • Dal Lake • The Life of Nandi
           </p>
           <div className="flex items-center justify-center gap-4 py-2 font-mono">
             <span className="text-yellow-400/90 font-serif text-3xl sm:text-4xl">₹13,000</span>
@@ -1039,12 +1040,12 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               Vaishno Devi × Gulmarg × Srinagar
             </h3>
             <p className="text-xs text-white/70 leading-relaxed font-light font-sans">
-              This expedition unites the spiritual pilgrimage of Mata Vaishno Devi at Katra with 2 full days of snow immersion in Gulmarg (featuring an included 2-day beginner skiing course), cultural exploration in Srinagar & Dal Lake, and film documentation in "The Life of Nandi".
+              This expedition unites the spiritual pilgrimage of Mata Vaishno Devi at Katra with 2 full days of snow immersion in Gulmarg (featuring the Gulmarg Ski 2-Day Certificate Course under Experts Training Program), cultural exploration in Srinagar & Dal Lake, and film documentation in "The Life of Nandi".
             </p>
             <div className="p-4 bg-white/[0.02] border border-white/10 text-xs font-mono text-white/80 space-y-2">
               <div>• <strong>Dates:</strong> 24 – 31 December 2026 (7N / 8D)</div>
               <div>• <strong>Route:</strong> Delhi → Katra → Vaishno Devi → Gulmarg → Srinagar → Delhi</div>
-              <div>• <strong>Skiing:</strong> 2-Day Beginner Course + Instructor + Boots/Skis/Poles included</div>
+              <div>• <strong>Skiing:</strong> Gulmarg Ski 2-Day Certificate Course under Experts Training Program (Boots/Skis/Poles & Certification included)</div>
               <div>• <strong>Pricing:</strong> ₹13,000 Early Bird / ₹14,500 after 20 Nov 2026</div>
               <div>• <strong>Pre-booking Token:</strong> ₹2,000 only to lock early bird pricing</div>
             </div>

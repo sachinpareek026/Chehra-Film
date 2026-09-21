@@ -92,7 +92,7 @@ const FAQS: FaqItem[] = [
     category: 'participant',
     question: 'What is included in the ₹13,000 early bird package?',
     answer:
-      'Your booking includes 7 nights / 8 days travel from Delhi across Katra (Vaishno Devi), 2 full days in Gulmarg (including a 2-day beginner skiing course with equipment and instructor), and Srinagar (Dal Lake houseboat stay and shikara ride).',
+      'Your booking includes 7 nights / 8 days travel from Delhi across Katra (Vaishno Devi), 2 full days in Gulmarg (including the Gulmarg Ski 2-Day Certificate Course under Experts Training Program with equipment, instructor, and completion certificate), and Srinagar (Dal Lake houseboat stay and shikara ride).',
     legalClause: 'Section 7.1 (Logistical Inclusions): Vehicle transit, verified stays, ski course, and shared group logistics covered without hidden add-ons.',
     relatedDoc: 'Participant Journey Schedule & Menu'
   },

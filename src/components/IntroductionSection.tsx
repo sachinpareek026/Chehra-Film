@@ -98,7 +98,7 @@ export const IntroductionSection: React.FC = () => {
                 DIRECTOR&apos;S NOTE
               </span>
             </div>
-            <h2 className="font-title text-[47px] leading-[53.2px] font-bold text-[#EDE8DF] tracking-tight uppercase">
+            <h2 className="font-title text-[40px] leading-[46px] sm:text-[47px] sm:leading-[53.2px] font-bold text-[#EDE8DF] tracking-tight uppercase">
               India&apos;s 1st <br />
               <span className="text-yellow-400/90">Experimental Travel Cinema Project</span>
             </h2>

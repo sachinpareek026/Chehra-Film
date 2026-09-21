@@ -24,7 +24,8 @@ import {
   FileCheck,
   Layers,
   Info,
-  RefreshCw
+  RefreshCw,
+  MessageSquare
 } from 'lucide-react';
 import { CHARACTERS, FILM_METADATA } from '../data/cinemaData';
 import { INITIAL_ACTOR_SUBMISSIONS, INITIAL_PARTICIPANT_SUBMISSIONS, INITIAL_CREW_SUBMISSIONS } from '../data/initialSubmissions';
@@ -68,7 +69,7 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
     {
       question: 'What is included in the ₹13,000 expedition fee?',
       answer:
-        '7 nights / 8 days travel from Delhi, Katra (Vaishno Devi), Gulmarg (including a 2-day beginner skiing course with instructor & gear), and Srinagar (Dal Lake houseboat & shikara ride).',
+        '7 nights / 8 days travel from Delhi, Katra (Vaishno Devi), Gulmarg (including the Gulmarg Ski 2-Day Certificate Course under Experts Training Program with instructor & gear), and Srinagar (Dal Lake houseboat & shikara ride).',
     },
   ],
   crew: [
@@ -102,6 +103,7 @@ const CREW_DEPARTMENTS_META: Record<string, { desc: string; icon: string; tag: s
   'SFX Makeup & Prosthetics': { desc: 'Frostbite, altitude fatigue, authentic road patina and subtle character wear.', icon: 'Wrench', tag: 'SFX' },
   'Drone Pilot & Aerial Cinematography': { desc: 'High-altitude cold battery flight, ravine fly-throughs & cinematic convoy tracking.', icon: 'Compass', tag: 'AERIAL' },
   'Behind the Scenes & Photography': { desc: 'Medium-format analog stills, episodic documentary b-roll and press archival.', icon: 'Camera', tag: 'BTS' },
+  'Other': { desc: 'Propose your own skillset, technical craft, or production specialization.', icon: 'Wrench', tag: 'CUSTOM' },
 };
 
 interface NominationModalProps {
@@ -138,6 +140,8 @@ export const NominationModal: React.FC<NominationModalProps> = ({
   // Pathway 1: Actor Fields
   const [actingExperience, setActingExperience] = useState('');
   const [whyJoin, setWhyJoin] = useState('');
+  const [personalityAndSkills, setPersonalityAndSkills] = useState('');
+  const [usefulRoleTarget, setUsefulRoleTarget] = useState('');
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoFileName, setPhotoFileName] = useState('');
   const [auditionTapeFileName, setAuditionTapeFileName] = useState('');
@@ -151,6 +155,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
   // Pathway 3: Crew Member Fields
   const [crewDepartment, setCrewDepartment] = useState('Cinematography & Camera Operation');
+  const [customCrewSkillset, setCustomCrewSkillset] = useState('');
   const [proofOfSkillLink, setProofOfSkillLink] = useState('');
   const [portfolioSummary, setPortfolioSummary] = useState('');
   const [opportunityFeeAgreed, setOpportunityFeeAgreed] = useState(true);
@@ -331,9 +336,20 @@ export const NominationModal: React.FC<NominationModalProps> = ({
       if (!auditionTapeFileName && !auditionTapeUrl.trim()) {
         errs.auditionTape = 'Audition monologue video upload or public reel link is required';
       }
+      if (selectedRoleId === 'any-other-role') {
+        if (!personalityAndSkills.trim()) {
+          errs.personalityAndSkills = 'Please describe what personality and skills you bring';
+        }
+        if (!usefulRoleTarget.trim()) {
+          errs.usefulRoleTarget = 'Please specify which role or character your skills and personality can be useful for';
+        }
+      }
     } else if (pathway === 'participant') {
       if (!emergencyContact.trim()) errs.emergencyContact = 'Emergency contact person & phone required';
     } else if (pathway === 'crew') {
+      if (crewDepartment === 'Other' && !customCrewSkillset.trim()) {
+        errs.customCrewSkillset = 'Please write your own skillset needed or technical craft';
+      }
       if (!proofOfSkillLink.trim() || !proofOfSkillLink.startsWith('http')) {
         errs.proofOfSkillLink = 'A public portfolio/reel link (Drive, YouTube, Behance) is required';
       }
@@ -377,6 +393,8 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         auditionTapeFileName: auditionTapeFileName || (auditionTapeUrl ? 'Public Video Link' : 'tape.mp4'),
         auditionTapeUrl: auditionTapeUrl || undefined,
         whyJoin: whyJoin || 'Passionate about cinema and exploratory storytelling on the road.',
+        personalityAndSkills: personalityAndSkills.trim() || undefined,
+        usefulRoleTarget: usefulRoleTarget.trim() || undefined,
         refundEligible: true,
         confirmed: true,
       };
@@ -415,7 +433,8 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         phoneNumber,
         email,
         instagramProfile: instagramProfile || 'N/A',
-        crewDepartment,
+        crewDepartment: crewDepartment === 'Other' && customCrewSkillset.trim() ? `Other: ${customCrewSkillset.trim()}` : crewDepartment,
+        customCrewSkillset: customCrewSkillset.trim() || undefined,
         categoryType: 'Prime Department',
         proofOfSkillLink,
         portfolioSummary: portfolioSummary || 'Portfolio link provided',
@@ -472,6 +491,26 @@ export const NominationModal: React.FC<NominationModalProps> = ({
   const handleResetAndClose = () => {
     setSubmitted(false);
     setSubmittedItem(null);
+    setFullName('');
+    setAge('');
+    setCity('');
+    setPhoneNumber('');
+    setEmail('');
+    setInstagramProfile('');
+    setActingExperience('');
+    setWhyJoin('');
+    setPersonalityAndSkills('');
+    setUsefulRoleTarget('');
+    setPhotoPreview(null);
+    setPhotoFileName('');
+    setAuditionTapeFileName('');
+    setAuditionTapeUrl('');
+    setEmergencyContact('');
+    setProofOfSkillLink('');
+    setPortfolioSummary('');
+    setCustomCrewSkillset('');
+    setErrors({});
+    setDuplicateError(null);
     onClose();
   };
 
@@ -650,6 +689,52 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   {sheetSyncStatus?.message || 'Data indexed in production registry and forwarded to Google Sheet webhook.'}
                 </p>
               </div>
+
+              {/* WhatsApp Payment & Seat Confirmation for Participant Submissions */}
+              {submittedItem.type === 'participant' && (
+                <div className="p-4 sm:p-5 bg-gradient-to-br from-[#062412] to-[#04170B] border-2 border-[#25D366] text-left space-y-3.5 shadow-xl shadow-[#25D366]/10">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#25D366] animate-ping" />
+                      <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-[#25D366]">
+                        OFFICIAL WHATSAPP SEAT CONFIRMATION DESK
+                      </span>
+                    </div>
+                    <span className="px-2 py-0.5 bg-[#25D366]/20 border border-[#25D366]/40 text-[#25D366] font-mono text-[10px] font-bold">
+                      FAST TRACK
+                    </span>
+                  </div>
+
+                  <div className="text-xs text-slate-200 font-sans leading-relaxed space-y-1">
+                    <p className="font-medium text-white">
+                      Your form has been recorded. To lock your seat immediately at the ₹13,000 Early Bird rate, pay your ₹2,000 token on WhatsApp.
+                    </p>
+                    <p className="text-[11px] text-slate-300 font-mono">
+                      Official Desk Number: <span className="text-[#25D366] font-semibold">+91 93266 32288</span>
+                    </p>
+                  </div>
+
+                  <a
+                    id="whatsapp-confirm-seat-btn"
+                    href={`https://wa.me/919326632288?text=${encodeURIComponent(
+                      `Hello Chehra Films, I have submitted my participation form for the Kashmir Winter Expedition.\n\n` +
+                      `• Reference ID: ${submittedItem.id}\n` +
+                      `• Name: ${submittedItem.fullName}\n` +
+                      `• Phone: ${submittedItem.phoneNumber}\n` +
+                      `• City: ${submittedItem.city}\n` +
+                      `• Batch: ${'travelBatch' in submittedItem ? submittedItem.travelBatch : 'Christmas Expedition (24 – 31 Dec 2026)'}\n` +
+                      `• Token Amount: ₹2,000 (Early Bird Total: ₹13,000)\n\n` +
+                      `I want to pay on WhatsApp and confirm my seat now!`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3.5 px-4 bg-[#25D366] hover:bg-[#20bd5a] text-[#070A0F] font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2.5 transition-all shadow-lg shadow-[#25D366]/30 cursor-pointer"
+                  >
+                    <MessageSquare className="w-5 h-5 fill-current" />
+                    <span>PAY ON WHATSAPP & CONFIRM YOUR SEAT</span>
+                  </a>
+                </div>
+              )}
 
               <div className="pt-2 space-y-2">
                 <CinemaButton
@@ -888,16 +973,18 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   </span>
                 </div>
 
-                {/* Important Casting Notice (Sample Images Disclaimer Note) */}
-                <div className="p-3.5 bg-amber-500/10 border border-amber-500/30 flex items-start gap-3">
-                  <AlertCircle className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
-                  <div className="text-xs text-amber-100/95 leading-relaxed font-sans">
-                    <span className="font-mono text-[10px] font-bold text-yellow-400 uppercase tracking-widest block mb-0.5">
-                      CASTING NOTE // SAMPLE IMAGES IN NATURE
-                    </span>
-                    These images are sample in nature. Do not form or get any predefined idea of the character from these images — casting is completely open to all authentic faces, backgrounds, and interpretations.
+                {/* Important Casting Notice (Sample Images Disclaimer Note) — ONLY for Actor Form */}
+                {pathway === 'actor' && (
+                  <div className="p-3.5 bg-amber-500/10 border border-amber-500/30 flex items-start gap-3">
+                    <AlertCircle className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
+                    <div className="text-xs text-amber-100/95 leading-relaxed font-sans">
+                      <span className="font-mono text-[10px] font-bold text-yellow-400 uppercase tracking-widest block mb-0.5">
+                        CASTING NOTE // SAMPLE IMAGES IN NATURE
+                      </span>
+                      These images are sample in nature. Do not form or get any predefined idea of the character from these images — casting is completely open to all authentic faces, backgrounds, and interpretations.
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Character Selection Images (At the top of form for actors) */}
                 {pathway === 'actor' && (
@@ -1140,6 +1227,53 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         </select>
                       </div>
 
+                      {/* Any Other Role — Personality & Skills Profiling */}
+                      {selectedRoleId === 'any-other-role' && (
+                        <div className="p-4 bg-emerald-950/30 border border-emerald-500/40 space-y-3">
+                          <div className="flex items-center justify-between">
+                            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
+                              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                              OPEN ROLE PROFILE (MALE / FEMALE)
+                            </span>
+                            <span className="px-2 py-0.5 bg-emerald-900/50 border border-emerald-500/30 text-emerald-300 font-mono text-[9px] font-bold uppercase">
+                              ANY BACKGROUND
+                            </span>
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-mono uppercase tracking-wider text-emerald-300 block mb-1.5 font-medium">
+                              What personality and skills do you have? *
+                            </label>
+                            <textarea
+                              rows={3}
+                              value={personalityAndSkills}
+                              onChange={(e) => setPersonalityAndSkills(e.target.value)}
+                              placeholder="Describe your authentic personality, temperament, presence, and any skills you possess (e.g., emotional intensity, comedy, dialogue improvisation, singing, driving, mountain endurance)..."
+                              className="w-full px-3.5 py-2.5 bg-[#050A14] border border-emerald-500/40 text-white text-xs placeholder-slate-500 focus:outline-none focus:border-emerald-400 transition-colors"
+                            />
+                            {errors.personalityAndSkills && (
+                              <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.personalityAndSkills}</p>
+                            )}
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-mono uppercase tracking-wider text-emerald-300 block mb-1.5 font-medium">
+                              Which role or character can your personality and skills be useful for? *
+                            </label>
+                            <input
+                              type="text"
+                              value={usefulRoleTarget}
+                              onChange={(e) => setUsefulRoleTarget(e.target.value)}
+                              placeholder="E.g., Mysterious traveler, fiery rebel, calm mentor, local confidant, silent observer..."
+                              className="w-full px-3.5 py-2.5 bg-[#050A14] border border-emerald-500/40 text-white text-xs placeholder-slate-500 focus:outline-none focus:border-emerald-400 transition-colors"
+                            />
+                            {errors.usefulRoleTarget && (
+                              <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.usefulRoleTarget}</p>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
                       <div>
                         <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
                           Acting Background / Storytelling Experience
@@ -1327,6 +1461,28 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                           ))}
                         </select>
                       </div>
+
+                      {/* When Other is selected: Open text box for user's own skillset needed */}
+                      {crewDepartment === 'Other' && (
+                        <div className="p-4 bg-emerald-950/30 border border-emerald-500/40 space-y-2">
+                          <label className="text-[11px] font-mono uppercase tracking-wider text-emerald-300 block font-semibold">
+                            Write Your Own Skillset Needed *
+                          </label>
+                          <textarea
+                            rows={3}
+                            value={customCrewSkillset}
+                            onChange={(e) => setCustomCrewSkillset(e.target.value)}
+                            placeholder="Write your own skillset needed, technical specialty, or production craft you bring to the film crew..."
+                            className="w-full px-3.5 py-2.5 bg-[#050A14] border border-emerald-500/50 text-white text-xs placeholder-slate-500 focus:outline-none focus:border-emerald-400 transition-colors"
+                          />
+                          {errors.customCrewSkillset && (
+                            <p className="text-[10px] text-red-400 font-mono">{errors.customCrewSkillset}</p>
+                          )}
+                          <p className="text-[10px] font-mono text-slate-400">
+                            * Explain the tools, expertise, or creative role you propose for the mountain shoot.
+                          </p>
+                        </div>
+                      )}
 
                       <div>
                         <label className="text-[11px] font-mono uppercase tracking-wider text-slate-300 block mb-1.5">

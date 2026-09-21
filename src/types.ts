@@ -1,7 +1,7 @@
 export interface CharacterRole {
   id: string;
   name: string;
-  gender: 'Male' | 'Female' | 'Any' | 'Any / Open';
+  gender: 'Male' | 'Female' | 'Any' | 'Any / Open' | 'Male / Female / Any' | string;
   ageRange: string;
   tagline: string;
   physicalTrait?: string;
@@ -78,6 +78,8 @@ export interface ActorSubmission {
   auditionTapeFileName: string;
   auditionTapeUrl?: string;
   whyJoin: string;
+  personalityAndSkills?: string;
+  usefulRoleTarget?: string;
   refundEligible: boolean; // 100% refund eligible
   confirmed: boolean;
 }
@@ -115,6 +117,7 @@ export interface CrewSubmission {
   email: string;
   instagramProfile: string;
   crewDepartment: string;
+  customCrewSkillset?: string;
   categoryType: 'Prime Department' | 'Creative & Production';
   proofOfSkillLink: string; // Open public link only (Drive/YouTube/Vimeo/Behance/Spotify)
   portfolioSummary: string;

@@ -125,7 +125,7 @@ export const ActorVsParticipantSection: React.FC<ActorVsParticipantSectionProps>
                   <span className="w-4 h-4 border border-yellow-400/50 flex items-center justify-center text-yellow-400/90 shrink-0">
                     <Check className="w-2.5 h-2.5" />
                   </span>
-                  <span>2-day skiing course in Gulmarg with certified instructors.</span>
+                  <span>Gulmarg Ski 2-Day Certificate Course under Experts Training Program.</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="w-4 h-4 border border-yellow-400/50 flex items-center justify-center text-yellow-400/90 shrink-0">
@@ -136,7 +136,7 @@ export const ActorVsParticipantSection: React.FC<ActorVsParticipantSectionProps>
               </div>
 
               <div className="p-3.5 bg-white/[0.02] border border-white/10 text-[11px] font-sans text-[#B8B4AC] leading-relaxed mb-8">
-                ★ Includes 7 nights / 8 days travel, stays in Katra, Gulmarg & Dal Lake houseboat, and ski course.
+                ★ Includes 7 nights / 8 days travel, stays in Katra, Gulmarg & Dal Lake houseboat, and Gulmarg Ski 2-day certificate course.
               </div>
             </div>
 

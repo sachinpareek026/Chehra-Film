@@ -151,7 +151,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onWatchFilm, onOpenNom
           {/* Official Title & Subtitle */}
           <div className="space-y-2">
             <div className="pt-1">
-              <h1 className="font-title text-[50px] font-bold text-[#F4F1EA] tracking-[0.02em] uppercase leading-[1.12]">
+              <h1 className="font-title text-[45px] w-[293.556px] sm:text-[50px] sm:w-auto font-bold text-[#F4F1EA] tracking-[0.02em] uppercase leading-[1.12]">
                 {FILM_METADATA.projectTitle}
               </h1>
               <p className="font-sans text-[11px] sm:text-xs text-yellow-400/90 tracking-[0.12em] uppercase font-semibold mt-1.5">
@@ -200,7 +200,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onWatchFilm, onOpenNom
       </div>
 
       {/* Bottom Character Dossier Rail (Editorial strip, no pulsing dots) */}
-      <div className="relative z-20 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 border-t border-white/[0.08] mt-[33px] sm:mt-0 ml-0 sm:mx-auto">
+      <div className="relative z-20 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 border-t border-white/[0.08] mt-[33px] sm:mt-0 ml-0 sm:mx-auto h-[140.417px] sm:h-auto">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {/* Character Indices */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">

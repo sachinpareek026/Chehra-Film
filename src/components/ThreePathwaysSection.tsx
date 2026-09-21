@@ -84,10 +84,10 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
     pricingSubtitle: 'Lock with ₹2,000 token today. Early bird ₹13,000; rises to ₹14,500 after 20 Nov.',
     guaranteeText: 'Price locked permanently against holiday tariff surges. Balance settled prior to departure.',
     overview:
-      'Join the live production convoy as a traveler and witness a feature film being made in real time across Kashmir. Experience Katra & Vaishno Devi, a 2-day skiing course in Gulmarg, and Dal Lake in Srinagar.',
+      'Join the live production convoy as a traveler and witness a feature film being made in real time across Kashmir. Experience Katra & Vaishno Devi, Gulmarg Ski 2-day certificate course under experts training program, and Dal Lake in Srinagar.',
     keyPerks: [
       'Guaranteed seat in the 7-night / 8-day Kashmir winter expedition convoy',
-      '2-day skiing course in Gulmarg with certified instructor and ski equipment included',
+      'Gulmarg Ski 2-Day Certificate Course under Experts Training Program with gear & instructor included',
       'Accommodations across Katra, Gulmarg, and Srinagar (including Dal Lake houseboat)',
       'No portfolio, acting audition, or past filmmaking experience needed'
     ],
