@@ -420,7 +420,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                   onClick={() => onOpenBooking('participant')}
                   className="!py-3 !px-6 text-xs tracking-wider font-medium"
                 >
-                  BOOK YOUR SEAT — ₹13,000
+                  BOOK YOUR SEAT
                 </CinemaButton>
                 <button
                   type="button"

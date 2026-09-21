@@ -132,7 +132,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onWatchFilm, onOpenNom
 
       {/* Main Editorial Presentation */}
       <div className="relative z-20 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center my-auto">
-        <div className="max-w-3xl space-y-6 mt-[25px] sm:mt-0 pl-0 ml-0 mr-0">
+        <div className="max-w-3xl space-y-6 h-[413.556px] sm:h-auto mt-[17px] sm:mt-0 pl-0 ml-0 mr-0">
           {/* Project Code & Production Marker */}
           <div className="flex flex-wrap items-center gap-3">
             <span className="text-[11px] font-sans font-semibold tracking-[0.14em] text-yellow-400/90 uppercase">

@@ -757,6 +757,85 @@ export const NominationModal: React.FC<NominationModalProps> = ({
               {/* LEFT COLUMN: DYNAMIC VISUAL STAGE & ROLE CARD */}
               <div className="lg:col-span-5 space-y-5">
                 
+                {/* Mobile-Only Character Role Chooser: Positioned above character dossier so user sees live role updates */}
+                {pathway === 'actor' && (
+                  <div className="block lg:hidden p-3 bg-[#070D18] border border-yellow-400/40 space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse" />
+                        <label className="text-[10px] font-mono uppercase tracking-wider text-yellow-400 font-bold">
+                          CHOOSE CHARACTER ({CHARACTERS.length} ROLES)
+                        </label>
+                      </div>
+                      <span className="text-[9px] font-mono text-yellow-400/80 uppercase font-semibold">
+                        TAP TO SWITCH
+                      </span>
+                    </div>
+
+                    {/* Compact horizontal scrolling strip for mobile */}
+                    <div className="flex gap-2 overflow-x-auto pb-1.5 pt-0.5 no-scrollbar -mx-0.5 px-0.5">
+                      {CHARACTERS.map((char, idx) => {
+                        const isSelected = char.id === selectedRoleId;
+                        return (
+                          <button
+                            key={char.id}
+                            type="button"
+                            onClick={() => setSelectedRoleId(char.id)}
+                            className={`shrink-0 w-[72px] p-1 border transition-all text-center cursor-pointer flex flex-col items-center ${
+                              isSelected
+                                ? 'bg-yellow-400/20 border-yellow-400 ring-2 ring-yellow-400/50 shadow-md shadow-yellow-400/10'
+                                : 'bg-[#040810] border-white/10 hover:border-yellow-400/40 opacity-80 hover:opacity-100'
+                            }`}
+                          >
+                            <div className="relative w-full aspect-square overflow-hidden bg-black mb-1">
+                              <img
+                                src={char.image}
+                                alt={char.name}
+                                referrerPolicy="no-referrer"
+                                className={`w-full h-full object-cover object-top ${
+                                  isSelected ? 'scale-105' : 'grayscale-[20%]'
+                                }`}
+                              />
+                              <span className="absolute bottom-0.5 left-0.5 px-1 py-0.2 text-[7px] font-mono bg-black/85 text-yellow-400/90 font-bold leading-tight">
+                                0{idx + 1}
+                              </span>
+                              {isSelected && (
+                                <div className="absolute top-0.5 right-0.5 w-3.5 h-3.5 bg-yellow-400 text-black rounded-full flex items-center justify-center text-[9px] font-black shadow">
+                                  ✓
+                                </div>
+                              )}
+                            </div>
+                            <div className="w-full">
+                              <div
+                                className={`text-[9px] font-mono font-bold uppercase truncate leading-tight ${
+                                  isSelected ? 'text-yellow-400' : 'text-[#EDE8DF]'
+                                }`}
+                              >
+                                {char.name}
+                              </div>
+                              <div className="text-[8px] text-[#A5A196] font-mono truncate leading-tight">
+                                {char.gender.slice(0, 1)} • {char.ageRange}
+                              </div>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Compact Selected Indicator */}
+                    <div className="px-2.5 py-1.5 bg-black/50 border border-white/10 flex items-center justify-between text-[10px] font-mono">
+                      <div className="flex items-center gap-1.5 truncate">
+                        <span className="text-yellow-400 font-bold uppercase">SELECTED:</span>
+                        <span className="text-white font-semibold truncate">{currentRole.name}</span>
+                        <span className="text-[#A5A196] truncate">({currentRole.archetype})</span>
+                      </div>
+                      <span className="text-yellow-400/90 font-medium shrink-0 text-[9px]">
+                        ROLE BELOW ↓
+                      </span>
+                    </div>
+                  </div>
+                )}
+
                 {/* Visual Card 1: Pathway-Specific Visual Showcase */}
                 {pathway === 'actor' && (
                   <div className="bg-[#050A14] border border-white/15 overflow-hidden shadow-xl">
@@ -988,7 +1067,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
                 {/* Character Selection Images (At the top of form for actors) */}
                 {pathway === 'actor' && (
-                  <div className="p-4 bg-[#070D18] border border-yellow-400/40 space-y-3">
+                  <div className="hidden lg:block p-4 bg-[#070D18] border border-yellow-400/40 space-y-3">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 bg-yellow-400 rounded-full" />
