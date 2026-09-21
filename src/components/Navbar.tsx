@@ -7,10 +7,9 @@ import { PathwayType } from '../types';
 interface NavbarProps {
   onOpenNomination: (roleId?: string, type?: PathwayType) => void;
   onWatchFilm: () => void;
-  onOpenExcelPortal?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _onWatchFilm, onOpenExcelPortal }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _onWatchFilm }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [audioActive, setAudioActive] = useState(false);
@@ -144,18 +143,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
               >
                 APPLY FOR ROLE →
               </CinemaButton>
-              {onOpenExcelPortal && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onOpenExcelPortal();
-                  }}
-                  className="w-full py-2 text-center text-xs font-mono text-[#A5A196] border border-white/15 uppercase tracking-wider"
-                >
-                  DATA PORTAL & EXPORTS
-                </button>
-              )}
             </div>
           </div>
         </div>

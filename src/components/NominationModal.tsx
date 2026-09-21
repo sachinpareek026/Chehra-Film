@@ -24,7 +24,6 @@ import {
   FileCheck,
   Layers,
   Info,
-  FileSpreadsheet,
   RefreshCw
 } from 'lucide-react';
 import { CHARACTERS, FILM_METADATA } from '../data/cinemaData';
@@ -112,7 +111,6 @@ interface NominationModalProps {
   initialPathway?: PathwayType;
   existingSubmissions?: AnySubmission[];
   onSubmissionSuccess?: (submission: AnySubmission) => void;
-  onOpenExcelPortal?: () => void;
 }
 
 export const NominationModal: React.FC<NominationModalProps> = ({
@@ -122,7 +120,6 @@ export const NominationModal: React.FC<NominationModalProps> = ({
   initialPathway = 'actor',
   existingSubmissions = [],
   onSubmissionSuccess,
-  onOpenExcelPortal,
 }) => {
   const [pathway, setPathway] = useState<PathwayType>(initialPathway);
   const [selectedRoleId, setSelectedRoleId] = useState<string>(initialRoleId || CHARACTERS[0].id);
@@ -655,20 +652,6 @@ export const NominationModal: React.FC<NominationModalProps> = ({
               </div>
 
               <div className="pt-2 space-y-2">
-                {onOpenExcelPortal && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      handleResetAndClose();
-                      onOpenExcelPortal();
-                    }}
-                    className="w-full py-2.5 px-4 bg-[#0A1324] hover:bg-[#121E38] border border-blue-400/50 text-blue-300 hover:text-white text-xs font-mono transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
-                    <span>VIEW IN DATA & SPREADSHEET PORTAL</span>
-                  </button>
-                )}
-
                 <CinemaButton
                   variant="primary"
                   onClick={handleResetAndClose}

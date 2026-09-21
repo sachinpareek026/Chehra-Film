@@ -163,7 +163,6 @@ export default function App() {
       <Navbar
         onOpenNomination={(roleId, pathway) => handleOpenNomination(roleId, pathway)}
         onWatchFilm={() => setVideoModalOpen(true)}
-        onOpenExcelPortal={() => setExcelPortalOpen(true)}
       />
 
       <main>
@@ -226,7 +225,6 @@ export default function App() {
       {/* 11. Footer */}
       <Footer
         onOpenNomination={() => handleOpenNomination()}
-        onOpenExcelPortal={() => setExcelPortalOpen(true)}
       />
 
       {/* Multi-Pathway Nomination / Booking / Crew Modal */}
@@ -237,7 +235,6 @@ export default function App() {
         initialPathway={selectedPathway}
         existingSubmissions={[...actors, ...participants, ...crew]}
         onSubmissionSuccess={handleNewSubmission}
-        onOpenExcelPortal={() => setExcelPortalOpen(true)}
       />
 
       {/* Excel / Google Sheet Live Telemetry Portal Modal */}

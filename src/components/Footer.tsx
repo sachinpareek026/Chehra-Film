@@ -4,10 +4,9 @@ import { FILM_METADATA } from '../data/cinemaData';
 
 interface FooterProps {
   onOpenNomination: () => void;
-  onOpenExcelPortal?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenNomination, onOpenExcelPortal }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenNomination }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -85,17 +84,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenNomination, onOpenExcelPor
                   FAQ & TRANSPARENCY
                 </a>
               </li>
-              {onOpenExcelPortal && (
-                <li>
-                  <button
-                    type="button"
-                    onClick={onOpenExcelPortal}
-                    className="hover:text-white font-mono transition-colors uppercase cursor-pointer flex items-center gap-1.5 text-white/40"
-                  >
-                    <span>DATA PORTAL</span>
-                  </button>
-                </li>
-              )}
             </ul>
           </div>
 
