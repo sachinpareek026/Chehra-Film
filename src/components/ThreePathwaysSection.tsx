@@ -248,7 +248,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
 
           {/* CARD 2: PARTICIPANT (Featured) */}
           <div
-            className="group relative bg-[#091224] border-2 border-yellow-400/90 hover:border-yellow-300/90 transition-all duration-500 shadow-2xl shadow-yellow-400/10 flex flex-col justify-between overflow-hidden cursor-pointer lg:-translate-y-2"
+            className="group relative bg-[#091224] border-2 border-yellow-400/90 hover:border-yellow-300/90 transition-all duration-300 shadow-2xl shadow-yellow-400/10 flex flex-col justify-between overflow-hidden cursor-pointer"
             onClick={() => setInspectedPathway('participant')}
           >
             {/* Top Visual Banner */}
