@@ -51,7 +51,7 @@ const STEP_EXTENDED_DATA: Record<string, StepDetailedDossier> = {
     milestones: [
       'Director one-on-one improvisational screen tests',
       'Ensemble chemistry pairing (Shankar & Meera, Shiva & Priya)',
-      '100% refundable production security deposit agreement execution'
+      '100% post-release cost-recovery refund agreement execution'
     ],
     equipmentOrCrew: 'Director, Cinematography Leads, Legal Escrow Desk',
     unscriptedDynamic: 'Testing how actors react to unexpected physical fatigue, sudden changes in weather, and unstructured dialogues.'
@@ -125,7 +125,7 @@ const PROCESS_METADATA: Record<string, ProcessStageMeta> = {
     stageName: 'SELECTION',
     stageGroup: 'CHEMISTRY & CONTRACT',
     stageGroupColor: 'text-amber-400 bg-amber-400/10 border-amber-400/30',
-    input: 'Director screen tests & 100% refundable escrow agreement',
+    input: 'Director screen tests & 100% cost-recovery escrow agreement',
     nextStep: { number: '04', name: 'CONVOY ROLLOUT' }
   },
   '04': {
@@ -257,7 +257,7 @@ export const HowItWorksSection: React.FC = () => {
         <div className="mt-12 p-5 bg-[#070D1A] border border-white/10 grid grid-cols-2 md:grid-cols-4 gap-4 text-center divide-y md:divide-y-0 md:divide-x divide-white/10">
           <div className="p-2">
             <span className="block text-yellow-400/90 font-title text-base sm:text-lg font-black uppercase">100% REFUND</span>
-            <span className="block text-[10px] font-mono text-slate-400 uppercase">Actor Escrow Guarantee</span>
+            <span className="block text-[10px] font-mono text-slate-400 uppercase">Post-Release Cost Recovery</span>
           </div>
           <div className="p-2">
             <span className="block text-white font-title text-base sm:text-lg font-black uppercase">ZERO AUDITION FEE</span>

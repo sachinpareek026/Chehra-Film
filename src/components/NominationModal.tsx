@@ -46,12 +46,12 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
     {
       question: 'What is the booking amount and payment schedule if accepted?',
       answer:
-        'Submitting your audition nomination is 100% free with zero fees. If your nomination is officially accepted, you must submit ₹3,000 as the booking commitment amount to secure your seat. The pending balance must be cleared at least 20 days prior to the start of the trip. The production security deposit is 100% refundable upon completing your assigned shoot schedule.',
+        'Submitting your audition nomination is 100% free with zero fees. If your nomination is officially accepted, you must submit ₹3,000 as the booking commitment amount to secure your seat. The pending balance must be cleared at least 20 days prior to the start of the trip. The production security deposit is 100% refundable after public release of the picture once the film recovers up to the mark of its total production costs.',
     },
     {
       question: 'How does the 100% Refund Policy work for actors?',
       answer:
-        'Upon official character casting, actors place a production security deposit to guarantee their convoy seat and schedule. 100% of this deposit is refunded immediately to your original payment account upon completing your assigned on-location shoot schedule.',
+        'Upon official character casting, actors place a production security deposit to reserve their convoy seat and schedule. We do not use the word "guaranteed" lightly; it is our strong estimation, full assurance, and sincere confidence that we will sponsor the actors\' trip bare minimum and refund 100% of the deposit after the release of the picture to the public, as the film earns financial revenue and recovers up to the mark of its total production costs. We will try our utmost best to make the project a financially great commercial hit.',
     },
     {
       question: 'Is there any audition or submission fee?',
@@ -634,7 +634,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   <div className="text-[11px] font-mono font-bold uppercase tracking-wider">
                     01. ACTOR AUDITION
                   </div>
-                  <div className="text-[9px] text-emerald-400 font-mono mt-0.5">100% Refundable Deposit</div>
+                  <div className="text-[9px] text-emerald-400 font-mono mt-0.5">100% Refundable (Cost Recovery)</div>
                 </div>
                 <Film className={`w-4 h-4 hidden sm:block ${pathway === 'actor' ? 'text-yellow-400/90' : 'text-slate-600'}`} />
               </button>
@@ -783,7 +783,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         • Pending Balance: Must be cleared at least 20 days prior to the start of the trip.
                       </p>
                       <p className="text-emerald-300 font-semibold">
-                        • 100% Refundable: Security deposit refunded upon completing assigned shoot schedule.
+                        • 100% Refund Assurance: Confident estimation & full production assurity to sponsor the trip bare minimum and refund 100% post-release upon cost recovery.
                       </p>
                     </div>
                   </div>
@@ -1129,7 +1129,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                   <div className="text-[11px] text-slate-300 leading-relaxed">
                     <span className="text-white font-medium block">Parindaa Assurance:</span>
-                    All accepted cast and travelers operate under transparent legal contracts with verified transit insurance and guaranteed refundable terms.
+                    All accepted cast and travelers operate under transparent legal contracts with verified transit insurance and clear refundable terms.
                   </div>
                 </div>
 
@@ -1665,7 +1665,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                             />
                             <div className="space-y-1">
                               <span className="font-semibold text-white group-hover:text-yellow-300 transition-colors block leading-relaxed text-xs">
-                                I understand that the actor production security deposit is 100% refundable upon completing my assigned on-location shoot schedule as per written Chehra Films production terms.
+                                I understand that this 100% refund is Chehra Films&apos; strong estimation, full assurance, and confident commitment to sponsor the actors&apos; trip bare minimum and refund 100% of the deposit after the release of the picture to the public as the film earns financial revenue and recovers up to the mark of its total production costs.
                               </span>
                             </div>
                           </label>
@@ -1916,7 +1916,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       </>
                     ) : (
                       <>
-                        {pathway === 'actor' && `SUBMIT AUDITION AS ${currentRole.name} (100% REFUND)`}
+                        {pathway === 'actor' && `SUBMIT AUDITION AS ${currentRole.name} (100% REFUND ASSURANCE)`}
                         {pathway === 'participant' && 'CONFIRM PRE-BOOKING TOKEN (₹2,000)'}
                         {pathway === 'crew' && 'SUBMIT TECHNICAL CREW APPLICATION'}
                       </>
@@ -1947,7 +1947,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                 FREQUENTLY ASKED QUESTIONS
               </span>
               <span className="inline-block text-[10px] sm:text-xs font-mono px-2.5 py-0.5 sm:px-3 sm:py-1 bg-yellow-400/10 text-yellow-300 border border-yellow-400/30 rounded-full uppercase font-medium">
-                {pathway === 'actor' && '100% Actor Refund Policy'}
+                {pathway === 'actor' && '100% Post-Release Cost-Recovery Refund'}
                 {pathway === 'participant' && '₹2,000 Token & Price Structure'}
                 {pathway === 'crew' && 'Opportunity Fee & Production Credits'}
               </span>

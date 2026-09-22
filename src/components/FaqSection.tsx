@@ -33,9 +33,9 @@ const FAQS: FaqItem[] = [
     category: 'actor',
     question: 'How does the 100% Refund Policy work for actors?',
     answer:
-      'Submitting your audition or nomination is 100% free. If officially selected by the directorial team for a character role, an actor places a refundable production security deposit to guarantee their reserved convoy seat, costume sizing, and call sheet schedule. Exactly 100% of this deposit is wired back to your bank account immediately upon completing your scheduled on-location shoot.',
-    highlight: '100% REFUND GUARANTEED UPON SHOOT COMPLETION',
-    legalClause: 'Section 8.3 (Direct Wire Refund Protocol): Production security deposits are transferred back via NEFT/RTGS within 48 hours of shoot wrap with zero deduction.',
+      'Submitting your audition or nomination is 100% free with zero fees. If officially selected by the directorial team for a character role, an actor places a refundable production security deposit to reserve their convoy seat, costume sizing, and call sheet schedule. We deliberately avoid using the word "guaranteed"—instead, it is our strong estimation, full assurance, and sincere confidence that we will be able to refund and sponsor the actors\' trip at bare minimum. Under Chehra Films\' financial model, after the release of the picture to the public, as the film earns financial revenue and recovers up to the mark of its total production cost (through theatrical distribution, OTT streaming platforms, and broadcast licensing), actors become eligible for 100% of their refund amount. We give full assurity from our side and will try our best to make the project a financially great hit so that full cost recovery is achieved and deposits are disbursed.',
+    highlight: '100% REFUND ESTIMATION & FULL PRODUCTION ASSURANCE',
+    legalClause: 'Section 8.3 (Post-Release Cost-Recovery Commitment): It is our confident estimation and full production assurance that following public release and upon reaching the cumulative production cost mark, 100% of the actor deposit is refunded in full.',
     relatedDoc: 'Standard Actor Cast Participation Agreement'
   },
   {
@@ -229,7 +229,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
             <div className="flex-1">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-[10px] font-mono tracking-widest text-yellow-400/90 uppercase">
-                  ACTOR REFUND GUARANTEE
+                  POST-RELEASE 100% REFUND ASSURANCE
                 </span>
                 <span className="text-[9px] font-mono text-white/40 group-hover:text-yellow-400/90 uppercase tracking-wider flex items-center gap-1">
                   <Maximize2 className="w-2.5 h-2.5" />
@@ -237,7 +237,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                 </span>
               </div>
               <p className="text-xs text-white/70 leading-relaxed font-light font-sans">
-                <strong className="text-white font-normal">100% of the actor security deposit</strong> is wired back directly to your bank account upon shoot completion. Zero audition fees.
+                <strong className="text-white font-normal">Our confident estimation & full assurance:</strong> We are committed to sponsoring the actors&apos; trip bare minimum and refunding 100% of the deposit after public release as the film recovers its total production costs. We will try our best to make the project a financially great hit.
               </p>
             </div>
           </div>

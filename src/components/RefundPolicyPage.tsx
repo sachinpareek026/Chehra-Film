@@ -37,36 +37,79 @@ export const RefundPolicyPage: React.FC<PolicyPageProps> = ({ onBackToHome, onOp
           CANCELLATION & REFUND POLICY
         </h1>
         <p className="text-sm sm:text-base text-slate-300 font-light leading-relaxed max-w-2xl">
-          Transparent, 100% guaranteed refund commitments for audition nominations, expedition seat reservations, and candidate trust.
+          Comprehensive, transparent financial commitments detailing the 100% post-release cost-recovery refund model for actors, zero-fee auditions, and expedition reservation guidelines.
         </p>
         <div className="mt-4 pt-4 border-t border-white/10 flex flex-wrap items-center gap-4 text-[11px] font-mono text-slate-400">
           <span>Effective Date: January 1, 2026</span>
           <span>•</span>
           <span>Last Updated: March 2026</span>
           <span>•</span>
-          <span className="text-emerald-400 font-bold">100% Refundable Guarantee</span>
+          <span className="text-emerald-400 font-bold">100% Post-Release Cost-Recovery Refund for Actors</span>
         </div>
       </div>
 
       {/* Main Content Sections */}
       <div className="space-y-10 text-sm leading-relaxed text-slate-300 font-sans">
         
-        {/* Section 1 */}
-        <section className="p-6 bg-[#0E1626]/80 border border-slate-700/80 rounded-sm space-y-3">
+        {/* Section 1: 100% Actor Refund Policy */}
+        <section className="p-6 bg-[#0E1626]/80 border border-slate-700/80 rounded-sm space-y-4">
           <h2 className="font-mono text-base sm:text-lg font-bold text-white uppercase tracking-wider flex items-center gap-2">
             <span className="text-yellow-400">01.</span>
-            <span>The 100% Refund Guarantee</span>
+            <span>Actor 100% Post-Release Cost-Recovery Refund Policy</span>
           </h2>
           <p>
-            Chehra Films is an independent experimental cinema initiative operated by Parindaa Travels. We hold candidate integrity, applicant respect, and financial transparency as foundational tenets of independent filmmaking.
+            Chehra Films operates an independent, transparent cinema model that directly connects actors with the commercial journey of the picture. We respect artist commitment and have architected an escrow-backed refund framework governed by post-release financial cost recovery.
           </p>
-          <div className="p-4 bg-emerald-950/40 border border-emerald-500/30 text-emerald-200 text-xs sm:text-sm space-y-2 rounded-sm">
-            <div className="font-bold flex items-center gap-2 text-emerald-400">
-              <CheckCircle2 className="w-4 h-4 shrink-0" />
-              <span>Full Refund If Not Selected in Auditions</span>
+
+          <div className="p-4 sm:p-5 bg-gradient-to-br from-emerald-950/50 to-[#0A1A2F] border-2 border-emerald-400/40 text-emerald-100 text-xs sm:text-sm space-y-3 rounded-sm">
+            <div className="font-bold flex items-center gap-2 text-emerald-400 text-sm sm:text-base">
+              <CheckCircle2 className="w-5 h-5 shrink-0" />
+              <span>100% Refund Eligibility Rule Upon Cost Recovery</span>
             </div>
-            <p className="leading-relaxed">
-              For all actor and talent candidates applying for cast roles: if an applicant is not selected for the final cast or wishes to withdraw before casting finalization, their nomination deposit/token is <strong>100% refundable without deductions</strong>.
+            <p className="leading-relaxed text-slate-200">
+              After the release of the picture to the public, as the film generates commercial revenue and successfully recovers financial returns up to the mark of its total production budget/cost (through theatrical release, OTT platform streaming acquisition, television broadcasting, music rights, and domestic/international distribution), <strong>actors become eligible for a 100% refund of their security deposit / contribution amount</strong>.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-slate-300">
+              <div className="p-2.5 bg-black/40 border border-emerald-500/20 rounded">
+                <span className="text-[10px] font-mono text-emerald-400 block font-bold uppercase">1. Public Premiere</span>
+                <span className="text-xs">Film is officially released across public OTT / theatrical distribution channels.</span>
+              </div>
+              <div className="p-2.5 bg-black/40 border border-emerald-500/20 rounded">
+                <span className="text-[10px] font-mono text-emerald-400 block font-bold uppercase">2. Cost-Recovery Mark</span>
+                <span className="text-xs">Cumulative commercial box office & platform revenue reaches project cost mark.</span>
+              </div>
+              <div className="p-2.5 bg-black/40 border border-emerald-500/20 rounded">
+                <span className="text-[10px] font-mono text-emerald-400 block font-bold uppercase">3. 100% Disbursement</span>
+                <span className="text-xs">100% of the actor's security deposit is wired back directly with zero deductions.</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Production Assurance & Estimation Box */}
+          <div className="p-4 bg-yellow-950/20 border border-yellow-400/30 text-xs sm:text-sm space-y-2 rounded-sm text-yellow-100/90">
+            <div className="font-bold flex items-center gap-2 text-yellow-400 uppercase tracking-wider font-mono text-xs">
+              <span>★ Our Estimation, Full Assurance & Production Commitment</span>
+            </div>
+            <p className="text-xs leading-relaxed text-slate-300 font-sans">
+              We do not use the word <em>"guaranteed"</em> with the 100% refund. Rather, this return is our <strong>strong estimation and sincere confidence</strong> that we will be able to refund and sponsor the actors&apos; trip at a bare minimum. We provide <strong>full assurance from our production side</strong>, and our entire creative and commercial team will try our absolute best to make this cinematic project a financially great commercial hit so that once public release is achieved and total production costs are recovered, actors receive their complete 100% refund amount.
+            </p>
+          </div>
+
+          <div className="space-y-2 pt-2">
+            <h3 className="font-mono text-xs uppercase tracking-wider text-yellow-300 font-bold">
+              • Audition Phase Zero-Fee Protection
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300">
+              Submitting audition monologues, scene readings, and talent profiles is <strong>100% free</strong> with zero agency cuts or evaluation fees. If an applicant is not selected for the final cast, or decides to withdraw prior to official selection lock, no deposit is ever charged.
+            </p>
+          </div>
+
+          <div className="space-y-2 pt-2">
+            <h3 className="font-mono text-xs uppercase tracking-wider text-yellow-300 font-bold">
+              • Transparent Accounting & Milestone Disclosures
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300">
+              Chehra Films will maintain audited production expense and revenue telemetry logs. Once public distribution deals and streaming licenses are executed and cumulative earnings achieve the predefined production cost threshold, all eligible actors will receive direct formal notification and prompt bank settlement within 14 business days.
             </p>
           </div>
         </section>
@@ -179,7 +222,7 @@ export const RefundPolicyPage: React.FC<PolicyPageProps> = ({ onBackToHome, onOp
         <div className="p-6 bg-gradient-to-r from-[#0C1527] to-[#141E34] border border-yellow-400/40 rounded-sm flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <span className="text-xs font-mono text-yellow-400 uppercase font-bold tracking-wider block">READY TO JOIN THE FILM?</span>
-            <p className="text-xs text-slate-300">Submit your audition or reserve your expedition seat under guaranteed refundable protection.</p>
+            <p className="text-xs text-slate-300">Submit your audition or reserve your expedition seat with complete financial transparency and production assurance.</p>
           </div>
           <button
             type="button"

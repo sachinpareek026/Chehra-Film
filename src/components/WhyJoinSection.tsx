@@ -34,14 +34,14 @@ const BENEFIT_EXTENDED_DATA: Record<string, BenefitDetailedInfo> = {
     visualImage: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=1000&q=80'
   },
   b2: {
-    legalClause: 'Section 8.3 (Actor Deposit Refund Assurance): 100% of the production security deposit placed by selected cast members is disbursed in full upon completion of their shoot schedule.',
+    legalClause: 'Section 8.3 (Actor Deposit Refund Assurance): Confident estimation and full production assurity that 100% of the actor deposit is refunded upon post-release production cost recovery.',
     deliverables: [
-      'Direct bank wire refund within 48 hours of shoot wrap',
-      'Written legal guarantee countersigned before convoy rollout',
+      'Direct bank wire refund within 14 days of achieving cost-recovery milestone',
+      'Written production assurance agreement countersigned before convoy rollout',
       'Zero audition, screening, or talent agency deduction'
     ],
-    operationalMechanism: 'Escrow-backed production guarantee protecting independent creators from exploitative casting costs.',
-    quote: 'Artistic talent should be protected, respected, and fully reimbursed.',
+    operationalMechanism: 'Post-release cost recovery model designed to sponsor the actors\' trip bare minimum and refund 100% of deposits as the film achieves commercial success.',
+    quote: 'Artistic talent should be protected, respected, and fully reimbursed as our film hits commercial milestones.',
     visualImage: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1000&q=80'
   },
   b3: {
@@ -210,7 +210,7 @@ export const WhyJoinSection: React.FC = () => {
           <div className="flex items-center gap-3">
             <span className="w-2 h-2 bg-emerald-400 shrink-0" />
             <span className="text-xs font-mono text-[#EDE8DF]/90">
-              <strong className="text-[#EDE8DF]">LEGAL & FINANCIAL GUARANTEE:</strong> All participant roles are backed by a countersigned written production agreement prior to convoy departure.
+              <strong className="text-[#EDE8DF]">LEGAL & FINANCIAL ASSURANCE:</strong> All participant roles are backed by a countersigned written production agreement prior to convoy departure.
             </span>
           </div>
 

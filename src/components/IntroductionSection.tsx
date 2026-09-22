@@ -47,7 +47,7 @@ export const IntroductionSection: React.FC = () => {
       protocols: [
         'Ensemble cast travels together in shared expedition vehicles',
         'Spontaneous interactions recorded without artificial retakes',
-        'Safe, professional production protocols with 100% security deposit guarantee'
+        'Safe, professional production protocols with full assurance on post-release cost recovery'
       ]
     },
     {

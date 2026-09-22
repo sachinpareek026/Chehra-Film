@@ -146,11 +146,11 @@ export const BENEFITS: BenefitItem[] = [
   {
     id: 'b2',
     number: '02',
-    title: '100% REVENUE REFUND',
+    title: '100% COST-RECOVERY REFUND ASSURANCE',
     description:
-      "The project's current proposed model intends to refund 100% of eligible contribution once the film generates the defined project revenue, subject to final project terms.",
+      "Our strong estimation and full assurance to sponsor the actors' trip bare minimum: after the release of the picture to the public, as the film earns financial revenue and recovers up to the mark of its total production costs, actors become eligible for a 100% refund of their contribution amount.",
     iconName: 'ShieldCheck',
-    highlight: 'Unique Return Structure'
+    highlight: 'Full Production Assurance'
   },
   {
     id: 'b3',
@@ -312,8 +312,8 @@ export const PRODUCTION_FAQS = [
     a: 'Actors take on scripted and improvised character roles (with dialogue, dramatic arcs, and revenue participation). Participants join the filmmaking caravan to experience the production firsthand, appear in authentic background sequences, and document the journey.'
   },
   {
-    q: 'How does the 100% Revenue Refund model work?',
-    a: "The project's current proposed model intends to refund 100% of eligible contribution once the film generates the defined project revenue, subject to final project terms and distribution agreements."
+    q: 'How does the 100% Refund Policy work for actors?',
+    a: "We do not treat 100% refund as a marketing guarantee; it is our strong estimation, confident commitment, and full assurance from our production side. Our team will put in every effort to make the project a financially great commercial hit. After the release of the picture to the public, as the film earns financial revenue and reaches up to the mark of its total production costs (through theatrical release, OTT platforms, streaming, and broadcast rights), actors become eligible for a 100% refund of their deposit."
   },
   {
     q: 'What is the timeline of the shoot?',

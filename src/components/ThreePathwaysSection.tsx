@@ -49,8 +49,8 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
     subtitle: 'Lead Character Arc • Unscripted Cinema Realism',
     heroImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957437/Shankar.png',
     pricingTag: '100% REFUNDABLE',
-    pricingSubtitle: 'Zero audition or casting charges. Security deposit wired back upon shoot wrap.',
-    guaranteeText: 'Full bank transfer refund immediately following completion of your on-location shoot schedule.',
+    pricingSubtitle: 'Zero audition charges. 100% refund estimation upon public release cost recovery.',
+    guaranteeText: 'Our confident estimation & full assurance to sponsor the actors\' trip bare minimum and refund 100% upon post-release production cost recovery.',
     overview:
       'Step directly into the shoes of one of the 7 lead character personas across extreme Himalayan and desert terrain. You travel with the production convoy, improvising dialogue against real-life natural light, dawn mist, and roadside encounters.',
     keyPerks: [
@@ -62,7 +62,7 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
     timeline: [
       { phase: 'Audition Review', details: 'Directorial shortlist notified within 7 days of tape upload' },
       { phase: 'Convoy Departure', details: 'October 2026 roll-out from New Delhi to Spiti Valley & Thar' },
-      { phase: 'Production Wrap', details: 'Full security deposit wired back in 48 hours post-shoot' }
+      { phase: 'Release & Recovery', details: '100% refund eligible once the film earns back its total production cost mark' }
     ],
     deliverables: [
       'IMDb Actor Page Credit',
@@ -70,7 +70,7 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
       'Festival Premiere Red Carpet Pass',
       'Exclusive Unscripted Behind-The-Scenes Featurette'
     ],
-    ctaText: 'APPLY AS ACTOR (100% REFUND)'
+    ctaText: 'APPLY AS ACTOR (100% REFUND ASSURANCE)'
   },
   participant: {
     id: 'participant',
@@ -166,7 +166,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
             </h2>
           </div>
           <p className="max-w-md text-xs sm:text-sm text-[#B8B4AC] font-normal font-sans leading-[1.6]">
-            Whether leading on camera with a 100% refund guarantee, securing an expedition seat with a ₹2,000 token, or capturing sound and visuals as technical crew.
+            Whether leading on camera with a 100% post-release cost-recovery refund, securing an expedition seat with a ₹2,000 token, or capturing sound and visuals as technical crew.
           </p>
         </div>
 
@@ -217,11 +217,14 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                       PRODUCTION DEPOSIT
                     </span>
                     <span className="text-[10px] font-sans font-bold text-emerald-400 uppercase">
-                      GUARANTEED
+                      FULL ASSURANCE
                     </span>
                   </div>
                   <div className="text-xl font-title font-bold text-emerald-400 mt-0.5">
                     100% REFUNDABLE
+                  </div>
+                  <div className="text-[10px] text-slate-400 font-sans mt-1">
+                    Confident estimation & full assurity to sponsor trip upon post-release cost recovery
                   </div>
                 </div>
               </div>

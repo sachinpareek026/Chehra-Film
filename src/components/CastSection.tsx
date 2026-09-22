@@ -55,7 +55,7 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
               SEVEN UNWRITTEN CHARACTERS
             </h2>
             <p className="text-xs sm:text-sm text-[#B8B4AC] font-normal font-sans max-w-xl leading-[1.6]">
-              Select any role to inspect background backstory, terrain soundstages, and audition criteria. No casting charges; 100% refundable security deposit.
+              Select any role to inspect background backstory, terrain soundstages, and audition criteria. Zero casting charges; 100% refund eligible upon post-release cost recovery.
             </p>
           </div>
 
@@ -105,7 +105,7 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
 
               <div className="flex items-center gap-2">
                 <span className="px-2.5 py-1 bg-yellow-400/10 border border-yellow-400/30 text-yellow-400/90 font-medium">
-                  100% REFUNDABLE DEPOSIT UPON PRODUCTION WRAP
+                  100% REFUND ELIGIBLE UPON POST-RELEASE COST RECOVERY
                 </span>
               </div>
             </div>

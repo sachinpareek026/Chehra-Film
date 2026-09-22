@@ -72,12 +72,12 @@ export const ActorVsParticipantSection: React.FC<ActorVsParticipantSectionProps>
                   <span className="w-4 h-4 border border-yellow-400/50 flex items-center justify-center text-yellow-400/90 shrink-0">
                     <Check className="w-2.5 h-2.5" />
                   </span>
-                  <span>100% refundable security deposit upon shoot wrap.</span>
+                  <span>100% refundable security deposit post-release upon cost recovery.</span>
                 </div>
               </div>
 
               <div className="p-3.5 bg-white/[0.02] border border-white/10 text-[11px] font-sans text-[#B8B4AC] leading-relaxed mb-8">
-                ★ 100% deposit return guarantee • Official IMDb actor page credit • Festival delegation pass.
+                ★ 100% post-release deposit refund assurance • Official IMDb actor page credit • Festival delegation pass.
               </div>
             </div>
 

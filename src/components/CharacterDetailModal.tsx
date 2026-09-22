@@ -148,9 +148,9 @@ export const CharacterDetailModal: React.FC<CharacterDetailModalProps> = ({
               <div className="p-3 bg-emerald-950/20 border border-emerald-500/20 text-xs text-white/70 font-light flex items-start gap-2.5">
                 <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-white font-medium">100% Refundable Security Deposit:</strong>
+                  <strong className="text-white font-medium">100% Refund Assurance & Commitment:</strong>
                   <p className="text-[11px] text-white/50 mt-0.5 font-sans">
-                    Upon completing your scheduled shoot itinerary, 100% of the cast security deposit is wired back directly to your bank account.
+                    Confident estimation and full production assurance to sponsor the trip bare minimum and refund 100% of the deposit after the public release as the film achieves earnings up to the mark of total production costs.
                   </p>
                 </div>
               </div>
