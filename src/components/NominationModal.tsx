@@ -25,11 +25,15 @@ import {
   Layers,
   Info,
   RefreshCw,
-  MessageSquare
+  MessageSquare,
+  ArrowLeft,
+  Phone,
+  Mail
 } from 'lucide-react';
 import { CHARACTERS, FILM_METADATA } from '../data/cinemaData';
 import { INITIAL_ACTOR_SUBMISSIONS, INITIAL_PARTICIPANT_SUBMISSIONS, INITIAL_CREW_SUBMISSIONS } from '../data/initialSubmissions';
 import { CinemaButton } from './CinemaButton';
+import { ActorVideoBrief } from './ActorVideoBrief';
 import { PathwayType, AnySubmission, ActorSubmission, ParticipantSubmission, CrewSubmission } from '../types';
 
 interface FAQItem {
@@ -39,6 +43,11 @@ interface FAQItem {
 
 const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
   actor: [
+    {
+      question: 'What is the booking amount and payment schedule if accepted?',
+      answer:
+        'Submitting your audition nomination is 100% free with zero fees. If your nomination is officially accepted, you must submit ₹3,000 as the booking commitment amount to secure your seat. The pending balance must be cleared at least 20 days prior to the start of the trip. The production security deposit is 100% refundable upon completing your assigned shoot schedule.',
+    },
     {
       question: 'How does the 100% Refund Policy work for actors?',
       answer:
@@ -59,7 +68,7 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
     {
       question: 'How does the booking price structure work?',
       answer:
-        'Pay a ₹2,000 token today to reserve your expedition seat and permanently lock the early-bird rate of ₹13,000. The remaining ₹11,000 balance is settled prior to departure.',
+        'Pay a ₹3,000 booking amount upon nomination acceptance to reserve your expedition seat and lock your rate. The remaining pending balance must be cleared at least 20 days prior to the start of the trip.',
     },
     {
       question: 'Why does the expedition rate increase after November 20?',
@@ -107,21 +116,23 @@ const CREW_DEPARTMENTS_META: Record<string, { desc: string; icon: string; tag: s
 };
 
 interface NominationModalProps {
-  isOpen: boolean;
+  isOpen?: boolean;
   onClose: () => void;
   initialRoleId?: string;
   initialPathway?: PathwayType;
   existingSubmissions?: AnySubmission[];
   onSubmissionSuccess?: (submission: AnySubmission) => void;
+  isStandalonePage?: boolean;
 }
 
 export const NominationModal: React.FC<NominationModalProps> = ({
-  isOpen,
+  isOpen = true,
   onClose,
   initialRoleId,
   initialPathway = 'actor',
   existingSubmissions = [],
   onSubmissionSuccess,
+  isStandalonePage = true,
 }) => {
   const [pathway, setPathway] = useState<PathwayType>(initialPathway);
   const [selectedRoleId, setSelectedRoleId] = useState<string>(initialRoleId || CHARACTERS[0].id);
@@ -146,12 +157,16 @@ export const NominationModal: React.FC<NominationModalProps> = ({
   const [photoFileName, setPhotoFileName] = useState('');
   const [auditionTapeFileName, setAuditionTapeFileName] = useState('');
   const [auditionTapeUrl, setAuditionTapeUrl] = useState('');
+  const [actorBookingConsent, setActorBookingConsent] = useState(false);
+  const [actorFilmmakingConsent, setActorFilmmakingConsent] = useState(false);
+  const [actorRefundPolicyConsent, setActorRefundPolicyConsent] = useState(true);
 
   // Pathway 2: Participant Fields (Zero uploads)
   const [departureCity, setDepartureCity] = useState('Delhi Hub (Majnu Ka Tilla / ISBT)');
   const [travelBatch, setTravelBatch] = useState('Christmas Expedition (24 – 31 Dec 2026)');
   const [roomPreference, setRoomPreference] = useState('Twin Sharing with Fellow Traveler');
   const [emergencyContact, setEmergencyContact] = useState('');
+  const [participantBookingConsent, setParticipantBookingConsent] = useState(false);
 
   // Pathway 3: Crew Member Fields
   const [crewDepartment, setCrewDepartment] = useState('Cinematography & Camera Operation');
@@ -168,7 +183,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   // Modal Footer FAQ State
-  const [isFaqOpen, setIsFaqOpen] = useState(false);
+  const [isFaqOpen, setIsFaqOpen] = useState(isStandalonePage);
   const [activeFaqIndex, setActiveFaqIndex] = useState<number | null>(0);
 
   useEffect(() => {
@@ -181,7 +196,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
   }, [initialPathway, initialRoleId]);
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !isStandalonePage) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -189,7 +204,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isOpen]);
+  }, [isOpen, isStandalonePage]);
 
   if (!isOpen) return null;
 
@@ -336,6 +351,12 @@ export const NominationModal: React.FC<NominationModalProps> = ({
       if (!auditionTapeFileName && !auditionTapeUrl.trim()) {
         errs.auditionTape = 'Audition monologue video upload or public reel link is required';
       }
+      if (!actorBookingConsent) {
+        errs.actorBookingConsent = 'You must confirm that ₹3,000 booking amount is payable if accepted, and pending balance before 20 days of trip';
+      }
+      if (!actorFilmmakingConsent) {
+        errs.actorFilmmakingConsent = 'Filmmaking screen appearance and documentary consent is required';
+      }
       if (selectedRoleId === 'any-other-role') {
         if (!personalityAndSkills.trim()) {
           errs.personalityAndSkills = 'Please describe what personality and skills you bring';
@@ -346,6 +367,9 @@ export const NominationModal: React.FC<NominationModalProps> = ({
       }
     } else if (pathway === 'participant') {
       if (!emergencyContact.trim()) errs.emergencyContact = 'Emergency contact person & phone required';
+      if (!participantBookingConsent) {
+        errs.participantBookingConsent = 'You must confirm that ₹3,000 booking amount is payable if accepted, and pending balance before 20 days of trip';
+      }
     } else if (pathway === 'crew') {
       if (crewDepartment === 'Other' && !customCrewSkillset.trim()) {
         errs.customCrewSkillset = 'Please write your own skillset needed or technical craft';
@@ -396,6 +420,9 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         personalityAndSkills: personalityAndSkills.trim() || undefined,
         usefulRoleTarget: usefulRoleTarget.trim() || undefined,
         refundEligible: true,
+        bookingConsentAgreed: true,
+        bookingAmountTerms: '₹3,000 booking amount payable upon acceptance, pending balance cleared 20 days prior to trip start',
+        filmmakingConsent: true,
         confirmed: true,
       };
       newSubmission = actorItem;
@@ -414,10 +441,11 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         travelBatch,
         roomPreference,
         emergencyContact,
-        prebookingTokenPrice: 2000,
+        bookingConsentAgreed: true,
+        prebookingTokenPrice: 3000,
         lockedTripPrice: 13000,
         oct30PriceIncreaseNotice: true,
-        paymentMode: 'UPI / Card (₹2,000 Token)',
+        paymentMode: 'UPI / Card (₹3,000 Booking Amount)',
         transactionRef: `UPI-PREBOOK-${randomSuffix}`,
         confirmed: true,
       };
@@ -514,46 +542,84 @@ export const NominationModal: React.FC<NominationModalProps> = ({
     onClose();
   };
 
-  return (
-    <div
-      id="nomination-modal-overlay"
-      className="fixed inset-0 z-50 overflow-y-auto bg-[#03060E]/95 backdrop-blur-xl flex items-center justify-center p-2 sm:p-4 md:p-6"
-    >
-      {/* WIDESCREEN CINEMATIC CONTAINER (up to max-w-6xl / 1152px) */}
-      <div className="relative w-full max-w-6xl bg-[#080E1C] border border-white/15 shadow-2xl shadow-black/90 overflow-hidden my-auto max-h-[94vh] flex flex-col">
-        
-        {/* Top Editorial Film Ribbon */}
-        <div className="flex items-center justify-between px-5 sm:px-8 py-3.5 border-b border-white/10 bg-[#050A14] shrink-0">
-          <div className="flex items-center gap-3">
-            <span className="w-2.5 h-2.5 bg-yellow-400/90 rounded-full animate-pulse" />
-            <div className="flex items-center gap-2">
-              <span className="font-title text-xs sm:text-sm font-black tracking-widest text-white uppercase">
-                CHEHRA FILMS
-              </span>
-              <span className="text-slate-500">•</span>
-              <span className="text-[11px] font-mono text-yellow-400/90 font-semibold tracking-wider uppercase">
-                PRODUCTION DISPATCH PORTAL
-              </span>
-            </div>
-          </div>
+  if (!isOpen && !isStandalonePage) return null;
 
-          <div className="flex items-center gap-4">
-            <span className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-white/5 border border-white/10 text-[10px] font-mono text-slate-300 uppercase tracking-widest">
-              SEC. 004 // OVERLAND APPLICATION
+  const content = (
+    <div
+      className={`relative w-full ${
+        isStandalonePage
+          ? 'max-w-6xl mx-auto bg-transparent border-0 shadow-none'
+          : 'max-w-6xl my-auto max-h-[94vh] overflow-hidden bg-[#080E1C] border border-white/15 shadow-2xl shadow-black/90'
+      } flex flex-col`}
+    >
+      {/* Top Editorial Film Ribbon */}
+      <div
+        className={`flex flex-wrap items-center justify-between gap-3 py-3 border-b border-white/10 ${
+          isStandalonePage ? 'bg-transparent px-1 sm:px-2' : 'bg-[#050A14] px-5 sm:px-8'
+        } shrink-0`}
+      >
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={onClose}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 border border-yellow-400/40 bg-yellow-400/10 hover:bg-yellow-400 hover:text-black text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider text-yellow-400 transition-all cursor-pointer shadow-sm shadow-yellow-400/10"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>← BACK TO FILM</span>
+          </button>
+
+          <div className="hidden sm:flex items-center gap-2 pl-2 border-l border-white/15">
+            <span className="w-2 h-2 bg-yellow-400/90 rounded-full animate-pulse" />
+            <span className="font-title text-xs sm:text-sm font-black tracking-widest text-white uppercase">
+              CHEHRA FILMS
             </span>
-            <button
-              onClick={onClose}
-              className="p-1 text-slate-400 hover:text-white transition-colors cursor-pointer"
-              aria-label="Close"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            <span className="text-white/20">•</span>
+            <span className="text-[10px] font-mono text-yellow-400/90 font-semibold tracking-wider uppercase">
+              APPLICATION PORTAL
+            </span>
           </div>
         </div>
 
-        {/* Pathway Selection Ribbon Tabs */}
-        {!submitted && (
-          <div className="px-5 sm:px-8 py-3 bg-[#060C17] border-b border-white/10 shrink-0">
+        <div className="flex items-center gap-4 sm:gap-6 text-xs font-mono">
+          <a
+            href="mailto:chehrafilms@gmail.com"
+            className="inline-flex items-center gap-1.5 text-white/80 hover:text-yellow-400 transition-colors"
+          >
+            <Mail className="w-3.5 h-3.5 text-yellow-400" />
+            <span className="underline decoration-white/20 hover:decoration-yellow-400">chehrafilms@gmail.com</span>
+          </a>
+
+          <a
+            href="tel:+919326632288"
+            className="inline-flex items-center gap-1.5 text-white/80 hover:text-yellow-400 transition-colors"
+          >
+            <Phone className="w-3.5 h-3.5 text-yellow-400" />
+            <span>+91 93266 32288</span>
+          </a>
+
+          {!isStandalonePage && (
+            <button
+              type="button"
+              onClick={onClose}
+              className="inline-flex items-center gap-1 px-2.5 py-1 text-slate-400 hover:text-yellow-400 border border-transparent hover:border-white/10 text-[11px] font-mono uppercase transition-colors cursor-pointer"
+              aria-label="Return to film"
+            >
+              <span>RETURN TO FILM</span>
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Pathway Selection Ribbon Tabs */}
+      {!submitted && (
+        <div
+          className={`${
+            isStandalonePage
+              ? 'py-3.5 bg-transparent border-b border-white/10 px-1 sm:px-2'
+              : 'px-5 sm:px-8 py-3 bg-[#060C17] border-b border-white/10'
+          } shrink-0`}
+        >
             <div className="grid grid-cols-3 gap-2 sm:gap-4 max-w-3xl">
               <button
                 type="button"
@@ -613,7 +679,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         )}
 
         {/* Form Body: Widescreen 2-Column Layout */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8">
+        <div className={`flex-1 ${isStandalonePage ? 'px-0 py-6 sm:py-8' : 'overflow-y-auto p-4 sm:p-6 md:p-8'}`}>
           {submitted && submittedItem ? (
             /* =========================================================================
                CONFIRMATION STAGE: Widescreen Success Showcase
@@ -690,6 +756,40 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                 </p>
               </div>
 
+              {/* Booking Policy for Actor Submissions */}
+              {submittedItem.type === 'actor' && (
+                <div className="p-4 sm:p-5 bg-gradient-to-br from-[#120F04] to-[#0A0D15] border border-yellow-400/40 text-left space-y-3 shadow-xl">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-ping" />
+                      <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-yellow-400">
+                        OFFICIAL CAST SELECTION & BOOKING POLICY
+                      </span>
+                    </div>
+                    <span className="px-2 py-0.5 bg-yellow-400/10 border border-yellow-400/30 text-yellow-300 font-mono text-[10px] font-bold">
+                      FREE AUDITION
+                    </span>
+                  </div>
+
+                  <div className="text-xs text-slate-200 font-sans leading-relaxed space-y-2">
+                    <p className="font-semibold text-white">
+                      Your audition monologue and character application have been recorded.
+                    </p>
+                    <div className="p-3 bg-black/60 border border-white/10 space-y-1.5 font-mono text-[11px]">
+                      <p className="text-yellow-300 font-semibold">
+                        • Booking Amount: ₹3,000 payable upon official nomination acceptance.
+                      </p>
+                      <p className="text-slate-300">
+                        • Pending Balance: Must be cleared at least 20 days prior to the start of the trip.
+                      </p>
+                      <p className="text-emerald-300 font-semibold">
+                        • 100% Refundable: Security deposit refunded upon completing assigned shoot schedule.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* WhatsApp Payment & Seat Confirmation for Participant Submissions */}
               {submittedItem.type === 'participant' && (
                 <div className="p-4 sm:p-5 bg-gradient-to-br from-[#062412] to-[#04170B] border-2 border-[#25D366] text-left space-y-3.5 shadow-xl shadow-[#25D366]/10">
@@ -707,7 +807,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
                   <div className="text-xs text-slate-200 font-sans leading-relaxed space-y-1">
                     <p className="font-medium text-white">
-                      Your form has been recorded. To lock your seat immediately at the ₹13,000 Early Bird rate, pay your ₹2,000 token on WhatsApp.
+                      Your expedition nomination has been recorded. To confirm your seat, submit the ₹3,000 booking amount on WhatsApp. The pending balance must be cleared at least 20 days prior to departure.
                     </p>
                     <p className="text-[11px] text-slate-300 font-mono">
                       Official Desk Number: <span className="text-[#25D366] font-semibold">+91 93266 32288</span>
@@ -723,15 +823,15 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       `• Phone: ${submittedItem.phoneNumber}\n` +
                       `• City: ${submittedItem.city}\n` +
                       `• Batch: ${'travelBatch' in submittedItem ? submittedItem.travelBatch : 'Christmas Expedition (24 – 31 Dec 2026)'}\n` +
-                      `• Token Amount: ₹2,000 (Early Bird Total: ₹13,000)\n\n` +
-                      `I want to pay on WhatsApp and confirm my seat now!`
+                      `• Booking Amount: ₹3,000 (Pending balance due 20 days before trip)\n\n` +
+                      `I want to confirm my seat now!`
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full py-3.5 px-4 bg-[#25D366] hover:bg-[#20bd5a] text-[#070A0F] font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2.5 transition-all shadow-lg shadow-[#25D366]/30 cursor-pointer"
                   >
                     <MessageSquare className="w-5 h-5 fill-current" />
-                    <span>PAY ON WHATSAPP & CONFIRM YOUR SEAT</span>
+                    <span>PAY ₹3,000 BOOKING ON WHATSAPP & CONFIRM</span>
                   </a>
                 </div>
               )}
@@ -742,24 +842,28 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   onClick={handleResetAndClose}
                   className="w-full !py-3 text-xs tracking-wider"
                 >
-                  RETURN TO EXPEDITION DASHBOARD
+                  RETURN TO FILM HOMEPAGE
                 </CinemaButton>
               </div>
             </div>
           ) : (
             /* =========================================================================
                WIDESCREEN 2-COLUMN IMMERSIVE FORM
-               Left Side (5 cols on lg): Live Visual Character / Pathway Dossier
-               Right Side (7 cols on lg): Comprehensive Form Controls
+               Left Side (5 cols on tablet & desktop): Live Visual Character / Pathway Dossier (Sticky)
+               Right Side (7 cols on tablet & desktop): Comprehensive Form Controls
                ========================================================================= */
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-start">
               
-              {/* LEFT COLUMN: DYNAMIC VISUAL STAGE & ROLE CARD */}
-              <div className="lg:col-span-5 space-y-5">
+              {/* LEFT COLUMN: DYNAMIC VISUAL STAGE & ROLE CARD (STICKY ON TABLET & DESKTOP) */}
+              <div
+                className={`md:col-span-5 space-y-5 md:sticky ${
+                  isStandalonePage ? 'md:top-24 lg:top-28' : 'md:top-4 lg:top-6'
+                } md:self-start md:max-h-[calc(100vh-7.5rem)] md:overflow-y-auto no-scrollbar transition-all`}
+              >
                 
-                {/* Mobile-Only Character Role Chooser: Positioned above character dossier so user sees live role updates */}
+                {/* Mobile-Only Character Role Chooser: Positioned above character dossier on mobile (< md) */}
                 {pathway === 'actor' && (
-                  <div className="block lg:hidden p-3 bg-[#070D18] border border-yellow-400/40 space-y-2">
+                  <div className="block md:hidden p-3 bg-[#070D18] border border-yellow-400/40 space-y-2">
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-1.5">
                         <span className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse" />
@@ -836,9 +940,9 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   </div>
                 )}
 
-                {/* Visual Card 1: Pathway-Specific Visual Showcase */}
+                {/* Visual Card 1: Pathway-Specific Visual Showcase (Dossier Card) */}
                 {pathway === 'actor' && (
-                  <div className="bg-[#050A14] border border-white/15 overflow-hidden shadow-xl">
+                  <div className="bg-[#050A14] border border-yellow-400/30 overflow-hidden shadow-2xl ring-1 ring-yellow-400/10">
                     {/* Visual Role Image with Cinematic Tone */}
                     <div className="relative aspect-4/3 sm:aspect-16/10 overflow-hidden bg-black group">
                       <img
@@ -851,10 +955,11 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       
                       {/* Top Floating Badge */}
                       <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                        <span className="px-2 py-0.5 bg-black/80 border border-white/20 text-[9px] font-mono text-yellow-400/90 uppercase tracking-widest backdrop-blur-md">
+                        <span className="px-2 py-0.5 bg-black/85 border border-yellow-400/40 text-[9px] font-mono text-yellow-400 uppercase tracking-widest backdrop-blur-md font-bold flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse" />
                           SELECTED DOSSIER
                         </span>
-                        <span className="px-2 py-0.5 bg-yellow-400/90 text-black text-[9px] font-mono font-bold uppercase tracking-wider backdrop-blur-md">
+                        <span className="px-2 py-0.5 bg-yellow-400 text-black text-[9px] font-mono font-black uppercase tracking-wider backdrop-blur-md shadow">
                           100% REFUND
                         </span>
                       </div>
@@ -1019,8 +1124,8 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   </div>
                 )}
 
-                {/* Trust & Guarantee Callout */}
-                <div className="p-3.5 bg-[#060B14] border border-white/10 flex items-start gap-2.5">
+                {/* Trust & Guarantee Callout (Selector 2) */}
+                <div className="p-3.5 bg-[#060B14]/95 border border-emerald-500/30 flex items-start gap-2.5 shadow-md">
                   <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                   <div className="text-[11px] text-slate-300 leading-relaxed">
                     <span className="text-white font-medium block">Parindaa Assurance:</span>
@@ -1031,32 +1136,32 @@ export const NominationModal: React.FC<NominationModalProps> = ({
               </div>
 
               {/* RIGHT COLUMN: APPLICATION FORM CONTROLS */}
-              <div className="lg:col-span-7 space-y-6">
+              <div className="md:col-span-7 space-y-6 bg-[#0E1626]/95 border border-slate-700/80 p-4 sm:p-7 shadow-2xl rounded-sm">
                 
                 {/* Form Section Header */}
-                <div className="pb-3 border-b border-white/10 flex items-center justify-between">
+                <div className="pb-3 border-b border-slate-700/80 flex items-center justify-between">
                   <div>
                     <h3 className="text-base sm:text-lg font-title font-black text-white uppercase tracking-wider">
                       {pathway === 'actor' && 'ACTOR AUDITION APPLICATION'}
                       {pathway === 'participant' && 'PARTICIPANT RESERVATION FORM'}
                       {pathway === 'crew' && 'TECHNICAL CREW REGISTRATION'}
                     </h3>
-                    <p className="text-xs text-slate-400 font-light mt-0.5">
+                    <p className="text-xs text-slate-300 font-light mt-0.5">
                       {pathway === 'actor' && 'Submit your headshot photograph & monologue link to audition for the lead cast.'}
                       {pathway === 'participant' && 'No portfolio or auditions required. Reserve your seat in the expedition convoy.'}
                       {pathway === 'crew' && 'Provide your portfolio or showreel link for department head evaluation.'}
                     </p>
                   </div>
-                  <span className="px-2.5 py-1 bg-white/5 border border-white/10 text-[10px] font-mono text-yellow-400/90 font-bold uppercase tracking-wider shrink-0">
+                  <span className="px-2.5 py-1 bg-white/10 border border-white/20 text-[10px] font-mono text-yellow-400 font-bold uppercase tracking-wider shrink-0">
                     STEP 1 OF 1
                   </span>
                 </div>
 
                 {/* Important Casting Notice (Sample Images Disclaimer Note) — ONLY for Actor Form */}
                 {pathway === 'actor' && (
-                  <div className="p-3.5 bg-amber-500/10 border border-amber-500/30 flex items-start gap-3">
+                  <div className="p-3.5 bg-amber-500/15 border border-amber-500/40 flex items-start gap-3">
                     <AlertCircle className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
-                    <div className="text-xs text-amber-100/95 leading-relaxed font-sans">
+                    <div className="text-xs text-amber-100 leading-relaxed font-sans">
                       <span className="font-mono text-[10px] font-bold text-yellow-400 uppercase tracking-widest block mb-0.5">
                         CASTING NOTE // SAMPLE IMAGES IN NATURE
                       </span>
@@ -1067,7 +1172,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
                 {/* Character Selection Images (At the top of form for actors) */}
                 {pathway === 'actor' && (
-                  <div className="hidden lg:block p-4 bg-[#070D18] border border-yellow-400/40 space-y-3">
+                  <div className="hidden md:block p-4 bg-[#141E34] border border-yellow-400/50 space-y-3 shadow-md">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 bg-yellow-400 rounded-full" />
@@ -1075,12 +1180,12 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                           SELECT CHARACTER ROLE * (CLICK IMAGE TO CHOOSE)
                         </label>
                       </div>
-                      <span className="text-[10px] font-mono text-[#A5A196] uppercase">
+                      <span className="text-[10px] font-mono text-slate-300 uppercase">
                         {CHARACTERS.length} ROLES AVAILABLE
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-7 gap-2">
                       {CHARACTERS.map((char, idx) => {
                         const isSelected = char.id === selectedRoleId;
                         return (
@@ -1091,8 +1196,8 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                             title={`${char.name} (${char.archetype})`}
                             className={`group relative flex flex-col p-1.5 border transition-all text-left cursor-pointer ${
                               isSelected
-                                ? 'bg-yellow-400/15 border-yellow-400 ring-2 ring-yellow-400/50 scale-[1.02] shadow-lg shadow-yellow-400/10'
-                                : 'bg-[#040810] border-white/10 hover:border-yellow-400/40 hover:bg-white/[0.04]'
+                                ? 'bg-yellow-400/20 border-yellow-400 ring-2 ring-yellow-400/60 scale-[1.02] shadow-lg shadow-yellow-400/10'
+                                : 'bg-[#0B1322] border-slate-700 hover:border-yellow-400/50 hover:bg-white/[0.04]'
                             }`}
                           >
                             <div className="relative w-full aspect-square overflow-hidden bg-black mb-1.5">
@@ -1119,7 +1224,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                               }`}>
                                 {char.name}
                               </div>
-                              <div className="text-[9px] text-[#A5A196] font-mono truncate">
+                              <div className="text-[9px] text-slate-300 font-mono truncate">
                                 {char.gender} • {char.ageRange}
                               </div>
                             </div>
@@ -1128,14 +1233,14 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       })}
                     </div>
 
-                    <div className="px-3 py-2 bg-black/50 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] font-mono">
+                    <div className="px-3 py-2 bg-black/50 border border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] font-mono">
                       <div className="flex items-center gap-2">
                         <span className="text-yellow-400 font-bold uppercase tracking-wider">SELECTED:</span>
                         <span className="text-white font-semibold">{currentRole.name}</span>
                         <span className="text-slate-400">•</span>
-                        <span className="text-slate-300 italic">{currentRole.archetype}</span>
+                        <span className="text-slate-200 italic">{currentRole.archetype}</span>
                       </div>
-                      <span className="text-yellow-400/90 text-[10px]">
+                      <span className="text-yellow-400 text-[10px]">
                         Age {currentRole.ageRange} [{currentRole.gender}]
                       </span>
                     </div>
@@ -1143,14 +1248,15 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                 )}
 
                 {/* 1. Core Personal Details */}
-                <div className="space-y-4">
-                  <div className="text-[10px] font-mono text-yellow-400/90 uppercase tracking-widest font-bold">
-                    01 // PERSONAL CREDENTIALS
+                <div className="p-4 sm:p-5 bg-[#141E34] border border-slate-600/70 shadow-md space-y-4">
+                  <div className="text-[11px] font-mono text-amber-300 uppercase tracking-widest font-black flex items-center justify-between">
+                    <span>01 // PERSONAL CREDENTIALS</span>
+                    <span className="text-[9px] font-mono font-normal text-slate-300">ENTER DETAILS BELOW</span>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
+                      <label className="text-[11px] font-mono uppercase tracking-wider text-slate-200 block mb-1.5 font-bold">
                         Full Legal Name *
                       </label>
                       <input
@@ -1158,14 +1264,14 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
                         placeholder="e.g. Arjun Sharma"
-                        className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400/90 transition-colors"
+                        className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-400/20 transition-all shadow-inner"
                       />
                       {errors.fullName && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.fullName}</p>}
                     </div>
 
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
+                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-200 block mb-1.5 font-bold">
                           Age *
                         </label>
                         <input
@@ -1175,13 +1281,13 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                           placeholder="24"
                           min="18"
                           max="75"
-                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400/90 transition-colors"
+                          className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-400/20 transition-all shadow-inner"
                         />
                         {errors.age && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.age}</p>}
                       </div>
 
                       <div>
-                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
+                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-200 block mb-1.5 font-bold">
                           Current City *
                         </label>
                         <input
@@ -1189,7 +1295,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                           value={city}
                           onChange={(e) => setCity(e.target.value)}
                           placeholder="Mumbai"
-                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400/90 transition-colors"
+                          className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-400/20 transition-all shadow-inner"
                         />
                         {errors.city && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.city}</p>}
                       </div>
@@ -1198,7 +1304,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
+                      <label className="text-[11px] font-mono uppercase tracking-wider text-slate-200 block mb-1.5 font-bold">
                         WhatsApp Phone Number *
                       </label>
                       <input
@@ -1212,17 +1318,17 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                           }
                         }}
                         placeholder="+91 98765 43210"
-                        className={`w-full px-3.5 py-2.5 bg-[#050A14] border text-white text-xs placeholder-slate-600 focus:outline-none transition-colors ${
+                        className={`w-full px-3.5 py-2.5 border-2 text-slate-950 font-semibold text-xs sm:text-sm placeholder-slate-400 focus:outline-none transition-all shadow-inner ${
                           errors.phoneNumber || duplicateError?.includes('phone')
-                            ? 'border-red-500 focus:border-red-400 bg-red-950/10'
-                            : 'border-white/15 focus:border-yellow-400/90'
+                            ? 'border-red-500 focus:border-red-400 bg-red-50'
+                            : 'bg-slate-50 border-slate-300 focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-400/20'
                         }`}
                       />
                       {errors.phoneNumber && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.phoneNumber}</p>}
                     </div>
 
                     <div>
-                      <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
+                      <label className="text-[11px] font-mono uppercase tracking-wider text-slate-200 block mb-1.5 font-bold">
                         Email Address *
                       </label>
                       <input
@@ -1236,10 +1342,10 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                           }
                         }}
                         placeholder="you@email.com"
-                        className={`w-full px-3.5 py-2.5 bg-[#050A14] border text-white text-xs placeholder-slate-600 focus:outline-none transition-colors ${
+                        className={`w-full px-3.5 py-2.5 border-2 text-slate-950 font-semibold text-xs sm:text-sm placeholder-slate-400 focus:outline-none transition-all shadow-inner ${
                           errors.email || duplicateError?.includes('email')
-                            ? 'border-red-500 focus:border-red-400 bg-red-950/10'
-                            : 'border-white/15 focus:border-yellow-400/90'
+                            ? 'border-red-500 focus:border-red-400 bg-red-50'
+                            : 'bg-slate-50 border-slate-300 focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-400/20'
                         }`}
                       />
                       {errors.email && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.email}</p>}
@@ -1266,7 +1372,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   )}
 
                   <div>
-                    <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
+                    <label className="text-[11px] font-mono uppercase tracking-wider text-slate-200 block mb-1.5 font-bold">
                       Instagram / Social Link (Optional)
                     </label>
                     <input
@@ -1274,120 +1380,129 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       value={instagramProfile}
                       onChange={(e) => setInstagramProfile(e.target.value)}
                       placeholder="@yourhandle or profile URL"
-                      className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400/90 transition-colors"
+                      className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-400/20 transition-all shadow-inner"
                     />
                   </div>
                 </div>
 
                 {/* 2. PATHWAY SPECIFIC SECTION */}
-                <div className="pt-4 border-t border-white/10 space-y-4">
+                <div className="pt-4 border-t border-slate-700/80 space-y-4">
                   
                   {/* PATHWAY 1: ACTOR FIELDS */}
                   {pathway === 'actor' && (
                     <>
-                      <div className="text-[10px] font-mono text-yellow-400/90 uppercase tracking-widest font-bold">
-                        02 // ACTOR CASTING CRITERIA
-                      </div>
-
-                      <div>
-                        <label className="text-[11px] font-mono uppercase tracking-wider text-yellow-400/90 block mb-1.5">
-                          Desired Character Role *
-                        </label>
-                        <select
-                          value={selectedRoleId}
-                          onChange={(e) => setSelectedRoleId(e.target.value)}
-                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-yellow-400/40 text-white text-xs focus:outline-none focus:border-yellow-400/90 transition-colors"
-                        >
-                          {CHARACTERS.map((char) => (
-                            <option key={char.id} value={char.id}>
-                              {char.name} ({char.archetype}) — Age {char.ageRange} [{char.gender}]
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      {/* Any Other Role — Personality & Skills Profiling */}
-                      {selectedRoleId === 'any-other-role' && (
-                        <div className="p-4 bg-emerald-950/30 border border-emerald-500/40 space-y-3">
-                          <div className="flex items-center justify-between">
-                            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
-                              <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                              OPEN ROLE PROFILE (MALE / FEMALE)
-                            </span>
-                            <span className="px-2 py-0.5 bg-emerald-900/50 border border-emerald-500/30 text-emerald-300 font-mono text-[9px] font-bold uppercase">
-                              ANY BACKGROUND
-                            </span>
-                          </div>
-
-                          <div>
-                            <label className="text-[11px] font-mono uppercase tracking-wider text-emerald-300 block mb-1.5 font-medium">
-                              What personality and skills do you have? *
-                            </label>
-                            <textarea
-                              rows={3}
-                              value={personalityAndSkills}
-                              onChange={(e) => setPersonalityAndSkills(e.target.value)}
-                              placeholder="Describe your authentic personality, temperament, presence, and any skills you possess (e.g., emotional intensity, comedy, dialogue improvisation, singing, driving, mountain endurance)..."
-                              className="w-full px-3.5 py-2.5 bg-[#050A14] border border-emerald-500/40 text-white text-xs placeholder-slate-500 focus:outline-none focus:border-emerald-400 transition-colors"
-                            />
-                            {errors.personalityAndSkills && (
-                              <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.personalityAndSkills}</p>
-                            )}
-                          </div>
-
-                          <div>
-                            <label className="text-[11px] font-mono uppercase tracking-wider text-emerald-300 block mb-1.5 font-medium">
-                              Which role or character can your personality and skills be useful for? *
-                            </label>
-                            <input
-                              type="text"
-                              value={usefulRoleTarget}
-                              onChange={(e) => setUsefulRoleTarget(e.target.value)}
-                              placeholder="E.g., Mysterious traveler, fiery rebel, calm mentor, local confidant, silent observer..."
-                              className="w-full px-3.5 py-2.5 bg-[#050A14] border border-emerald-500/40 text-white text-xs placeholder-slate-500 focus:outline-none focus:border-emerald-400 transition-colors"
-                            />
-                            {errors.usefulRoleTarget && (
-                              <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.usefulRoleTarget}</p>
-                            )}
-                          </div>
+                      <div className="p-4 sm:p-5 bg-[#141E34] border border-slate-600/70 shadow-md space-y-4">
+                        <div className="text-[11px] font-mono text-amber-300 uppercase tracking-widest font-black flex items-center justify-between">
+                          <span>02 // ACTOR CASTING CRITERIA</span>
+                          <span className="text-[9px] font-mono font-normal text-slate-300">ROLE & EXPERIENCE</span>
                         </div>
-                      )}
 
-                      <div>
-                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
-                          Acting Background / Storytelling Experience
-                        </label>
-                        <textarea
-                          rows={2}
-                          value={actingExperience}
-                          onChange={(e) => setActingExperience(e.target.value)}
-                          placeholder="Theatre, short films, street play, or passionate raw actor with no formal training..."
-                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400/90 transition-colors"
-                        />
+                        <div>
+                          <label className="text-[11px] font-mono uppercase tracking-wider text-amber-300 block mb-1.5 font-bold">
+                            Desired Character Role *
+                          </label>
+                          <select
+                            value={selectedRoleId}
+                            onChange={(e) => setSelectedRoleId(e.target.value)}
+                            className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-400/20 transition-all shadow-inner"
+                          >
+                            {CHARACTERS.map((char) => (
+                              <option key={char.id} value={char.id}>
+                                {char.name} ({char.archetype}) — Age {char.ageRange} [{char.gender}]
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        {/* Any Other Role — Personality & Skills Profiling */}
+                        {selectedRoleId === 'any-other-role' && (
+                          <div className="p-4 bg-[#11243B] border-2 border-emerald-400/60 shadow-md space-y-3">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
+                                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                                OPEN ROLE PROFILE (MALE / FEMALE)
+                              </span>
+                              <span className="px-2 py-0.5 bg-emerald-900/50 border border-emerald-500/30 text-emerald-300 font-mono text-[9px] font-bold uppercase">
+                                ANY BACKGROUND
+                              </span>
+                            </div>
+
+                            <div>
+                              <label className="text-[11px] font-mono uppercase tracking-wider text-emerald-300 block mb-1.5 font-bold">
+                                What personality and skills do you have? *
+                              </label>
+                              <textarea
+                                rows={3}
+                                value={personalityAndSkills}
+                                onChange={(e) => setPersonalityAndSkills(e.target.value)}
+                                placeholder="Describe your authentic personality, temperament, presence, and any skills you possess (e.g., emotional intensity, comedy, dialogue improvisation, singing, driving, mountain endurance)..."
+                                className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-medium text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-400/20 transition-all shadow-inner"
+                              />
+                              {errors.personalityAndSkills && (
+                                <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.personalityAndSkills}</p>
+                              )}
+                            </div>
+
+                            <div>
+                              <label className="text-[11px] font-mono uppercase tracking-wider text-emerald-300 block mb-1.5 font-bold">
+                                Which role or character can your personality and skills be useful for? *
+                              </label>
+                              <input
+                                type="text"
+                                value={usefulRoleTarget}
+                                onChange={(e) => setUsefulRoleTarget(e.target.value)}
+                                placeholder="E.g., Mysterious traveler, fiery rebel, calm mentor, local confidant, silent observer..."
+                                className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-medium text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-400/20 transition-all shadow-inner"
+                              />
+                              {errors.usefulRoleTarget && (
+                                <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.usefulRoleTarget}</p>
+                              )}
+                            </div>
+                          </div>
+                        )}
+
+                        <div>
+                          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-200 block mb-1.5 font-bold">
+                            Acting Background / Storytelling Experience
+                          </label>
+                          <textarea
+                            rows={2}
+                            value={actingExperience}
+                            onChange={(e) => setActingExperience(e.target.value)}
+                            placeholder="Theatre, short films, street play, or passionate raw actor with no formal training..."
+                            className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-medium text-xs sm:text-sm placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-400/20 transition-all shadow-inner"
+                          />
+                        </div>
                       </div>
 
                       {/* Headshot Upload + Live Visual Thumbnail */}
-                      <div className="p-4 bg-[#050A14] border border-white/15 space-y-3">
-                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-300 block font-semibold">
-                          Headshot Photograph *
-                        </label>
+                      <div className="border-2 border-slate-600/70 overflow-hidden bg-[#141E34] shadow-md">
+                        <div className="px-4 py-2.5 bg-[#0A1222] border-b border-slate-700/80 flex items-center justify-between text-white">
+                          <label className="text-xs font-mono uppercase tracking-wider text-slate-100 font-black flex items-center gap-2">
+                            <Camera className="w-3.5 h-3.5 text-yellow-400" />
+                            <span>Headshot Photograph *</span>
+                          </label>
+                          <span className="text-[10px] font-mono text-slate-400 font-semibold">
+                            JPG / PNG • UNEDITED NATURAL LIGHTING
+                          </span>
+                        </div>
                         
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                        <div className="p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                           {photoPreview ? (
                             <div className="relative w-16 h-20 rounded border border-yellow-400/90 overflow-hidden shrink-0">
                               <img src={photoPreview} alt="Headshot preview" className="w-full h-full object-cover" />
                               <div className="absolute inset-0 bg-yellow-400/10" />
                             </div>
                           ) : (
-                            <div className="w-16 h-20 bg-white/5 border border-dashed border-white/20 flex flex-col items-center justify-center text-slate-500 shrink-0">
+                            <div className="w-16 h-20 bg-white/5 border border-dashed border-white/20 flex flex-col items-center justify-center text-slate-400 shrink-0">
                               <Camera className="w-5 h-5 text-slate-400 mb-1" />
                               <span className="text-[8px] font-mono uppercase">PHOTO</span>
                             </div>
                           )}
 
                           <div className="flex-1 space-y-1.5">
-                            <label className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/20 text-xs font-mono text-slate-200 cursor-pointer transition-colors inline-flex items-center gap-2">
-                              <Upload className="w-3.5 h-3.5 text-yellow-400/90" />
+                            <label className="px-4 py-2 bg-white/10 hover:bg-white/15 border border-white/25 text-xs font-mono text-slate-100 cursor-pointer transition-colors inline-flex items-center gap-2 shadow-sm font-semibold">
+                              <Upload className="w-3.5 h-3.5 text-yellow-400" />
                               <span>{photoFileName ? 'Change Photo' : 'Upload Headshot'}</span>
                               <input
                                 type="file"
@@ -1396,24 +1511,45 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                                 className="hidden"
                               />
                             </label>
-                            <p className="text-[10px] font-mono text-slate-400 truncate max-w-sm">
+                            <p className="text-[10px] font-mono text-slate-300 truncate max-w-sm">
                               {photoFileName || 'Clear unedited portrait with natural lighting (JPG/PNG)'}
                             </p>
                           </div>
                         </div>
-                        {errors.photo && <p className="text-[10px] text-red-400 font-mono">{errors.photo}</p>}
+                        {errors.photo && <p className="text-[10px] text-red-400 font-mono px-4 pb-3">{errors.photo}</p>}
                       </div>
 
-                      {/* Audition Monologue */}
-                      <div className="p-4 bg-[#050A14] border border-white/15 space-y-3">
-                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-300 block font-semibold">
-                          Audition Monologue Video *
-                        </label>
+                      {/* Audition Monologue Video Upload — Main Submission Area */}
+                      <div className="border-2 border-yellow-400 overflow-hidden shadow-2xl bg-[#141E34]">
+                        {/* Main Submission Head — Cinematic Dark Header to Prevent Confusion with White Inputs */}
+                        <div className="px-4 py-3 sm:px-5 sm:py-3.5 bg-gradient-to-r from-[#0C1527] via-[#091122] to-[#070C16] border-b-2 border-yellow-400/70 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-white">
+                          <div className="space-y-0.5">
+                            <h4 className="font-mono text-xs sm:text-sm md:text-base font-black uppercase tracking-wider text-white flex items-center gap-2">
+                              <Video className="w-4 h-4 text-yellow-400 shrink-0" />
+                              <span>AUDITION MONOLOGUE VIDEO *</span>
+                            </h4>
+                          </div>
 
-                        <div className="space-y-3">
+                          <div className="self-start sm:self-auto flex items-center gap-2">
+                            <span className="text-[10px] font-mono font-bold px-2.5 py-1 bg-yellow-400/15 border border-yellow-400/40 text-yellow-300 uppercase tracking-wider shadow-sm whitespace-nowrap">
+                              1.5–2 MINS • FOLLOW 4 SCENES GUIDE BELOW
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Submission Instruction Sub-Bar */}
+                        <div className="px-4 sm:px-5 py-2.5 bg-amber-400/15 border-b border-amber-400/30 text-[11px] font-mono text-amber-200 flex items-center justify-between gap-2">
+                          <span className="flex items-center gap-1.5 font-medium">
+                            <span className="text-yellow-400 font-bold">▶</span>
+                            <span>Upload video file or paste cloud link below. You can also view the 4-scene video guide below in minimise mode:</span>
+                          </span>
+                        </div>
+
+                        {/* Submission Controls Body */}
+                        <div className="p-4 sm:p-5 space-y-4 bg-[#10182A]">
                           <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                            <label className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/20 text-xs font-mono text-slate-200 cursor-pointer transition-colors inline-flex items-center gap-2">
-                              <Video className="w-3.5 h-3.5 text-yellow-400/90" />
+                            <label className="px-4 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-black font-mono font-black text-xs uppercase tracking-wider cursor-pointer transition-colors inline-flex items-center justify-center gap-2 shadow-md shrink-0">
+                              <Video className="w-4 h-4 text-black fill-current" />
                               <span>Upload Video File</span>
                               <input
                                 type="file"
@@ -1422,26 +1558,118 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                                 className="hidden"
                               />
                             </label>
-                            <span className="text-xs font-mono text-slate-400 truncate">
-                              {auditionTapeFileName || 'Max 100MB MP4 / MOV'}
-                            </span>
-                          </div>
-
-                          <div className="flex items-center gap-2">
-                            <span className="text-[10px] font-mono text-slate-500 uppercase">OR</span>
-                            <div className="relative flex-1">
-                              <LinkIcon className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-2.5" />
-                              <input
-                                type="url"
-                                value={auditionTapeUrl}
-                                onChange={(e) => setAuditionTapeUrl(e.target.value)}
-                                placeholder="Paste Google Drive / YouTube unlisted link"
-                                className="w-full pl-8 pr-3.5 py-2 bg-black/60 border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-yellow-400/90 transition-colors"
-                              />
+                            <div className="flex items-center gap-2 overflow-hidden">
+                              <span className="text-xs font-mono text-slate-200 truncate font-medium">
+                                {auditionTapeFileName ? (
+                                  <span className="text-emerald-400 font-bold flex items-center gap-1">
+                                    <CheckCircle2 className="w-3.5 h-3.5" />
+                                    {auditionTapeFileName}
+                                  </span>
+                                ) : (
+                                  'Max 100MB MP4 / MOV (Direct mobile recording fine)'
+                                )}
+                              </span>
                             </div>
                           </div>
+
+                          <div className="flex items-center gap-3">
+                            <div className="h-px flex-1 bg-white/15" />
+                            <span className="text-[10px] font-mono text-slate-300 uppercase font-bold px-2 py-0.5 bg-white/10 border border-white/20">
+                              OR CLOUD LINK
+                            </span>
+                            <div className="h-px flex-1 bg-white/15" />
+                          </div>
+
+                          <div className="relative">
+                            <LinkIcon className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+                            <input
+                              type="url"
+                              value={auditionTapeUrl}
+                              onChange={(e) => setAuditionTapeUrl(e.target.value)}
+                              placeholder="Paste Google Drive / YouTube unlisted link (publicly accessible)"
+                              className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-400/20 transition-all shadow-inner"
+                            />
+                          </div>
+
+                          {errors.auditionTape && (
+                            <p className="text-[10px] text-red-400 font-mono flex items-center gap-1.5 pt-1">
+                              <AlertCircle className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                              <span>{errors.auditionTape}</span>
+                            </p>
+                          )}
                         </div>
-                        {errors.auditionTape && <p className="text-[10px] text-red-400 font-mono">{errors.auditionTape}</p>}
+
+                        {/* Actor Nomination Video Brief (Universal 4-Scene Guide + Reference Reels) inside below section in minimise mode */}
+                        <ActorVideoBrief currentRoleName={currentRole.name} defaultExpanded={false} />
+                      </div>
+
+                      {/* Mandatory Actor Consent & Booking Commitment Declaration */}
+                      <div className="p-4 sm:p-5 bg-[#141E34] border-2 border-yellow-400/40 shadow-lg space-y-3.5 text-[11px] font-mono">
+                        <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                          <div className="flex items-center gap-2 text-yellow-400 font-bold uppercase tracking-wider text-xs">
+                            <ShieldCheck className="w-4 h-4 text-yellow-400 shrink-0" />
+                            <span>MANDATORY CONSENT & BOOKING COMMITMENT</span>
+                          </div>
+                          <span className="text-[9px] text-yellow-400/90 uppercase px-2 py-0.5 bg-yellow-400/10 border border-yellow-400/30 font-bold">
+                            REQUIRED
+                          </span>
+                        </div>
+
+                        <div className="space-y-3 text-slate-200">
+                          {/* Booking Commitment Checkbox */}
+                          <label className="flex items-start gap-3 cursor-pointer group select-none">
+                            <input
+                              type="checkbox"
+                              checked={actorBookingConsent}
+                              onChange={(e) => setActorBookingConsent(e.target.checked)}
+                              className="accent-yellow-400 mt-0.5 w-4 h-4 shrink-0 cursor-pointer"
+                            />
+                            <div className="space-y-1">
+                              <span className="font-semibold text-white group-hover:text-yellow-300 transition-colors block leading-relaxed text-xs">
+                                I have to submit ₹3,000 as booking amount if my nomination accepted and pending before 20 day starting of trip.
+                              </span>
+                              <p className="text-[10px] text-slate-300 font-sans leading-normal">
+                                * Nomination submission is 100% free with zero registration fees. The ₹3,000 booking amount is payable ONLY upon official selection and acceptance. The remaining trip balance must be settled at least 20 days before departure.
+                              </p>
+                            </div>
+                          </label>
+                          {errors.actorBookingConsent && (
+                            <p className="text-[10px] text-red-400 font-mono pl-7">{errors.actorBookingConsent}</p>
+                          )}
+
+                          {/* Filmmaking Appearance Consent Checkbox */}
+                          <label className="flex items-start gap-3 cursor-pointer group select-none">
+                            <input
+                              type="checkbox"
+                              checked={actorFilmmakingConsent}
+                              onChange={(e) => setActorFilmmakingConsent(e.target.checked)}
+                              className="accent-yellow-400 mt-0.5 w-4 h-4 shrink-0 cursor-pointer"
+                            />
+                            <div className="space-y-1">
+                              <span className="font-semibold text-white group-hover:text-yellow-300 transition-colors block leading-relaxed text-xs">
+                                I grant full consent for character portrayal, on-location documentary recording, and unscripted filmmaking public release under Chehra Films.
+                              </span>
+                            </div>
+                          </label>
+                          {errors.actorFilmmakingConsent && (
+                            <p className="text-[10px] text-red-400 font-mono pl-7">{errors.actorFilmmakingConsent}</p>
+                          )}
+
+                          {/* 100% Refundable Security Deposit Acknowledgement */}
+                          <label className="flex items-start gap-3 cursor-pointer group select-none">
+                            <input
+                              type="checkbox"
+                              checked={actorRefundPolicyConsent}
+                              onChange={(e) => setActorRefundPolicyConsent(e.target.checked)}
+                              className="accent-yellow-400 mt-0.5 w-4 h-4 shrink-0 cursor-pointer"
+                            />
+                            <div className="space-y-1">
+                              <span className="font-semibold text-white group-hover:text-yellow-300 transition-colors block leading-relaxed text-xs">
+                                I understand that the actor production security deposit is 100% refundable upon completing my assigned on-location shoot schedule as per written Chehra Films production terms.
+                              </span>
+                            </div>
+                          </label>
+                        </div>
                       </div>
                     </>
                   )}
@@ -1449,70 +1677,106 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   {/* PATHWAY 2: PARTICIPANT FIELDS */}
                   {pathway === 'participant' && (
                     <>
-                      <div className="text-[10px] font-mono text-blue-300 uppercase tracking-widest font-bold">
-                        02 // EXPEDITION CONVOY PREFERENCES
-                      </div>
+                      <div className="p-4 sm:p-5 bg-[#141E34] border border-blue-500/40 shadow-md space-y-4">
+                        <div className="text-[11px] font-mono text-blue-300 uppercase tracking-widest font-black flex items-center justify-between">
+                          <span>02 // EXPEDITION CONVOY PREFERENCES</span>
+                          <span className="text-[9px] font-mono font-normal text-slate-300">ROUTE & STAY</span>
+                        </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-[11px] font-mono uppercase tracking-wider text-blue-300 block mb-1.5 font-bold">
+                              Departure Convoy Hub *
+                            </label>
+                            <select
+                              value={departureCity}
+                              onChange={(e) => setDepartureCity(e.target.value)}
+                              className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm focus:outline-none focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-400/20 transition-all shadow-inner"
+                            >
+                              <option value="Delhi Majnu Ka Tilla Hub">Delhi (Majnu Ka Tilla Hub)</option>
+                              <option value="Mumbai / Pune Convoy">Mumbai / Pune Convoy</option>
+                              <option value="Jaipur Gathering Hub">Jaipur Gathering Hub</option>
+                              <option value="Bengaluru Flying Hub">Bengaluru Fly-in Hub</option>
+                              <option value="Direct Srinagar Fly-in">Direct Srinagar Fly-in</option>
+                            </select>
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-mono uppercase tracking-wider text-blue-300 block mb-1.5 font-bold">
+                              Travel Batch Date *
+                            </label>
+                            <select
+                              value={travelBatch}
+                              onChange={(e) => setTravelBatch(e.target.value)}
+                              className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm focus:outline-none focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-400/20 transition-all shadow-inner"
+                            >
+                              <option value="Christmas Winter Batch (24 – 31 Dec 2026)">Christmas Winter Batch (24 – 31 Dec 2026)</option>
+                              <option value="New Year Winter Batch (01 – 08 Jan 2027)">New Year Winter Batch (01 – 08 Jan 2027)</option>
+                              <option value="Deep Winter Skiing Batch (12 – 19 Jan 2027)">Deep Winter Skiing Batch (12 – 19 Jan 2027)</option>
+                            </select>
+                          </div>
+                        </div>
+
                         <div>
-                          <label className="text-[11px] font-mono uppercase tracking-wider text-blue-300 block mb-1.5">
-                            Departure Convoy Hub *
+                          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-200 block mb-1.5 font-bold">
+                            Room / Base Camp Stay Preference
                           </label>
                           <select
-                            value={departureCity}
-                            onChange={(e) => setDepartureCity(e.target.value)}
-                            className="w-full px-3.5 py-2.5 bg-[#050A14] border border-blue-500/40 text-white text-xs focus:outline-none focus:border-blue-400 transition-colors"
+                            value={roomPreference}
+                            onChange={(e) => setRoomPreference(e.target.value)}
+                            className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm focus:outline-none focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-400/20 transition-all shadow-inner"
                           >
-                            <option value="Delhi Majnu Ka Tilla Hub">Delhi (Majnu Ka Tilla Hub)</option>
-                            <option value="Mumbai / Pune Convoy">Mumbai / Pune Convoy</option>
-                            <option value="Jaipur Gathering Hub">Jaipur Gathering Hub</option>
-                            <option value="Bengaluru Flying Hub">Bengaluru Fly-in Hub</option>
-                            <option value="Direct Srinagar Fly-in">Direct Srinagar Fly-in</option>
+                            <option value="Twin Sharing with Fellow Traveler">Twin Sharing (Included in ₹13,000 Early Bird)</option>
+                            <option value="Private Hotel / Houseboat Room">Private Hotel / Houseboat Room (Subject to tariff differential)</option>
                           </select>
                         </div>
 
                         <div>
-                          <label className="text-[11px] font-mono uppercase tracking-wider text-blue-300 block mb-1.5">
-                            Travel Batch Date *
+                          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-200 block mb-1.5 font-bold">
+                            Emergency Contact (Name & Phone) *
                           </label>
-                          <select
-                            value={travelBatch}
-                            onChange={(e) => setTravelBatch(e.target.value)}
-                            className="w-full px-3.5 py-2.5 bg-[#050A14] border border-blue-500/40 text-white text-xs focus:outline-none focus:border-blue-400 transition-colors"
-                          >
-                            <option value="Christmas Winter Batch (24 – 31 Dec 2026)">Christmas Winter Batch (24 – 31 Dec 2026)</option>
-                            <option value="New Year Winter Batch (01 – 08 Jan 2027)">New Year Winter Batch (01 – 08 Jan 2027)</option>
-                            <option value="Deep Winter Skiing Batch (12 – 19 Jan 2027)">Deep Winter Skiing Batch (12 – 19 Jan 2027)</option>
-                          </select>
+                          <input
+                            type="text"
+                            value={emergencyContact}
+                            onChange={(e) => setEmergencyContact(e.target.value)}
+                            placeholder="e.g. Meera Sharma (Mother) +91 98110 55667"
+                            className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-400/20 transition-all shadow-inner"
+                          />
+                          {errors.emergencyContact && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.emergencyContact}</p>}
                         </div>
                       </div>
 
-                      <div>
-                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
-                          Room / Base Camp Stay Preference
-                        </label>
-                        <select
-                          value={roomPreference}
-                          onChange={(e) => setRoomPreference(e.target.value)}
-                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs focus:outline-none focus:border-blue-400 transition-colors"
-                        >
-                          <option value="Twin Sharing with Fellow Traveler">Twin Sharing (Included in ₹13,000 Early Bird)</option>
-                          <option value="Private Hotel / Houseboat Room">Private Hotel / Houseboat Room (Subject to tariff differential)</option>
-                        </select>
-                      </div>
+                      {/* Mandatory Participant Consent & Booking Commitment Declaration */}
+                      <div className="p-4 sm:p-5 bg-[#141E34] border-2 border-blue-400/40 shadow-lg space-y-3.5 text-[11px] font-mono">
+                        <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                          <div className="flex items-center gap-2 text-blue-300 font-bold uppercase tracking-wider text-xs">
+                            <ShieldCheck className="w-4 h-4 text-blue-400 shrink-0" />
+                            <span>EXPEDITION BOOKING & PAYMENT TERMS CONSENT</span>
+                          </div>
+                          <span className="text-[9px] text-blue-300 uppercase px-2 py-0.5 bg-blue-500/10 border border-blue-400/30 font-bold">
+                            REQUIRED
+                          </span>
+                        </div>
 
-                      <div>
-                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
-                          Emergency Contact (Name & Phone) *
+                        <label className="flex items-start gap-3 cursor-pointer group select-none">
+                          <input
+                            type="checkbox"
+                            checked={participantBookingConsent}
+                            onChange={(e) => setParticipantBookingConsent(e.target.checked)}
+                            className="accent-blue-400 mt-0.5 w-4 h-4 shrink-0 cursor-pointer"
+                          />
+                          <div className="space-y-1">
+                            <span className="font-semibold text-white group-hover:text-blue-200 transition-colors block leading-relaxed text-xs">
+                              I have to submit ₹3,000 as booking amount if my nomination accepted and pending before 20 day starting of trip.
+                            </span>
+                            <p className="text-[10px] text-slate-300 font-sans leading-normal">
+                              * Early booking amount secures peak winter stays, convoy vehicle permits, and the Gulmarg Ski 2-Day Certificate Course. The pending balance must be cleared at least 20 days prior to the start of the trip.
+                            </p>
+                          </div>
                         </label>
-                        <input
-                          type="text"
-                          value={emergencyContact}
-                          onChange={(e) => setEmergencyContact(e.target.value)}
-                          placeholder="e.g. Meera Sharma (Mother) +91 98110 55667"
-                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-blue-400 transition-colors"
-                        />
-                        {errors.emergencyContact && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.emergencyContact}</p>}
+                        {errors.participantBookingConsent && (
+                          <p className="text-[10px] text-red-400 font-mono pl-7">{errors.participantBookingConsent}</p>
+                        )}
                       </div>
                     </>
                   )}
@@ -1520,80 +1784,83 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   {/* PATHWAY 3: CREW FIELDS */}
                   {pathway === 'crew' && (
                     <>
-                      <div className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest font-bold">
-                        02 // FILM DEPARTMENT CRAFT
-                      </div>
+                      <div className="p-4 sm:p-5 bg-[#141E34] border border-emerald-500/40 shadow-md space-y-4">
+                        <div className="text-[11px] font-mono text-emerald-400 uppercase tracking-widest font-black flex items-center justify-between">
+                          <span>02 // FILM DEPARTMENT CRAFT</span>
+                          <span className="text-[9px] font-mono font-normal text-slate-300">PORTFOLIO & TOOLS</span>
+                        </div>
 
-                      <div>
-                        <label className="text-[11px] font-mono uppercase tracking-wider text-emerald-300 block mb-1.5">
-                          Department Selection *
-                        </label>
-                        <select
-                          value={crewDepartment}
-                          onChange={(e) => setCrewDepartment(e.target.value)}
-                          className="w-full px-3.5 py-2.5 bg-[#050A14] border border-emerald-500/40 text-white text-xs focus:outline-none focus:border-emerald-400 transition-colors"
-                        >
-                          {Object.keys(CREW_DEPARTMENTS_META).map((dept) => (
-                            <option key={dept} value={dept}>
-                              {dept}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
+                        <div>
+                          <label className="text-[11px] font-mono uppercase tracking-wider text-emerald-300 block mb-1.5 font-bold">
+                            Department Selection *
+                          </label>
+                          <select
+                            value={crewDepartment}
+                            onChange={(e) => setCrewDepartment(e.target.value)}
+                            className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm focus:outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-400/20 transition-all shadow-inner"
+                          >
+                            {Object.keys(CREW_DEPARTMENTS_META).map((dept) => (
+                              <option key={dept} value={dept}>
+                                {dept}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
 
-                      {/* When Other is selected: Open text box for user's own skillset needed */}
-                      {crewDepartment === 'Other' && (
-                        <div className="p-4 bg-emerald-950/30 border border-emerald-500/40 space-y-2">
-                          <label className="text-[11px] font-mono uppercase tracking-wider text-emerald-300 block font-semibold">
-                            Write Your Own Skillset Needed *
+                        {/* When Other is selected: Open text box for user's own skillset needed */}
+                        {crewDepartment === 'Other' && (
+                          <div className="p-4 bg-[#11243B] border-2 border-emerald-400/60 shadow-md space-y-2">
+                            <label className="text-[11px] font-mono uppercase tracking-wider text-emerald-300 block font-bold">
+                              Write Your Own Skillset Needed *
+                            </label>
+                            <textarea
+                              rows={3}
+                              value={customCrewSkillset}
+                              onChange={(e) => setCustomCrewSkillset(e.target.value)}
+                              placeholder="Write your own skillset needed, technical specialty, or production craft you bring to the film crew..."
+                              className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-medium text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-400/20 transition-all shadow-inner"
+                            />
+                            {errors.customCrewSkillset && (
+                              <p className="text-[10px] text-red-400 font-mono">{errors.customCrewSkillset}</p>
+                            )}
+                            <p className="text-[10px] font-mono text-slate-300">
+                              * Explain the tools, expertise, or creative role you propose for the mountain shoot.
+                            </p>
+                          </div>
+                        )}
+
+                        <div>
+                          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-200 block mb-1.5 font-bold">
+                            Proof of Skill Link (Public Drive, YouTube, Behance, Spotify) *
+                          </label>
+                          <div className="relative">
+                            <LinkIcon className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-3.5" />
+                            <input
+                              type="url"
+                              value={proofOfSkillLink}
+                              onChange={(e) => setProofOfSkillLink(e.target.value)}
+                              placeholder="https://drive.google.com/... or https://youtube.com/..."
+                              className="w-full pl-8 pr-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-400/20 transition-all shadow-inner"
+                            />
+                          </div>
+                          {errors.proofOfSkillLink && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.proofOfSkillLink}</p>}
+                        </div>
+
+                        <div>
+                          <label className="text-[11px] font-mono uppercase tracking-wider text-slate-200 block mb-1.5 font-bold">
+                            Brief Note on Gear / Software Expertise
                           </label>
                           <textarea
-                            rows={3}
-                            value={customCrewSkillset}
-                            onChange={(e) => setCustomCrewSkillset(e.target.value)}
-                            placeholder="Write your own skillset needed, technical specialty, or production craft you bring to the film crew..."
-                            className="w-full px-3.5 py-2.5 bg-[#050A14] border border-emerald-500/50 text-white text-xs placeholder-slate-500 focus:outline-none focus:border-emerald-400 transition-colors"
-                          />
-                          {errors.customCrewSkillset && (
-                            <p className="text-[10px] text-red-400 font-mono">{errors.customCrewSkillset}</p>
-                          )}
-                          <p className="text-[10px] font-mono text-slate-400">
-                            * Explain the tools, expertise, or creative role you propose for the mountain shoot.
-                          </p>
-                        </div>
-                      )}
-
-                      <div>
-                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-300 block mb-1.5">
-                          Proof of Skill Link (Public Drive, YouTube, Behance, Spotify) *
-                        </label>
-                        <div className="relative">
-                          <LinkIcon className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-3" />
-                          <input
-                            type="url"
-                            value={proofOfSkillLink}
-                            onChange={(e) => setProofOfSkillLink(e.target.value)}
-                            placeholder="https://drive.google.com/... or https://youtube.com/..."
-                            className="w-full pl-8 pr-3.5 py-2.5 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-emerald-400 transition-colors"
+                            rows={2}
+                            value={portfolioSummary}
+                            onChange={(e) => setPortfolioSummary(e.target.value)}
+                            placeholder="Cameras owned, editing software used, past production experience..."
+                            className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-medium text-xs sm:text-sm placeholder-slate-400 focus:outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-400/20 transition-all shadow-inner"
                           />
                         </div>
-                        {errors.proofOfSkillLink && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.proofOfSkillLink}</p>}
                       </div>
 
-                      <div>
-                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block mb-1.5">
-                          Brief Note on Gear / Software Expertise
-                        </label>
-                        <textarea
-                          rows={2}
-                          value={portfolioSummary}
-                          onChange={(e) => setPortfolioSummary(e.target.value)}
-                          placeholder="Cameras owned, editing software used, past production experience..."
-                          className="w-full px-3.5 py-2 bg-[#050A14] border border-white/15 text-white text-xs placeholder-slate-600 focus:outline-none focus:border-emerald-400 transition-colors"
-                        />
-                      </div>
-
-                      <div className="p-3.5 bg-[#050A14] border border-white/10 space-y-2.5 text-[11px] font-mono text-slate-300">
+                      <div className="p-4 sm:p-5 bg-[#141E34] border-2 border-emerald-400/40 shadow-lg space-y-2.5 text-[11px] font-mono text-slate-200">
                         <label className="flex items-start gap-2.5 cursor-pointer">
                           <input
                             type="checkbox"
@@ -1668,18 +1935,18 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         </div>
 
         {/* Footer FAQ Accordion */}
-        <div className="border-t border-white/10 bg-[#050A14] px-5 sm:px-8 py-2.5 shrink-0">
-          <div className="flex items-center justify-between">
+        <div className="w-full border-t border-white/15 bg-[#060B18] px-4 sm:px-8 py-5 sm:py-6 shadow-2xl shrink-0">
+          <div className="flex items-center justify-between gap-4">
             <button
               type="button"
               onClick={() => setIsFaqOpen((prev) => !prev)}
-              className="flex items-center gap-2 text-left group cursor-pointer focus:outline-none"
+              className="flex flex-wrap items-center gap-2.5 sm:gap-3 text-left group cursor-pointer focus:outline-none"
             >
-              <HelpCircle className="w-3.5 h-3.5 text-yellow-400/90 group-hover:scale-110 transition-transform" />
-              <span className="text-[10px] font-mono tracking-[0.2em] font-bold text-white uppercase">
+              <HelpCircle className="w-5 h-5 text-yellow-400 group-hover:scale-110 transition-transform shrink-0" />
+              <span className="text-xs sm:text-sm md:text-base font-mono tracking-wider font-bold text-white uppercase">
                 FREQUENTLY ASKED QUESTIONS
               </span>
-              <span className="hidden sm:inline-block text-[9px] font-mono px-2 py-0.5 bg-white/5 text-slate-300 border border-white/10 uppercase">
+              <span className="inline-block text-[10px] sm:text-xs font-mono px-2.5 py-0.5 sm:px-3 sm:py-1 bg-yellow-400/10 text-yellow-300 border border-yellow-400/30 rounded-full uppercase font-medium">
                 {pathway === 'actor' && '100% Actor Refund Policy'}
                 {pathway === 'participant' && '₹2,000 Token & Price Structure'}
                 {pathway === 'crew' && 'Opportunity Fee & Production Credits'}
@@ -1689,42 +1956,42 @@ export const NominationModal: React.FC<NominationModalProps> = ({
             <button
               type="button"
               onClick={() => setIsFaqOpen((prev) => !prev)}
-              className="text-slate-400 hover:text-white transition-colors p-1 cursor-pointer focus:outline-none"
+              className="text-slate-300 hover:text-yellow-400 transition-colors p-1.5 cursor-pointer focus:outline-none shrink-0"
               aria-label={isFaqOpen ? 'Collapse FAQ' : 'Expand FAQ'}
             >
               {isFaqOpen ? (
-                <ChevronUp className="w-4 h-4 text-yellow-400/90" />
+                <ChevronUp className="w-5 h-5 text-yellow-400" />
               ) : (
-                <ChevronDown className="w-4 h-4 text-slate-400" />
+                <ChevronDown className="w-5 h-5 text-slate-300" />
               )}
             </button>
           </div>
 
           {isFaqOpen && (
-            <div className="mt-2.5 pt-2 border-t border-white/5 space-y-1.5 max-h-36 overflow-y-auto pr-1">
+            <div className="mt-4 pt-4 border-t border-white/10 space-y-3 w-full">
               {MODAL_FAQS[pathway].map((faq, idx) => {
                 const isOpen = activeFaqIndex === idx;
                 return (
                   <div
                     key={idx}
-                    className="border border-white/5 bg-[#080E1C] transition-colors"
+                    className="w-full border border-white/10 hover:border-yellow-400/30 bg-[#0A1224] rounded-sm transition-all shadow-sm"
                   >
                     <button
                       type="button"
                       onClick={() => setActiveFaqIndex(isOpen ? null : idx)}
-                      className="w-full text-left px-3 py-1.5 flex items-center justify-between gap-2 hover:bg-white/5 transition-colors cursor-pointer focus:outline-none"
+                      className="w-full text-left px-4 sm:px-5 py-3.5 sm:py-4 flex items-center justify-between gap-3 hover:bg-white/[0.03] transition-colors cursor-pointer focus:outline-none"
                     >
-                      <span className="text-[11px] font-medium text-slate-200">
+                      <span className="text-xs sm:text-sm md:text-base font-semibold text-slate-100 font-sans tracking-normal leading-snug">
                         {faq.question}
                       </span>
                       <ChevronDown
-                        className={`w-3 h-3 text-slate-400 shrink-0 transition-transform duration-200 ${
-                          isOpen ? 'rotate-180 text-yellow-400/90' : ''
+                        className={`w-4 h-4 text-slate-300 shrink-0 transition-transform duration-200 ${
+                          isOpen ? 'rotate-180 text-yellow-400' : ''
                         }`}
                       />
                     </button>
                     {isOpen && (
-                      <div className="px-3 pb-2 pt-0.5 text-[10.5px] text-slate-400 leading-relaxed font-light border-t border-white/5">
+                      <div className="px-4 sm:px-5 pb-4 pt-2 text-xs sm:text-sm text-slate-300 leading-relaxed font-normal border-t border-white/5 bg-[#070D1A]/90">
                         {faq.answer}
                       </div>
                     )}
@@ -1735,6 +2002,25 @@ export const NominationModal: React.FC<NominationModalProps> = ({
           )}
         </div>
       </div>
+  );
+
+  if (isStandalonePage) {
+    return (
+      <div
+        id="application-page"
+        className="w-full text-[#EDE8DF] flex flex-col selection:bg-yellow-400/30 selection:text-white"
+      >
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <div
+      id="nomination-modal-overlay"
+      className="fixed inset-0 z-50 overflow-y-auto bg-[#03060E]/95 backdrop-blur-xl flex items-center justify-center p-2 sm:p-4 md:p-6"
+    >
+      {content}
     </div>
   );
 };

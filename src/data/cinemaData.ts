@@ -41,8 +41,8 @@ export const CHARACTERS: CharacterRole[] = [
       'Scene 14: Sitting on the stone edge of a crumbling mountain road at dawn, Shankar burns a letter without looking down at the canyon below.'
   },
   {
-    id: 'vandana',
-    name: 'VANDANA',
+    id: 'meera',
+    name: 'MEERA',
     gender: 'Female',
     ageRange: '20–30',
     tagline: 'The Chronicler of Silences',
@@ -53,7 +53,7 @@ export const CHARACTERS: CharacterRole[] = [
     accentColor: '#c25e38', // terracotta
     filmingLocations: ['Assi Ghat, Varanasi', 'Shekhawati Havelis', 'Chitkul Border'],
     keyScenePreview:
-      'Scene 28: Vandana walks into the evening Ganga Aarti mist, pointing her camera lens directly into the reflection of oil lamps floating away.'
+      'Scene 28: Meera walks into the evening Ganga Aarti mist, pointing her camera lens directly into the reflection of oil lamps floating away.'
   },
   {
     id: 'shiva',
@@ -92,7 +92,7 @@ export const CHARACTERS: CharacterRole[] = [
     name: 'JYOTI',
     gender: 'Female',
     ageRange: '20–30',
-    tagline: "Vandana's Companion & Catalyst",
+    tagline: "Meera's Companion & Catalyst",
     description:
       'Spontaneous, razor-sharp, and refusing conventional boundaries. She challenges every unspoken secret and brings raw humor and vulnerability when the road turns hostile.',
     archetype: 'The Provocateur',
@@ -103,8 +103,8 @@ export const CHARACTERS: CharacterRole[] = [
       'Scene 33: Standing on top of the moving open passenger coach through the Chambal ravines, screaming laughing into the sunset storm.'
   },
   {
-    id: 'rahul',
-    name: 'RAHUL',
+    id: 'arjun',
+    name: 'ARJUN',
     gender: 'Male',
     ageRange: '20–30',
     tagline: "Shankar's Anchor & Foil",
@@ -115,7 +115,7 @@ export const CHARACTERS: CharacterRole[] = [
     accentColor: '#0284c7', // cool deep blue
     filmingLocations: ['Jaipur Night Bazaars', 'Kaza Monastic Roads', 'Majuli Island'],
     keyScenePreview:
-      'Scene 50: Rahul confronts Shankar beside an abandoned stone bridge, asking if he ever plans to return to reality or if this journey is his final act.'
+      'Scene 50: Arjun confronts Shankar beside an abandoned stone bridge, asking if he ever plans to return to reality or if this journey is his final act.'
   },
   {
     id: 'any-other-role',
@@ -332,7 +332,7 @@ export const EXPEDITION_EPISODES: ExpeditionEpisode[] = [
     coordinates: '32.24° N, 77.18° E',
     synopsis:
       'Six strangers leave urban safety and gather at dawn in Manali. As tarmac yields to black ice on Rohtang Pass, rehearsed personalities fracture. The camera rolls non-stop through engine failures and frozen hands.',
-    charactersInvolved: ['Shankar', 'Vandana', 'Nandi'],
+    charactersInvolved: ['Shankar', 'Meera', 'Nandi'],
     soundscape: 'Binaural sub-zero gale, idling diesel turbo, crunching ice gravel',
     image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789639214/images_19_-_Copy.jpg',
     dramaticTension: 'The first unscripted breakdown: Shankar refuses to sleep inside the heated vehicle.',
@@ -348,10 +348,10 @@ export const EXPEDITION_EPISODES: ExpeditionEpisode[] = [
     coordinates: '32.29° N, 78.01° E',
     synopsis:
       'Cut off from all mobile cellular networks in the barren Spiti desert. Around a midnight kerosene heater, unspoken personal histories and unresolved grief emerge without an authored script.',
-    charactersInvolved: ['Vandana', 'Jyoti', 'Shiva'],
+    charactersInvolved: ['Meera', 'Jyoti', 'Shiva'],
     soundscape: 'Microtonal Tibetan horns echoing across fossil canyons, fluttering prayer flags',
     image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789634480/images_-_2026-09-14T173720.993.jpg',
-    dramaticTension: 'Vandana exposes an emotional secret captured accidentally on 35mm film.',
+    dramaticTension: 'Meera exposes an emotional secret captured accidentally on 35mm film.',
     unscriptedEvent: 'A local monastery elder invites the cast to share salt tea at dusk during evening chanting.'
   },
   {
@@ -364,10 +364,10 @@ export const EXPEDITION_EPISODES: ExpeditionEpisode[] = [
     coordinates: '31.52° N, 78.27° E',
     synopsis:
       'India’s most dangerous cliff-carved mountain highway. When falling boulders block the narrow shelf road, the cast and crew must clear debris together under imminent avalanche threats.',
-    charactersInvolved: ['Nandi', 'Rahul', 'Shankar'],
+    charactersInvolved: ['Nandi', 'Arjun', 'Shankar'],
     soundscape: 'Roaring Sutlej river 1,200 ft below, shattering slate rocks, howling valley drafts',
     image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789639214/images_36_-_Copy.jpg',
-    dramaticTension: 'Rahul threatens to abandon the expedition; Nandi anchors the psychological breaking point.',
+    dramaticTension: 'Arjun threatens to abandon the expedition; Nandi anchors the psychological breaking point.',
     unscriptedEvent: 'Filming a spontaneous emotional breakdown suspended over the canyon abyss.'
   },
   {

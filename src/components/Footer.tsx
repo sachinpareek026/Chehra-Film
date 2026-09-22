@@ -1,14 +1,33 @@
 import React from 'react';
-import { Instagram, Youtube, Mail, Phone, ArrowUp } from 'lucide-react';
+import { Instagram, Youtube, Mail, Phone, MessageCircle, ArrowUp } from 'lucide-react';
 import { FILM_METADATA } from '../data/cinemaData';
 
 interface FooterProps {
   onOpenNomination: () => void;
+  onNavigateHome?: (sectionId?: string) => void;
+  onNavigatePage?: (page: 'refund' | 'privacy' | 'terms') => void;
+  isApplyPage?: boolean;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenNomination }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenNomination, onNavigateHome, onNavigatePage }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleLinkClick = (e: React.MouseEvent, sectionId: string) => {
+    if (onNavigateHome) {
+      e.preventDefault();
+      onNavigateHome(sectionId);
+    }
+  };
+
+  const handlePageClick = (e: React.MouseEvent, page: 'refund' | 'privacy' | 'terms') => {
+    e.preventDefault();
+    if (onNavigatePage) {
+      onNavigatePage(page);
+    } else if (onNavigateHome) {
+      onNavigateHome(page);
+    }
   };
 
   return (
@@ -25,10 +44,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenNomination }) => {
                 }}
                 alt="Chehra Films Logo"
                 referrerPolicy="no-referrer"
-                className="h-10 w-auto object-contain opacity-90 shrink-0"
+                className="h-12 w-[48px] border-0 object-contain opacity-90 shrink-0"
               />
               <div className="flex flex-col">
-                <span className="font-title text-lg tracking-[0.15em] font-bold text-[#F4F1EA]">
+                <span className="font-title text-[24px] tracking-[0.15em] font-bold text-[#F4F1EA]">
                   CHEHRA FILMS
                 </span>
                 <p className="text-[10px] uppercase font-sans font-semibold tracking-[0.14em] text-yellow-400/90">
@@ -36,52 +55,48 @@ export const Footer: React.FC<FooterProps> = ({ onOpenNomination }) => {
                 </p>
               </div>
             </div>
-            <p className="font-sans text-xs font-normal tracking-wide text-[#B8B4AC]">
+            <p className="font-sans text-[14px] font-normal tracking-wide text-[#B8B4AC]">
               India&apos;s Independent Experimental Cinema Project
             </p>
-            <p className="text-xs text-[#B8B4AC]/80 leading-relaxed font-normal font-sans max-w-sm">
+            <p className="text-[13px] text-[#B8B4AC]/80 leading-relaxed font-normal font-sans max-w-sm">
               Reinventing travel as narrative cinema. Filmed entirely on location across raw Indian landscapes with real individuals.
             </p>
           </div>
 
-          {/* Navigation Links Column */}
+          {/* Navigation Links Column - INDEX */}
           <div className="lg:col-span-3 space-y-2">
-            <div className="text-[10px] font-sans font-semibold tracking-[0.18em] text-[#F4F1EA] uppercase mb-3">
+            <div className="text-[13px] font-sans font-semibold tracking-[0.18em] text-[#F4F1EA] uppercase mb-3">
               INDEX
             </div>
-            <ul className="space-y-2 text-xs font-mono uppercase tracking-wider text-white/60">
+            <ul className="space-y-2.5 text-xs font-mono uppercase tracking-wider text-white/60">
               <li>
-                <a href="#film" className="hover:text-yellow-400/90 transition-colors">
-                  FILM
-                </a>
-              </li>
-              <li>
-                <a href="#kashmir" className="hover:text-yellow-400/90 transition-colors">
-                  KASHMIR EXPEDITION
-                </a>
-              </li>
-              <li>
-                <a href="#journey" className="hover:text-yellow-400/90 transition-colors">
-                  THE ROUTE
-                </a>
-              </li>
-              <li>
-                <a href="#characters" className="hover:text-yellow-400/90 transition-colors">
-                  CHARACTERS
-                </a>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={onOpenNomination}
-                  className="hover:text-yellow-400/90 transition-colors uppercase cursor-pointer"
+                <a
+                  href="/refund"
+                  onClick={(e) => handlePageClick(e, 'refund')}
+                  className="hover:text-yellow-400/90 transition-colors inline-flex items-center gap-1.5"
                 >
-                  NOMINATION
-                </button>
+                  <span className="text-yellow-400/70">›</span>
+                  <span>REFUND POLICY</span>
+                </a>
               </li>
               <li>
-                <a href="#faq" className="hover:text-yellow-400/90 transition-colors">
-                  FAQ & TRANSPARENCY
+                <a
+                  href="/privacy-policy"
+                  onClick={(e) => handlePageClick(e, 'privacy')}
+                  className="hover:text-yellow-400/90 transition-colors inline-flex items-center gap-1.5"
+                >
+                  <span className="text-yellow-400/70">›</span>
+                  <span>PRIVACY POLICY</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/terms-and-conditions"
+                  onClick={(e) => handlePageClick(e, 'terms')}
+                  className="hover:text-yellow-400/90 transition-colors inline-flex items-center gap-1.5"
+                >
+                  <span className="text-yellow-400/70">›</span>
+                  <span>TERMS &amp; CONDITIONS</span>
                 </a>
               </li>
             </ul>
@@ -89,7 +104,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenNomination }) => {
 
           {/* Connect & Socials Column */}
           <div className="lg:col-span-4 space-y-3">
-            <div className="text-[10px] font-mono tracking-[0.25em] text-white uppercase mb-3">
+            <div className="text-[13px] font-mono tracking-[0.25em] text-white uppercase mb-3">
               COMMUNICATIONS & INQUIRIES
             </div>
             <ul className="space-y-2.5 text-xs font-mono text-white/60">
@@ -126,11 +141,22 @@ export const Footer: React.FC<FooterProps> = ({ onOpenNomination }) => {
               </li>
               <li>
                 <a
-                  href="tel:+919326632288"
-                  className="flex items-center gap-2 text-white/70 hover:text-yellow-400/90 transition-colors"
+                  href="tel:+919828497392"
+                  className="flex items-center gap-2 text-white/80 hover:text-yellow-400/90 transition-colors"
                 >
                   <Phone className="w-3.5 h-3.5 text-yellow-400/90" />
-                  <span>Direct • +91 93266 32288</span>
+                  <span>Direct Phone • +91 98284 97392</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/919326632288?text=Hello%20Chehra%20Films%2C%20I%20would%20like%20to%20inquire%20about%20the%20film%20expedition."
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 text-[#7ea5d9] hover:text-[#a8c7f4] transition-colors"
+                >
+                  <MessageCircle className="w-3.5 h-3.5 text-[#7ea5d9]" />
+                  <span className="text-[#7ea5d9]">Chat on WhatsApp</span>
                 </a>
               </li>
             </ul>

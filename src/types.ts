@@ -81,6 +81,9 @@ export interface ActorSubmission {
   personalityAndSkills?: string;
   usefulRoleTarget?: string;
   refundEligible: boolean; // 100% refund eligible
+  bookingConsentAgreed?: boolean; // Agrees to ₹3,000 booking amount upon acceptance & balance before 20 days
+  bookingAmountTerms?: string;
+  filmmakingConsent?: boolean;
   confirmed: boolean;
 }
 
@@ -98,7 +101,8 @@ export interface ParticipantSubmission {
   travelBatch: string;
   roomPreference: string;
   emergencyContact: string;
-  prebookingTokenPrice: number; // 2000
+  bookingConsentAgreed?: boolean; // Agrees to ₹3,000 booking amount upon acceptance & balance before 20 days
+  prebookingTokenPrice: number; // 2000 or 3000
   lockedTripPrice: number; // 11000
   oct30PriceIncreaseNotice: boolean; // increases by 1500 after 30 Oct
   paymentMode: string;

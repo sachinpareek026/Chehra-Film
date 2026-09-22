@@ -7,9 +7,16 @@ import { PathwayType } from '../types';
 interface NavbarProps {
   onOpenNomination: (roleId?: string, type?: PathwayType) => void;
   onWatchFilm: () => void;
+  onNavigateHome?: (sectionId?: string) => void;
+  isApplyPage?: boolean;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _onWatchFilm }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  onOpenNomination,
+  onWatchFilm: _onWatchFilm,
+  onNavigateHome,
+  isApplyPage = false,
+}) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [audioActive, setAudioActive] = useState(false);
@@ -45,9 +52,20 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
 
   const handleLinkClick = (href: string) => {
     setMobileMenuOpen(false);
+    if (onNavigateHome) {
+      onNavigateHome(href.replace('#', ''));
+      return;
+    }
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleBrandClick = (e: React.MouseEvent) => {
+    if (onNavigateHome) {
+      e.preventDefault();
+      onNavigateHome();
     }
   };
 
@@ -55,8 +73,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
     <header
       id="main-navbar"
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-out ${
-        isScrolled || mobileMenuOpen
-          ? 'bg-[#070A0F]/85 backdrop-blur-md border-b border-white/[0.08] py-3 shadow-lg shadow-black/50'
+        isApplyPage || isScrolled || mobileMenuOpen
+          ? 'bg-[#070A0F]/90 backdrop-blur-md border-b border-white/[0.08] py-3 shadow-lg shadow-black/50'
           : 'bg-transparent border-b border-transparent py-4 sm:py-5'
       }`}
     >
@@ -65,6 +83,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
           {/* Brand Logo */}
           <a
             href="#hero"
+            onClick={handleBrandClick}
             className="flex items-center group cursor-pointer my-0 py-0"
             aria-label="Chehra Films Home"
           >
@@ -100,7 +119,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
               onClick={() => onOpenNomination()}
               className="!py-2 !px-4 !text-[12px]"
             >
-              APPLY →
+              APPLY
             </CinemaButton>
           </div>
 
@@ -141,7 +160,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNomination, onWatchFilm: _
                   onOpenNomination();
                 }}
               >
-                APPLY FOR ROLE →
+                APPLY FOR ROLE
               </CinemaButton>
             </div>
           </div>

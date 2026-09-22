@@ -50,7 +50,7 @@ const STEP_EXTENDED_DATA: Record<string, StepDetailedDossier> = {
     telemetryLog: 'Virtual & on-camera chemistry workshops. Pairing contrasting personas to spark organic conversational tension during convoy transit.',
     milestones: [
       'Director one-on-one improvisational screen tests',
-      'Ensemble chemistry pairing (Shankar & Vandana, Shiva & Priya)',
+      'Ensemble chemistry pairing (Shankar & Meera, Shiva & Priya)',
       '100% refundable production security deposit agreement execution'
     ],
     equipmentOrCrew: 'Director, Cinematography Leads, Legal Escrow Desk',

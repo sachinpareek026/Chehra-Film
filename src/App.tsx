@@ -25,6 +25,9 @@ import { NominationModal } from './components/NominationModal';
 import { VideoModal } from './components/VideoModal';
 import { CharacterDetailModal } from './components/CharacterDetailModal';
 import { ExcelDataPortalModal } from './components/ExcelDataPortalModal';
+import { RefundPolicyPage } from './components/RefundPolicyPage';
+import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
+import { TermsAndConditionsPage } from './components/TermsAndConditionsPage';
 import { CharacterRole, PathwayType, AnySubmission, ActorSubmission, ParticipantSubmission, CrewSubmission } from './types';
 import { CHARACTERS } from './data/cinemaData';
 import {
@@ -33,11 +36,55 @@ import {
   INITIAL_CREW_SUBMISSIONS,
 } from './data/initialSubmissions';
 
+export type AppPage = 'home' | 'apply' | 'refund' | 'privacy' | 'terms';
+
+const parseRouteFromLocation = (): { page: AppPage; roleId?: string; pathway?: PathwayType } => {
+  if (typeof window === 'undefined') return { page: 'home' };
+  const path = window.location.pathname.toLowerCase();
+  const hash = window.location.hash.toLowerCase();
+
+  const isApply = path.startsWith('/apply') || hash.startsWith('#/apply') || hash.startsWith('#apply');
+  const isRefund = path.startsWith('/refund') || hash.startsWith('#/refund') || hash.startsWith('#refund') || path.includes('refund');
+  const isPrivacy = path.startsWith('/privacy') || hash.startsWith('#/privacy') || hash.startsWith('#privacy') || path.includes('privacy');
+  const isTerms = path.startsWith('/terms') || hash.startsWith('#/terms') || hash.startsWith('#terms') || path.includes('terms');
+
+  let page: AppPage = 'home';
+  if (isApply) page = 'apply';
+  else if (isRefund) page = 'refund';
+  else if (isPrivacy) page = 'privacy';
+  else if (isTerms) page = 'terms';
+
+  let params: URLSearchParams;
+  if (window.location.hash.includes('?')) {
+    params = new URLSearchParams(window.location.hash.split('?')[1]);
+  } else {
+    params = new URLSearchParams(window.location.search);
+  }
+
+  const roleParam = params.get('role') || undefined;
+  const pathwayParam = params.get('pathway') as PathwayType | null;
+  const pathway = (pathwayParam === 'actor' || pathwayParam === 'participant' || pathwayParam === 'crew')
+    ? pathwayParam
+    : undefined;
+
+  return {
+    page,
+    roleId: roleParam,
+    pathway: pathway,
+  };
+};
+
 export default function App() {
-  const [nominationModalOpen, setNominationModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState<AppPage>(() => parseRouteFromLocation().page);
   const [excelPortalOpen, setExcelPortalOpen] = useState(false);
-  const [selectedRoleId, setSelectedRoleId] = useState<string>(CHARACTERS[0].id);
-  const [selectedPathway, setSelectedPathway] = useState<PathwayType>('actor');
+  const [selectedRoleId, setSelectedRoleId] = useState<string>(() => {
+    const r = parseRouteFromLocation();
+    return r.roleId && CHARACTERS.some((c) => c.id === r.roleId) ? r.roleId : CHARACTERS[0].id;
+  });
+  const [selectedPathway, setSelectedPathway] = useState<PathwayType>(() => {
+    const r = parseRouteFromLocation();
+    return r.pathway || 'actor';
+  });
   
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [inspectedCharacter, setInspectedCharacter] = useState<CharacterRole | null>(null);
@@ -93,22 +140,137 @@ export default function App() {
     fetchSubmissions();
   }, [fetchSubmissions]);
 
+  // Sync browser back/forward history for /apply and home
+  useEffect(() => {
+    const handleLocationChange = () => {
+      const route = parseRouteFromLocation();
+      setCurrentPage(route.page);
+      if (route.roleId && CHARACTERS.some((c) => c.id === route.roleId)) {
+        setSelectedRoleId(route.roleId);
+      }
+      if (route.pathway) {
+        setSelectedPathway(route.pathway);
+      }
+      if (route.page === 'apply') {
+        document.title = 'Application Portal | Chehra Films';
+      } else if (route.page === 'refund') {
+        document.title = 'Cancellation & Refund Policy | Chehra Films';
+      } else if (route.page === 'privacy') {
+        document.title = 'Privacy Policy | Chehra Films';
+      } else if (route.page === 'terms') {
+        document.title = 'Terms & Conditions | Chehra Films';
+      } else {
+        document.title = "Chehra Films - India's 1st Experimental Cinema Project";
+      }
+    };
+
+    window.addEventListener('popstate', handleLocationChange);
+    window.addEventListener('hashchange', handleLocationChange);
+    return () => {
+      window.removeEventListener('popstate', handleLocationChange);
+      window.removeEventListener('hashchange', handleLocationChange);
+    };
+  }, []);
+
+  const handleNavigatePage = (targetPage: 'refund' | 'privacy' | 'terms') => {
+    setCurrentPage(targetPage);
+    let pageUrl = `/${targetPage}`;
+    if (targetPage === 'privacy') pageUrl = '/privacy-policy';
+    if (targetPage === 'terms') pageUrl = '/terms-and-conditions';
+    if (targetPage === 'refund') pageUrl = '/refund';
+
+    try {
+      window.history.pushState({ page: targetPage }, '', pageUrl);
+    } catch {
+      window.location.hash = `#${targetPage}`;
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (targetPage === 'refund') {
+      document.title = 'Cancellation & Refund Policy | Chehra Films';
+    } else if (targetPage === 'privacy') {
+      document.title = 'Privacy Policy | Chehra Films';
+    } else if (targetPage === 'terms') {
+      document.title = 'Terms & Conditions | Chehra Films';
+    }
+  };
+
   const handleOpenNomination = (roleId?: string, pathway?: PathwayType) => {
-    if (roleId) {
-      setSelectedRoleId(roleId);
+    const targetRole = roleId || selectedRoleId;
+    const targetPathway = pathway || 'actor';
+
+    setSelectedRoleId(targetRole);
+    setSelectedPathway(targetPathway);
+    setCurrentPage('apply');
+    document.title = 'Application Portal | Chehra Films';
+
+    const params = new URLSearchParams();
+    if (targetPathway) params.set('pathway', targetPathway);
+    if (targetRole && targetPathway === 'actor') params.set('role', targetRole);
+
+    const queryString = params.toString() ? `?${params.toString()}` : '';
+    const newUrl = `/apply${queryString}`;
+
+    try {
+      window.history.pushState({ page: 'apply', role: targetRole, pathway: targetPathway }, '', newUrl);
+    } catch {
+      window.location.hash = `/apply${queryString}`;
     }
-    if (pathway) {
-      setSelectedPathway(pathway);
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    try {
+      if (window.gtag) {
+        window.gtag('config', 'G-BC12FK266D', {
+          page_path: newUrl,
+          page_title: 'Chehra Films - Official Production Application Portal',
+        });
+      }
+    } catch {
+      // ignore
+    }
+  };
+
+  const handleBackToHome = (sectionId?: string) => {
+    setCurrentPage('home');
+    document.title = "Chehra Films - India's 1st Experimental Cinema Project";
+
+    const targetHash = sectionId ? `#${sectionId}` : '';
+    const targetUrl = `/${targetHash}`;
+
+    try {
+      window.history.pushState({ page: 'home' }, '', targetUrl);
+    } catch {
+      window.location.hash = targetHash;
+    }
+
+    if (sectionId) {
+      setTimeout(() => {
+        const el = document.getElementById(sectionId) || document.querySelector(`[id="${sectionId}"]`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }, 50);
     } else {
-      setSelectedPathway('actor');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    setNominationModalOpen(true);
+
+    try {
+      if (window.gtag) {
+        window.gtag('config', 'G-BC12FK266D', {
+          page_path: targetUrl,
+          page_title: "Chehra Films - India's 1st Experimental Cinema Project",
+        });
+      }
+    } catch {
+      // ignore
+    }
   };
 
   const handleSelectRoleFromCast = (roleId: string) => {
-    setSelectedRoleId(roleId);
-    setSelectedPathway('actor');
-    setNominationModalOpen(true);
+    handleOpenNomination(roleId, 'actor');
   };
 
   const handleInspectCharacter = (character: CharacterRole) => {
@@ -157,12 +319,92 @@ export default function App() {
     }).catch((err) => console.log('Server sync notice:', err));
   };
 
+  if (currentPage === 'refund' || currentPage === 'privacy' || currentPage === 'terms') {
+    return (
+      <div className="min-h-screen bg-[#05070B] text-[#f1f5f9] selection:bg-yellow-400/30 selection:text-white antialiased font-sans flex flex-col justify-between">
+        {/* Fixed Header Navbar */}
+        <Navbar
+          onOpenNomination={(roleId, pathway) => handleOpenNomination(roleId, pathway)}
+          onWatchFilm={() => setVideoModalOpen(true)}
+          onNavigateHome={(sectionId) => handleBackToHome(sectionId)}
+          isApplyPage={true}
+        />
+
+        {/* Dedicated Policy Page Content */}
+        <main className="flex-1 w-full pt-24 sm:pt-28 pb-16 px-3 sm:px-6 lg:px-8">
+          {currentPage === 'refund' && (
+            <RefundPolicyPage
+              onBackToHome={() => handleBackToHome()}
+              onOpenNomination={() => handleOpenNomination()}
+            />
+          )}
+          {currentPage === 'privacy' && (
+            <PrivacyPolicyPage
+              onBackToHome={() => handleBackToHome()}
+              onOpenNomination={() => handleOpenNomination()}
+            />
+          )}
+          {currentPage === 'terms' && (
+            <TermsAndConditionsPage
+              onBackToHome={() => handleBackToHome()}
+              onOpenNomination={() => handleOpenNomination()}
+            />
+          )}
+        </main>
+
+        {/* Global Footer */}
+        <Footer
+          onOpenNomination={() => handleOpenNomination()}
+          onNavigateHome={(sectionId) => handleBackToHome(sectionId)}
+          onNavigatePage={(p) => handleNavigatePage(p)}
+          isApplyPage={true}
+        />
+      </div>
+    );
+  }
+
+  if (currentPage === 'apply') {
+    return (
+      <div className="min-h-screen bg-[#05070B] text-[#f1f5f9] selection:bg-yellow-400/30 selection:text-white antialiased font-sans flex flex-col justify-between">
+        {/* Fixed Header Navbar */}
+        <Navbar
+          onOpenNomination={(roleId, pathway) => handleOpenNomination(roleId, pathway)}
+          onWatchFilm={() => setVideoModalOpen(true)}
+          onNavigateHome={(sectionId) => handleBackToHome(sectionId)}
+          isApplyPage={true}
+        />
+
+        {/* Dedicated Standalone Application Page Content */}
+        <main className="flex-1 w-full pt-24 sm:pt-28 pb-16 px-3 sm:px-6 lg:px-8">
+          <NominationModal
+            isOpen={true}
+            isStandalonePage={true}
+            onClose={() => handleBackToHome()}
+            initialRoleId={selectedRoleId}
+            initialPathway={selectedPathway}
+            existingSubmissions={[...actors, ...participants, ...crew]}
+            onSubmissionSuccess={handleNewSubmission}
+          />
+        </main>
+
+        {/* Global Footer */}
+        <Footer
+          onOpenNomination={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onNavigateHome={(sectionId) => handleBackToHome(sectionId)}
+          onNavigatePage={(p) => handleNavigatePage(p)}
+          isApplyPage={true}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#05070B] text-[#f1f5f9] selection:bg-yellow-400/30 selection:text-white antialiased font-sans">
       {/* Fixed Header Navbar */}
       <Navbar
         onOpenNomination={(roleId, pathway) => handleOpenNomination(roleId, pathway)}
         onWatchFilm={() => setVideoModalOpen(true)}
+        onNavigateHome={(sectionId) => handleBackToHome(sectionId)}
       />
 
       <main>
@@ -225,16 +467,8 @@ export default function App() {
       {/* 11. Footer */}
       <Footer
         onOpenNomination={() => handleOpenNomination()}
-      />
-
-      {/* Multi-Pathway Nomination / Booking / Crew Modal */}
-      <NominationModal
-        isOpen={nominationModalOpen}
-        onClose={() => setNominationModalOpen(false)}
-        initialRoleId={selectedRoleId}
-        initialPathway={selectedPathway}
-        existingSubmissions={[...actors, ...participants, ...crew]}
-        onSubmissionSuccess={handleNewSubmission}
+        onNavigateHome={(sectionId) => handleBackToHome(sectionId)}
+        onNavigatePage={(p) => handleNavigatePage(p)}
       />
 
       {/* Excel / Google Sheet Live Telemetry Portal Modal */}
