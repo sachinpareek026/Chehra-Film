@@ -134,8 +134,15 @@ export const NominationModal: React.FC<NominationModalProps> = ({
   onSubmissionSuccess,
   isStandalonePage = true,
 }) => {
+  const resolveRoleId = (id?: string) => {
+    if (!id) return CHARACTERS[0].id;
+    const lower = id.toLowerCase().trim();
+    if (lower === 'nandi') return 'rudra';
+    return CHARACTERS.some((c) => c.id.toLowerCase() === lower) ? (CHARACTERS.find((c) => c.id.toLowerCase() === lower)?.id || 'rudra') : CHARACTERS[0].id;
+  };
+
   const [pathway, setPathway] = useState<PathwayType>(initialPathway);
-  const [selectedRoleId, setSelectedRoleId] = useState<string>(initialRoleId || CHARACTERS[0].id);
+  const [selectedRoleId, setSelectedRoleId] = useState<string>(() => resolveRoleId(initialRoleId));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [sheetSyncStatus, setSheetSyncStatus] = useState<{ success: boolean; message?: string } | null>(null);
   const [duplicateError, setDuplicateError] = useState<string | null>(null);
@@ -192,7 +199,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
   useEffect(() => {
     if (initialPathway) setPathway(initialPathway);
-    if (initialRoleId) setSelectedRoleId(initialRoleId);
+    if (initialRoleId) setSelectedRoleId(resolveRoleId(initialRoleId));
   }, [initialPathway, initialRoleId]);
 
   useEffect(() => {

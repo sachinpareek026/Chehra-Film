@@ -91,7 +91,7 @@ export const RefundPolicyPage: React.FC<PolicyPageProps> = ({ onBackToHome, onOp
               <span>★ Our Estimation, Full Assurance & Production Commitment</span>
             </div>
             <p className="text-xs leading-relaxed text-slate-300 font-sans">
-              We do not use the word <em>"guaranteed"</em> with the 100% refund. Rather, this return is our <strong>strong estimation and sincere confidence</strong> that we will be able to refund and sponsor the actors&apos; trip at a bare minimum. We provide <strong>full assurance from our production side</strong>, and our entire creative and commercial team will try our absolute best to make this cinematic project a financially great commercial hit so that once public release is achieved and total production costs are recovered, actors receive their complete 100% refund amount.
+              This return is our <strong>strong estimation and sincere confidence</strong> that we will be able to refund and sponsor the actors&apos; trip at a bare minimum. We provide <strong>full assurance from our production side</strong>, and our entire creative and commercial team will try our absolute best to make this cinematic project a financially great commercial hit so that once public release is achieved and total production costs are recovered, actors receive their complete 100% refund amount.
             </p>
           </div>
 

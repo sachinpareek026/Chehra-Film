@@ -38,15 +38,69 @@ import {
 
 export type AppPage = 'home' | 'apply' | 'refund' | 'privacy' | 'terms';
 
+export const normalizeRoleId = (id?: string | null): string => {
+  if (!id) return CHARACTERS[0].id;
+  const lower = id.toLowerCase().trim();
+  if (lower === 'nandi') return 'rudra';
+  const found = CHARACTERS.find((c) => c.id.toLowerCase() === lower);
+  return found ? found.id : CHARACTERS[0].id;
+};
+
 const parseRouteFromLocation = (): { page: AppPage; roleId?: string; pathway?: PathwayType } => {
   if (typeof window === 'undefined') return { page: 'home' };
+
+  // 1. Recover from Hostinger 404.html redirect if preserved in sessionStorage
+  let preservedRoute = '';
+  try {
+    preservedRoute = sessionStorage.getItem('chehra_spa_redirect') || '';
+    if (preservedRoute) {
+      sessionStorage.removeItem('chehra_spa_redirect');
+      window.history.replaceState(null, '', preservedRoute);
+    }
+  } catch (e) {
+    // ignore
+  }
+
+  // 2. Check query params for ?redirect= or ?page=
+  let searchParams = new URLSearchParams(window.location.search);
+  const redirectParam = searchParams.get('redirect');
+  if (redirectParam) {
+    try {
+      const decoded = decodeURIComponent(redirectParam);
+      window.history.replaceState(null, '', decoded);
+      searchParams = new URLSearchParams(window.location.search);
+    } catch (e) {
+      // ignore
+    }
+  }
+
   const path = window.location.pathname.toLowerCase();
   const hash = window.location.hash.toLowerCase();
+  const pageParam = searchParams.get('page')?.toLowerCase();
 
-  const isApply = path.startsWith('/apply') || hash.startsWith('#/apply') || hash.startsWith('#apply');
-  const isRefund = path.startsWith('/refund') || hash.startsWith('#/refund') || hash.startsWith('#refund') || path.includes('refund');
-  const isPrivacy = path.startsWith('/privacy') || hash.startsWith('#/privacy') || hash.startsWith('#privacy') || path.includes('privacy');
-  const isTerms = path.startsWith('/terms') || hash.startsWith('#/terms') || hash.startsWith('#terms') || path.includes('terms');
+  const isApply =
+    path.startsWith('/apply') ||
+    path.includes('/apply') ||
+    hash.includes('apply') ||
+    pageParam === 'apply';
+
+  const isRefund =
+    path.startsWith('/refund') ||
+    path.includes('refund') ||
+    hash.includes('refund') ||
+    pageParam === 'refund';
+
+  const isPrivacy =
+    path.startsWith('/privacy') ||
+    path.includes('privacy') ||
+    hash.includes('privacy') ||
+    pageParam === 'privacy';
+
+  const isTerms =
+    path.startsWith('/terms') ||
+    path.includes('terms') ||
+    hash.includes('terms') ||
+    pageParam === 'terms';
 
   let page: AppPage = 'home';
   if (isApply) page = 'apply';
@@ -58,10 +112,11 @@ const parseRouteFromLocation = (): { page: AppPage; roleId?: string; pathway?: P
   if (window.location.hash.includes('?')) {
     params = new URLSearchParams(window.location.hash.split('?')[1]);
   } else {
-    params = new URLSearchParams(window.location.search);
+    params = searchParams;
   }
 
-  const roleParam = params.get('role') || undefined;
+  const rawRoleParam = params.get('role');
+  const roleParam = rawRoleParam ? normalizeRoleId(rawRoleParam) : undefined;
   const pathwayParam = params.get('pathway') as PathwayType | null;
   const pathway = (pathwayParam === 'actor' || pathwayParam === 'participant' || pathwayParam === 'crew')
     ? pathwayParam
@@ -79,7 +134,7 @@ export default function App() {
   const [excelPortalOpen, setExcelPortalOpen] = useState(false);
   const [selectedRoleId, setSelectedRoleId] = useState<string>(() => {
     const r = parseRouteFromLocation();
-    return r.roleId && CHARACTERS.some((c) => c.id === r.roleId) ? r.roleId : CHARACTERS[0].id;
+    return normalizeRoleId(r.roleId);
   });
   const [selectedPathway, setSelectedPathway] = useState<PathwayType>(() => {
     const r = parseRouteFromLocation();
@@ -145,8 +200,8 @@ export default function App() {
     const handleLocationChange = () => {
       const route = parseRouteFromLocation();
       setCurrentPage(route.page);
-      if (route.roleId && CHARACTERS.some((c) => c.id === route.roleId)) {
-        setSelectedRoleId(route.roleId);
+      if (route.roleId) {
+        setSelectedRoleId(normalizeRoleId(route.roleId));
       }
       if (route.pathway) {
         setSelectedPathway(route.pathway);

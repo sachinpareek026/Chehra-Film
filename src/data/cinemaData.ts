@@ -9,7 +9,7 @@ export const FILM_METADATA = {
   positioning: "INDIA'S 1ST EXPERIMENTAL CINEMA PROJECT",
   motto: 'A journey where travel becomes cinema.',
   directorNotes: 'A radical cinematic venture eliminating studio sets. India is our soundstage, travelers are our cast.',
-  synopsis: 'An unscripted overland cinema odyssey across 2,400 kilometers of real Indian terrain. As a fragile caravan navigates sub-zero Himalayan passes, sacred ancient rivers, and silent dunes, Nandi stands as the silent guardian — protecting the unvarnished truths of six wanderers who refuse to look back.',
+  synopsis: 'An unscripted overland cinema odyssey across 2,400 kilometers of real Indian terrain. As a fragile caravan navigates sub-zero Himalayan passes, sacred ancient rivers, and silent dunes, Rudra stands as the silent guardian — protecting the unvarnished truths of six wanderers who refuse to look back.',
   trailerUrl: 'https://youtu.be/Rz5jQK4KQ2o?si=POsuNzsMIyrYhcAx',
   trailerYoutubeId: 'Rz5jQK4KQ2o',
   trailerThumbnail: 'https://img.youtube.com/vi/Rz5jQK4KQ2o/maxresdefault.jpg',
@@ -72,8 +72,8 @@ export const CHARACTERS: CharacterRole[] = [
       'Scene 42: Midnight in the Thar desert. Shiva plays an old raw string sarangi against the howling wind until the entire camp goes dead silent.'
   },
   {
-    id: 'nandi',
-    name: 'NANDI',
+    id: 'rudra',
+    name: 'RUDRA',
     gender: 'Male',
     ageRange: '25–35',
     physicalTrait: 'Strong muscular / athletic physique',
@@ -85,7 +85,7 @@ export const CHARACTERS: CharacterRole[] = [
     accentColor: '#78716c', // raw stone/charcoal
     filmingLocations: ['Hampi Boulder Fields', 'Zanskar River Gorge', 'Dhanushkodi Coast'],
     keyScenePreview:
-      'Scene 19: When a sudden mudslide blocks the high Himalayan route at dusk, Nandi clears the rock face bare-handed while the caravan waits in the blizzard.'
+      'Scene 19: When a sudden mudslide blocks the high Himalayan route at dusk, Rudra clears the rock face bare-handed while the caravan waits in the blizzard.'
   },
   {
     id: 'jyoti',
@@ -332,7 +332,7 @@ export const EXPEDITION_EPISODES: ExpeditionEpisode[] = [
     coordinates: '32.24° N, 77.18° E',
     synopsis:
       'Six strangers leave urban safety and gather at dawn in Manali. As tarmac yields to black ice on Rohtang Pass, rehearsed personalities fracture. The camera rolls non-stop through engine failures and frozen hands.',
-    charactersInvolved: ['Shankar', 'Meera', 'Nandi'],
+    charactersInvolved: ['Shankar', 'Meera', 'Rudra'],
     soundscape: 'Binaural sub-zero gale, idling diesel turbo, crunching ice gravel',
     image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789639214/images_19_-_Copy.jpg',
     dramaticTension: 'The first unscripted breakdown: Shankar refuses to sleep inside the heated vehicle.',
@@ -364,10 +364,10 @@ export const EXPEDITION_EPISODES: ExpeditionEpisode[] = [
     coordinates: '31.52° N, 78.27° E',
     synopsis:
       'India’s most dangerous cliff-carved mountain highway. When falling boulders block the narrow shelf road, the cast and crew must clear debris together under imminent avalanche threats.',
-    charactersInvolved: ['Nandi', 'Arjun', 'Shankar'],
+    charactersInvolved: ['Rudra', 'Arjun', 'Shankar'],
     soundscape: 'Roaring Sutlej river 1,200 ft below, shattering slate rocks, howling valley drafts',
     image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789639214/images_36_-_Copy.jpg',
-    dramaticTension: 'Arjun threatens to abandon the expedition; Nandi anchors the psychological breaking point.',
+    dramaticTension: 'Arjun threatens to abandon the expedition; Rudra anchors the psychological breaking point.',
     unscriptedEvent: 'Filming a spontaneous emotional breakdown suspended over the canyon abyss.'
   },
   {
