@@ -10,9 +10,6 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onWatchFilm, onOpenNomination }) => {
   const [activeRoleIndex, setActiveRoleIndex] = useState(0);
-  const heroRef = useRef<HTMLElement>(null);
-  const heroBgRef = useRef<HTMLDivElement>(null);
-  const heroVideoWrapRef = useRef<HTMLDivElement>(null);
   const video1Ref = useRef<HTMLVideoElement>(null);
   const video2Ref = useRef<HTMLVideoElement>(null);
   const [activeVideo, setActiveVideo] = useState<1 | 2>(1);
@@ -75,50 +72,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onWatchFilm, onOpenNom
     };
   }, []);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    let ticking = false;
-
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          if (heroRef.current) {
-            const scrollY = window.scrollY;
-            const heroHeight = heroRef.current.offsetHeight || 800;
-
-            if (scrollY <= heroHeight * 1.5) {
-              // Subtle mountain horizon parallax: moves slower than scroll (0.35x)
-              const bgTranslateY = scrollY * 0.35;
-              const bgScale = 1.05 + (scrollY / heroHeight) * 0.06;
-
-              if (heroBgRef.current) {
-                heroBgRef.current.style.transform = `translate3d(0, ${bgTranslateY.toFixed(2)}px, 0) scale(${bgScale.toFixed(3)})`;
-              }
-
-              // Subtle secondary cloud video parallax (0.18x) for dual-plane depth
-              if (heroVideoWrapRef.current) {
-                const vidTranslateY = scrollY * 0.18;
-                heroVideoWrapRef.current.style.transform = `translate3d(0, ${vidTranslateY.toFixed(2)}px, 0)`;
-              }
-            }
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-    };
-  }, []);
-
   const handleVideoEnded = (videoId: 1 | 2) => {
     if (activeVideoRef.current === videoId) {
       const nextVideo = videoId === 1 ? video2Ref.current : video1Ref.current;
@@ -138,30 +91,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onWatchFilm, onOpenNom
 
   return (
     <section
-      ref={heroRef}
       id="hero"
       className="relative w-full min-h-screen bg-[#070A0F] text-[#EDE8DF] flex flex-col justify-between overflow-hidden pt-20 pb-8 sm:pb-12"
     >
-      {/* Background Parallax Image & Video Atmosphere */}
+      {/* Background Video Atmosphere */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        {/* Parallax Hero Background Image */}
-        <div
-          ref={heroBgRef}
-          className="absolute inset-[-10%] w-[120%] h-[120%] will-change-transform"
-          style={{ transform: 'translate3d(0, 0px, 0) scale(1.05)' }}
-        >
-          <img
-            src="/chehra-hero-bg.png"
-            alt="Chehra Films - The Life of Nandi Expedition"
-            className="w-full h-full object-cover object-center filter contrast-110 brightness-[0.72]"
-          />
-        </div>
-
-        {/* Parallax Cloud Video Atmosphere */}
-        <div
-          ref={heroVideoWrapRef}
-          className="absolute inset-0 w-full h-full opacity-40 mix-blend-screen will-change-transform"
-        >
+        <div className="absolute inset-0 w-full h-full opacity-40">
           <video
             ref={video1Ref}
             src={heroVideo}

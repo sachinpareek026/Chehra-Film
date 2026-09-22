@@ -7,24 +7,6 @@ import { initAnalyticsAndSEO } from './utils/seoAnalytics';
 // Initialize Search Console & Google Analytics
 initAnalyticsAndSEO();
 
-// Clear legacy caches and service workers to guarantee immediate fresh public view
-if (typeof window !== 'undefined') {
-  try {
-    if ('caches' in window) {
-      caches.keys().then((names) => {
-        names.forEach((name) => caches.delete(name));
-      });
-    }
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then((registrations) => {
-        registrations.forEach((reg) => reg.unregister());
-      });
-    }
-  } catch (e) {
-    // Ignore in unsupported environments
-  }
-}
-
 interface ErrorBoundaryProps {
   children: ReactNode;
 }

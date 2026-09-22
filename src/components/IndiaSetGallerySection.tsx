@@ -49,14 +49,14 @@ export const IndiaSetGallerySection: React.FC = () => {
   const scrollLeft = () => {
     const container = document.getElementById('india-gallery-scroll');
     if (container) {
-      container.scrollBy({ left: -460 });
+      container.scrollBy({ left: -460, behavior: 'smooth' });
     }
   };
 
   const scrollRight = () => {
     const container = document.getElementById('india-gallery-scroll');
     if (container) {
-      container.scrollBy({ left: 460 });
+      container.scrollBy({ left: 460, behavior: 'smooth' });
     }
   };
 
@@ -111,7 +111,7 @@ export const IndiaSetGallerySection: React.FC = () => {
       {/* Horizontal Cinematic Image Gallery */}
       <div
         id="india-gallery-scroll"
-        className="flex gap-6 overflow-x-auto px-4 sm:px-8 pb-6 no-scrollbar snap-x snap-mandatory"
+        className="flex gap-6 overflow-x-auto px-4 sm:px-8 pb-6 no-scrollbar snap-x snap-mandatory scroll-smooth"
         style={{ scrollbarWidth: 'none' }}
       >
         {INDIA_LOCATIONS.map((loc) => (

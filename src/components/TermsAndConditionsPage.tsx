@@ -8,7 +8,7 @@ interface PolicyPageProps {
 
 export const TermsAndConditionsPage: React.FC<PolicyPageProps> = ({ onBackToHome, onOpenNomination }) => {
   useEffect(() => {
-    window.scrollTo({ top: 0 });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     document.title = 'Terms & Conditions | Chehra Films';
   }, []);
 

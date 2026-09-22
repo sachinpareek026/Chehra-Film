@@ -239,7 +239,7 @@ export default function App() {
     } catch {
       window.location.hash = `#${targetPage}`;
     }
-    window.scrollTo({ top: 0 });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     if (targetPage === 'refund') {
       document.title = 'Cancellation & Refund Policy | Chehra Films';
@@ -303,13 +303,13 @@ export default function App() {
       setTimeout(() => {
         const el = document.getElementById(sectionId) || document.querySelector(`[id="${sectionId}"]`);
         if (el) {
-          el.scrollIntoView();
+          el.scrollIntoView({ behavior: 'smooth' });
         } else {
-          window.scrollTo({ top: 0 });
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       }, 50);
     } else {
-      window.scrollTo({ top: 0 });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     try {
@@ -335,7 +335,7 @@ export default function App() {
   const handleExploreJourney = () => {
     const journeyElement = document.getElementById('journey');
     if (journeyElement) {
-      journeyElement.scrollIntoView();
+      journeyElement.scrollIntoView({ behavior: 'smooth' });
     }
   };
 

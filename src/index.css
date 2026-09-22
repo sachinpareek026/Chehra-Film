@@ -34,7 +34,6 @@
     font-family: var(--font-body);
     background-color: #080808;
     color: #F4F1EA;
-    scroll-behavior: auto !important;
   }
 
   body {

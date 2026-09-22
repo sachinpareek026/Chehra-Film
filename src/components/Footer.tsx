@@ -11,7 +11,7 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ onOpenNomination, onNavigateHome, onNavigatePage }) => {
   const scrollToTop = () => {
-    window.scrollTo({ top: 0 });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleLinkClick = (e: React.MouseEvent, sectionId: string) => {
