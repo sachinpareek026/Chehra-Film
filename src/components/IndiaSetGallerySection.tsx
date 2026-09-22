@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { INDIA_LOCATIONS } from '../data/cinemaData';
 import { FilmLocation } from '../types';
 import { Maximize2, X, ChevronLeft, ChevronRight, MapPin, Camera } from 'lucide-react';
@@ -45,16 +45,97 @@ const LOCATION_DETAILS: Record<string, LocationEnhancedInfo> = {
 
 export const IndiaSetGallerySection: React.FC = () => {
   const [activeLocation, setActiveLocation] = useState<FilmLocation | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    let ticking = false;
+
+    const updateParallax = () => {
+      const section = sectionRef.current;
+      const scrollContainer = scrollContainerRef.current;
+      if (!section) return;
+
+      const sectionRect = section.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // Only perform calculations when section is within viewport (+ buffer)
+      if (sectionRect.bottom < -150 || sectionRect.top > windowHeight + 150) {
+        return;
+      }
+
+      // Vertical scroll parallax progress: -1 (bottom entrance) -> 0 (center) -> +1 (top exit)
+      const sectionCenter = sectionRect.top + sectionRect.height / 2;
+      const viewportCenter = windowHeight / 2;
+      const verticalRatio = (viewportCenter - sectionCenter) / (windowHeight / 2 + sectionRect.height / 2);
+      const verticalOffset = Math.max(-28, Math.min(28, verticalRatio * 26));
+
+      // Container geometry for horizontal parallax across cards
+      const containerRect = scrollContainer ? scrollContainer.getBoundingClientRect() : null;
+
+      imageRefs.current.forEach((imgEl, idx) => {
+        if (!imgEl) return;
+        const cardEl = cardRefs.current[idx];
+        let horizontalOffset = 0;
+
+        if (cardEl && containerRect) {
+          const cardRect = cardEl.getBoundingClientRect();
+          const cardCenter = cardRect.left + cardRect.width / 2;
+          const containerCenter = containerRect.left + containerRect.width / 2;
+          const horizontalRatio = (cardCenter - containerCenter) / (containerRect.width / 2 + cardRect.width / 2);
+          // Opposite subtle motion as card travels horizontally
+          horizontalOffset = Math.max(-22, Math.min(22, horizontalRatio * -18));
+        }
+
+        imgEl.style.transform = `translate3d(${horizontalOffset.toFixed(1)}px, ${verticalOffset.toFixed(1)}px, 0) scale(1.08)`;
+      });
+    };
+
+    const handleScrollOrResize = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateParallax();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScrollOrResize, { passive: true });
+    window.addEventListener('resize', handleScrollOrResize, { passive: true });
+
+    const scrollContainer = scrollContainerRef.current;
+    if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', handleScrollOrResize, { passive: true });
+    }
+
+    // Initial update
+    handleScrollOrResize();
+
+    return () => {
+      window.removeEventListener('scroll', handleScrollOrResize);
+      window.removeEventListener('resize', handleScrollOrResize);
+      if (scrollContainer) {
+        scrollContainer.removeEventListener('scroll', handleScrollOrResize);
+      }
+    };
+  }, []);
 
   const scrollLeft = () => {
-    const container = document.getElementById('india-gallery-scroll');
+    const container = scrollContainerRef.current || document.getElementById('india-gallery-scroll');
     if (container) {
       container.scrollBy({ left: -460, behavior: 'smooth' });
     }
   };
 
   const scrollRight = () => {
-    const container = document.getElementById('india-gallery-scroll');
+    const container = scrollContainerRef.current || document.getElementById('india-gallery-scroll');
     if (container) {
       container.scrollBy({ left: 460, behavior: 'smooth' });
     }
@@ -63,7 +144,11 @@ export const IndiaSetGallerySection: React.FC = () => {
   const activeMeta = activeLocation ? LOCATION_DETAILS[activeLocation.id] || LOCATION_DETAILS['loc-1'] : null;
 
   return (
-    <section id="locations" className="relative py-24 md:py-32 bg-[#080C14] border-t border-white/[0.08] text-[#EDE8DF]">
+    <section
+      ref={sectionRef}
+      id="locations"
+      className="relative py-24 md:py-32 bg-[#080C14] border-t border-white/[0.08] text-[#EDE8DF] overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
         {/* Section Tag & Heading */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
@@ -108,30 +193,59 @@ export const IndiaSetGallerySection: React.FC = () => {
         </div>
       </div>
 
-      {/* Horizontal Cinematic Image Gallery */}
+      {/* Horizontal Cinematic Image Gallery with Parallax */}
       <div
         id="india-gallery-scroll"
+        ref={scrollContainerRef}
         className="flex gap-6 overflow-x-auto px-4 sm:px-8 pb-6 no-scrollbar snap-x snap-mandatory scroll-smooth"
         style={{ scrollbarWidth: 'none' }}
       >
-        {INDIA_LOCATIONS.map((loc) => (
+        {INDIA_LOCATIONS.map((loc, idx) => (
           <div
             key={loc.id}
+            ref={(el) => {
+              cardRefs.current[idx] = el;
+            }}
             onClick={() => setActiveLocation(loc)}
             className="group relative shrink-0 w-[290px] sm:w-[380px] md:w-[440px] h-[360px] sm:h-[420px] bg-[#020817] border border-blue-900/40 hover:border-sky-400/80 overflow-hidden cursor-pointer snap-start transition-all duration-300"
           >
-            {/* Cinematic Image - 90% Opacity with slight dark blue effect */}
-            <img
-              src={loc.image}
-              alt={loc.state}
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover object-center filter contrast-105 brightness-95 opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
-            />
+            {/* Parallax Image Container (Oversized to prevent gap clipping during scroll) */}
+            <div className="absolute inset-[-10%] w-[120%] h-[120%] overflow-hidden pointer-events-none">
+              <div
+                ref={(el) => {
+                  imageRefs.current[idx] = el;
+                }}
+                className="w-full h-full will-change-transform"
+                style={{ transform: 'translate3d(0, 0, 0) scale(1.08)' }}
+              >
+                <img
+                  src={loc.image}
+                  alt={loc.state}
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover object-center filter contrast-105 brightness-95 opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
+                />
+              </div>
+            </div>
 
             {/* Slight dark blue color effect and subtle gradient */}
             <div className="absolute inset-0 bg-[#061536]/25 mix-blend-multiply pointer-events-none" />
             <div className="absolute inset-0 bg-blue-950/20 pointer-events-none" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#020817] via-transparent to-[#020b22]/40 pointer-events-none" />
+
+            {/* Cinematic Slate Overlay */}
+            <div className="absolute bottom-0 inset-x-0 p-5 bg-gradient-to-t from-[#020817] via-[#020817]/80 to-transparent flex items-end justify-between pointer-events-none z-10">
+              <div className="space-y-0.5">
+                <span className="text-[10px] font-mono tracking-widest text-yellow-400/90 uppercase block font-semibold">
+                  {loc.state}
+                </span>
+                <h3 className="font-title text-sm sm:text-base text-[#F4F1EA] uppercase font-medium tracking-wide drop-shadow-sm">
+                  {loc.title}
+                </h3>
+              </div>
+              <span className="text-[10px] font-mono text-white/50 group-hover:text-yellow-400 uppercase tracking-wider flex items-center gap-1 transition-colors">
+                <Maximize2 className="w-3.5 h-3.5" />
+              </span>
+            </div>
           </div>
         ))}
       </div>
