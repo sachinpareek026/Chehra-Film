@@ -58,7 +58,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
     const element = document.querySelector(href);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView();
     }
   };
 
