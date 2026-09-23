@@ -92,7 +92,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onWatchFilm, onOpenNom
   return (
     <section
       id="hero"
-      className="relative w-full min-h-screen bg-[#070A0F] text-[#EDE8DF] flex flex-col justify-between overflow-hidden pt-20 pb-8 sm:pb-12"
+      className="relative w-full min-h-screen bg-[#070A0F] text-[#EDE8DF] flex flex-col justify-between overflow-hidden pt-20 pb-8 sm:pb-12 md:pb-[50px]"
     >
       {/* Background Video Atmosphere */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -200,7 +200,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onWatchFilm, onOpenNom
       </div>
 
       {/* Bottom Character Dossier Rail (Editorial strip, no pulsing dots) */}
-      <div className="relative z-20 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 border-t border-white/[0.08] mt-[33px] sm:mt-0 ml-0 sm:mx-auto h-[140.417px] sm:h-auto">
+      <div className="relative z-20 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 border-t border-white/[0.08] mt-[33px] sm:mt-0 ml-0 sm:mx-auto h-[140.417px] sm:h-auto md:mb-[-25px]">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {/* Character Indices */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
