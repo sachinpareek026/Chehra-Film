@@ -175,9 +175,82 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
         {/* 3 Visual-First Editorial Pathway Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
           
-          {/* CARD 1: ACTOR */}
+          {/* CARD 1: PARTICIPANT */}
           <div
-            className="group relative bg-[#070D1A] border border-white/10 hover:border-yellow-400/90 transition-all duration-500 shadow-2xl flex flex-col justify-between overflow-hidden cursor-pointer"
+            className="group relative bg-[#070D1A] border border-white/10 hover:border-blue-400/80 transition-all duration-500 shadow-2xl flex flex-col justify-between overflow-hidden cursor-pointer"
+            onClick={() => setInspectedPathway('participant')}
+          >
+            {/* Top Visual Banner */}
+            <div className="relative h-64 overflow-hidden bg-[#020817]">
+              <img
+                src={PATHWAY_DATA.participant.heroImage}
+                alt="Participant Pathway - Chehra Films"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover object-center filter contrast-105 brightness-95 opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
+              />
+              <div className="absolute inset-0 bg-[#061536]/25 mix-blend-multiply pointer-events-none" />
+              <div className="absolute inset-0 bg-blue-950/20 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-transparent to-transparent pointer-events-none" />
+            </div>
+
+            {/* Content Body: Clean & Punchy */}
+            <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="inline-flex items-center gap-1.5 text-blue-300 text-[10px] font-sans uppercase font-semibold tracking-[0.14em]">
+                    <Compass className="w-3 h-3" />
+                    PATHWAY 01
+                  </span>
+                  <span className="px-2.5 py-0.5 bg-blue-950 border border-blue-400/40 text-blue-300 text-[9px] font-sans font-bold uppercase tracking-wider">
+                    EARLY LOCK ₹2,000
+                  </span>
+                </div>
+                <h3 className="font-title text-2xl font-semibold text-[#F4F1EA] uppercase tracking-[0.02em] group-hover:text-blue-300 transition-colors mb-1">
+                  AS A PARTICIPANT
+                </h3>
+                <p className="text-xs text-blue-300 font-sans font-medium mb-4">
+                  Front-Row Convoy • Zero Auditions
+                </p>
+
+                {/* Micro Pricing Banner */}
+                <div className="p-3.5 bg-[#050A16] border border-blue-500/30 mb-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono text-blue-300 uppercase tracking-wider font-bold">
+                      EARLY BIRD RATE
+                    </span>
+                    <span className="text-[10px] font-mono text-white/50 line-through">
+                      ₹14,500 after 20 Nov
+                    </span>
+                  </div>
+                  <div className="text-xl font-title font-bold text-[#F4F1EA] mt-0.5">
+                    ₹13,000 <span className="text-xs font-mono text-blue-300 font-normal">/ TOTAL</span>
+                  </div>
+                  <div className="text-[10px] font-mono text-emerald-400 mt-1">
+                    Lock seat with ₹2,000 security booking amount
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pt-4 border-t border-white/10">
+                <CinemaButton
+                  id="apply-participant-pathway-btn"
+                  variant="secondary"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onSelectPathway('participant');
+                  }}
+                  className="w-full !py-3.5 text-xs tracking-wider"
+                >
+                  LOCK SEAT (₹2,000 SECURITY)
+                </CinemaButton>
+              </div>
+            </div>
+          </div>
+
+          {/* CARD 2: ACTOR (Featured In Between with Highlighted Border) */}
+          <div
+            className="group relative bg-[#091224] border-2 border-yellow-400/90 hover:border-yellow-300/90 transition-all duration-300 shadow-2xl shadow-yellow-400/10 flex flex-col justify-between overflow-hidden cursor-pointer"
             onClick={() => setInspectedPathway('actor')}
           >
             {/* Top Visual Banner */}
@@ -190,7 +263,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
               />
               <div className="absolute inset-0 bg-[#061536]/25 mix-blend-multiply pointer-events-none" />
               <div className="absolute inset-0 bg-blue-950/20 pointer-events-none" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#070D1A] via-transparent to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#091224] via-transparent to-transparent pointer-events-none" />
             </div>
 
             {/* Content Body: Clean & Punchy */}
@@ -199,7 +272,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                 <div className="flex items-center justify-between mb-3">
                   <span className="inline-flex items-center gap-1.5 text-yellow-400/90 text-[10px] font-sans uppercase font-semibold tracking-[0.14em]">
                     <Film className="w-3 h-3" />
-                    PATHWAY 01
+                    PATHWAY 02
                   </span>
                   <span className="px-2.5 py-0.5 bg-yellow-400/90 text-black text-[9px] font-sans font-bold uppercase tracking-wider">
                     100% REFUND
@@ -216,16 +289,19 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                 <div className="p-3.5 bg-[#050811] border border-yellow-400/30 mb-4">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-mono font-bold text-yellow-400 uppercase tracking-wider">
-                      TOTAL ₹16,000 (100% REFUND)
+                      TOTAL PRODUCTION DEPOSIT
                     </span>
                     <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase">
-                      ₹3,000 SECURITY
+                      100% REFUNDABLE
                     </span>
                   </div>
-                  <div className="text-xs font-mono text-slate-300 mt-1">
-                    Security booking amount payable only AFTER selection
+                  <div className="text-xl font-title font-bold text-[#F4F1EA] mt-0.5">
+                    ₹16,000 <span className="text-xs font-mono text-yellow-400/90 font-normal">/ TOTAL</span>
                   </div>
-                  <div className="text-[10px] text-amber-300 font-mono mt-1 font-semibold">
+                  <div className="text-[10px] font-mono text-emerald-400 mt-1">
+                    ₹3,000 security booking payable only AFTER selection
+                  </div>
+                  <div className="text-[10px] text-amber-300 font-mono mt-0.5 font-semibold">
                     LAST DATE TO APPLY: 20TH NOV
                   </div>
                 </div>
@@ -235,7 +311,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
               <div className="pt-4 border-t border-white/10">
                 <CinemaButton
                   id="apply-actor-pathway-btn"
-                  variant="primary"
+                  variant="secondary"
                   onClick={(e) => {
                     e.stopPropagation();
                     onSelectPathway('actor');
@@ -243,79 +319,6 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                   className="w-full !py-3.5 text-xs tracking-wider"
                 >
                   APPLY AS ACTOR (LAST DATE: 20 NOV)
-                </CinemaButton>
-              </div>
-            </div>
-          </div>
-
-          {/* CARD 2: PARTICIPANT (Featured) */}
-          <div
-            className="group relative bg-[#091224] border-2 border-yellow-400/90 hover:border-yellow-300/90 transition-all duration-300 shadow-2xl shadow-yellow-400/10 flex flex-col justify-between overflow-hidden cursor-pointer"
-            onClick={() => setInspectedPathway('participant')}
-          >
-            {/* Top Visual Banner */}
-            <div className="relative h-64 overflow-hidden bg-[#020817]">
-              <img
-                src={PATHWAY_DATA.participant.heroImage}
-                alt="Participant Pathway - Chehra Films"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-center filter contrast-105 brightness-95 opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
-              />
-              <div className="absolute inset-0 bg-[#061536]/25 mix-blend-multiply pointer-events-none" />
-              <div className="absolute inset-0 bg-blue-950/20 pointer-events-none" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#091224] via-transparent to-transparent pointer-events-none" />
-            </div>
-
-            {/* Content Body: Clean & Punchy */}
-            <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="inline-flex items-center gap-1.5 text-blue-300 text-[10px] font-sans uppercase font-semibold tracking-[0.14em]">
-                    <Compass className="w-3 h-3" />
-                    PATHWAY 02
-                  </span>
-                  <span className="px-2.5 py-0.5 bg-yellow-400/90 text-black text-[9px] font-sans font-bold uppercase tracking-wider">
-                    EARLY LOCK ₹2,000
-                  </span>
-                </div>
-                <h3 className="font-title text-2xl font-semibold text-[#F4F1EA] uppercase tracking-[0.02em] group-hover:text-yellow-400/90 transition-colors mb-1">
-                  AS A PARTICIPANT
-                </h3>
-                <p className="text-xs text-blue-300 font-sans font-medium mb-4">
-                  Front-Row Convoy • Zero Auditions
-                </p>
-
-                {/* Micro Pricing Banner */}
-                <div className="p-3.5 bg-[#050A16] border border-yellow-400/40 mb-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono text-yellow-400/90 uppercase tracking-wider font-bold">
-                      EARLY BIRD RATE
-                    </span>
-                    <span className="text-[10px] font-mono text-white/50 line-through">
-                      ₹14,500 after 20 Nov
-                    </span>
-                  </div>
-                  <div className="text-xl font-title font-bold text-[#F4F1EA] mt-0.5">
-                    ₹13,000 <span className="text-xs font-mono text-yellow-400/90 font-normal">/ TOTAL</span>
-                  </div>
-                  <div className="text-[10px] font-mono text-emerald-400 mt-1">
-                    Lock seat with ₹2,000 security booking amount
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="pt-4 border-t border-white/10">
-                <CinemaButton
-                  id="apply-participant-pathway-btn"
-                  variant="primary"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onSelectPathway('participant');
-                  }}
-                  className="w-full !py-3.5 text-xs tracking-wider"
-                >
-                  LOCK SEAT (₹2,000 SECURITY)
                 </CinemaButton>
               </div>
             </div>
@@ -359,16 +362,19 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                 </p>
 
                 {/* Micro Compensation Banner */}
-                <div className="p-3.5 bg-[#050811] border border-white/10 mb-4">
+                <div className="p-3.5 bg-[#050811] border border-emerald-500/30 mb-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                    <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider font-bold">
                       SUBSIDIZED LOGISTICS
                     </span>
-                    <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase">
-                      FINAL ₹13,000
+                    <span className="text-[10px] font-mono font-bold text-emerald-300 uppercase">
+                      DEPARTMENT HEAD
                     </span>
                   </div>
-                  <div className="text-xs font-mono text-slate-300 mt-1">
+                  <div className="text-xl font-title font-bold text-[#F4F1EA] mt-0.5">
+                    ₹13,000 <span className="text-xs font-mono text-emerald-400 font-normal">/ TOTAL</span>
+                  </div>
+                  <div className="text-[10px] font-mono text-emerald-400 mt-1">
                     ₹2,000 security booking payable upon official selection
                   </div>
                 </div>
@@ -383,7 +389,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                     e.stopPropagation();
                     onSelectPathway('crew');
                   }}
-                  className="w-full !py-3.5 text-xs tracking-wider !border-white/20 hover:!border-white"
+                  className="w-full !py-3.5 text-xs tracking-wider"
                 >
                   APPLY AS CREW
                 </CinemaButton>

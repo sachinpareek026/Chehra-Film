@@ -5,208 +5,9 @@ import * as XLSX from 'xlsx';
 
 // Initial seeds
 const defaultData = {
-  actors: [
-    {
-      id: 'CF-ACT-829104',
-      type: 'actor',
-      submittedAt: '2026-09-15 14:32',
-      fullName: 'Arjun Vardhan',
-      age: '26',
-      city: 'Mumbai',
-      phoneNumber: '+91 98201 44521',
-      email: 'arjun.vardhan@outlook.com',
-      instagramProfile: '@arjun.vardhan_actor',
-      selectedRole: 'KABIR — The Solitary Climber',
-      actingExperience: '3 years NSD weekend repertory, 2 short films on Mubi/YouTube',
-      photoFileName: 'arjun_headshot_dossier.jpg',
-      auditionTapeFileName: 'monologue_spiti_climb.mp4',
-      auditionTapeUrl: 'https://www.youtube.com/watch?v=sample-audition-tape',
-      whyJoin: 'The raw, non-rehearsed style of cinema in remote Himalayan passes is exactly the boundary I want to push as an actor.',
-      refundEligible: true,
-      confirmed: true,
-    },
-    {
-      id: 'CF-ACT-710492',
-      type: 'actor',
-      submittedAt: '2026-09-16 11:18',
-      fullName: 'Tara Mukherjee',
-      age: '24',
-      city: 'Kolkata',
-      phoneNumber: '+91 98310 98231',
-      email: 'taramukherjee.arts@gmail.com',
-      instagramProfile: '@tara.wanderess',
-      selectedRole: 'JYOTI — The Nomad Astronomer',
-      actingExperience: 'Theatre actor with Nandikar collective, classical Kathak and spoken monologue',
-      photoFileName: 'tara_portrait_35mm.jpg',
-      auditionTapeFileName: 'tara_audition_monologue.mp4',
-      auditionTapeUrl: 'https://vimeo.com/sample-tara-monologue',
-      whyJoin: 'Exploring night skies of Hanle while living the script in real time is a lifelong dream.',
-      refundEligible: true,
-      confirmed: true,
-    },
-    {
-      id: 'CF-ACT-604812',
-      type: 'actor',
-      submittedAt: '2026-09-17 09:45',
-      fullName: 'Vikramaditya Rathore',
-      age: '31',
-      city: 'Jaipur',
-      phoneNumber: '+91 94140 33819',
-      email: 'vikram.rathore.cinema@gmail.com',
-      instagramProfile: '@vikram_desert_tales',
-      selectedRole: 'DEV — The Silent Chronicler',
-      actingExperience: 'FTII alumni workshop attendee, 4 indie short films in Rajasthan',
-      photoFileName: 'vikram_profile.jpg',
-      auditionTapeFileName: 'silent_observation_reel.mp4',
-      auditionTapeUrl: 'https://drive.google.com/file/d/sample-tape-vikram',
-      whyJoin: 'True Indian cinema happens outside Mumbai studios in the dust and wind of the Thar.',
-      refundEligible: true,
-      confirmed: true,
-    },
-  ],
-  participants: [
-    {
-      id: 'CF-PART-319842',
-      type: 'participant',
-      submittedAt: '2026-09-16 16:20',
-      fullName: 'Rohan Deshmukh',
-      age: '28',
-      city: 'Pune',
-      phoneNumber: '+91 97654 11209',
-      email: 'rohan.deshmukh@gmail.com',
-      instagramProfile: '@rohan_travel_lens',
-      departureCity: 'Mumbai / Pune Convoy',
-      travelBatch: 'Batch Alpha (Oct 18 – Oct 28)',
-      roomPreference: 'Twin Sharing with Fellow Traveler',
-      emergencyContact: '+91 98220 99881 (Sunil Deshmukh - Father)',
-      prebookingTokenPrice: 1000,
-      lockedTripPrice: 11000,
-      oct30PriceIncreaseNotice: true,
-      paymentMode: 'UPI / Google Pay (Ref #UPI88291)',
-      transactionRef: 'UPI-CHEHRA-9988231',
-      confirmed: true,
-    },
-    {
-      id: 'CF-PART-492108',
-      type: 'participant',
-      submittedAt: '2026-09-17 18:05',
-      fullName: 'Ananya Singhania',
-      age: '25',
-      city: 'Delhi NCR',
-      phoneNumber: '+91 99100 44820',
-      email: 'ananya.singhania@yahoo.com',
-      instagramProfile: '@ananya_on_the_road',
-      departureCity: 'Delhi Majnu Ka Tilla Hub',
-      travelBatch: 'Batch Beta (Oct 29 – Nov 08)',
-      roomPreference: 'Private Camping Tent / Room',
-      emergencyContact: '+91 98110 55667 (Meera Singhania - Mother)',
-      prebookingTokenPrice: 1000,
-      lockedTripPrice: 11000,
-      oct30PriceIncreaseNotice: true,
-      paymentMode: 'UPI / PhonePe',
-      transactionRef: 'UPI-CHEHRA-4412903',
-      confirmed: true,
-    },
-    {
-      id: 'CF-PART-551029',
-      type: 'participant',
-      submittedAt: '2026-09-18 13:40',
-      fullName: 'Karthik Ramanathan',
-      age: '29',
-      city: 'Bengaluru',
-      phoneNumber: '+91 98450 67123',
-      email: 'karthik.raman@techpulse.io',
-      instagramProfile: '@karthik.nomad',
-      departureCity: 'Direct Fly-in to Srinagar Hub',
-      travelBatch: 'Batch Alpha (Oct 18 – Oct 28)',
-      roomPreference: 'Twin Sharing with Fellow Traveler',
-      emergencyContact: '+91 94440 12399 (V. Ramanathan - Father)',
-      prebookingTokenPrice: 1000,
-      lockedTripPrice: 11000,
-      oct30PriceIncreaseNotice: true,
-      paymentMode: 'Net Banking IMPS',
-      transactionRef: 'IMPS-20260918-99410',
-      confirmed: true,
-    },
-  ],
-  crew: [
-    {
-      id: 'CF-CREW-901452',
-      type: 'crew',
-      submittedAt: '2026-09-16 19:12',
-      fullName: 'Sameer Sen',
-      age: '27',
-      city: 'Bengaluru',
-      phoneNumber: '+91 99801 55210',
-      email: 'sameer.sen.audio@soundscape.org',
-      instagramProfile: '@sameer_soundscapes',
-      crewDepartment: 'Music Composition & Background Score',
-      categoryType: 'Prime Department',
-      proofOfSkillLink: 'https://open.spotify.com/artist/sample-sameer-ambient-folks',
-      portfolioSummary: 'Composed Indian acoustic ambient scores for 3 regional documentaries; multi-instrumentalist (Esraj, Guitar, Synth).',
-      gearOrSoftware: 'Ableton Live 12, Logic Pro X, RME Babyface Pro, Neumann KM184 pairs',
-      opportunityFeeAgreed: true,
-      publicFilmmakingConsent: true,
-      confirmed: true,
-    },
-    {
-      id: 'CF-CREW-819203',
-      type: 'crew',
-      submittedAt: '2026-09-17 14:22',
-      fullName: 'Divya Kashyap',
-      age: '29',
-      city: 'Chandigarh',
-      phoneNumber: '+91 98765 22109',
-      email: 'divya.scripts@narrativehouse.in',
-      instagramProfile: '@divya_writes_cinema',
-      crewDepartment: 'Screenplay & Script Writer',
-      categoryType: 'Prime Department',
-      proofOfSkillLink: 'https://drive.google.com/drive/folders/sample-divya-scripts-public',
-      portfolioSummary: 'Dialogue writer and script doctor for 2 streaming web series; bilingual in Hindi & English realism.',
-      gearOrSoftware: 'Final Draft 13, Highland 2, Notion Film Bible templates',
-      opportunityFeeAgreed: true,
-      publicFilmmakingConsent: true,
-      confirmed: true,
-    },
-    {
-      id: 'CF-CREW-774129',
-      type: 'crew',
-      submittedAt: '2026-09-18 10:15',
-      fullName: 'Nikhil Chawla',
-      age: '26',
-      city: 'Delhi',
-      phoneNumber: '+91 98102 77410',
-      email: 'nikhil.dop@grainlight.com',
-      instagramProfile: '@nikhil_raw_frames',
-      crewDepartment: 'Cinematography / Camera Operator',
-      categoryType: 'Prime Department',
-      proofOfSkillLink: 'https://vimeo.com/showcase/sample-nikhil-showreel',
-      portfolioSummary: 'Documentary DoP with high altitude filming experience across Zanskar and Ladakh; natural light specialist.',
-      gearOrSoftware: 'Sony FX6, FX3, DZOFilm Vespid Primes, DJI Ronin RS3 Pro',
-      opportunityFeeAgreed: true,
-      publicFilmmakingConsent: true,
-      confirmed: true,
-    },
-    {
-      id: 'CF-CREW-665182',
-      type: 'crew',
-      submittedAt: '2026-09-18 15:50',
-      fullName: 'Pooja Verma',
-      age: '25',
-      city: 'Mumbai',
-      phoneNumber: '+91 98200 66518',
-      email: 'pooja.wardrobe.design@gmail.com',
-      instagramProfile: '@pooja_costume_craft',
-      crewDepartment: 'Costume Designer & Wardrobe Styling',
-      categoryType: 'Creative & Production',
-      proofOfSkillLink: 'https://www.behance.net/sample-pooja-textile-cinema',
-      portfolioSummary: 'NIFT graduate with specialization in indigenous Himalayan woolens, distressed road-wear, and nomadic styling.',
-      gearOrSoftware: 'Handloom textile sourcing, on-field weathering kit, iPad Pro Procreate design',
-      opportunityFeeAgreed: true,
-      publicFilmmakingConsent: true,
-      confirmed: true,
-    },
-  ],
+  actors: [],
+  participants: [],
+  crew: [],
 };
 
 const storagePath = path.resolve(process.cwd(), 'data', 'submissions.json');
@@ -248,6 +49,12 @@ async function forwardToGoogleSheet(submission: any): Promise<{ success: boolean
   try {
     const timestamp = submission.submittedAt || new Date().toISOString().replace('T', ' ').substring(0, 16);
     
+    const safePhone = (p: any) => {
+      if (!p) return '';
+      const s = String(p).trim();
+      return (s.startsWith('+') || s.startsWith('=')) ? `'${s}` : s;
+    };
+
     // 1. Comprehensive flattened dictionary covering standard fields, aliases, and human column headers
     const flatRecord: Record<string, any> = {
       // Raw original fields
@@ -265,8 +72,8 @@ async function forwardToGoogleSheet(submission: any): Promise<{ success: boolean
       name: submission.fullName,
       age: submission.age,
       city: submission.city,
-      phoneNumber: submission.phoneNumber,
-      phone: submission.phoneNumber,
+      phoneNumber: safePhone(submission.phoneNumber),
+      phone: safePhone(submission.phoneNumber),
       email: submission.email,
       instagramProfile: submission.instagramProfile || 'N/A',
       instagram: submission.instagramProfile || 'N/A',
@@ -278,7 +85,7 @@ async function forwardToGoogleSheet(submission: any): Promise<{ success: boolean
       batch: submission.travelBatch || '',
       roomPreference: submission.roomPreference || '',
       room: submission.roomPreference || '',
-      emergencyContact: submission.emergencyContact || '',
+      emergencyContact: safePhone(submission.emergencyContact),
       prebookingTokenPrice: submission.prebookingTokenPrice || 1000,
       tokenPrice: submission.prebookingTokenPrice ? `₹${submission.prebookingTokenPrice}` : '₹1000',
       lockedTripPrice: submission.lockedTripPrice || 11000,
@@ -530,6 +337,25 @@ export function apiMiddleware(): Connect.NextHandleFunction {
     if (req.method === 'OPTIONS') {
       res.statusCode = 204;
       res.end();
+      return;
+    }
+
+    // 1. GET /api/submissions
+    // DELETE or POST /api/submissions/clear
+    if ((url === '/api/submissions/clear' && (req.method === 'POST' || req.method === 'DELETE')) || (url === '/api/submissions' && req.method === 'DELETE')) {
+      cache = { actors: [], participants: [], crew: [] };
+      saveSubmissions(cache);
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ success: true, message: 'All entry data cleared successfully.' }));
+      return;
+    }
+
+    // DELETE or POST /api/submissions/clear: purges all submissions
+    if ((url === '/api/submissions/clear' && (req.method === 'POST' || req.method === 'DELETE')) || (url === '/api/submissions' && req.method === 'DELETE')) {
+      cache = { actors: [], participants: [], crew: [] };
+      saveSubmissions(cache);
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ success: true, message: 'All entry data cleared successfully.' }));
       return;
     }
 

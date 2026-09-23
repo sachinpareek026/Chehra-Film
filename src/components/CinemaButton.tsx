@@ -66,7 +66,7 @@ export const CinemaButton: React.FC<CinemaButtonProps> = ({
         type={type}
         onClick={onClick}
         disabled={disabled}
-        className={`${baseStyles} bg-[#0A0E16] text-[#EDE8DF] border border-white/20 hover:border-yellow-400/90 hover:text-yellow-400/90 ${className}`}
+        className={`${baseStyles} bg-[#0A0E16] text-[#EDE8DF] border border-white/20 hover:bg-yellow-400 hover:text-[#070A0F] hover:border-yellow-400 active:bg-yellow-300 active:text-[#070A0F] active:border-yellow-300 transition-all duration-200 ${className}`}
       >
         <span className="relative z-10 flex items-center gap-2">
           {children}

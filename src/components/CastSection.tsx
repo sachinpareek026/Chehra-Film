@@ -54,19 +54,8 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
               SEVEN UNWRITTEN CHARACTERS
             </h2>
             <p className="text-xs sm:text-sm text-[#B8B4AC] font-normal font-sans max-w-xl leading-[1.6]">
-              Select any role to inspect background backstory and audition criteria. Zero casting charges; 100% refund eligible upon post-release cost recovery.
+              Select any role to inspect background backstory and audition criteria.
             </p>
-            <div className="flex flex-wrap items-center gap-2 pt-1 font-mono text-[11px]">
-              <span className="px-2 py-0.5 bg-yellow-400 text-black font-bold uppercase tracking-wider">
-                LAST DATE TO APPLY: 20TH NOV
-              </span>
-              <span className="px-2 py-0.5 bg-yellow-400/10 border border-yellow-400/40 text-yellow-300 font-semibold">
-                TOTAL: ₹16,000 (100% REFUNDABLE DEPOSIT)
-              </span>
-              <span className="px-2 py-0.5 bg-emerald-500/10 border border-emerald-400/30 text-emerald-400 font-semibold">
-                ₹3,000 SECURITY BOOKING AFTER SELECTION
-              </span>
-            </div>
           </div>
 
           {/* View Toggle Buttons */}
@@ -110,19 +99,6 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
                 <span className="text-white/20">•</span>
                 <span className="text-[#A5A196]">
                   {selectedChar.gender} • AGE {selectedChar.ageRange}
-                </span>
-                <span className="text-white/20">•</span>
-                <span className="text-yellow-300 font-bold bg-yellow-400/20 px-2 py-0.5 border border-yellow-400/40">
-                  LAST DATE: 20 NOV
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="px-2.5 py-1 bg-yellow-400/10 border border-yellow-400/30 text-yellow-400/90 font-medium">
-                  TOTAL ₹16,000 • ₹3,000 SECURITY AFTER SELECTION
-                </span>
-                <span className="px-2.5 py-1 bg-emerald-500/10 border border-emerald-400/30 text-emerald-400 font-medium">
-                  100% REFUND DEPOSIT UPON COST RECOVERY
                 </span>
               </div>
             </div>
@@ -205,13 +181,13 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
                   </div>
                 </div>
 
-                <div className="mt-4 p-3 bg-[#0C111A] border border-yellow-400/25 text-[10px] text-[#A5A196] space-y-1 font-mono">
+                <div className="mt-4 p-3 bg-[#0C111A] border border-white/10 text-[10px] text-[#A5A196] space-y-1 font-mono">
                   <div className="flex items-center gap-2 text-yellow-400 font-semibold">
                     <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Total ₹16,000 • ₹3,000 Security After Selection</span>
+                    <span>Open Ensemble Call</span>
                   </div>
                   <p className="text-slate-400 text-[9px] font-sans">
-                    Zero audition fees. 100% security deposit refund estimation upon post-release cost recovery. Last date to apply: <strong className="text-white">20th Nov</strong>.
+                    Zero audition fees. Select any character profile to inspect backstory and audition criteria.
                   </p>
                 </div>
               </div>
@@ -283,12 +259,9 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
                       </CinemaButton>
                     </div>
 
-                    <div className="text-right">
-                      <span className="text-[11px] font-mono text-yellow-300 font-bold block">
-                        TOTAL ₹16,000 • ₹3,000 SECURITY AFTER SELECTION
-                      </span>
-                      <span className="text-[10px] font-mono text-[#68665E] uppercase tracking-widest block">
-                        100% REFUND ESTIMATION POST-RELEASE
+                    <div className="text-right hidden sm:block">
+                      <span className="text-[10px] font-mono text-[#A5A196] uppercase tracking-widest block">
+                        CHARACTER DOSSIER
                       </span>
                     </div>
                   </div>
@@ -354,9 +327,6 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
                       <span className="px-1.5 py-0.5 text-[9px] font-mono font-bold tracking-wider uppercase bg-amber-500 text-black">
                         20 NOV
                       </span>
-                      <span className="px-1.5 py-0.5 text-[9px] font-mono font-semibold tracking-widest uppercase bg-yellow-400 text-black">
-                        100% REFUND
-                      </span>
                     </div>
                   </div>
 
@@ -370,14 +340,9 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
                       {char.name}
                     </h3>
 
-                    <p className="text-xs text-[#B8B4AC] font-normal font-sans italic mb-2 line-clamp-1">
+                    <p className="text-xs text-[#B8B4AC] font-normal font-sans italic mb-3 line-clamp-1">
                       &ldquo;{char.tagline}&rdquo;
                     </p>
-
-                    <div className="p-2 bg-black/70 border border-white/10 text-[10px] font-mono text-slate-300 flex items-center justify-between mb-3">
-                      <span className="text-yellow-300 font-bold">Total: ₹16,000</span>
-                      <span className="text-emerald-400 font-medium">₹3,000 Security After Selection</span>
-                    </div>
 
                     <div className="pt-2 border-t border-white/10 flex items-center justify-between">
                       <button

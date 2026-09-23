@@ -99,15 +99,8 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
   ],
 };
 
-const EXPEDITION_ROUTE_STAGES = [
-  { stage: 'STAGE 01', title: 'High Mountain Ascent', loc: 'Rohtang Pass & Spiti', img: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957437/Shankar.png' },
-  { stage: 'STAGE 02', title: 'Shadow Monasteries', loc: 'Key Gompa & Kaza', img: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957431/Vandana.png' },
-  { stage: 'STAGE 03', title: 'Overhanging Cliffs', loc: 'Kinnaur & Chitkul', img: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957433/SHiva.png' },
-  { stage: 'STAGE 04', title: 'Dune Nightfall & Camp', loc: 'Thar Desert & Jaisalmer', img: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957433/Jyoti.png' },
-];
-
 const CREW_DEPARTMENTS_META: Record<string, { desc: string; icon: string; tag: string }> = {
-  'Cinematography & Camera Operation': { desc: 'Arri LF, RED 4K, Anamorphic prime rigs & gimbal handling in sub-zero terrain.', icon: 'Camera', tag: 'CAM DEPT' },
+  'Cinematography & Camera Operation': { desc: 'Cinema camera systems, anamorphic prime rigs, gimbal handling & high-altitude lensing.', icon: 'Camera', tag: 'TECHNICAL CREW' },
   'Music Composition & Background Score': { desc: 'Live microtonal strings, folk instrument tracking & environmental sound recordings.', icon: 'Music', tag: 'SOUNDTRACK' },
   'Screenplay & Dialogue Development': { desc: 'On-road narrative adaptation, spontaneous character conflict and improvised lines.', icon: 'Layers', tag: 'SCRIPT' },
   'Sound Design & Location Audio Recording': { desc: 'Spatial ambisonics, wind isolation, mountain echo capture & Dolby Atmos stems.', icon: 'Video', tag: 'AUDIO' },
@@ -843,6 +836,17 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                 <p className="text-slate-400">
                   We will contact you directly on <strong className="text-yellow-400/90">{submittedItem.phoneNumber}</strong> via WhatsApp and Email regarding casting decisions and convoy roll-out timings.
                 </p>
+                {submittedItem.type === 'actor' && (
+                  <div className="text-emerald-300 text-xs font-normal bg-emerald-950/40 p-2.5 border border-emerald-500/30 mt-2 space-y-1">
+                    <p className="font-semibold text-white flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      Fast Track Processing & Status Inquiry
+                    </p>
+                    <p>
+                      Update your application with us for fast proceeding. You can also ask for your application status and hold all further casting discussions directly on our company WhatsApp contact number: <strong className="text-white font-mono">+91 93266 32288</strong>.
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div className="p-4 bg-[#0A1324] border border-white/10 flex items-center justify-between text-left font-mono">
@@ -907,6 +911,65 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   </span>
                 )}
               </div>
+
+              {/* WhatsApp Fast Proceeding & Application Status for Actor Submissions */}
+              {submittedItem.type === 'actor' && (
+                <div className="p-4 sm:p-5 bg-gradient-to-br from-[#062412] to-[#04170B] border-2 border-[#25D366] text-left space-y-3.5 shadow-xl shadow-[#25D366]/15">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#25D366] animate-ping" />
+                      <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-[#25D366]">
+                        OFFICIAL CASTING DESK • WHATSAPP STATUS & FAST PROCEEDING
+                      </span>
+                    </div>
+                    <span className="px-2 py-0.5 bg-[#25D366]/20 border border-[#25D366]/40 text-[#25D366] font-mono text-[10px] font-bold">
+                      FAST TRACK
+                    </span>
+                  </div>
+
+                  <div className="text-xs text-slate-200 font-sans leading-relaxed space-y-2">
+                    <p className="font-semibold text-white text-sm">
+                      Update your application with us for fast proceeding!
+                    </p>
+                    <p className="text-slate-300">
+                      You can ask for your application status, share updated audition links/portfolios, and conduct all further casting discussions directly on our company WhatsApp contact number:
+                    </p>
+                    <div className="p-2.5 bg-black/60 border border-[#25D366]/40 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 font-mono">
+                      <span className="text-[11px] text-slate-300">
+                        Company WhatsApp Contact:
+                      </span>
+                      <a
+                        href="https://wa.me/919326632288"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm font-bold text-[#25D366] hover:underline flex items-center gap-1.5"
+                      >
+                        <MessageSquare className="w-3.5 h-3.5 fill-current" />
+                        +91 93266 32288
+                      </a>
+                    </div>
+                  </div>
+
+                  <a
+                    id="whatsapp-actor-fast-proceeding-btn"
+                    href={`https://wa.me/919326632288?text=${encodeURIComponent(
+                      `Hello Chehra Films Casting Desk, I have submitted my Actor Audition Application for the film project.\n\n` +
+                      `• Reference ID: ${submittedItem.id}\n` +
+                      `• Name: ${submittedItem.fullName}\n` +
+                      `• Role Applied For: ${'character' in submittedItem ? submittedItem.character : ('characterId' in submittedItem ? submittedItem.characterId : 'Lead Role')}\n` +
+                      `• Phone: ${submittedItem.phoneNumber}\n` +
+                      `• City: ${submittedItem.city}\n\n` +
+                      `I am contacting you to update my application for fast proceeding and would like to ask for my application status and discuss the next steps.`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3.5 px-4 bg-[#25D366] hover:bg-[#20bd5a] text-[#070A0F] font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2.5 transition-all shadow-lg shadow-[#25D366]/30 cursor-pointer"
+                  >
+                    <MessageSquare className="w-5 h-5 fill-current" />
+                    <span>UPDATE APPLICATION & CHECK STATUS ON WHATSAPP</span>
+                  </a>
+                </div>
+              )}
 
               {/* Booking Policy for Actor Submissions */}
               {submittedItem.type === 'actor' && (
@@ -1219,34 +1282,29 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                     </div>
 
                     <div className="p-4 sm:p-5 space-y-4">
-                      {/* Price Guarantee Banner */}
+                      {/* Overland Journey Highlights */}
                       <div className="p-3.5 bg-blue-950/40 border border-blue-500/30">
-                        <div className="flex items-center justify-between text-xs font-mono mb-1">
-                          <span className="text-slate-300">FINAL EXPEDITION FARE:</span>
-                          <span className="text-yellow-400/90 font-bold text-sm">₹13,000/-</span>
-                        </div>
-                        <div className="flex items-center justify-between text-[11px] font-mono text-emerald-400">
-                          <span>Security Booking Amount:</span>
-                          <span className="font-bold">₹2,000/- to Lock Seat</span>
-                        </div>
-                        <p className="text-[10px] text-slate-400 mt-2 font-mono">
-                          * Early bird price ₹13,000; pending balance cleared 20 days prior to trip.
+                        <span className="text-[10px] font-mono text-blue-400 uppercase tracking-widest block font-bold mb-1">
+                          EXPEDITION EXPERIENCE:
+                        </span>
+                        <p className="text-xs text-slate-300 leading-relaxed font-light">
+                          Travel alongside the cinema convoy across high-altitude Himalayan terrain, staying at remote mountain base camps with real-time access to live production scenes.
                         </p>
                       </div>
 
-                      {/* Route 4 Acts Preview */}
-                      <div>
-                        <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block mb-2 font-bold">
-                          EXPEDITION HIGHWAY LEGS:
-                        </span>
-                        <div className="space-y-1.5">
-                          {EXPEDITION_ROUTE_STAGES.map((st, idx) => (
-                            <div key={idx} className="flex items-center justify-between p-2 bg-black/40 border border-white/5 text-[11px] font-mono">
-                              <span className="text-yellow-400/90">{st.stage}</span>
-                              <span className="text-slate-300">{st.title}</span>
-                              <span className="text-slate-400 text-[10px]">{st.loc}</span>
-                            </div>
-                          ))}
+                      {/* Traveler Caravan Inclusions */}
+                      <div className="space-y-2 pt-1 text-xs text-slate-300 font-mono">
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0" />
+                          <span>Overland Mountain Convoy Transit</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0" />
+                          <span>Base Camp Lodging & Group Logistics</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0" />
+                          <span>Live Behind-the-Scenes Production Access</span>
                         </div>
                       </div>
                     </div>
@@ -1275,35 +1333,31 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                           DEPARTMENT RECRUITMENT
                         </span>
                         <h3 className="font-title text-2xl font-black text-white uppercase tracking-tight">
-                          {CREW_DEPARTMENTS_META[crewDepartment]?.tag || 'FILM CRAFT'}
+                          TECHNICAL CREW
                         </h3>
+                        {crewDepartment && crewDepartment !== 'Cinematography & Camera Operation' && (
+                          <span className="text-[11px] font-mono text-emerald-300 font-medium block">
+                            {crewDepartment}
+                          </span>
+                        )}
                       </div>
                     </div>
 
                     <div className="p-4 sm:p-5 space-y-4">
-                      {/* Price Guarantee Banner for Crew */}
-                      <div className="p-3.5 bg-emerald-950/40 border border-emerald-500/30">
-                        <div className="flex items-center justify-between text-xs font-mono mb-1">
-                          <span className="text-slate-300">FINAL LOGISTICAL AMOUNT:</span>
-                          <span className="text-emerald-400 font-bold text-sm">₹13,000/-</span>
-                        </div>
-                        <div className="flex items-center justify-between text-[11px] font-mono text-emerald-300">
-                          <span>Security Booking Amount:</span>
-                          <span className="font-bold">₹2,000/- (If Selected)</span>
-                        </div>
-                        <p className="text-[10px] text-slate-400 mt-2 font-mono">
-                          * Subsidized logistical contribution covering gear transit & mountain base camp lodging.
-                        </p>
-                      </div>
-
                       {/* Department Spotlight */}
                       <div className="p-3.5 bg-emerald-950/40 border border-emerald-500/30">
                         <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest block font-bold mb-1">
                           ASSIGNMENT FOCUS:
                         </span>
                         <p className="text-xs text-slate-300 leading-relaxed font-light">
-                          {CREW_DEPARTMENTS_META[crewDepartment]?.desc || 'Work directly with camera, lighting, sound and narrative leads.'}
+                          Full on-location production collaboration across camera operations, location sound recording, aerial drone cinematography, on-set lighting, rough-cut editing, and technical workflow across sub-zero Himalayan terrain.
                         </p>
+                        {crewDepartment && crewDepartment !== 'Cinematography & Camera Operation' && crewDepartment !== 'Other' && CREW_DEPARTMENTS_META[crewDepartment]?.desc && (
+                          <div className="mt-2.5 pt-2 border-t border-emerald-500/30 text-[11px] font-mono text-emerald-300">
+                            <span className="text-slate-400 font-semibold uppercase text-[9px] block mb-0.5">Specialization Track:</span>
+                            <span>{CREW_DEPARTMENTS_META[crewDepartment].desc}</span>
+                          </div>
+                        )}
                       </div>
 
                       {/* Technical Specs Guarantee */}
@@ -2108,7 +2162,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                             />
                             <div className="space-y-1">
                               <span className="font-semibold text-white group-hover:text-yellow-300 transition-colors block leading-relaxed text-xs">
-                                I grant full consent for character portrayal, on-location documentary recording, and unscripted filmmaking public release under Chehra Films.
+                                I grant full consent for character portrayal, on-location documentary recording, public publication and release of the film, and its use after release under Chehra Films.
                               </span>
                             </div>
                           </label>
@@ -2437,7 +2491,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       </>
                     ) : (
                       <>
-                        {pathway === 'actor' && `SUBMIT AUDITION AS ${currentRole.name} (100% REFUND ASSURANCE)`}
+                        {pathway === 'actor' && `SUBMIT AUDITION AS ${currentRole.name} (ZERO FEES FOR AUDITION)`}
                         {pathway === 'participant' && 'CONFIRM PRE-BOOKING TOKEN (₹2,000)'}
                         {pathway === 'crew' && 'SUBMIT TECHNICAL CREW APPLICATION'}
                       </>

@@ -144,11 +144,33 @@ export default function App() {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [inspectedCharacter, setInspectedCharacter] = useState<CharacterRole | null>(null);
 
-  // Live submissions lists
+  // Live submissions lists: starting with a clean slate (zero system-generated data)
+  const isMockSubmissionId = (id?: string) => {
+    if (!id) return false;
+    return (
+      id.startsWith('CF-ACT-829104') ||
+      id.startsWith('CF-ACT-710492') ||
+      id.startsWith('CF-ACT-604812') ||
+      id.startsWith('CF-PART-319842') ||
+      id.startsWith('CF-PART-492108') ||
+      id.startsWith('CF-PART-583921') ||
+      id.startsWith('CF-PART-551029') ||
+      id.startsWith('CF-CREW-901452') ||
+      id.startsWith('CF-CREW-904128') ||
+      id.startsWith('CF-CREW-819203') ||
+      id.startsWith('CF-CREW-774129') ||
+      id.startsWith('CF-CREW-665182') ||
+      id.startsWith('CF-CREW-554201')
+    );
+  };
+
   const [actors, setActors] = useState<ActorSubmission[]>(() => {
     try {
       const saved = localStorage.getItem('chehra_actors');
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed.filter((item: any) => !isMockSubmissionId(item.id));
+      }
     } catch (e) {
       console.error(e);
     }
@@ -158,7 +180,10 @@ export default function App() {
   const [participants, setParticipants] = useState<ParticipantSubmission[]>(() => {
     try {
       const saved = localStorage.getItem('chehra_participants');
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed.filter((item: any) => !isMockSubmissionId(item.id));
+      }
     } catch (e) {
       console.error(e);
     }
@@ -168,27 +193,50 @@ export default function App() {
   const [crew, setCrew] = useState<CrewSubmission[]>(() => {
     try {
       const saved = localStorage.getItem('chehra_crew');
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed.filter((item: any) => !isMockSubmissionId(item.id));
+      }
     } catch (e) {
       console.error(e);
     }
     return INITIAL_CREW_SUBMISSIONS;
   });
 
-  // Fetch initial data from server if available
-  const fetchSubmissions = useCallback(() => {
-    fetch('/api/submissions')
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (data) {
-          if (Array.isArray(data.actors) && data.actors.length > 0) setActors(data.actors);
-          if (Array.isArray(data.participants) && data.participants.length > 0) setParticipants(data.participants);
-          if (Array.isArray(data.crew) && data.crew.length > 0) setCrew(data.crew);
-        }
-      })
-      .catch((err) => {
-        console.log('Local API sync fallback:', err.message);
-      });
+  // Fetch live submission data from server
+  const fetchSubmissions = useCallback(async () => {
+    try {
+      const res = await fetch('/api/submissions');
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data) {
+        const cleanActors = (Array.isArray(data.actors) ? data.actors : []).filter((a: any) => !isMockSubmissionId(a.id));
+        const cleanParticipants = (Array.isArray(data.participants) ? data.participants : []).filter((p: any) => !isMockSubmissionId(p.id));
+        const cleanCrew = (Array.isArray(data.crew) ? data.crew : []).filter((c: any) => !isMockSubmissionId(c.id));
+        setActors(cleanActors);
+        setParticipants(cleanParticipants);
+        setCrew(cleanCrew);
+        localStorage.setItem('chehra_actors', JSON.stringify(cleanActors));
+        localStorage.setItem('chehra_participants', JSON.stringify(cleanParticipants));
+        localStorage.setItem('chehra_crew', JSON.stringify(cleanCrew));
+      }
+    } catch (err: any) {
+      console.log('Local API sync fallback:', err.message);
+    }
+  }, []);
+
+  const handleClearAllSubmissions = useCallback(async () => {
+    try {
+      await fetch('/api/submissions/clear', { method: 'POST' });
+    } catch (e) {
+      console.error('Error clearing remote submissions:', e);
+    }
+    setActors([]);
+    setParticipants([]);
+    setCrew([]);
+    localStorage.removeItem('chehra_actors');
+    localStorage.removeItem('chehra_participants');
+    localStorage.removeItem('chehra_crew');
   }, []);
 
   useEffect(() => {
@@ -534,6 +582,7 @@ export default function App() {
         participants={participants}
         crew={crew}
         onRefresh={fetchSubmissions}
+        onClearAll={handleClearAllSubmissions}
       />
 
       {/* Interactive Cinematic Video Player / Teaser Modal */}

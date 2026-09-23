@@ -17,6 +17,7 @@ interface ExcelDataPortalModalProps {
   participants?: ParticipantSubmission[];
   crew?: CrewSubmission[];
   onRefresh?: () => void;
+  onClearAll?: () => void;
 }
 
 export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
@@ -26,6 +27,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
   participants = [],
   crew = [],
   onRefresh,
+  onClearAll,
 }) => {
   const safeActors = actors || [];
   const safeParticipants = participants || [];
@@ -34,6 +36,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
   const [activeTab, setActiveTab] = useState<'actors' | 'participants' | 'crew' | 'all'>('participants');
   const [searchQuery, setSearchQuery] = useState('');
   const [copiedFormula, setCopiedFormula] = useState<string | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [isTestingSheet, setIsTestingSheet] = useState(false);
   const [sheetTestResult, setSheetTestResult] = useState<{
     success: boolean;
@@ -44,6 +47,24 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
   } | null>(null);
   const [isSyncingAll, setIsSyncingAll] = useState(false);
   const [syncAllResult, setSyncAllResult] = useState<string | null>(null);
+  const [confirmClearOpen, setConfirmClearOpen] = useState(false);
+
+  const handleRefreshClick = async () => {
+    if (!onRefresh) return;
+    setIsRefreshing(true);
+    try {
+      await onRefresh();
+    } finally {
+      setTimeout(() => setIsRefreshing(false), 600);
+    }
+  };
+
+  const handleConfirmClear = () => {
+    if (onClearAll) {
+      onClearAll();
+      setConfirmClearOpen(false);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -161,16 +182,47 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            {onClearAll && (
+              confirmClearOpen ? (
+                <div className="flex items-center gap-1.5 bg-red-950/80 border border-red-500/80 px-2 py-1">
+                  <span className="text-[10px] text-red-200 font-mono font-bold">WIPE ALL ENTRIES?</span>
+                  <button
+                    onClick={handleConfirmClear}
+                    className="px-2 py-0.5 bg-red-600 hover:bg-red-500 text-white text-[10px] font-bold tracking-wider cursor-pointer"
+                  >
+                    YES, WIPE
+                  </button>
+                  <button
+                    onClick={() => setConfirmClearOpen(false)}
+                    className="px-1.5 py-0.5 bg-slate-800 text-slate-300 text-[10px] hover:text-white cursor-pointer"
+                  >
+                    CANCEL
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setConfirmClearOpen(true)}
+                  className="px-2.5 py-1 text-[11px] font-mono font-semibold text-red-400 hover:text-red-300 border border-red-500/40 hover:bg-red-500/10 transition-colors cursor-pointer"
+                  title="Remove all entry data and reset to 0 entries"
+                >
+                  CLEAR ALL DATA
+                </button>
+              )
+            )}
+
             {onRefresh && (
               <button
-                onClick={onRefresh}
-                className="p-1.5 text-slate-400 hover:text-white border border-slate-700/50 hover:bg-slate-800 transition-colors cursor-pointer"
-                title="Refresh latest submissions"
+                onClick={handleRefreshClick}
+                disabled={isRefreshing}
+                className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-bold text-yellow-400 hover:text-white border border-yellow-400/50 hover:bg-yellow-400/10 transition-colors cursor-pointer disabled:opacity-50"
+                title="Sync and refresh latest submissions"
               >
-                <RefreshCw className="w-4 h-4" />
+                <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
+                <span>{isRefreshing ? 'SYNCING...' : 'SYNC & REFRESH'}</span>
               </button>
             )}
+
             <button
               onClick={onClose}
               className="p-1.5 text-slate-400 hover:text-yellow-400/90 transition-colors cursor-pointer"
