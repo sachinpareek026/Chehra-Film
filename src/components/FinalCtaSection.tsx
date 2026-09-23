@@ -10,9 +10,9 @@ interface FinalCtaSectionProps {
 export const FinalCtaSection: React.FC<FinalCtaSectionProps> = ({ onJoinFilm, onNominateRole, onJoinCrew }) => {
   return (
     <section className="relative py-20 sm:py-28 md:py-36 bg-[#05070B] overflow-hidden flex items-center justify-center border-t border-white/10">
-      {/* Background imagery: 70% transparency effect with right-side character centered on mobile */}
+      {/* Background imagery: slightly pulled backward with half the character's face showing on mobile */}
       <div
-        className="absolute inset-0 w-full h-full bg-cover bg-[85%_center] sm:bg-center bg-no-repeat opacity-30 transition-all duration-500"
+        className="absolute inset-0 w-full h-full bg-cover bg-[74%_center] sm:bg-center bg-no-repeat opacity-30 scale-100 origin-center transition-all duration-500"
         style={{
           backgroundImage:
             "url('https://res.cloudinary.com/x1dci3fh/image/upload/v1789634480/images_-_2026-09-14T173720.993.jpg')",
