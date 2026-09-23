@@ -64,9 +64,14 @@ export const CharacterDetailModal: React.FC<CharacterDetailModalProps> = ({
               <span className="px-2.5 py-1 bg-black/80 border border-white/20 text-[10px] font-mono text-white/80 uppercase tracking-widest backdrop-blur-md">
                 {character.gender} • AGE {character.ageRange}
               </span>
-              <span className="px-2.5 py-1 bg-yellow-400/90 text-black text-[10px] font-mono font-bold uppercase tracking-wider backdrop-blur-md">
-                100% REFUND
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="px-2 py-0.5 bg-amber-500 text-black text-[10px] font-mono font-bold uppercase tracking-wider backdrop-blur-md">
+                  LAST DATE: 20 NOV
+                </span>
+                <span className="px-2 py-0.5 bg-yellow-400 text-black text-[10px] font-mono font-bold uppercase tracking-wider backdrop-blur-md">
+                  100% REFUND
+                </span>
+              </div>
             </div>
 
             <div className="absolute bottom-4 left-4 right-4 md:hidden">
@@ -149,7 +154,7 @@ export const CharacterDetailModal: React.FC<CharacterDetailModalProps> = ({
                   }}
                   className="w-full sm:w-auto"
                 >
-                  AUDITION AS {character.name}
+                  AUDITION AS {character.name} (LAST DATE: 20 NOV)
                 </CinemaButton>
               </div>
             </div>

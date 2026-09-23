@@ -556,11 +556,26 @@ export function apiMiddleware(): Connect.NextHandleFunction {
           }
 
           if (item.type === 'actor') {
-            cache.actors.unshift(item);
+            const idx = cache.actors.findIndex((a: any) => a.id === item.id);
+            if (idx >= 0) {
+              cache.actors[idx] = item;
+            } else {
+              cache.actors.unshift(item);
+            }
           } else if (item.type === 'participant') {
-            cache.participants.unshift(item);
+            const idx = cache.participants.findIndex((p: any) => p.id === item.id);
+            if (idx >= 0) {
+              cache.participants[idx] = item;
+            } else {
+              cache.participants.unshift(item);
+            }
           } else if (item.type === 'crew') {
-            cache.crew.unshift(item);
+            const idx = cache.crew.findIndex((c: any) => c.id === item.id);
+            if (idx >= 0) {
+              cache.crew[idx] = item;
+            } else {
+              cache.crew.unshift(item);
+            }
           }
 
           saveSubmissions(cache);

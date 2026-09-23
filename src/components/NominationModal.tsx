@@ -48,9 +48,9 @@ interface FAQItem {
 const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
   actor: [
     {
-      question: 'What is the booking amount and payment schedule if accepted?',
+      question: 'What is the total amount, security booking amount, and last date to apply for actors?',
       answer:
-        'Submitting your audition nomination is 100% free with zero fees. If your nomination is officially accepted, you must submit ₹3,000 as the booking commitment amount to secure your seat. The pending balance must be cleared at least 20 days prior to the start of the trip. The production security deposit is 100% refundable after public release of the picture once the film recovers up to the mark of its total production costs.',
+        'The total amount for actors is ₹16,000 (100% refundable upon post-release cost recovery). Submitting your audition nomination is 100% free with zero fees. If your nomination is officially accepted for the role, you submit ₹3,000 as the security booking amount to reserve your seat and schedule. The pending balance must be cleared at least 20 days prior to the start of the trip. The last date to apply for acting roles is 20th November 2026.',
     },
     {
       question: 'How does the 100% Refund Policy work for actors?',
@@ -60,7 +60,7 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
     {
       question: 'Is there any audition or submission fee?',
       answer:
-        'Zero. Submitting your audition monologue, headshot, and portfolio is completely free. No deposit or financial commitment is requested unless you are officially selected for the cast.',
+        'Zero. Submitting your audition monologue, headshot, and portfolio is completely free. No deposit or financial commitment is requested unless you are officially selected for the cast. Deadline to apply is 20th November 2026.',
     },
     {
       question: 'What happens if I cannot attend after being selected?',
@@ -72,12 +72,12 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
     {
       question: 'How does the booking price structure work?',
       answer:
-        'Pay a ₹3,000 booking amount upon nomination acceptance to reserve your expedition seat and lock your rate. The remaining pending balance must be cleared at least 20 days prior to the start of the trip.',
+        'The final amount is ₹13,000. You pay a ₹2,000 security booking amount upon nomination acceptance to reserve your expedition seat and lock your early-bird rate. The remaining pending balance must be cleared at least 20 days prior to the start of the trip.',
     },
     {
       question: 'Why does the expedition rate increase after November 20?',
       answer:
-        'To secure early convoy vehicle leases, Gulmarg ski equipment, and hotels before peak Christmas tariffs, registrations after 20 November 2026 are ₹14,500.',
+        'To secure early convoy vehicle leases, Gulmarg ski equipment, and hotels before peak Christmas tariffs, registrations after 20 November 2026 are ₹14,500. Booking early guarantees the ₹13,000 final amount.',
     },
     {
       question: 'What is included in the ₹13,000 expedition fee?',
@@ -87,9 +87,9 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
   ],
   crew: [
     {
-      question: 'What does the nominal opportunity fee cover?',
+      question: 'What is the final amount and booking fee for technical crew?',
       answer:
-        'Selected crew contribute a subsidized logistical share that covers cross-state equipment freight, dedicated technical vehicle transit, and base camp lodging.',
+        'The final amount for crew members is ₹13,000, with a ₹2,000 security booking amount payable upon official selection. This subsidized logistical contribution covers cross-state equipment freight, dedicated technical vehicle transit, and base camp lodging.',
     },
     {
       question: 'What credits and portfolio rights do I receive?',
@@ -453,7 +453,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         errs.auditionTape = 'Audition monologue video upload or public reel link is required';
       }
       if (!actorBookingConsent) {
-        errs.actorBookingConsent = 'You must confirm that ₹3,000 booking amount is payable if accepted, and pending balance before 20 days of trip';
+        errs.actorBookingConsent = 'You must confirm the ₹16,000 total amount and ₹3,000 security booking amount payable if accepted for the role';
       }
       if (!actorFilmmakingConsent) {
         errs.actorFilmmakingConsent = 'Filmmaking screen appearance and documentary consent is required';
@@ -469,7 +469,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
     } else if (pathway === 'participant') {
       if (!emergencyContact.trim()) errs.emergencyContact = 'Emergency contact person & phone required';
       if (!participantBookingConsent) {
-        errs.participantBookingConsent = 'You must confirm that ₹3,000 booking amount is payable if accepted, and pending balance before 20 days of trip';
+        errs.participantBookingConsent = 'You must confirm the ₹13,000 final amount and ₹2,000 security booking amount';
       }
     } else if (pathway === 'crew') {
       if (crewDepartment === 'Other' && !customCrewSkillset.trim()) {
@@ -478,7 +478,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
       if (!proofOfSkillLink.trim() || !proofOfSkillLink.startsWith('http')) {
         errs.proofOfSkillLink = 'A public portfolio/reel link (Drive, YouTube, Behance) is required';
       }
-      if (!opportunityFeeAgreed) errs.opportunityFee = 'Please accept the opportunity fee policy';
+      if (!opportunityFeeAgreed) errs.opportunityFee = 'You must confirm the ₹13,000 final amount and ₹2,000 security booking amount policy';
       if (!publicFilmmakingConsent) errs.publicConsent = 'Filmmaking consent is required';
     }
 
@@ -526,8 +526,10 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         personalityAndSkills: personalityAndSkills.trim() || undefined,
         usefulRoleTarget: usefulRoleTarget.trim() || undefined,
         refundEligible: true,
+        totalAmount: 16000,
+        securityBookingAmount: 3000,
         bookingConsentAgreed: true,
-        bookingAmountTerms: '₹3,000 booking amount payable upon acceptance, pending balance cleared 20 days prior to trip start',
+        bookingAmountTerms: 'Total ₹16,000: ₹3,000 security booking amount payable only upon official selection for the role, pending balance cleared 20 days prior to trip start. 100% refundable upon post-release cost recovery.',
         filmmakingConsent: true,
         confirmed: true,
       };
@@ -553,10 +555,10 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         roomPreference,
         emergencyContact,
         bookingConsentAgreed: true,
-        prebookingTokenPrice: 3000,
+        prebookingTokenPrice: 2000,
         lockedTripPrice: 13000,
         oct30PriceIncreaseNotice: true,
-        paymentMode: 'UPI / Card (₹3,000 Booking Amount)',
+        paymentMode: 'UPI / Card (₹2,000 Security Booking Amount)',
         transactionRef: `UPI-PREBOOK-${randomSuffix}`,
         confirmed: true,
       };
@@ -583,6 +585,10 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         proofOfSkillLink,
         portfolioSummary: portfolioSummary || 'Portfolio link provided',
         gearOrSoftware: 'Specified in portfolio link',
+        prebookingTokenPrice: 2000,
+        lockedTripPrice: 13000,
+        bookingConsentAgreed: true,
+        bookingAmountTerms: 'Total ₹13,000: ₹2,000 security booking amount payable upon official selection, pending balance cleared 20 days prior to trip start.',
         opportunityFeeAgreed: true,
         publicFilmmakingConsent: true,
         confirmed: true,
@@ -778,7 +784,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   <div className="text-[11px] font-mono font-bold uppercase tracking-wider">
                     02. PARTICIPANT
                   </div>
-                  <div className="text-[9px] text-blue-400 font-mono mt-0.5">₹2,000 Token • Zero Uploads</div>
+                  <div className="text-[9px] text-blue-400 font-mono mt-0.5">₹2,000 Security Booking • Zero Uploads</div>
                 </div>
                 <Compass className={`w-4 h-4 hidden sm:block ${pathway === 'participant' ? 'text-blue-400' : 'text-slate-600'}`} />
               </button>
@@ -923,12 +929,18 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                     </p>
                     <div className="p-3 bg-black/60 border border-white/10 space-y-1.5 font-mono text-[11px]">
                       <p className="text-yellow-300 font-semibold">
-                        • Booking Amount: ₹3,000 payable upon official nomination acceptance.
+                        • Total Amount for Actors: ₹16,000 (100% Refundable Deposit).
+                      </p>
+                      <p className="text-emerald-300 font-semibold">
+                        • Security Booking Amount: ₹3,000 payable only AFTER official selection for the role.
                       </p>
                       <p className="text-slate-300">
                         • Pending Balance: Must be cleared at least 20 days prior to the start of the trip.
                       </p>
-                      <p className="text-emerald-300 font-semibold">
+                      <p className="text-amber-300">
+                        • Last Date to Apply: 20th November 2026.
+                      </p>
+                      <p className="text-emerald-400/90 font-semibold text-[10px]">
                         • 100% Refund Assurance: Confident estimation & full production assurity to sponsor the trip bare minimum and refund 100% post-release upon cost recovery.
                       </p>
                     </div>
@@ -953,7 +965,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
                   <div className="text-xs text-slate-200 font-sans leading-relaxed space-y-1">
                     <p className="font-medium text-white">
-                      Your expedition nomination has been recorded. To confirm your seat, submit the ₹3,000 booking amount on WhatsApp. The pending balance must be cleared at least 20 days prior to departure.
+                      Your expedition nomination has been recorded. Final amount is <strong className="text-yellow-400">₹13,000</strong>. To lock your seat, submit the <strong className="text-[#25D366]">₹2,000</strong> security booking amount on WhatsApp. The pending balance must be cleared at least 20 days prior to departure.
                     </p>
                     <p className="text-[11px] text-slate-300 font-mono">
                       Official Desk Number: <span className="text-[#25D366] font-semibold">+91 93266 32288</span>
@@ -969,7 +981,8 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       `• Phone: ${submittedItem.phoneNumber}\n` +
                       `• City: ${submittedItem.city}\n` +
                       `• Batch: ${'travelBatch' in submittedItem ? submittedItem.travelBatch : 'Christmas Winter Batch (24 – 31 Dec 2026)'}\n` +
-                      `• Booking Amount: ₹3,000 (Pending balance due 20 days before trip)\n\n` +
+                      `• Final Amount: ₹13,000\n` +
+                      `• Security Booking Amount: ₹2,000 (Pending balance due 20 days before trip)\n\n` +
                       `I want to confirm my seat now!`
                     )}`}
                     target="_blank"
@@ -977,8 +990,42 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                     className="w-full py-3.5 px-4 bg-[#25D366] hover:bg-[#20bd5a] text-[#070A0F] font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2.5 transition-all shadow-lg shadow-[#25D366]/30 cursor-pointer"
                   >
                     <MessageSquare className="w-5 h-5 fill-current" />
-                    <span>PAY ₹3,000 BOOKING ON WHATSAPP & CONFIRM</span>
+                    <span>PAY ₹2,000 BOOKING ON WHATSAPP & CONFIRM</span>
                   </a>
+                </div>
+              )}
+
+              {/* Policy for Crew Submissions */}
+              {submittedItem.type === 'crew' && (
+                <div className="p-4 sm:p-5 bg-gradient-to-br from-[#061824] to-[#040C16] border border-emerald-400/40 text-left space-y-3 shadow-xl">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+                      <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-emerald-400">
+                        CREW APPLICATION & LOGISTICAL TERMS
+                      </span>
+                    </div>
+                    <span className="px-2 py-0.5 bg-emerald-400/10 border border-emerald-400/30 text-emerald-300 font-mono text-[10px] font-bold">
+                      PORTFOLIO REVIEW
+                    </span>
+                  </div>
+
+                  <div className="text-xs text-slate-200 font-sans leading-relaxed space-y-2">
+                    <p className="font-semibold text-white">
+                      Your technical crew portfolio has been received for review by the production department heads.
+                    </p>
+                    <div className="p-3 bg-black/60 border border-white/10 space-y-1.5 font-mono text-[11px]">
+                      <p className="text-emerald-300 font-semibold">
+                        • Final Amount: ₹13,000 (Subsidized logistical contribution).
+                      </p>
+                      <p className="text-slate-300">
+                        • Security Booking Amount: ₹2,000 payable upon official department selection.
+                      </p>
+                      <p className="text-slate-300">
+                        • Pending Balance: Cleared at least 20 days prior to the start of the trip.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -1175,15 +1222,15 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       {/* Price Guarantee Banner */}
                       <div className="p-3.5 bg-blue-950/40 border border-blue-500/30">
                         <div className="flex items-center justify-between text-xs font-mono mb-1">
-                          <span className="text-slate-300">LOCKED EXPEDITION FARE:</span>
+                          <span className="text-slate-300">FINAL EXPEDITION FARE:</span>
                           <span className="text-yellow-400/90 font-bold text-sm">₹13,000/-</span>
                         </div>
                         <div className="flex items-center justify-between text-[11px] font-mono text-emerald-400">
-                          <span>Pre-booking Token Today:</span>
-                          <span className="font-bold">₹2,000/- Only</span>
+                          <span>Security Booking Amount:</span>
+                          <span className="font-bold">₹2,000/- to Lock Seat</span>
                         </div>
                         <p className="text-[10px] text-slate-400 mt-2 font-mono">
-                          * Early bird price ₹13,000; increases to ₹14,500 after 20 November 2026.
+                          * Early bird price ₹13,000; pending balance cleared 20 days prior to trip.
                         </p>
                       </div>
 
@@ -1234,6 +1281,21 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                     </div>
 
                     <div className="p-4 sm:p-5 space-y-4">
+                      {/* Price Guarantee Banner for Crew */}
+                      <div className="p-3.5 bg-emerald-950/40 border border-emerald-500/30">
+                        <div className="flex items-center justify-between text-xs font-mono mb-1">
+                          <span className="text-slate-300">FINAL LOGISTICAL AMOUNT:</span>
+                          <span className="text-emerald-400 font-bold text-sm">₹13,000/-</span>
+                        </div>
+                        <div className="flex items-center justify-between text-[11px] font-mono text-emerald-300">
+                          <span>Security Booking Amount:</span>
+                          <span className="font-bold">₹2,000/- (If Selected)</span>
+                        </div>
+                        <p className="text-[10px] text-slate-400 mt-2 font-mono">
+                          * Subsidized logistical contribution covering gear transit & mountain base camp lodging.
+                        </p>
+                      </div>
+
                       {/* Department Spotlight */}
                       <div className="p-3.5 bg-emerald-950/40 border border-emerald-500/30">
                         <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest block font-bold mb-1">
@@ -1991,11 +2053,27 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         <div className="flex items-center justify-between border-b border-white/10 pb-2">
                           <div className="flex items-center gap-2 text-yellow-400 font-bold uppercase tracking-wider text-xs">
                             <ShieldCheck className="w-4 h-4 text-yellow-400 shrink-0" />
-                            <span>MANDATORY CONSENT & BOOKING COMMITMENT</span>
+                            <span>MANDATORY CONSENT & TERMS (LAST DATE: 20 NOV)</span>
                           </div>
                           <span className="text-[9px] text-yellow-400/90 uppercase px-2 py-0.5 bg-yellow-400/10 border border-yellow-400/30 font-bold">
                             REQUIRED
                           </span>
+                        </div>
+
+                        {/* Actor Pricing & Booking Terms Note */}
+                        <div className="p-3 bg-black/60 border border-yellow-400/30 space-y-1.5 text-[11px]">
+                          <div className="flex items-center justify-between font-bold">
+                            <span className="text-yellow-400">TOTAL AMOUNT FOR ACTORS:</span>
+                            <span className="text-yellow-300 text-xs">₹16,000 (100% Refundable Deposit)</span>
+                          </div>
+                          <div className="flex items-center justify-between text-slate-300">
+                            <span>Security Booking Amount:</span>
+                            <span className="text-emerald-400 font-bold">₹3,000 (Payable only AFTER selection)</span>
+                          </div>
+                          <div className="flex items-center justify-between text-slate-400 text-[10px]">
+                            <span>Last Date to Apply:</span>
+                            <span className="text-white font-bold bg-yellow-500/20 px-1.5 py-0.5 border border-yellow-400/40">20th November 2026</span>
+                          </div>
                         </div>
 
                         <div className="space-y-3 text-slate-200">
@@ -2009,10 +2087,10 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                             />
                             <div className="space-y-1">
                               <span className="font-semibold text-white group-hover:text-yellow-300 transition-colors block leading-relaxed text-xs">
-                                I have to submit ₹3,000 as booking amount if my nomination accepted and pending before 20 day starting of trip.
+                                I confirm the ₹16,000 total amount for actors, and agree to submit ₹3,000 as security booking amount ONLY if my nomination is accepted for the role, with pending balance cleared before 20 days of trip.
                               </span>
                               <p className="text-[10px] text-slate-300 font-sans leading-normal">
-                                * Nomination submission is 100% free with zero registration fees. The ₹3,000 booking amount is payable ONLY upon official selection and acceptance. The remaining trip balance must be settled at least 20 days before departure.
+                                * Nomination submission is 100% free with zero registration fees. The ₹3,000 security booking amount is payable ONLY upon official selection and acceptance. The remaining trip balance must be settled at least 20 days before departure. The production deposit is 100% refundable after public release upon cost recovery. Last date to apply: 20th November 2026.
                               </p>
                             </div>
                           </label>
@@ -2152,6 +2230,22 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                           </span>
                         </div>
 
+                        {/* Pricing Breakdown Card */}
+                        <div className="p-3 bg-black/60 border border-blue-400/30 space-y-1.5 text-[11px]">
+                          <div className="flex items-center justify-between font-bold">
+                            <span className="text-slate-200">FINAL EXPEDITION AMOUNT:</span>
+                            <span className="text-yellow-400 text-xs">₹13,000 (Early Bird Locked Rate)</span>
+                          </div>
+                          <div className="flex items-center justify-between text-slate-300">
+                            <span>Security Booking Amount:</span>
+                            <span className="text-emerald-400 font-bold">₹2,000 to lock seat</span>
+                          </div>
+                          <div className="flex items-center justify-between text-slate-400 text-[10px]">
+                            <span>Pending Balance (₹11,000):</span>
+                            <span className="text-slate-200">Cleared at least 20 days prior to trip</span>
+                          </div>
+                        </div>
+
                         <label className="flex items-start gap-3 cursor-pointer group select-none">
                           <input
                             type="checkbox"
@@ -2161,10 +2255,10 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                           />
                           <div className="space-y-1">
                             <span className="font-semibold text-white group-hover:text-blue-200 transition-colors block leading-relaxed text-xs">
-                              I have to submit ₹3,000 as booking amount if my nomination accepted and pending before 20 day starting of trip.
+                              I agree to the ₹13,000 final amount and will submit ₹2,000 as security booking amount if my nomination accepted, and pending balance before 20 day starting of trip.
                             </span>
                             <p className="text-[10px] text-slate-300 font-sans leading-normal">
-                              * Early booking amount secures peak winter stays, convoy vehicle permits, and the Gulmarg Ski 2-Day Certificate Course. The pending balance must be cleared at least 20 days prior to the start of the trip.
+                              * Final expedition amount is ₹13,000. The ₹2,000 security booking amount secures peak winter stays, convoy vehicle permits, and the Gulmarg Ski 2-Day Certificate Course. The pending balance must be cleared at least 20 days prior to the start of the trip.
                             </p>
                           </div>
                         </label>
@@ -2254,7 +2348,33 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         </div>
                       </div>
 
-                      <div className="p-4 sm:p-5 bg-[#141E34] border-2 border-emerald-400/40 shadow-lg space-y-2.5 text-[11px] font-mono text-slate-200">
+                      <div className="p-4 sm:p-5 bg-[#141E34] border-2 border-emerald-400/40 shadow-lg space-y-3.5 text-[11px] font-mono text-slate-200">
+                        <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                          <div className="flex items-center gap-2 text-emerald-300 font-bold uppercase tracking-wider text-xs">
+                            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                            <span>CREW LOGISTICAL CONTRIBUTION & CONSENT</span>
+                          </div>
+                          <span className="text-[9px] text-emerald-300 uppercase px-2 py-0.5 bg-emerald-500/10 border border-emerald-400/30 font-bold">
+                            REQUIRED
+                          </span>
+                        </div>
+
+                        {/* Pricing Breakdown Card */}
+                        <div className="p-3 bg-black/60 border border-emerald-400/30 space-y-1.5 text-[11px]">
+                          <div className="flex items-center justify-between font-bold">
+                            <span className="text-slate-200">FINAL LOGISTICAL AMOUNT:</span>
+                            <span className="text-emerald-400 text-xs font-mono">₹13,000 (Subsidized Share)</span>
+                          </div>
+                          <div className="flex items-center justify-between text-slate-300">
+                            <span>Security Booking Amount:</span>
+                            <span className="text-emerald-400 font-bold">₹2,000 payable upon selection</span>
+                          </div>
+                          <div className="flex items-center justify-between text-slate-400 text-[10px]">
+                            <span>Pending Balance (₹11,000):</span>
+                            <span className="text-slate-200">Cleared at least 20 days prior to trip</span>
+                          </div>
+                        </div>
+
                         <label className="flex items-start gap-2.5 cursor-pointer">
                           <input
                             type="checkbox"
@@ -2262,9 +2382,16 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                             onChange={(e) => setOpportunityFeeAgreed(e.target.checked)}
                             className="accent-emerald-400 mt-0.5"
                           />
-                          <span>I agree to pay the nominal opportunity fee if selected for on-location privileges</span>
+                          <div className="space-y-1">
+                            <span className="font-semibold text-white">
+                              I agree to the ₹13,000 final amount and will submit ₹2,000 as security booking amount if selected for on-location privileges, with pending balance cleared before 20 days of trip starting.
+                            </span>
+                            <p className="text-[10px] text-slate-300 font-sans leading-normal">
+                              * Subsidized logistical contribution covers gear transit, high-altitude mountain base camp lodging, and on-location production perks.
+                            </p>
+                          </div>
                         </label>
-                        {errors.opportunityFee && <p className="text-[10px] text-red-400 font-mono">{errors.opportunityFee}</p>}
+                        {errors.opportunityFee && <p className="text-[10px] text-red-400 font-mono pl-6">{errors.opportunityFee}</p>}
 
                         <label className="flex items-start gap-2.5 cursor-pointer">
                           <input
@@ -2275,7 +2402,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                           />
                           <span>I grant full consent for character and filmmaking public usage</span>
                         </label>
-                        {errors.publicConsent && <p className="text-[10px] text-red-400 font-mono">{errors.publicConsent}</p>}
+                        {errors.publicConsent && <p className="text-[10px] text-red-400 font-mono pl-6">{errors.publicConsent}</p>}
                       </div>
                     </>
                   )}
@@ -2341,9 +2468,9 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                 FREQUENTLY ASKED QUESTIONS
               </span>
               <span className="inline-block text-[10px] sm:text-xs font-mono px-2.5 py-0.5 sm:px-3 sm:py-1 bg-yellow-400/10 text-yellow-300 border border-yellow-400/30 rounded-full uppercase font-medium">
-                {pathway === 'actor' && '100% Post-Release Cost-Recovery Refund'}
-                {pathway === 'participant' && '₹2,000 Token & Price Structure'}
-                {pathway === 'crew' && 'Opportunity Fee & Production Credits'}
+                {pathway === 'actor' && 'Total ₹16,000 | ₹3,000 Security After Selection'}
+                {pathway === 'participant' && 'Final ₹13,000 | ₹2,000 Security Booking'}
+                {pathway === 'crew' && 'Final ₹13,000 | ₹2,000 Security Booking'}
               </span>
             </button>
 

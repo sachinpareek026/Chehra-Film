@@ -43,26 +43,28 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
   actor: {
     id: 'actor',
     number: '01',
-    badge: '100% REFUNDABLE',
-    badgeColor: 'bg-yellow-400/90 text-black',
+    badge: 'TOTAL ₹16,000',
+    badgeColor: 'bg-yellow-400 text-black',
     title: 'AS AN ACTOR',
     subtitle: 'Lead Character Arc • Unscripted Cinema Realism',
     heroImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957437/Shankar.png',
-    pricingTag: '100% REFUNDABLE',
-    pricingSubtitle: 'Zero audition charges. 100% refund estimation upon public release cost recovery.',
-    guaranteeText: 'Our confident estimation & full assurance to sponsor the actors\' trip bare minimum and refund 100% upon post-release production cost recovery.',
+    pricingTag: 'TOTAL ₹16,000 (100% REFUNDABLE)',
+    pricingSubtitle: 'Zero fee to apply. ₹3,000 security booking amount payable only AFTER role selection. Last date: 20th Nov.',
+    guaranteeText: 'Total amount ₹16,000 is a 100% refundable production security deposit returned upon post-release cost recovery. Only ₹3,000 security booking amount is due upon selection. Balance cleared 20 days prior to departure. Last date to apply: 20 Nov 2026.',
     overview:
-      'Step directly into the shoes of one of the 7 lead character personas across extreme Himalayan and desert terrain. You travel with the production convoy, improvising dialogue against real-life natural light, dawn mist, and roadside encounters.',
+      'Step directly into the shoes of one of the 7 lead character personas across extreme Himalayan terrain. You travel with the production convoy, improvising dialogue against real-life natural light, dawn mist, and roadside encounters.',
     keyPerks: [
       'Official IMDb lead character billing & international festival premiere accreditation',
       'Dedicated multi-camera coverage with 4K Arri Alexa LF & Anamorphic lenses',
-      'All cross-state convoy transit, high-altitude base camps, and meals provided',
-      'Free audition upload (self-taped monologue, scene reading, or portfolio reel)'
+      'Total ₹16,000 (100% refundable production security deposit upon cost recovery)',
+      '₹3,000 security booking amount payable only AFTER role selection',
+      'Free audition upload (last date to apply: 20th November)'
     ],
     timeline: [
-      { phase: 'Audition Review', details: 'Directorial shortlist notified within 7 days of tape upload' },
-      { phase: 'Convoy Departure', details: 'October 2026 roll-out from New Delhi to Spiti Valley & Thar' },
-      { phase: 'Release & Recovery', details: '100% refund eligible once the film earns back its total production cost mark' }
+      { phase: 'Application Deadline', details: 'Final date to submit audition / nomination: 20th November 2026' },
+      { phase: 'Selection & Booking', details: 'Selected actors pay ₹3,000 security booking amount to confirm role contract' },
+      { phase: 'Expedition Rollout', details: 'Convoy departs Delhi on 24 December 2026 for 8-day shoot across Kashmir' },
+      { phase: 'Release & 100% Refund', details: 'Full deposit refunded as film recovers production costs post-release' }
     ],
     deliverables: [
       'IMDb Actor Page Credit',
@@ -70,30 +72,30 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
       'Festival Premiere Red Carpet Pass',
       'Exclusive Unscripted Behind-The-Scenes Featurette'
     ],
-    ctaText: 'APPLY AS ACTOR (100% REFUND ASSURANCE)'
+    ctaText: 'APPLY AS ACTOR (LAST DATE: 20 NOV)'
   },
   participant: {
     id: 'participant',
     number: '02',
-    badge: '₹2,000 TOKEN LOCK',
-    badgeColor: 'bg-yellow-400/90 text-black',
+    badge: '₹2,000 SECURITY',
+    badgeColor: 'bg-yellow-400 text-black',
     title: 'AS A PARTICIPANT',
     subtitle: 'Front-Row Convoy Immersion • No Auditions Required',
     heroImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957421/Participant.jpg',
-    pricingTag: '₹13,000 EARLY BIRD',
-    pricingSubtitle: 'Lock with ₹2,000 token today. Early bird ₹13,000; rises to ₹14,500 after 20 Nov.',
-    guaranteeText: 'Price locked permanently against holiday tariff surges. Balance settled prior to departure.',
+    pricingTag: '₹13,000 FINAL RATE',
+    pricingSubtitle: 'Lock with ₹2,000 security booking amount today. Early bird ₹13,000; rises to ₹14,500 after 20 Nov.',
+    guaranteeText: '₹13,000 early-bird final rate locked with ₹2,000 security booking amount. Balance ₹11,000 cleared 20 days prior to departure. Two-sharing accommodation preserved.',
     overview:
       'Join the live production convoy as a traveler and witness a feature film being made in real time across Kashmir. Experience Katra & Vaishno Devi, Gulmarg Ski 2-day certificate course under experts training program, and Dal Lake in Srinagar.',
     keyPerks: [
-      'Guaranteed seat in the 7-night / 8-day Kashmir winter expedition convoy',
+      'Guaranteed seat in the 7-night / 8-day Kashmir winter expedition convoy (24 - 31 Dec)',
       'Gulmarg Ski 2-Day Certificate Course under Experts Training Program with gear & instructor included',
-      'Accommodations across Katra, Gulmarg, and Srinagar (including Dal Lake houseboat)',
-      'No portfolio, acting audition, or past filmmaking experience needed'
+      'Two-sharing verified accommodations across Katra, Gulmarg, and Srinagar (houseboat)',
+      '₹2,000 security booking amount locks the ₹13,000 early-bird rate'
     ],
     timeline: [
-      { phase: 'Immediate Token', details: 'Pay ₹2,000 now to freeze ₹13,000 early-bird expedition rate' },
-      { phase: 'Convoy Briefing', details: 'Digital route map, gear checklist & base camp coordinates sent' },
+      { phase: 'Security Booking', details: 'Pay ₹2,000 now to freeze ₹13,000 early-bird expedition rate' },
+      { phase: 'Balance Settlement', details: 'Remaining balance cleared at least 20 days prior to trip start' },
       { phase: 'Expedition Rollout', details: 'Depart with the cast and camera trucks on 24 December 2026' }
     ],
     deliverables: [
@@ -102,31 +104,31 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
       'High-Resolution Expedition Photo Archive',
       'Chehra Production Member Pass'
     ],
-    ctaText: 'LOCK SEAT (₹2,000 TOKEN)'
+    ctaText: 'LOCK SEAT (₹2,000 SECURITY)'
   },
   crew: {
     id: 'crew',
     number: '03',
-    badge: 'PORTFOLIO CALL',
+    badge: '₹2,000 SECURITY',
     badgeColor: 'bg-emerald-500 text-black',
     title: 'AS CREW MEMBER',
     subtitle: 'Cinematography • Field Sound • Art & Logistics',
     heroImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957420/Crew.jpg',
-    pricingTag: 'SUBSIDIZED LOGISTICS',
-    pricingSubtitle: 'Production stipend, equipment transit, mountain base camp lodging and IMDb crew credit.',
-    guaranteeText: 'Hands-on cinematography & field audio on an official multi-camera feature film production.',
+    pricingTag: 'FINAL ₹13,000',
+    pricingSubtitle: 'Subsidized logistics contribution. ₹2,000 security booking amount payable upon selection; balance cleared 20 days before departure.',
+    guaranteeText: 'Final amount ₹13,000 covering high-altitude transport, base camp stays, and gear freight. ₹2,000 security booking amount payable only upon official selection.',
     overview:
       'Bring your technical craft to a live road movie. Shoot anamorphic cinema on location, capture microtonal ambient soundscapes, or coordinate high-altitude mountain logistics under real-world documentary conditions.',
     keyPerks: [
       'Head of Department & Assistant crew credits across festival & theatrical cuts',
       'Hands-on operation with high-end camera rigs, drones, and Dolby field audio mics',
       'All cross-country freight truck transit & high-altitude mountain base camp lodging covered',
-      'Zero file uploads: simply share your Vimeo, Behance, or Google Drive portfolio link'
+      'Subsidized ₹13,000 final amount with ₹2,000 security booking upon selection'
     ],
     timeline: [
       { phase: 'Portfolio Review', details: 'Technical leads evaluate submissions on rolling basis' },
-      { phase: 'Technical Sync', details: 'Pre-production camera tests and acoustic scouting sessions' },
-      { phase: 'On-Location Shoot', details: 'Full 28-day production across 4 states with dedicated gear freight' }
+      { phase: 'Selection & Booking', details: 'Pay ₹2,000 security booking amount upon official role confirmation' },
+      { phase: 'On-Location Shoot', details: 'Full 8-day expedition production across Kashmir (24 - 31 Dec)' }
     ],
     deliverables: [
       'IMDb Departmental Crew Accreditation',
@@ -166,7 +168,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
             </h2>
           </div>
           <p className="max-w-md text-xs sm:text-sm text-[#B8B4AC] font-normal font-sans leading-[1.6]">
-            Whether leading on camera with a 100% post-release cost-recovery refund, securing an expedition seat with a ₹2,000 token, or capturing sound and visuals as technical crew.
+            Whether leading on camera with a 100% post-release cost-recovery refund (Total ₹16k / ₹3k security after selection), securing an expedition seat with a ₹2,000 security booking, or capturing sound and visuals as technical crew.
           </p>
         </div>
 
@@ -211,20 +213,20 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                 </p>
 
                 {/* Micro Financial Terms Banner */}
-                <div className="p-3.5 bg-[#050811] border border-white/10 mb-4">
+                <div className="p-3.5 bg-[#050811] border border-yellow-400/30 mb-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-sans font-semibold text-[#B8B4AC] uppercase tracking-wider">
-                      PRODUCTION DEPOSIT
+                    <span className="text-[10px] font-mono font-bold text-yellow-400 uppercase tracking-wider">
+                      TOTAL ₹16,000 (100% REFUND)
                     </span>
-                    <span className="text-[10px] font-sans font-bold text-emerald-400 uppercase">
-                      FULL ASSURANCE
+                    <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase">
+                      ₹3,000 SECURITY
                     </span>
                   </div>
-                  <div className="text-xl font-title font-bold text-emerald-400 mt-0.5">
-                    100% REFUNDABLE
+                  <div className="text-xs font-mono text-slate-300 mt-1">
+                    Security booking amount payable only AFTER selection
                   </div>
-                  <div className="text-[10px] text-slate-400 font-sans mt-1">
-                    Confident estimation & full assurity to sponsor trip upon post-release cost recovery
+                  <div className="text-[10px] text-amber-300 font-mono mt-1 font-semibold">
+                    LAST DATE TO APPLY: 20TH NOV
                   </div>
                 </div>
               </div>
@@ -240,7 +242,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                   }}
                   className="w-full !py-3.5 text-xs tracking-wider"
                 >
-                  APPLY AS ACTOR
+                  APPLY AS ACTOR (LAST DATE: 20 NOV)
                 </CinemaButton>
               </div>
             </div>
@@ -286,15 +288,18 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                 {/* Micro Pricing Banner */}
                 <div className="p-3.5 bg-[#050A16] border border-yellow-400/40 mb-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-sans text-yellow-400/90 uppercase tracking-wider font-bold">
-                      PRICE FREEZE GUARANTEE
+                    <span className="text-[10px] font-mono text-yellow-400/90 uppercase tracking-wider font-bold">
+                      EARLY BIRD RATE
                     </span>
-                    <span className="text-[10px] font-sans text-[#B8B4AC] line-through">
-                      ₹12,500
+                    <span className="text-[10px] font-mono text-white/50 line-through">
+                      ₹14,500 after 20 Nov
                     </span>
                   </div>
                   <div className="text-xl font-title font-bold text-[#F4F1EA] mt-0.5">
-                    ₹11,000 <span className="text-xs font-sans text-yellow-400/90 font-normal">/ TOTAL</span>
+                    ₹13,000 <span className="text-xs font-mono text-yellow-400/90 font-normal">/ TOTAL</span>
+                  </div>
+                  <div className="text-[10px] font-mono text-emerald-400 mt-1">
+                    Lock seat with ₹2,000 security booking amount
                   </div>
                 </div>
               </div>
@@ -310,7 +315,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                   }}
                   className="w-full !py-3.5 text-xs tracking-wider"
                 >
-                  LOCK SEAT (₹2,000 TOKEN)
+                  LOCK SEAT (₹2,000 SECURITY)
                 </CinemaButton>
               </div>
             </div>
@@ -357,14 +362,14 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                 <div className="p-3.5 bg-[#050811] border border-white/10 mb-4">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
-                      COMPENSATION & CREDITS
+                      SUBSIDIZED LOGISTICS
                     </span>
                     <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase">
-                      HOD ROLES
+                      FINAL ₹13,000
                     </span>
                   </div>
-                  <div className="text-xl font-title font-black text-white mt-0.5">
-                    TECHNICAL ACCREDITATION
+                  <div className="text-xs font-mono text-slate-300 mt-1">
+                    ₹2,000 security booking payable upon official selection
                   </div>
                 </div>
               </div>

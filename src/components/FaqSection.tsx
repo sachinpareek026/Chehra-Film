@@ -29,11 +29,21 @@ interface FaqItem {
 const FAQS: FaqItem[] = [
   // ACTOR FAQS
   {
+    id: 'actor-pricing',
+    category: 'actor',
+    question: 'What is the total amount, booking amount, and deadline for actors?',
+    answer:
+      'Nomination and audition submission is 100% free with zero fees. The total amount for selected actors is ₹16,000 (which is a 100% refundable production security deposit). You do not pay anything upfront; the security booking amount of ₹3,000 is payable ONLY AFTER you are officially selected for the character role. The pending balance must be cleared at least 20 days prior to the start of the trip. The last date to apply for acting roles is 20th November 2026. Under Chehra Films\' financial assurance, 100% of the deposit is refunded post-release upon cost recovery.',
+    highlight: 'TOTAL ₹16,000 • ₹3,000 SECURITY AFTER SELECTION • DEADLINE: 20 NOV',
+    legalClause: 'Section 8.1 (Actor Production Deposit & Selection Schedule): Submissions are cost-free. Upon official casting confirmation, the ₹3,000 security booking amount locks the character contract. Final total is ₹16,000, 100% refundable upon post-release cost recovery. Last date to apply: 20th November 2026.',
+    relatedDoc: 'Standard Actor Cast Participation Agreement'
+  },
+  {
     id: 'actor-refund',
     category: 'actor',
     question: 'How does the 100% Refund Policy work for actors?',
     answer:
-      'Submitting your audition or nomination is 100% free with zero fees. If officially selected by the directorial team for a character role, an actor places a refundable production security deposit to reserve their convoy seat, costume sizing, and call sheet schedule. It is our strong estimation, full assurance, and sincere confidence that we will be able to refund and sponsor the actors\' trip at bare minimum. Under Chehra Films\' financial model, after the release of the picture to the public, as the film earns financial revenue and recovers up to the mark of its total production cost (through theatrical distribution, OTT streaming platforms, and broadcast licensing), actors become eligible for 100% of their refund amount. We give full assurity from our side and will try our best to make the project a financially great hit so that full cost recovery is achieved and deposits are disbursed.',
+      'Submitting your audition or nomination is 100% free with zero fees. If officially selected by the directorial team for a character role, an actor places a refundable production security deposit (total ₹16,000, with ₹3,000 security booking amount paid upon selection) to reserve their convoy seat, costume sizing, and call sheet schedule. It is our strong estimation, full assurance, and sincere confidence that we will be able to refund and sponsor the actors\' trip at bare minimum. Under Chehra Films\' financial model, after the release of the picture to the public, as the film earns financial revenue and recovers up to the mark of its total production cost (through theatrical distribution, OTT streaming platforms, and broadcast licensing), actors become eligible for 100% of their refund amount. We give full assurity from our side and will try our best to make the project a financially great hit so that full cost recovery is achieved and deposits are disbursed.',
     highlight: '100% REFUND ESTIMATION & FULL PRODUCTION ASSURANCE',
     legalClause: 'Section 8.3 (Post-Release Cost-Recovery Commitment): It is our confident estimation and full production assurance that following public release and upon reaching the cumulative production cost mark, 100% of the actor deposit is refunded in full.',
     relatedDoc: 'Standard Actor Cast Participation Agreement'
@@ -43,7 +53,7 @@ const FAQS: FaqItem[] = [
     category: 'actor',
     question: 'Are there any audition or nomination submission fees?',
     answer:
-      'Absolutely not. Chehra Films charges zero audition fees, zero agency cuts, and zero screening charges. Any creator or individual can submit their portfolio or audition monologue at no cost.',
+      'Absolutely not. Chehra Films charges zero audition fees, zero agency cuts, and zero screening charges. Any creator or individual can submit their portfolio or audition monologue at no cost. The ₹3,000 security booking amount applies only after you are officially chosen for the role.',
     legalClause: 'Section 1.2 (Zero Audition Fees): Chehra Films commits to open-access artistic casting without financial barrier or middleman commission.',
     relatedDoc: 'Chehra Open Talent Manifesto'
   },
@@ -61,7 +71,7 @@ const FAQS: FaqItem[] = [
     category: 'actor',
     question: 'Do I need professional theatre or film acting experience?',
     answer:
-      'No. Chehra is rooted in cinematic realism and unvarnished human emotion. We are looking for genuine faces, raw presence, and authentic stories. Both first-timers and experienced artists are evaluated equally.',
+      'No. Chehra is rooted in cinematic realism and unvarnished human emotion. We are looking for genuine faces, raw presence, and authentic stories. Both first-timers and experienced artists are evaluated equally. Audition submissions close on 20th November 2026.',
     legalClause: 'Section 2.1 (Talent Assessment): Auditions are evaluated on psychological presence, voice texture, and observational depth.',
     relatedDoc: 'Directorial Casting Guidelines'
   },
@@ -70,11 +80,11 @@ const FAQS: FaqItem[] = [
   {
     id: 'participant-pricing',
     category: 'participant',
-    question: 'How does the ₹2,000 token & ₹13,000 early bird expedition pricing work?',
+    question: 'How does the ₹13,000 final amount & ₹2,000 security booking amount work?',
     answer:
-      'You only pay a ₹2,000 token today to reserve your seat in the expedition convoy. Paying the token permanently locks your registration at the early-bird rate of ₹13,000 (regular rate is ₹14,500 after 20 Nov 2026), protecting you from holiday surges. The remaining balance is settled prior to departure.',
-    highlight: 'LOCK ₹13,000 EARLY BIRD RATE WITH ₹2,000 TOKEN',
-    legalClause: 'Section 5.1 (Price Lock Guarantee): The initial ₹2,000 token protects the traveler against all peak-winter vehicle lease and lodging rate surges.',
+      'The final expedition amount is ₹13,000 (Early Bird rate). You submit a ₹2,000 security booking amount today to reserve and lock your seat in the expedition convoy. The pending balance (₹11,000) must be cleared at least 20 days prior to the start of the trip. Registrations received after 20 November 2026 increase to ₹14,500.',
+    highlight: 'FINAL ₹13,000 • LOCK SEAT WITH ₹2,000 SECURITY BOOKING',
+    legalClause: 'Section 5.1 (Price Lock Guarantee): The initial ₹2,000 security booking amount protects the traveler against peak-winter vehicle lease and lodging rate surges, locking the ₹13,000 final rate.',
     relatedDoc: 'Expedition Convoy Booking Terms'
   },
   {
@@ -110,10 +120,11 @@ const FAQS: FaqItem[] = [
   {
     id: 'crew-fee',
     category: 'crew',
-    question: 'What is the opportunity structure for technical crew members?',
+    question: 'What is the financial and logistical structure for technical crew?',
     answer:
-      'Selected technical crew members receive subsidized logistics, dedicated equipment freight trucks, cross-state vehicle transit, and base camp lodging. Unlike commercial film sets where you work in isolation, here you co-direct and shoot a live narrative on wheels.',
-    legalClause: 'Section 10.1 (Crew Freight & Lodging): Specialized gear transport vehicles and high-altitude lodging provided by production.',
+      'Selected technical crew members receive subsidized logistics, dedicated equipment freight trucks, cross-state vehicle transit, and base camp lodging. The final amount for crew is ₹13,000, with a ₹2,000 security booking amount payable only upon official department selection. The pending balance is cleared at least 20 days prior to the start of the trip.',
+    highlight: 'FINAL ₹13,000 • ₹2,000 SECURITY BOOKING UPON SELECTION',
+    legalClause: 'Section 10.1 (Crew Freight & Lodging): Specialized gear transport vehicles and high-altitude lodging provided by production. Crew contribution ₹13,000 with ₹2,000 security booking upon selection.',
     relatedDoc: 'Technical Crew Operation Protocol'
   },
   {
@@ -229,7 +240,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
             <div className="flex-1">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-[10px] font-mono tracking-widest text-yellow-400/90 uppercase">
-                  POST-RELEASE 100% REFUND ASSURANCE
+                  ACTOR PRICING & 100% REFUND ASSURANCE
                 </span>
                 <span className="text-[9px] font-mono text-white/40 group-hover:text-yellow-400/90 uppercase tracking-wider flex items-center gap-1">
                   <Maximize2 className="w-2.5 h-2.5" />
@@ -237,13 +248,13 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                 </span>
               </div>
               <p className="text-xs text-white/70 leading-relaxed font-light font-sans">
-                <strong className="text-white font-normal">Our confident estimation & full assurance:</strong> We are committed to sponsoring the actors&apos; trip bare minimum and refunding 100% of the deposit after public release as the film recovers its total production costs. We will try our best to make the project a financially great hit.
+                <strong className="text-white font-normal">Total ₹16,000 | ₹3,000 security booking after selection:</strong> 100% refundable production security deposit. Zero upfront fee; ₹3,000 security booking amount payable only if chosen for the role. Last date to apply: 20 Nov 2026.
               </p>
             </div>
           </div>
 
           <div
-            onClick={() => setInspectedFaq(FAQS[4])}
+            onClick={() => setInspectedFaq(FAQS[5])}
             className="group p-5 bg-[#080B12] border border-white/15 hover:border-white/30 transition-all duration-300 flex items-start gap-4 cursor-pointer"
           >
             <div className="p-2.5 bg-white/5 text-white/70 border border-white/10 shrink-0 mt-0.5">
@@ -260,7 +271,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                 </span>
               </div>
               <p className="text-xs text-white/70 leading-relaxed font-light font-sans">
-                Reserve with a <strong className="text-white font-normal">₹2,000 token</strong> to permanently freeze the early-bird rate (₹13,000) and safeguard against late-winter transport surcharges.
+                Final amount is <strong className="text-white font-normal">₹13,000</strong>. Lock your seat with a <strong className="text-white font-normal">₹2,000 security booking amount</strong> today to safeguard against peak winter surges (increases to ₹14,500 after 20 Nov).
               </p>
             </div>
           </div>

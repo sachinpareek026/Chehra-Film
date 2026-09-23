@@ -46,27 +46,38 @@ export const ActorVsParticipantSection: React.FC<ActorVsParticipantSectionProps>
             <div className="absolute inset-0 bg-gradient-to-t from-[#05070B] via-[#070B12]/90 to-transparent pointer-events-none" />
 
             <div className="relative z-10">
-              <div className="text-[10px] font-sans font-semibold tracking-[0.14em] text-yellow-400/90 uppercase mb-3 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-yellow-400/90" />
-                <span>PATHWAY 01</span>
+              <div className="text-[10px] font-sans font-semibold tracking-[0.14em] text-yellow-400/90 uppercase mb-3 flex items-center justify-between">
+                <span className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-yellow-400/90" />
+                  <span>PATHWAY 01</span>
+                </span>
+                <span className="px-2 py-0.5 bg-yellow-400 text-black font-bold font-mono text-[9px] uppercase tracking-wider">
+                  LAST DATE: 20TH NOV
+                </span>
               </div>
 
-              <h3 className="font-title text-2xl sm:text-3xl text-[#F4F1EA] tracking-[0.02em] mb-5 font-semibold">
+              <h3 className="font-title text-2xl sm:text-3xl text-[#F4F1EA] tracking-[0.02em] mb-2 font-semibold">
                 BECOME AN ACTOR
               </h3>
+
+              <div className="mb-4 inline-flex items-center gap-2 font-mono text-xs">
+                <span className="text-yellow-400 font-bold">Total: ₹16,000</span>
+                <span className="text-white/40">•</span>
+                <span className="text-emerald-400">₹3,000 Security After Selection</span>
+              </div>
 
               <div className="space-y-3 mb-8 text-xs sm:text-sm text-[#B8B4AC] font-normal font-sans">
                 <div className="flex items-center gap-3">
                   <span className="w-4 h-4 border border-yellow-400/50 flex items-center justify-center text-yellow-400/90 shrink-0">
                     <Check className="w-2.5 h-2.5" />
                   </span>
-                  <span>Step into a defined character persona.</span>
+                  <span>Step into a defined character persona (7 unwritten roles).</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="w-4 h-4 border border-yellow-400/50 flex items-center justify-center text-yellow-400/90 shrink-0">
                     <Check className="w-2.5 h-2.5" />
                   </span>
-                  <span>Travel with the directorial unit across raw terrain.</span>
+                  <span>Zero upfront audition fee; ₹3,000 security booking payable only after selection.</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="w-4 h-4 border border-yellow-400/50 flex items-center justify-center text-yellow-400/90 shrink-0">
@@ -77,7 +88,7 @@ export const ActorVsParticipantSection: React.FC<ActorVsParticipantSectionProps>
               </div>
 
               <div className="p-3.5 bg-white/[0.02] border border-white/10 text-[11px] font-sans text-[#B8B4AC] leading-relaxed mb-8">
-                ★ 100% post-release deposit refund assurance • Official IMDb actor page credit • Festival delegation pass.
+                ★ 100% post-release deposit refund assurance • Official IMDb actor page credit • Festival delegation pass • Last date to apply: <strong className="text-white">20th November</strong>.
               </div>
             </div>
 
@@ -88,7 +99,7 @@ export const ActorVsParticipantSection: React.FC<ActorVsParticipantSectionProps>
                 onClick={onSelectActor}
                 className="w-full sm:w-auto"
               >
-                APPLY AS ACTOR
+                APPLY AS ACTOR (LAST DATE: 20 NOV)
               </CinemaButton>
             </div>
           </div>
@@ -110,16 +121,22 @@ export const ActorVsParticipantSection: React.FC<ActorVsParticipantSectionProps>
                 <span>PATHWAY 02</span>
               </div>
 
-              <h3 className="font-title text-2xl sm:text-3xl text-[#F4F1EA] tracking-[0.02em] mb-5 font-semibold">
+              <h3 className="font-title text-2xl sm:text-3xl text-[#F4F1EA] tracking-[0.02em] mb-2 font-semibold">
                 BECOME A PARTICIPANT
               </h3>
+
+              <div className="mb-4 inline-flex items-center gap-2 font-mono text-xs">
+                <span className="text-yellow-400 font-bold">Final Amount: ₹13,000</span>
+                <span className="text-white/40">•</span>
+                <span className="text-emerald-400">₹2,000 Security Booking</span>
+              </div>
 
               <div className="space-y-3 mb-8 text-xs sm:text-sm text-[#B8B4AC] font-normal font-sans">
                 <div className="flex items-center gap-3">
                   <span className="w-4 h-4 border border-yellow-400/50 flex items-center justify-center text-yellow-400/90 shrink-0">
                     <Check className="w-2.5 h-2.5" />
                   </span>
-                  <span>Travel with the filmmaking journey across Kashmir.</span>
+                  <span>Travel with the filmmaking journey across Kashmir (24 - 31 Dec).</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="w-4 h-4 border border-yellow-400/50 flex items-center justify-center text-yellow-400/90 shrink-0">
@@ -131,12 +148,12 @@ export const ActorVsParticipantSection: React.FC<ActorVsParticipantSectionProps>
                   <span className="w-4 h-4 border border-yellow-400/50 flex items-center justify-center text-yellow-400/90 shrink-0">
                     <Check className="w-2.5 h-2.5" />
                   </span>
-                  <span>₹2,000 token today; ₹13,000 early bird (₹14,500 after 20 Nov).</span>
+                  <span>₹2,000 security booking to lock seat; ₹13,000 final rate (₹14,500 after 20 Nov).</span>
                 </div>
               </div>
 
               <div className="p-3.5 bg-white/[0.02] border border-white/10 text-[11px] font-sans text-[#B8B4AC] leading-relaxed mb-8">
-                ★ Includes 7 nights / 8 days travel, stays in Katra, Gulmarg & Dal Lake houseboat, and Gulmarg Ski 2-day certificate course.
+                ★ Includes 7 nights / 8 days travel, 2-sharing stays in Katra, Gulmarg & Dal Lake houseboat, and ski certificate course. Balance due 20 days before departure.
               </div>
             </div>
 
@@ -147,7 +164,7 @@ export const ActorVsParticipantSection: React.FC<ActorVsParticipantSectionProps>
                 onClick={onSelectParticipant}
                 className="w-full sm:w-auto"
               >
-                JOIN AS PARTICIPANT
+                JOIN AS PARTICIPANT (LOCK WITH ₹2,000)
               </CinemaButton>
             </div>
           </div>

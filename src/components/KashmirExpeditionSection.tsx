@@ -200,7 +200,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
     }
   ];
 
-  // Pricing Tiers with updated requested rates: ₹13,000 Early Bird / ₹14,500 Regular / ₹15,000 Actors
+  // Pricing Tiers with updated requested rates: ₹13,000 Early Bird / ₹14,500 Regular / ₹16,000 Actors
   const pricingTiers = [
     {
       id: 'early-bird',
@@ -212,15 +212,16 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
       status: 'AVAILABLE NOW',
       description: 'Special early-bird rate for selected advance bookings. Christmas peak week in Gulmarg demands early transport & room lock-in.',
       features: [
-        'Full 8 Days / 7 Nights comprehensive expedition',
-        '5 Nights hotel stay (1N Katra + 2N Gulmarg + 2N Srinagar)',
+        'Full 8 Days / 7 Nights comprehensive expedition (24 - 31 Dec)',
+        '₹2,000 security booking amount to confirm & lock seat',
+        'Balance ₹11,000 cleared 20 days prior to departure',
+        '5 Nights hotel stay (1N Katra + 2N Gulmarg + 2N Srinagar - 2 sharing preserved)',
         '2 Nights comfortable group transit (Delhi ↔ Kashmir loop)',
         'Gulmarg Ski 2-Day Certificate Course under Experts Training Program with gear + mentor included',
-        'Vaishno Devi Yatra experience + Gulmarg snow exploration',
-        'Srinagar heritage tour, Dal Lake & "The Life of Nandi" film participation'
+        'Vaishno Devi Yatra experience + Gulmarg snow exploration'
       ],
       pathway: 'participant' as PathwayType,
-      btnLabel: 'LOCK EARLY BIRD (₹2,000 TOKEN)'
+      btnLabel: 'LOCK SEAT (₹2,000 SECURITY)'
     },
     {
       id: 'regular',
@@ -233,7 +234,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
       description: 'Standard booking tier applied after 20 November 2026 due to surging peak Christmas hotel tariffs and winter transport rates.',
       features: [
         'Full 8 Days / 7 Nights complete itinerary',
-        '5 Nights hotel stays across Katra, Gulmarg & Srinagar',
+        '5 Nights hotel stays across Katra, Gulmarg & Srinagar (2 sharing)',
         'All interstate & local internal transport vehicles included',
         'Gulmarg Ski 2-Day Certificate Course under Experts Training Program with gear + mentor included',
         'Trip coordinator, safety oversight & medical assistance',
@@ -245,22 +246,22 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
     {
       id: 'actor',
       name: 'ACTORS / LEAD CAST',
-      price: '₹15,000',
-      period: 'per person',
-      tag: '100% REFUND SECURITY DEPOSIT',
+      price: '₹16,000',
+      period: '100% refundable deposit',
+      tag: '₹3,000 SECURITY AFTER SELECTION',
       highlightColor: 'yellow',
-      status: 'UNSCRIPTED LEAD CASTING',
-      description: 'Fixed participant rate for auditioning lead cast candidates. Held as a 100% refundable security deposit returned in full upon project wrap.',
+      status: 'LAST DATE TO APPLY: 20TH NOV',
+      description: 'Total amount is ₹16,000 (100% refundable production security deposit). Zero fee to apply; ₹3,000 security booking amount payable only AFTER role selection. Last date: 20th Nov.',
       features: [
         'Official on-screen character casting in "The Life of Nandi" / "Chehra"',
-        '100% refundable security deposit clause in written contract',
+        'Total ₹16,000 (100% refundable production security deposit upon cost recovery)',
+        '₹3,000 security booking amount payable only AFTER role selection',
+        'Pending balance cleared 20 days prior to departure',
         'IMDb verified film credits & theatrical festival eligibility',
-        'All lodging, Gulmarg Ski 2-Day Certificate Course & internal transit included',
-        'Dedicated camera crew & Arri anamorphic cinematic framing',
-        'Full creative collaboration with director & technical team'
+        'All lodging (2 sharing), Gulmarg Ski 2-Day Certificate Course & internal transit included'
       ],
       pathway: 'actor' as PathwayType,
-      btnLabel: 'AUDITION AS LEAD CAST'
+      btnLabel: 'AUDITION FOR CAST (LAST DATE: 20 NOV)'
     }
   ];
 
@@ -777,9 +778,9 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                     <tr>
                       <td className="py-3 pr-4 font-medium text-white">Actors / Lead Cast Role</td>
                       <td className="py-3 px-4">7N / 8D</td>
-                      <td className="py-3 px-4 text-yellow-400/90 font-semibold">₹15,000 (100% Refund Deposit)</td>
-                      <td className="py-3 px-4 text-white/70">₹15,000 Fixed</td>
-                      <td className="py-3 pl-4 text-white/50 font-sans">Lead Screen Role + IMDb Credit + All Inclusions</td>
+                      <td className="py-3 px-4 text-yellow-400/90 font-semibold">₹16,000 (100% Refund Deposit)</td>
+                      <td className="py-3 px-4 text-white/70">₹3,000 Security After Selection</td>
+                      <td className="py-3 pl-4 text-white/50 font-sans">Lead Screen Role + IMDb Credit + All Inclusions (Last Date: 20 Nov)</td>
                     </tr>
                     <tr>
                       <td className="py-3 pr-4 font-medium text-white">Optional Gulmarg Gondola (Phase 1/2)</td>
@@ -798,7 +799,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               <div className="flex items-start gap-3">
                 <Info className="w-5 h-5 text-yellow-400/90 shrink-0 mt-0.5" />
                 <p className="text-xs text-white/70 leading-relaxed font-sans">
-                  <strong className="text-white">Early Bird Guarantee:</strong> Lock your seat today with a <span className="text-yellow-400/90 font-mono font-medium">₹2,000 token</span>. Rate is ₹13,000/person for early-bird slots; increases to ₹14,500 after 20 November 2026 due to Christmas peak rush.
+                  <strong className="text-white">Early Bird Guarantee:</strong> Lock your seat today with a <span className="text-yellow-400/90 font-mono font-medium">₹2,000 security booking amount</span>. Final rate is ₹13,000/person for early-bird slots; increases to ₹14,500 after 20 November 2026 due to Christmas peak rush.
                 </p>
               </div>
               <button
@@ -806,7 +807,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                 onClick={() => onOpenBooking('participant')}
                 className="shrink-0 px-5 py-2.5 bg-yellow-400/90 text-[#070A0F] font-mono font-medium text-xs uppercase tracking-wider hover:bg-yellow-300/90 transition-colors cursor-pointer"
               >
-                LOCK WITH ₹2,000 TOKEN
+                LOCK WITH ₹2,000 SECURITY
               </button>
             </div>
           </div>

@@ -671,12 +671,12 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                 <div className="p-4 bg-[#060B14] border border-yellow-400/30">
                   <span className="text-[10px] text-slate-400 uppercase">Track 01 • Actors</span>
                   <div className="text-2xl font-bold text-yellow-400/90">{safeActors.length} Registered</div>
-                  <p className="text-[11px] text-slate-400 mt-1">100% Refund Eligible upon completion</p>
+                  <p className="text-[11px] text-slate-400 mt-1">₹16k Total / ₹3k Security After Selection (Last Date 20 Nov)</p>
                 </div>
                 <div className="p-4 bg-[#060B14] border border-blue-500/30">
                   <span className="text-[10px] text-slate-400 uppercase">Track 02 • Participants</span>
                   <div className="text-2xl font-bold text-blue-400">{safeParticipants.length} Pre-Booked</div>
-                  <p className="text-[11px] text-slate-400 mt-1">₹2,000 Token / ₹11,000 Locked (Hike after 30 Oct)</p>
+                  <p className="text-[11px] text-slate-400 mt-1">₹2,000 Security / ₹13,000 Final Locked (Hike after 20 Nov)</p>
                 </div>
                 <div className="p-4 bg-[#060B14] border border-emerald-500/30">
                   <span className="text-[10px] text-slate-400 uppercase">Track 03 • Crew</span>

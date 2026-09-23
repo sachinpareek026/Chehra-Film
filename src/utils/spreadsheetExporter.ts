@@ -179,8 +179,8 @@ export function downloadMasterExcel(
 
   // Summary sheet
   const summaryData = [
-    { 'METRIC / CATEGORY': 'TOTAL ACTOR NOMINATIONS', 'VALUE': actors.length, 'DETAILS': '100% Refund Eligible Track' },
-    { 'METRIC / CATEGORY': 'TOTAL PARTICIPANT PRE-BOOKINGS', 'VALUE': participants.length, 'DETAILS': '₹2,000 Token / ₹11,000 Locked (Hike by ₹1,500 after 30 Oct)' },
+    { 'METRIC / CATEGORY': 'TOTAL ACTOR NOMINATIONS', 'VALUE': actors.length, 'DETAILS': '₹16,000 Total / ₹3,000 Security After Selection (Last Date 20 Nov)' },
+    { 'METRIC / CATEGORY': 'TOTAL PARTICIPANT PRE-BOOKINGS', 'VALUE': participants.length, 'DETAILS': '₹2,000 Security / ₹13,000 Final Rate Locked (Hike by ₹1,500 after 20 Nov)' },
     { 'METRIC / CATEGORY': 'TOTAL CREW APPLICATIONS', 'VALUE': crew.length, 'DETAILS': 'Prime & Creative Heads of Department (Link Proof Only)' },
     { 'METRIC / CATEGORY': 'GRAND TOTAL REGISTRATIONS', 'VALUE': actors.length + participants.length + crew.length, 'DETAILS': 'Chehra Films Live Production Roster' },
     { 'METRIC / CATEGORY': 'EXPORT GENERATED AT', 'VALUE': new Date().toLocaleString(), 'DETAILS': 'Official Chehra Films Database Sync' },

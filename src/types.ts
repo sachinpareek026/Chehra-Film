@@ -86,7 +86,9 @@ export interface ActorSubmission {
   aadharBackFileName?: string;
   aadharBackUrl?: string;
   refundEligible: boolean; // 100% refund eligible
-  bookingConsentAgreed?: boolean; // Agrees to ₹3,000 booking amount upon acceptance & balance before 20 days
+  totalAmount?: number; // 16000
+  securityBookingAmount?: number; // 3000 payable upon selection
+  bookingConsentAgreed?: boolean; // Agrees to ₹16,000 total & ₹3,000 booking amount upon acceptance & balance before 20 days
   bookingAmountTerms?: string;
   filmmakingConsent?: boolean;
   confirmed: boolean;
@@ -111,10 +113,10 @@ export interface ParticipantSubmission {
   aadharFrontUrl?: string;
   aadharBackFileName?: string;
   aadharBackUrl?: string;
-  bookingConsentAgreed?: boolean; // Agrees to ₹3,000 booking amount upon acceptance & balance before 20 days
-  prebookingTokenPrice: number; // 2000 or 3000
-  lockedTripPrice: number; // 11000
-  oct30PriceIncreaseNotice: boolean; // increases by 1500 after 30 Oct
+  bookingConsentAgreed?: boolean; // Agrees to ₹13,000 final amount & ₹2,000 security booking amount & balance before 20 days
+  prebookingTokenPrice: number; // 2000
+  lockedTripPrice: number; // 13000
+  oct30PriceIncreaseNotice: boolean; // increases by 1500 after 20 Nov
   paymentMode: string;
   transactionRef: string;
   confirmed: boolean;
@@ -141,7 +143,11 @@ export interface CrewSubmission {
   aadharFrontUrl?: string;
   aadharBackFileName?: string;
   aadharBackUrl?: string;
-  opportunityFeeAgreed: boolean; // Ready to pay slightly opportunity fee if selected
+  prebookingTokenPrice?: number; // 2000
+  lockedTripPrice?: number; // 13000
+  bookingConsentAgreed?: boolean;
+  bookingAmountTerms?: string;
+  opportunityFeeAgreed: boolean; // Ready to pay subsidized opportunity fee if selected
   publicFilmmakingConsent: boolean; // Consent to use character & work for public filmmaking use
   confirmed: boolean;
 }
