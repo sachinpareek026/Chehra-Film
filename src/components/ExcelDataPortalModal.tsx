@@ -242,7 +242,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
               </span>
               <span className="text-emerald-400 font-semibold">CONNECTED</span>
               <span className="text-slate-400 hidden sm:inline text-[11px]">
-                (https://script.google.com/macros/s/AKfycbz.../exec)
+                (AKfycbxx-I76c...11m2)
               </span>
             </div>
 
