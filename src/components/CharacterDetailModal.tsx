@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, MapPin, Compass, Clapperboard, Check } from 'lucide-react';
+import { X, Compass, Clapperboard, Check } from 'lucide-react';
 import { CharacterRole } from '../types';
 import { CinemaButton } from './CinemaButton';
 
@@ -124,24 +124,6 @@ export const CharacterDetailModal: React.FC<CharacterDetailModalProps> = ({
                 <span>{character.physicalTrait}</span>
               </div>
             )}
-
-            {/* Filming Soundstages */}
-            <div className="space-y-2">
-              <h4 className="text-[10px] font-mono tracking-widest text-white/60 uppercase flex items-center gap-2 font-semibold">
-                <MapPin className="w-3.5 h-3.5 text-yellow-400/90" />
-                <span>PRINCIPAL FILMING SOUNDSTAGES</span>
-              </h4>
-              <div className="flex flex-wrap gap-2">
-                {character.filmingLocations.map((loc) => (
-                  <span
-                    key={loc}
-                    className="px-3 py-1 bg-white/[0.03] border border-white/10 text-xs text-white/80 font-mono"
-                  >
-                    {loc}
-                  </span>
-                ))}
-              </div>
-            </div>
 
             {/* Audition Guarantee Note & CTA */}
             <div className="pt-4 border-t border-white/10 space-y-4">

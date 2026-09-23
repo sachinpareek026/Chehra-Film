@@ -1138,13 +1138,6 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                           {currentRole.keyScenePreview}
                         </p>
                       </div>
-
-                      {/* Filming Soundstages */}
-                      <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-400 flex-wrap">
-                        <MapPin className="w-3.5 h-3.5 text-yellow-400/90 shrink-0" />
-                        <span className="text-slate-300">SOUNDSTAGES:</span>
-                        <span className="text-yellow-400/90">{currentRole.filmingLocations.join(' • ')}</span>
-                      </div>
                     </div>
                   </div>
                 )}

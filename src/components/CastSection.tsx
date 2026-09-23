@@ -4,7 +4,6 @@ import { CharacterRole } from '../types';
 import {
   ArrowRight,
   UserCheck,
-  MapPin,
   Eye,
   Compass,
   ShieldCheck,
@@ -55,7 +54,7 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
               SEVEN UNWRITTEN CHARACTERS
             </h2>
             <p className="text-xs sm:text-sm text-[#B8B4AC] font-normal font-sans max-w-xl leading-[1.6]">
-              Select any role to inspect background backstory, terrain soundstages, and audition criteria. Zero casting charges; 100% refund eligible upon post-release cost recovery.
+              Select any role to inspect background backstory and audition criteria. Zero casting charges; 100% refund eligible upon post-release cost recovery.
             </p>
           </div>
 
@@ -226,25 +225,15 @@ export const CastSection: React.FC<CastSectionProps> = ({ onSelectRole, onInspec
                     <span className="px-2 py-0.5 bg-yellow-400/20 border border-yellow-400/40 text-[10px] font-mono text-yellow-400/90 uppercase tracking-widest">
                       {selectedChar.archetype}
                     </span>
-                    <span className="text-[#A5A196] font-mono text-xs">
-                      • {selectedChar.filmingLocations[0]}
-                    </span>
                   </div>
 
                   <h3 className="font-title text-3xl sm:text-4xl lg:text-5xl font-semibold text-[#F4F1EA] uppercase tracking-[0.02em] leading-tight mb-2">
                     {selectedChar.name}
                   </h3>
 
-                  <p className="font-sans text-xs sm:text-sm text-yellow-300/90 font-medium italic mb-4 max-w-xl leading-[1.6]">
+                  <p className="font-sans text-xs sm:text-sm text-yellow-300/90 font-medium italic mb-6 max-w-xl leading-[1.6]">
                     &ldquo;{selectedChar.tagline}&rdquo;
                   </p>
-
-                  <div className="flex items-center gap-3 text-xs font-mono text-[#A5A196] mb-6 flex-wrap">
-                    <div className="flex items-center gap-1.5 text-yellow-400/90">
-                      <MapPin className="w-3.5 h-3.5" />
-                      <span>{selectedChar.filmingLocations.join(' • ')}</span>
-                    </div>
-                  </div>
 
                   {/* Actions Bar */}
                   <div
