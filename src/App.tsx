@@ -102,6 +102,17 @@ const parseRouteFromLocation = (): { page: AppPage; roleId?: string; pathway?: P
     hash.includes('terms') ||
     pageParam === 'terms';
 
+  const isExcelPortal =
+    path.startsWith('/portal') ||
+    path.startsWith('/admin') ||
+    path.startsWith('/excel') ||
+    hash.includes('portal') ||
+    hash.includes('admin') ||
+    hash.includes('excel') ||
+    pageParam === 'portal' ||
+    pageParam === 'admin' ||
+    pageParam === 'excel';
+
   let page: AppPage = 'home';
   if (isApply) page = 'apply';
   else if (isRefund) page = 'refund';
@@ -126,12 +137,13 @@ const parseRouteFromLocation = (): { page: AppPage; roleId?: string; pathway?: P
     page,
     roleId: roleParam,
     pathway: pathway,
+    openPortal: isExcelPortal,
   };
 };
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<AppPage>(() => parseRouteFromLocation().page);
-  const [excelPortalOpen, setExcelPortalOpen] = useState(false);
+  const [excelPortalOpen, setExcelPortalOpen] = useState<boolean>(() => parseRouteFromLocation().openPortal || false);
   const [selectedRoleId, setSelectedRoleId] = useState<string>(() => {
     const r = parseRouteFromLocation();
     return normalizeRoleId(r.roleId);
@@ -248,6 +260,9 @@ export default function App() {
     const handleLocationChange = () => {
       const route = parseRouteFromLocation();
       setCurrentPage(route.page);
+      if (route.openPortal) {
+        setExcelPortalOpen(true);
+      }
       if (route.roleId) {
         setSelectedRoleId(normalizeRoleId(route.roleId));
       }
@@ -267,9 +282,19 @@ export default function App() {
       }
     };
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Secret admin shortcut: Ctrl + Shift + E or Cmd + Shift + E
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'E' || e.key === 'e')) {
+        e.preventDefault();
+        setExcelPortalOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('popstate', handleLocationChange);
     window.addEventListener('hashchange', handleLocationChange);
     return () => {
+      window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('popstate', handleLocationChange);
       window.removeEventListener('hashchange', handleLocationChange);
     };
@@ -572,6 +597,7 @@ export default function App() {
         onOpenNomination={() => handleOpenNomination()}
         onNavigateHome={(sectionId) => handleBackToHome(sectionId)}
         onNavigatePage={(p) => handleNavigatePage(p)}
+        onOpenExcelPortal={() => setExcelPortalOpen(true)}
       />
 
       {/* Excel / Google Sheet Live Telemetry Portal Modal */}

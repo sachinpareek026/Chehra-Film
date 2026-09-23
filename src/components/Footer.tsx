@@ -6,10 +6,16 @@ interface FooterProps {
   onOpenNomination: () => void;
   onNavigateHome?: (sectionId?: string) => void;
   onNavigatePage?: (page: 'refund' | 'privacy' | 'terms') => void;
+  onOpenExcelPortal?: () => void;
   isApplyPage?: boolean;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenNomination, onNavigateHome, onNavigatePage }) => {
+export const Footer: React.FC<FooterProps> = ({
+  onOpenNomination,
+  onNavigateHome,
+  onNavigatePage,
+  onOpenExcelPortal,
+}) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0 });
   };
@@ -177,7 +183,14 @@ export const Footer: React.FC<FooterProps> = ({ onOpenNomination, onNavigateHome
         {/* Bottom Bar with Copyright */}
         <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-[10px] font-mono text-white/40">
           <div className="flex flex-col sm:flex-row items-center gap-2">
-            <span>© 2026 Chehra Films</span>
+            <button
+              type="button"
+              onClick={onOpenExcelPortal}
+              title="Admin Portal"
+              className="hover:text-yellow-400 transition-colors cursor-pointer text-left"
+            >
+              © 2026 Chehra Films
+            </button>
             <span className="hidden sm:inline">•</span>
             <span className="text-yellow-400/90">An initiative of Parindaa Travels</span>
           </div>

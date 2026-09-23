@@ -259,15 +259,11 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         setErrors((prev) => ({ ...prev, aadharFront: '' }));
       }
 
-      if (isPdf) {
-        setAadharFrontPreview(null);
-      } else {
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          setAadharFrontPreview(ev.target?.result as string);
-        };
-        reader.readAsDataURL(file);
-      }
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setAadharFrontPreview(ev.target?.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -284,15 +280,11 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         setErrors((prev) => ({ ...prev, aadharBack: '' }));
       }
 
-      if (isPdf) {
-        setAadharBackPreview(null);
-      } else {
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          setAadharBackPreview(ev.target?.result as string);
-        };
-        reader.readAsDataURL(file);
-      }
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setAadharBackPreview(ev.target?.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 

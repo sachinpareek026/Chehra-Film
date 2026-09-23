@@ -541,10 +541,24 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                           <span className="text-slate-400">Tape: {a.auditionTapeFileName || 'Uploaded'}</span>
                         )}
                         {a.aadharFrontFileName && (
-                          <span className="text-amber-300 flex items-center gap-1 text-[10px]">
-                            <ShieldCheck className="w-3 h-3 text-amber-400" />
-                            <span>Aadhaar: {a.aadharFrontFileName}</span>
-                          </span>
+                          <div className="flex flex-col gap-0.5 mt-1">
+                            <span className="text-amber-300 flex items-center gap-1 text-[10px]">
+                              <ShieldCheck className="w-3 h-3 text-amber-400" />
+                              <span>Aadhaar: {a.aadharFrontFileName}</span>
+                            </span>
+                            {a.aadharFrontUrl && (
+                              <a
+                                href={a.aadharFrontUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                download={a.aadharFrontFileName || 'aadhar_front'}
+                                className="inline-flex items-center gap-1 text-[10px] text-yellow-400 hover:underline w-fit"
+                              >
+                                <ExternalLink className="w-2.5 h-2.5" />
+                                <span>View / Download Aadhaar</span>
+                              </a>
+                            )}
+                          </div>
                         )}
                       </div>
                     </td>
@@ -613,18 +627,54 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                     </td>
                     <td className="p-3">
                       {p.aadharFrontFileName ? (
-                        <div className="flex flex-col gap-0.5">
+                        <div className="flex flex-col gap-1">
                           <span className="px-2 py-0.5 bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold flex items-center gap-1 w-fit">
                             <ShieldCheck className="w-3 h-3 text-emerald-400" />
                             <span>AADHAAR ATTACHED</span>
                           </span>
-                          <span className="text-[9px] text-slate-400 truncate max-w-[130px]" title={p.aadharFrontFileName}>
-                            {p.aadharFrontFileName}
+                          <span className="text-[10px] text-slate-300 font-mono truncate max-w-[150px]" title={p.aadharFrontFileName}>
+                            Front: {p.aadharFrontFileName}
                           </span>
+                          {p.aadharFrontUrl && (
+                            <div className="flex items-center gap-2 mt-0.5">
+                              <a
+                                href={p.aadharFrontUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                download={p.aadharFrontFileName || 'aadhar_front'}
+                                className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-600/30 hover:bg-blue-600/50 text-blue-200 border border-blue-500/50 text-[10px] font-bold rounded transition-colors"
+                              >
+                                <ExternalLink className="w-2.5 h-2.5" />
+                                <span>VIEW / DOWNLOAD FRONT</span>
+                              </a>
+                            </div>
+                          )}
+                          {p.aadharBackFileName && (
+                            <div className="mt-1 pt-1 border-t border-slate-700/50">
+                              <span className="text-[10px] text-slate-400 font-mono truncate max-w-[150px] block" title={p.aadharBackFileName}>
+                                Back: {p.aadharBackFileName}
+                              </span>
+                              {p.aadharBackUrl && (
+                                <a
+                                  href={p.aadharBackUrl}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  download={p.aadharBackFileName || 'aadhar_back'}
+                                  className="inline-flex items-center gap-1 px-2 py-0.5 mt-0.5 bg-blue-600/30 hover:bg-blue-600/50 text-blue-200 border border-blue-500/50 text-[10px] font-bold rounded transition-colors"
+                                >
+                                  <ExternalLink className="w-2.5 h-2.5" />
+                                  <span>VIEW / DOWNLOAD BACK</span>
+                                </a>
+                              )}
+                            </div>
+                          )}
+                          {p.aadharNumber && (
+                            <span className="text-[9px] text-slate-400 font-mono mt-0.5 block">UID: {p.aadharNumber}</span>
+                          )}
                         </div>
                       ) : (
-                        <span className="px-2 py-0.5 bg-blue-950/80 text-blue-300 border border-blue-500/40 text-[10px] font-bold">
-                          ZERO UPLOADS
+                        <span className="px-2 py-0.5 bg-slate-900 text-slate-400 border border-slate-700 text-[10px] font-bold">
+                          NOT UPLOADED
                         </span>
                       )}
                     </td>
