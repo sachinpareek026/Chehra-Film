@@ -8,7 +8,7 @@ interface PolicyPageProps {
 
 export const PrivacyPolicyPage: React.FC<PolicyPageProps> = ({ onBackToHome, onOpenNomination }) => {
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0 });
     document.title = 'Privacy Policy | Chehra Films';
   }, []);
 
