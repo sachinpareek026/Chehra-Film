@@ -39,6 +39,7 @@ import { INITIAL_ACTOR_SUBMISSIONS, INITIAL_PARTICIPANT_SUBMISSIONS, INITIAL_CRE
 import { CinemaButton } from './CinemaButton';
 import { ActorVideoBrief } from './ActorVideoBrief';
 import { PathwayType, AnySubmission, ActorSubmission, ParticipantSubmission, CrewSubmission } from '../types';
+import { processDocumentFile } from '../utils/fileHelper';
 
 interface FAQItem {
   question: string;
@@ -219,15 +220,16 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
   const currentRole = CHARACTERS.find((c) => c.id === selectedRoleId) || CHARACTERS[0];
 
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setPhotoFileName(file.name);
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        setPhotoPreview(ev.target?.result as string);
-      };
-      reader.readAsDataURL(file);
+      try {
+        const res = await processDocumentFile(file);
+        setPhotoFileName(res.fileName);
+        setPhotoPreview(res.dataUrl);
+      } catch (err) {
+        console.error('Error processing photo:', err);
+      }
     }
   };
 
@@ -246,45 +248,41 @@ export const NominationModal: React.FC<NominationModalProps> = ({
     }
   };
 
-  const handleAadharFrontUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAadharFrontUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setAadharFrontFileName(file.name);
-      const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
-      setAadharFrontFileSize(`${sizeMb} MB`);
-      const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
-      setAadharFrontIsPdf(isPdf);
+      try {
+        const res = await processDocumentFile(file);
+        setAadharFrontFileName(res.fileName);
+        setAadharFrontFileSize(res.fileSizeFormatted);
+        setAadharFrontIsPdf(res.isPdf);
+        setAadharFrontPreview(res.dataUrl);
 
-      if (errors.aadharFront) {
-        setErrors((prev) => ({ ...prev, aadharFront: '' }));
+        if (errors.aadharFront) {
+          setErrors((prev) => ({ ...prev, aadharFront: '' }));
+        }
+      } catch (err) {
+        console.error('Error processing aadhar front:', err);
       }
-
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        setAadharFrontPreview(ev.target?.result as string);
-      };
-      reader.readAsDataURL(file);
     }
   };
 
-  const handleAadharBackUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAadharBackUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setAadharBackFileName(file.name);
-      const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
-      setAadharBackFileSize(`${sizeMb} MB`);
-      const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
-      setAadharBackIsPdf(isPdf);
+      try {
+        const res = await processDocumentFile(file);
+        setAadharBackFileName(res.fileName);
+        setAadharBackFileSize(res.fileSizeFormatted);
+        setAadharBackIsPdf(res.isPdf);
+        setAadharBackPreview(res.dataUrl);
 
-      if (errors.aadharBack) {
-        setErrors((prev) => ({ ...prev, aadharBack: '' }));
+        if (errors.aadharBack) {
+          setErrors((prev) => ({ ...prev, aadharBack: '' }));
+        }
+      } catch (err) {
+        console.error('Error processing aadhar back:', err);
       }
-
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        setAadharBackPreview(ev.target?.result as string);
-      };
-      reader.readAsDataURL(file);
     }
   };
 
@@ -399,20 +397,11 @@ export const NominationModal: React.FC<NominationModalProps> = ({
     if (!phoneNumber.trim() || phoneNumber.length < 8) errs.phoneNumber = 'Active phone number is required';
     if (!email.trim() || !email.includes('@')) errs.email = 'Valid email is required';
 
-    // Duplicate verification against existing casting roster
+    // Duplicate verification against existing casting roster: Inform user that submitting will update their record
     if (phoneNumber.trim().length >= 8 || (email.trim() && email.includes('@'))) {
       const duplicateResult = checkDuplicateApplication();
       if (duplicateResult.isDuplicate) {
-        setDuplicateError(duplicateResult.message);
-        if (duplicateResult.duplicateField === 'both') {
-          errs.phoneNumber = 'You already applied! Phone number already exists.';
-          errs.email = 'You already applied! Email address already exists.';
-        } else if (duplicateResult.duplicateField === 'phone') {
-          errs.phoneNumber = 'You already applied! Phone number already exists. Please use a different phone number.';
-        } else if (duplicateResult.duplicateField === 'email') {
-          errs.email = 'You already applied! Email address already exists. Please use a different email.';
-        }
-        errs.duplicate = duplicateResult.message;
+        setDuplicateError('Existing application found! Submitting will update your registration with your uploaded Aadhaar card & documents.');
       } else {
         setDuplicateError(null);
       }

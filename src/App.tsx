@@ -46,7 +46,7 @@ export const normalizeRoleId = (id?: string | null): string => {
   return found ? found.id : CHARACTERS[0].id;
 };
 
-const parseRouteFromLocation = (): { page: AppPage; roleId?: string; pathway?: PathwayType } => {
+const parseRouteFromLocation = (): { page: AppPage; roleId?: string; pathway?: PathwayType; openPortal?: boolean } => {
   if (typeof window === 'undefined') return { page: 'home' };
 
   // 1. Recover from Hostinger 404.html redirect if preserved in sessionStorage

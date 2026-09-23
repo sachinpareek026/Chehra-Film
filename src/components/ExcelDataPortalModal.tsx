@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, Download, Copy, Check, ExternalLink, Search, RefreshCw, Table, ShieldCheck, Film, Compass, Wrench, FileSpreadsheet } from 'lucide-react';
+import { X, Download, Copy, Check, ExternalLink, Search, RefreshCw, Table, ShieldCheck, Film, Compass, Wrench, FileSpreadsheet, Upload } from 'lucide-react';
 import { ActorSubmission, ParticipantSubmission, CrewSubmission } from '../types';
+import { processDocumentFile } from '../utils/fileHelper';
 import {
   downloadActorsExcel,
   downloadParticipantsExcel,
@@ -48,6 +49,41 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
   const [isSyncingAll, setIsSyncingAll] = useState(false);
   const [syncAllResult, setSyncAllResult] = useState<string | null>(null);
   const [confirmClearOpen, setConfirmClearOpen] = useState(false);
+  const [attachingDocId, setAttachingDocId] = useState<string | null>(null);
+
+  const handleAttachDocument = async (id: string, side: 'front' | 'back', e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setAttachingDocId(id);
+      try {
+        const processed = await processDocumentFile(file);
+        const payload: any = { id };
+        if (side === 'front') {
+          payload.aadharFrontFileName = processed.fileName;
+          payload.aadharFrontUrl = processed.dataUrl;
+        } else {
+          payload.aadharBackFileName = processed.fileName;
+          payload.aadharBackUrl = processed.dataUrl;
+        }
+
+        const res = await fetch('/api/submissions/attach-document', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        if (res.ok) {
+          if (onRefresh) {
+            await onRefresh();
+          }
+        }
+      } catch (err) {
+        console.error('Error attaching document:', err);
+      } finally {
+        setAttachingDocId(null);
+        e.target.value = '';
+      }
+    }
+  };
 
   const handleRefreshClick = async () => {
     if (!onRefresh) return;
@@ -540,7 +576,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                         ) : (
                           <span className="text-slate-400">Tape: {a.auditionTapeFileName || 'Uploaded'}</span>
                         )}
-                        {a.aadharFrontFileName && (
+                        {a.aadharFrontFileName ? (
                           <div className="flex flex-col gap-0.5 mt-1">
                             <span className="text-amber-300 flex items-center gap-1 text-[10px]">
                               <ShieldCheck className="w-3 h-3 text-amber-400" />
@@ -558,6 +594,19 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                                 <span>View / Download Aadhaar</span>
                               </a>
                             )}
+                          </div>
+                        ) : (
+                          <div className="mt-1 pt-1 border-t border-slate-700/40">
+                            <label className="inline-flex items-center gap-1 text-[9px] font-bold text-yellow-400 hover:text-yellow-300 cursor-pointer">
+                              <Upload className="w-2.5 h-2.5" />
+                              <span>+ Attach Aadhaar</span>
+                              <input
+                                type="file"
+                                accept="image/*,application/pdf"
+                                className="hidden"
+                                onChange={(e) => handleAttachDocument(a.id, 'front', e)}
+                              />
+                            </label>
                           </div>
                         )}
                       </div>
@@ -632,50 +681,108 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                             <ShieldCheck className="w-3 h-3 text-emerald-400" />
                             <span>AADHAAR ATTACHED</span>
                           </span>
-                          <span className="text-[10px] text-slate-300 font-mono truncate max-w-[150px]" title={p.aadharFrontFileName}>
+                          <span className="text-[10px] text-slate-300 font-mono truncate max-w-[160px]" title={p.aadharFrontFileName}>
                             Front: {p.aadharFrontFileName}
                           </span>
-                          {p.aadharFrontUrl && (
-                            <div className="flex items-center gap-2 mt-0.5">
+                          <div className="flex flex-wrap items-center gap-2 mt-0.5">
+                            {p.aadharFrontUrl && (
                               <a
                                 href={p.aadharFrontUrl}
                                 target="_blank"
                                 rel="noreferrer"
                                 download={p.aadharFrontFileName || 'aadhar_front'}
-                                className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-600/30 hover:bg-blue-600/50 text-blue-200 border border-blue-500/50 text-[10px] font-bold rounded transition-colors"
+                                className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-600/40 hover:bg-blue-600/70 text-blue-200 border border-blue-500/50 text-[10px] font-bold rounded transition-colors"
                               >
                                 <ExternalLink className="w-2.5 h-2.5" />
                                 <span>VIEW / DOWNLOAD FRONT</span>
                               </a>
-                            </div>
-                          )}
-                          {p.aadharBackFileName && (
-                            <div className="mt-1 pt-1 border-t border-slate-700/50">
-                              <span className="text-[10px] text-slate-400 font-mono truncate max-w-[150px] block" title={p.aadharBackFileName}>
+                            )}
+                            <label className="text-[9px] text-yellow-400/90 hover:underline cursor-pointer flex items-center gap-0.5">
+                              <span>Replace</span>
+                              <input
+                                type="file"
+                                accept="image/*,application/pdf"
+                                className="hidden"
+                                onChange={(e) => handleAttachDocument(p.id, 'front', e)}
+                              />
+                            </label>
+                          </div>
+
+                          {p.aadharBackFileName ? (
+                            <div className="mt-1.5 pt-1.5 border-t border-slate-700/50">
+                              <span className="text-[10px] text-slate-400 font-mono truncate max-w-[160px] block" title={p.aadharBackFileName}>
                                 Back: {p.aadharBackFileName}
                               </span>
-                              {p.aadharBackUrl && (
-                                <a
-                                  href={p.aadharBackUrl}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  download={p.aadharBackFileName || 'aadhar_back'}
-                                  className="inline-flex items-center gap-1 px-2 py-0.5 mt-0.5 bg-blue-600/30 hover:bg-blue-600/50 text-blue-200 border border-blue-500/50 text-[10px] font-bold rounded transition-colors"
-                                >
-                                  <ExternalLink className="w-2.5 h-2.5" />
-                                  <span>VIEW / DOWNLOAD BACK</span>
-                                </a>
-                              )}
+                              <div className="flex flex-wrap items-center gap-2 mt-0.5">
+                                {p.aadharBackUrl && (
+                                  <a
+                                    href={p.aadharBackUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    download={p.aadharBackFileName || 'aadhar_back'}
+                                    className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-600/40 hover:bg-blue-600/70 text-blue-200 border border-blue-500/50 text-[10px] font-bold rounded transition-colors"
+                                  >
+                                    <ExternalLink className="w-2.5 h-2.5" />
+                                    <span>VIEW / DOWNLOAD BACK</span>
+                                  </a>
+                                )}
+                                <label className="text-[9px] text-yellow-400/90 hover:underline cursor-pointer flex items-center gap-0.5">
+                                  <span>Replace</span>
+                                  <input
+                                    type="file"
+                                    accept="image/*,application/pdf"
+                                    className="hidden"
+                                    onChange={(e) => handleAttachDocument(p.id, 'back', e)}
+                                  />
+                                </label>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="mt-1 pt-1 border-t border-slate-700/40">
+                              <label className="inline-flex items-center gap-1 text-[9px] font-bold text-yellow-400 hover:text-yellow-300 cursor-pointer">
+                                <Upload className="w-2.5 h-2.5" />
+                                <span>+ Attach Back Side</span>
+                                <input
+                                  type="file"
+                                  accept="image/*,application/pdf"
+                                  className="hidden"
+                                  onChange={(e) => handleAttachDocument(p.id, 'back', e)}
+                                />
+                              </label>
                             </div>
                           )}
+
                           {p.aadharNumber && (
                             <span className="text-[9px] text-slate-400 font-mono mt-0.5 block">UID: {p.aadharNumber}</span>
                           )}
                         </div>
                       ) : (
-                        <span className="px-2 py-0.5 bg-slate-900 text-slate-400 border border-slate-700 text-[10px] font-bold">
-                          NOT UPLOADED
-                        </span>
+                        <div className="flex flex-col gap-1.5">
+                          <span className="px-2 py-0.5 bg-amber-950/40 text-amber-400 border border-amber-500/30 text-[10px] font-bold w-fit">
+                            NOT UPLOADED YET
+                          </span>
+                          <label className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-black text-[10px] font-bold rounded cursor-pointer transition-all shadow-sm w-fit active:scale-95">
+                            {attachingDocId === p.id ? (
+                              <>
+                                <RefreshCw className="w-3 h-3 animate-spin" />
+                                <span>ATTACHING...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Upload className="w-3 h-3 text-black" />
+                                <span>+ ATTACH AADHAAR NOW</span>
+                              </>
+                            )}
+                            <input
+                              type="file"
+                              accept="image/*,application/pdf"
+                              disabled={attachingDocId === p.id}
+                              className="hidden"
+                              onChange={(e) => handleAttachDocument(p.id, 'front', e)}
+                            />
+                          </label>
+                          <span className="text-[9px] text-slate-400">JPG, PNG or PDF</span>
+                        </div>
                       )}
                     </td>
                   </tr>

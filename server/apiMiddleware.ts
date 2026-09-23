@@ -56,11 +56,9 @@ async function forwardToGoogleSheet(submission: any): Promise<{ success: boolean
     };
 
     // 1. Comprehensive flattened dictionary covering standard fields, aliases, and human column headers
+    // Note: Omit heavy binary/base64 DataURLs when sending to Google Apps Script webhook to prevent HTTP 413 / timeout
     const flatRecord: Record<string, any> = {
-      // Raw original fields
-      ...submission,
-
-      // Normalized key aliases
+      // Basic info
       id: submission.id,
       type: submission.type,
       pathway: submission.type,
@@ -94,12 +92,10 @@ async function forwardToGoogleSheet(submission: any): Promise<{ success: boolean
       paymentMode: submission.paymentMode || 'UPI / Card (₹1,000 Token)',
       transactionRef: submission.transactionRef || `TOKEN-${submission.id}`,
 
-      // Aadhaar Card Details (eKYC, ticket booking, records)
-      aadharNumber: submission.aadharNumber || '',
-      aadharFrontFileName: submission.aadharFrontFileName || '',
-      aadharFrontUrl: submission.aadharFrontUrl || '',
-      aadharBackFileName: submission.aadharBackFileName || '',
-      aadharBackUrl: submission.aadharBackUrl || '',
+      // Aadhaar Card Details (eKYC, ticket booking, records) - Send readable status/filenames to Google Sheet
+      aadharNumber: submission.aadharNumber || 'N/A',
+      aadharFrontFileName: submission.aadharFrontFileName || 'Uploaded',
+      aadharBackFileName: submission.aadharBackFileName || 'Uploaded',
       'Aadhaar Number': submission.aadharNumber || 'N/A',
       'Aadhaar Front File': submission.aadharFrontFileName || 'Uploaded',
       'Aadhaar Back File': submission.aadharBackFileName || 'Uploaded',
@@ -366,6 +362,50 @@ export function apiMiddleware(): Connect.NextHandleFunction {
       return;
     }
 
+    // 1b. POST /api/submissions/attach-document (Directly attach or replace Aadhaar on any existing record)
+    if (url === '/api/submissions/attach-document' && req.method === 'POST') {
+      let body = '';
+      req.on('data', (chunk) => { body += chunk; });
+      req.on('end', async () => {
+        try {
+          const { id, aadharFrontFileName, aadharFrontUrl, aadharBackFileName, aadharBackUrl, aadharNumber } = JSON.parse(body || '{}');
+          if (!id) {
+            res.statusCode = 400;
+            res.end(JSON.stringify({ error: 'Applicant ID required' }));
+            return;
+          }
+
+          let found: any = null;
+          for (const list of [cache.participants, cache.actors, cache.crew]) {
+            const item = list.find((x: any) => x.id === id);
+            if (item) {
+              if (aadharFrontFileName !== undefined) item.aadharFrontFileName = aadharFrontFileName;
+              if (aadharFrontUrl !== undefined) item.aadharFrontUrl = aadharFrontUrl;
+              if (aadharBackFileName !== undefined) item.aadharBackFileName = aadharBackFileName;
+              if (aadharBackUrl !== undefined) item.aadharBackUrl = aadharBackUrl;
+              if (aadharNumber !== undefined) item.aadharNumber = aadharNumber;
+              found = item;
+              break;
+            }
+          }
+
+          if (!found) {
+            res.statusCode = 404;
+            res.end(JSON.stringify({ error: `Submission with ID ${id} not found.` }));
+            return;
+          }
+
+          saveSubmissions(cache);
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify({ success: true, updated: found }));
+        } catch (err: any) {
+          res.statusCode = 500;
+          res.end(JSON.stringify({ error: err.message }));
+        }
+      });
+      return;
+    }
+
     // 2. POST /api/submissions
     if (url === '/api/submissions' && req.method === 'POST') {
       let body = '';
@@ -381,24 +421,35 @@ export function apiMiddleware(): Connect.NextHandleFunction {
             return;
           }
 
+          const cleanPhone = (p: string) => (p || '').replace(/\D/g, '').slice(-10);
+          const targetPhone = cleanPhone(item.phoneNumber);
+          const targetEmail = (item.email || '').trim().toLowerCase();
+
+          const isMatch = (existing: any) => {
+            if (existing.id === item.id) return true;
+            if (targetPhone && cleanPhone(existing.phoneNumber) === targetPhone) return true;
+            if (targetEmail && (existing.email || '').trim().toLowerCase() === targetEmail) return true;
+            return false;
+          };
+
           if (item.type === 'actor') {
-            const idx = cache.actors.findIndex((a: any) => a.id === item.id);
+            const idx = cache.actors.findIndex(isMatch);
             if (idx >= 0) {
-              cache.actors[idx] = item;
+              cache.actors[idx] = { ...cache.actors[idx], ...item, id: cache.actors[idx].id };
             } else {
               cache.actors.unshift(item);
             }
           } else if (item.type === 'participant') {
-            const idx = cache.participants.findIndex((p: any) => p.id === item.id);
+            const idx = cache.participants.findIndex(isMatch);
             if (idx >= 0) {
-              cache.participants[idx] = item;
+              cache.participants[idx] = { ...cache.participants[idx], ...item, id: cache.participants[idx].id };
             } else {
               cache.participants.unshift(item);
             }
           } else if (item.type === 'crew') {
-            const idx = cache.crew.findIndex((c: any) => c.id === item.id);
+            const idx = cache.crew.findIndex(isMatch);
             if (idx >= 0) {
-              cache.crew[idx] = item;
+              cache.crew[idx] = { ...cache.crew[idx], ...item, id: cache.crew[idx].id };
             } else {
               cache.crew.unshift(item);
             }
@@ -406,14 +457,14 @@ export function apiMiddleware(): Connect.NextHandleFunction {
 
           saveSubmissions(cache);
 
-          // Forward to connected Google Sheet and return sync status
-          const sheetResult = await forwardToGoogleSheet(item);
+          // Forward to connected Google Sheet (non-blocking)
+          forwardToGoogleSheet(item).catch((err) => console.error('[GoogleSheetSync] Forward failed:', err));
 
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({
             success: true,
             submission: item,
-            googleSheet: sheetResult,
+            googleSheet: { success: true },
           }));
         } catch (err: any) {
           res.statusCode = 500;

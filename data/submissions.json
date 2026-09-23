@@ -20,7 +20,10 @@
       "oct30PriceIncreaseNotice": true,
       "paymentMode": "UPI / Card (₹1,000 Token)",
       "transactionRef": "UPI-TEST-300602",
-      "confirmed": true
+      "confirmed": true,
+      "aadharFrontFileName": "Aadhaar_Card_Front_Official.jpg",
+      "aadharFrontUrl": "data:image/jpeg;base64,/9j/4AAQSkZJRg==",
+      "aadharNumber": "9828 4973 9201"
     }
   ],
   "crew": []
