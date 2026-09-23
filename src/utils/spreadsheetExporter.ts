@@ -14,6 +14,9 @@ export function formatActorRows(actors: ActorSubmission[]) {
     'CITY': a.city,
     'PHONE / WHATSAPP': a.phoneNumber,
     'EMAIL ADDRESS': a.email,
+    'AADHAAR NUMBER': a.aadharNumber || 'N/A',
+    'AADHAAR CARD (FRONT)': a.aadharFrontFileName || 'Uploaded',
+    'AADHAAR CARD (BACK)': a.aadharBackFileName || 'Uploaded',
     'INSTAGRAM PROFILE': a.instagramProfile || 'N/A',
     'CHARACTER ROLE APPLIED': a.selectedRole,
     'ACTING EXPERIENCE & THEATRE': a.actingExperience || 'First-time actor',
@@ -38,6 +41,9 @@ export function formatParticipantRows(participants: ParticipantSubmission[]) {
     'CITY': p.city,
     'PHONE / WHATSAPP': p.phoneNumber,
     'EMAIL ADDRESS': p.email,
+    'AADHAAR NUMBER': p.aadharNumber || 'N/A',
+    'AADHAAR CARD (FRONT)': p.aadharFrontFileName || 'Uploaded',
+    'AADHAAR CARD (BACK)': p.aadharBackFileName || 'Uploaded',
     'INSTAGRAM PROFILE': p.instagramProfile || 'N/A',
     'BOARDING CITY / HUB': p.departureCity,
     'PREFERRED TRAVEL BATCH': p.travelBatch,
@@ -48,7 +54,7 @@ export function formatParticipantRows(participants: ParticipantSubmission[]) {
     'PRICE INCREASE NOTICE': p.oct30PriceIncreaseNotice ? 'ACKNOWLEDGED (+₹1,500 after 30 Oct)' : 'Standard',
     'PAYMENT STATUS': 'TOKEN CONFIRMED (₹2,000)',
     'TRANSACTION REF': p.transactionRef || 'DIRECT-TOKEN',
-    'FILE UPLOADS': 'ZERO UPLOADS (Traveler Track)',
+    'KYC STATUS': p.aadharFrontFileName ? 'AADHAAR ATTACHED' : 'PENDING',
   }));
 }
 
@@ -65,6 +71,9 @@ export function formatCrewRows(crew: CrewSubmission[]) {
     'CITY': c.city,
     'PHONE / WHATSAPP': c.phoneNumber,
     'EMAIL ADDRESS': c.email,
+    'AADHAAR NUMBER': c.aadharNumber || 'N/A',
+    'AADHAAR CARD (FRONT)': c.aadharFrontFileName || 'Uploaded',
+    'AADHAAR CARD (BACK)': c.aadharBackFileName || 'Uploaded',
     'INSTAGRAM PROFILE': c.instagramProfile || 'N/A',
     'CREW DEPARTMENT / CRAFT': c.crewDepartment,
     'DEPARTMENT CLASSIFICATION': c.categoryType,

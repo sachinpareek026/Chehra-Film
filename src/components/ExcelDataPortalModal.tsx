@@ -488,6 +488,12 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                         ) : (
                           <span className="text-slate-400">Tape: {a.auditionTapeFileName || 'Uploaded'}</span>
                         )}
+                        {a.aadharFrontFileName && (
+                          <span className="text-amber-300 flex items-center gap-1 text-[10px]">
+                            <ShieldCheck className="w-3 h-3 text-amber-400" />
+                            <span>Aadhaar: {a.aadharFrontFileName}</span>
+                          </span>
+                        )}
                       </div>
                     </td>
                     <td className="p-3">
@@ -517,7 +523,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                   <th className="p-3">Locked Price</th>
                   <th className="p-3">Contact & Phone</th>
                   <th className="p-3">Room / Stay</th>
-                  <th className="p-3">Upload Requirement</th>
+                  <th className="p-3">e-KYC / Aadhaar</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-blue-900/30">
@@ -554,9 +560,21 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                       <div className="text-[10px] text-slate-500">Emergency: {p.emergencyContact}</div>
                     </td>
                     <td className="p-3">
-                      <span className="px-2 py-0.5 bg-blue-950/80 text-blue-300 border border-blue-500/40 text-[10px] font-bold">
-                        ZERO UPLOADS (PASSED)
-                      </span>
+                      {p.aadharFrontFileName ? (
+                        <div className="flex flex-col gap-0.5">
+                          <span className="px-2 py-0.5 bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold flex items-center gap-1 w-fit">
+                            <ShieldCheck className="w-3 h-3 text-emerald-400" />
+                            <span>AADHAAR ATTACHED</span>
+                          </span>
+                          <span className="text-[9px] text-slate-400 truncate max-w-[130px]" title={p.aadharFrontFileName}>
+                            {p.aadharFrontFileName}
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="px-2 py-0.5 bg-blue-950/80 text-blue-300 border border-blue-500/40 text-[10px] font-bold">
+                          ZERO UPLOADS
+                        </span>
+                      )}
                     </td>
                   </tr>
                 ))}

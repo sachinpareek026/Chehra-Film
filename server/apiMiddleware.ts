@@ -287,6 +287,17 @@ async function forwardToGoogleSheet(submission: any): Promise<{ success: boolean
       paymentMode: submission.paymentMode || 'UPI / Card (₹1,000 Token)',
       transactionRef: submission.transactionRef || `TOKEN-${submission.id}`,
 
+      // Aadhaar Card Details (eKYC, ticket booking, records)
+      aadharNumber: submission.aadharNumber || '',
+      aadharFrontFileName: submission.aadharFrontFileName || '',
+      aadharFrontUrl: submission.aadharFrontUrl || '',
+      aadharBackFileName: submission.aadharBackFileName || '',
+      aadharBackUrl: submission.aadharBackUrl || '',
+      'Aadhaar Number': submission.aadharNumber || 'N/A',
+      'Aadhaar Front File': submission.aadharFrontFileName || 'Uploaded',
+      'Aadhaar Back File': submission.aadharBackFileName || 'Uploaded',
+      'Aadhaar eKYC': (submission.aadharFrontFileName ? 'Front Attached' : '') + (submission.aadharBackFileName ? ' + Back Attached' : ''),
+
       // Actor specific
       selectedRole: submission.selectedRole || '',
       role: submission.selectedRole || '',
@@ -427,6 +438,9 @@ function toActorExcelRows(actors: any[]) {
     'CITY': a.city,
     'PHONE': a.phoneNumber,
     'EMAIL': a.email,
+    'AADHAAR NUMBER': a.aadharNumber || 'N/A',
+    'AADHAAR FRONT FILE': a.aadharFrontFileName || 'Uploaded',
+    'AADHAAR BACK FILE': a.aadharBackFileName || 'Uploaded',
     'INSTAGRAM': a.instagramProfile || 'N/A',
     'ROLE APPLIED': a.selectedRole,
     'ACTING EXP': a.actingExperience,
@@ -447,6 +461,9 @@ function toParticipantExcelRows(participants: any[]) {
     'CITY': p.city,
     'PHONE': p.phoneNumber,
     'EMAIL': p.email,
+    'AADHAAR NUMBER': p.aadharNumber || 'N/A',
+    'AADHAAR FRONT FILE': p.aadharFrontFileName || 'Uploaded',
+    'AADHAAR BACK FILE': p.aadharBackFileName || 'Uploaded',
     'INSTAGRAM': p.instagramProfile || 'N/A',
     'BOARDING CITY': p.departureCity,
     'TRAVEL BATCH': p.travelBatch,
@@ -456,7 +473,7 @@ function toParticipantExcelRows(participants: any[]) {
     'LOCKED TRIP PRICE': `₹${p.lockedTripPrice}/-`,
     'OCT 30 NOTICE': p.oct30PriceIncreaseNotice ? 'ACKNOWLEDGED (+₹1500 after 30 Oct)' : 'Standard',
     'TRANSACTION REF': p.transactionRef || 'PAID-TOKEN-1000',
-    'UPLOADS': 'ZERO UPLOADS (Traveler Track)',
+    'KYC STATUS': p.aadharFrontFileName ? 'AADHAAR ATTACHED' : 'PENDING',
   }));
 }
 
@@ -470,6 +487,9 @@ function toCrewExcelRows(crew: any[]) {
     'CITY': c.city,
     'PHONE': c.phoneNumber,
     'EMAIL': c.email,
+    'AADHAAR NUMBER': c.aadharNumber || 'N/A',
+    'AADHAAR FRONT FILE': c.aadharFrontFileName || 'Uploaded',
+    'AADHAAR BACK FILE': c.aadharBackFileName || 'Uploaded',
     'INSTAGRAM': c.instagramProfile || 'N/A',
     'DEPARTMENT': c.crewDepartment,
     'CLASSIFICATION': c.categoryType,

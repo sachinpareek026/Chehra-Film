@@ -80,6 +80,11 @@ export interface ActorSubmission {
   whyJoin: string;
   personalityAndSkills?: string;
   usefulRoleTarget?: string;
+  aadharNumber?: string;
+  aadharFrontFileName?: string;
+  aadharFrontUrl?: string;
+  aadharBackFileName?: string;
+  aadharBackUrl?: string;
   refundEligible: boolean; // 100% refund eligible
   bookingConsentAgreed?: boolean; // Agrees to ₹3,000 booking amount upon acceptance & balance before 20 days
   bookingAmountTerms?: string;
@@ -101,6 +106,11 @@ export interface ParticipantSubmission {
   travelBatch: string;
   roomPreference: string;
   emergencyContact: string;
+  aadharNumber?: string;
+  aadharFrontFileName?: string;
+  aadharFrontUrl?: string;
+  aadharBackFileName?: string;
+  aadharBackUrl?: string;
   bookingConsentAgreed?: boolean; // Agrees to ₹3,000 booking amount upon acceptance & balance before 20 days
   prebookingTokenPrice: number; // 2000 or 3000
   lockedTripPrice: number; // 11000
@@ -126,6 +136,11 @@ export interface CrewSubmission {
   proofOfSkillLink: string; // Open public link only (Drive/YouTube/Vimeo/Behance/Spotify)
   portfolioSummary: string;
   gearOrSoftware: string;
+  aadharNumber?: string;
+  aadharFrontFileName?: string;
+  aadharFrontUrl?: string;
+  aadharBackFileName?: string;
+  aadharBackUrl?: string;
   opportunityFeeAgreed: boolean; // Ready to pay slightly opportunity fee if selected
   publicFilmmakingConsent: boolean; // Consent to use character & work for public filmmaking use
   confirmed: boolean;

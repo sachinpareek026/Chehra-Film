@@ -28,7 +28,10 @@ import {
   MessageSquare,
   ArrowLeft,
   Phone,
-  Mail
+  Mail,
+  FileText,
+  Lock,
+  Trash2
 } from 'lucide-react';
 import { CHARACTERS, FILM_METADATA } from '../data/cinemaData';
 import { INITIAL_ACTOR_SUBMISSIONS, INITIAL_PARTICIPANT_SUBMISSIONS, INITIAL_CREW_SUBMISSIONS } from '../data/initialSubmissions';
@@ -51,7 +54,7 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
     {
       question: 'How does the 100% Refund Policy work for actors?',
       answer:
-        'Upon official character casting, actors place a production security deposit to reserve their convoy seat and schedule. We do not use the word "guaranteed" lightly; it is our strong estimation, full assurance, and sincere confidence that we will sponsor the actors\' trip bare minimum and refund 100% of the deposit after the release of the picture to the public, as the film earns financial revenue and recovers up to the mark of its total production costs. We will try our utmost best to make the project a financially great commercial hit.',
+        'Upon official character casting, actors place a production security deposit to reserve their convoy seat and schedule. It is our strong estimation, full assurance, and sincere confidence that we will sponsor the actors\' trip bare minimum and refund 100% of the deposit after the release of the picture to the public, as the film earns financial revenue and recovers up to the mark of its total production costs. We will try our utmost best to make the project a financially great commercial hit.',
     },
     {
       question: 'Is there any audition or submission fee?',
@@ -134,15 +137,8 @@ export const NominationModal: React.FC<NominationModalProps> = ({
   onSubmissionSuccess,
   isStandalonePage = true,
 }) => {
-  const resolveRoleId = (id?: string) => {
-    if (!id) return CHARACTERS[0].id;
-    const lower = id.toLowerCase().trim();
-    if (lower === 'nandi') return 'rudra';
-    return CHARACTERS.some((c) => c.id.toLowerCase() === lower) ? (CHARACTERS.find((c) => c.id.toLowerCase() === lower)?.id || 'rudra') : CHARACTERS[0].id;
-  };
-
   const [pathway, setPathway] = useState<PathwayType>(initialPathway);
-  const [selectedRoleId, setSelectedRoleId] = useState<string>(() => resolveRoleId(initialRoleId));
+  const [selectedRoleId, setSelectedRoleId] = useState<string>(initialRoleId || CHARACTERS[0].id);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [sheetSyncStatus, setSheetSyncStatus] = useState<{ success: boolean; message?: string } | null>(null);
   const [duplicateError, setDuplicateError] = useState<string | null>(null);
@@ -154,6 +150,18 @@ export const NominationModal: React.FC<NominationModalProps> = ({
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [instagramProfile, setInstagramProfile] = useState('');
+
+  // Aadhaar Card Verification (Mandatory across all 3 forms: Actor, Participant, Crew)
+  const [aadharNumber, setAadharNumber] = useState('');
+  const [aadharFrontFileName, setAadharFrontFileName] = useState('');
+  const [aadharFrontPreview, setAadharFrontPreview] = useState<string | null>(null);
+  const [aadharFrontIsPdf, setAadharFrontIsPdf] = useState(false);
+  const [aadharFrontFileSize, setAadharFrontFileSize] = useState('');
+  const [aadharBackFileName, setAadharBackFileName] = useState('');
+  const [aadharBackPreview, setAadharBackPreview] = useState<string | null>(null);
+  const [aadharBackIsPdf, setAadharBackIsPdf] = useState(false);
+  const [aadharBackFileSize, setAadharBackFileSize] = useState('');
+  const [aadharCombinedPdf, setAadharCombinedPdf] = useState(false);
 
   // Pathway 1: Actor Fields
   const [actingExperience, setActingExperience] = useState('');
@@ -199,7 +207,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
   useEffect(() => {
     if (initialPathway) setPathway(initialPathway);
-    if (initialRoleId) setSelectedRoleId(resolveRoleId(initialRoleId));
+    if (initialRoleId) setSelectedRoleId(initialRoleId);
   }, [initialPathway, initialRoleId]);
 
   useEffect(() => {
@@ -233,6 +241,79 @@ export const NominationModal: React.FC<NominationModalProps> = ({
     if (e.target.files && e.target.files[0]) {
       setAuditionTapeFileName(e.target.files[0].name);
     }
+  };
+
+  const handleAadharNumberChange = (val: string) => {
+    const digitsOnly = val.replace(/\D/g, '').slice(0, 12);
+    const formatted = digitsOnly.match(/.{1,4}/g)?.join(' ') || digitsOnly;
+    setAadharNumber(formatted);
+    if (errors.aadharNumber) {
+      setErrors((prev) => ({ ...prev, aadharNumber: '' }));
+    }
+  };
+
+  const handleAadharFrontUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setAadharFrontFileName(file.name);
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
+      setAadharFrontFileSize(`${sizeMb} MB`);
+      const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+      setAadharFrontIsPdf(isPdf);
+
+      if (errors.aadharFront) {
+        setErrors((prev) => ({ ...prev, aadharFront: '' }));
+      }
+
+      if (isPdf) {
+        setAadharFrontPreview(null);
+      } else {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          setAadharFrontPreview(ev.target?.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  };
+
+  const handleAadharBackUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setAadharBackFileName(file.name);
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
+      setAadharBackFileSize(`${sizeMb} MB`);
+      const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+      setAadharBackIsPdf(isPdf);
+
+      if (errors.aadharBack) {
+        setErrors((prev) => ({ ...prev, aadharBack: '' }));
+      }
+
+      if (isPdf) {
+        setAadharBackPreview(null);
+      } else {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          setAadharBackPreview(ev.target?.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  };
+
+  const handleClearAadharFront = () => {
+    setAadharFrontFileName('');
+    setAadharFrontPreview(null);
+    setAadharFrontIsPdf(false);
+    setAadharFrontFileSize('');
+  };
+
+  const handleClearAadharBack = () => {
+    setAadharBackFileName('');
+    setAadharBackPreview(null);
+    setAadharBackIsPdf(false);
+    setAadharBackFileSize('');
   };
 
   const checkDuplicateApplication = (): { isDuplicate: boolean; message: string; duplicateField?: 'phone' | 'email' | 'both' } => {
@@ -353,6 +434,18 @@ export const NominationModal: React.FC<NominationModalProps> = ({
       setDuplicateError(null);
     }
 
+    // Aadhaar Card Requirements (Required for Ticket Booking, eKYC & Official Records in all 3 pathways)
+    if (!aadharFrontFileName) {
+      errs.aadharFront = 'Aadhaar Card (Front side) file (JPG, PNG or PDF) is required for ticket bookings & eKYC';
+    }
+    if (!aadharCombinedPdf && !aadharBackFileName) {
+      errs.aadharBack = 'Aadhaar Card (Back side) file (JPG, PNG or PDF) is required for address verification & records';
+    }
+    const cleanAadhaar = aadharNumber.replace(/\D/g, '');
+    if (cleanAadhaar && cleanAadhaar.length !== 12) {
+      errs.aadharNumber = 'Aadhaar number must be exactly 12 digits (or leave blank if uploading card files only)';
+    }
+
     if (pathway === 'actor') {
       if (!photoFileName && !photoPreview) errs.photo = 'Headshot photograph is required';
       if (!auditionTapeFileName && !auditionTapeUrl.trim()) {
@@ -417,6 +510,11 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         phoneNumber,
         email,
         instagramProfile: instagramProfile || 'N/A',
+        aadharNumber: aadharNumber.trim() || undefined,
+        aadharFrontFileName: aadharFrontFileName || 'aadhar_front.jpg',
+        aadharFrontUrl: aadharFrontPreview || undefined,
+        aadharBackFileName: aadharCombinedPdf ? `${aadharFrontFileName} (Combined Front & Back)` : (aadharBackFileName || 'aadhar_back.jpg'),
+        aadharBackUrl: aadharBackPreview || undefined,
         selectedRole: `${currentRole.name} — ${currentRole.tagline}`,
         actingExperience: actingExperience || 'Self-taught / Raw talent',
         photoFileName: photoFileName || 'headshot.jpg',
@@ -444,6 +542,11 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         phoneNumber,
         email,
         instagramProfile: instagramProfile || 'N/A',
+        aadharNumber: aadharNumber.trim() || undefined,
+        aadharFrontFileName: aadharFrontFileName || 'aadhar_front.jpg',
+        aadharFrontUrl: aadharFrontPreview || undefined,
+        aadharBackFileName: aadharCombinedPdf ? `${aadharFrontFileName} (Combined Front & Back)` : (aadharBackFileName || 'aadhar_back.jpg'),
+        aadharBackUrl: aadharBackPreview || undefined,
         departureCity,
         travelBatch,
         roomPreference,
@@ -468,6 +571,11 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         phoneNumber,
         email,
         instagramProfile: instagramProfile || 'N/A',
+        aadharNumber: aadharNumber.trim() || undefined,
+        aadharFrontFileName: aadharFrontFileName || 'aadhar_front.jpg',
+        aadharFrontUrl: aadharFrontPreview || undefined,
+        aadharBackFileName: aadharCombinedPdf ? `${aadharFrontFileName} (Combined Front & Back)` : (aadharBackFileName || 'aadhar_back.jpg'),
+        aadharBackUrl: aadharBackPreview || undefined,
         crewDepartment: crewDepartment === 'Other' && customCrewSkillset.trim() ? `Other: ${customCrewSkillset.trim()}` : crewDepartment,
         customCrewSkillset: customCrewSkillset.trim() || undefined,
         categoryType: 'Prime Department',
@@ -532,6 +640,16 @@ export const NominationModal: React.FC<NominationModalProps> = ({
     setPhoneNumber('');
     setEmail('');
     setInstagramProfile('');
+    setAadharNumber('');
+    setAadharFrontFileName('');
+    setAadharFrontPreview(null);
+    setAadharFrontIsPdf(false);
+    setAadharFrontFileSize('');
+    setAadharBackFileName('');
+    setAadharBackPreview(null);
+    setAadharBackIsPdf(false);
+    setAadharBackFileSize('');
+    setAadharCombinedPdf(false);
     setActingExperience('');
     setWhyJoin('');
     setPersonalityAndSkills('');
@@ -761,6 +879,26 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                 <p className="text-[11px] text-emerald-300/90 font-light">
                   {sheetSyncStatus?.message || 'Data indexed in production registry and forwarded to Google Sheet webhook.'}
                 </p>
+              </div>
+
+              {/* Aadhaar e-KYC Verification Dossier Status */}
+              <div className="p-3.5 bg-[#071322] border border-amber-400/30 text-left font-mono text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 shadow-md">
+                <div className="flex items-center gap-2.5">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <div>
+                    <span className="text-[10px] text-amber-300 uppercase tracking-widest font-bold block">
+                      GOVERNMENT ID VERIFICATION (e-KYC)
+                    </span>
+                    <span className="text-slate-300 text-[11px]">
+                      Aadhaar Card Attached for Transit Clearances & Ticket Booking Manifests
+                    </span>
+                  </div>
+                </div>
+                {submittedItem.aadharNumber && (
+                  <span className="px-2.5 py-1 bg-black/60 border border-amber-400/40 text-yellow-400 font-mono text-[11px] font-bold tracking-widest self-start sm:self-center">
+                    {submittedItem.aadharNumber}
+                  </span>
+                )}
               </div>
 
               {/* Booking Policy for Actor Submissions */}
@@ -1377,6 +1515,250 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       </div>
                     </div>
                   )}
+
+                  {/* Government ID Verification: Aadhaar Card (Front & Back) */}
+                  <div className="p-4 sm:p-5 bg-[#0D1527] border-2 border-amber-500/60 rounded-xs space-y-4 shadow-lg shadow-black/50">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2.5 border-b border-white/10">
+                      <div className="flex items-center gap-2">
+                        <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0" />
+                        <div>
+                          <span className="text-[11px] font-mono text-amber-300 uppercase tracking-widest font-black block">
+                            AADHAAR CARD VERIFICATION * (FRONT & BACK)
+                          </span>
+                          <span className="text-[10px] text-slate-300 font-sans block sm:inline">
+                            Required for Ticket Bookings (Train / Flight / Convoy), e-KYC Verification & Official Production Records
+                          </span>
+                        </div>
+                      </div>
+                      <span className="px-2 py-0.5 bg-amber-400/20 border border-amber-400/40 text-amber-300 font-mono text-[9px] font-bold uppercase tracking-wider shrink-0 self-start sm:self-center">
+                        MANDATORY (JPG, PNG, PDF)
+                      </span>
+                    </div>
+
+                    {/* Aadhaar Number input (optional or formatted) */}
+                    <div>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="text-[11px] font-mono uppercase tracking-wider text-slate-200 font-bold flex items-center gap-1.5">
+                          <span>12-Digit Aadhaar Number</span>
+                          <span className="text-slate-400 font-normal text-[10px]">(Optional if uploading card)</span>
+                        </label>
+                        <span className="text-[9px] font-mono text-slate-400">FORMAT: XXXX XXXX XXXX</span>
+                      </div>
+                      <input
+                        type="text"
+                        value={aadharNumber}
+                        onChange={(e) => handleAadharNumberChange(e.target.value)}
+                        placeholder="5482 1928 3910"
+                        maxLength={14}
+                        className={`w-full px-3.5 py-2.5 border-2 text-slate-950 font-mono font-bold tracking-widest text-xs sm:text-sm placeholder-slate-400 focus:outline-none transition-all shadow-inner ${
+                          errors.aadharNumber
+                            ? 'border-red-500 bg-red-50'
+                            : 'bg-slate-50 border-slate-300 focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-400/20'
+                        }`}
+                      />
+                      {errors.aadharNumber && (
+                        <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.aadharNumber}</p>
+                      )}
+                    </div>
+
+                    {/* Single Combined Multi-Page PDF Checkbox */}
+                    <div className="p-2.5 bg-black/40 border border-white/10 rounded-xs flex items-start gap-2.5">
+                      <input
+                        type="checkbox"
+                        id="aadharCombinedPdf"
+                        checked={aadharCombinedPdf}
+                        onChange={(e) => {
+                          setAadharCombinedPdf(e.target.checked);
+                          if (e.target.checked && errors.aadharBack) {
+                            setErrors((prev) => ({ ...prev, aadharBack: '' }));
+                          }
+                        }}
+                        className="w-4 h-4 mt-0.5 rounded border-slate-600 text-amber-500 focus:ring-amber-400 bg-slate-900 cursor-pointer shrink-0"
+                      />
+                      <label htmlFor="aadharCombinedPdf" className="text-xs text-slate-200 cursor-pointer select-none">
+                        <strong className="text-amber-300 font-semibold block sm:inline mr-1">
+                          Single File Contains Both Pages:
+                        </strong>
+                        <span className="text-slate-300 text-[11px]">
+                          Check this if your file is an official e-Aadhaar PDF or scanned sheet with both Front & Back sides merged into 1 document.
+                        </span>
+                      </label>
+                    </div>
+
+                    {/* Upload Dropzones Grid */}
+                    <div className={`grid grid-cols-1 ${aadharCombinedPdf ? 'sm:grid-cols-1' : 'sm:grid-cols-2'} gap-4`}>
+                      
+                      {/* 1. FRONT SIDE UPLOAD */}
+                      <div className={`p-3.5 border-2 rounded-xs transition-all ${
+                        errors.aadharFront
+                          ? 'border-red-500 bg-red-950/20'
+                          : aadharFrontFileName
+                          ? 'border-emerald-500/70 bg-[#061B10]'
+                          : 'border-dashed border-slate-600 bg-black/40 hover:border-amber-400/70 hover:bg-black/60'
+                      }`}>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 bg-amber-400 rounded-full" />
+                            {aadharCombinedPdf ? 'AADHAAR CARD (COMBINED FRONT & BACK) *' : 'AADHAAR CARD — FRONT SIDE *'}
+                          </span>
+                          {aadharFrontFileName && (
+                            <span className="text-[9px] font-mono text-emerald-400 font-bold flex items-center gap-1">
+                              <CheckCircle2 className="w-3 h-3" /> ATTACHED
+                            </span>
+                          )}
+                        </div>
+
+                        {aadharFrontFileName ? (
+                          <div className="space-y-2">
+                            {aadharFrontPreview && (
+                              <div className="relative w-full h-28 rounded overflow-hidden bg-black/80 border border-emerald-500/30">
+                                <img
+                                  src={aadharFrontPreview}
+                                  alt="Aadhaar Front"
+                                  className="w-full h-full object-contain"
+                                />
+                              </div>
+                            )}
+
+                            <div className="flex items-center justify-between p-2 bg-black/60 border border-white/10 rounded">
+                              <div className="flex items-center gap-2 overflow-hidden">
+                                <FileText className="w-4 h-4 text-amber-400 shrink-0" />
+                                <div className="truncate">
+                                  <p className="text-xs text-white font-medium truncate font-mono">
+                                    {aadharFrontFileName}
+                                  </p>
+                                  {aadharFrontFileSize && (
+                                    <p className="text-[9px] text-slate-400 font-mono">
+                                      {aadharFrontIsPdf ? 'PDF Document' : 'Image File'} • {aadharFrontFileSize}
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={handleClearAadharFront}
+                                className="text-red-400 hover:text-red-300 p-1 rounded hover:bg-white/10 transition-colors"
+                                title="Remove file"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <label className="flex flex-col items-center justify-center p-4 border border-dashed border-slate-700 rounded cursor-pointer hover:border-amber-400/50 hover:bg-white/5 transition-colors">
+                            <Upload className="w-6 h-6 text-amber-400 mb-2" />
+                            <span className="text-xs font-semibold text-slate-200 text-center">
+                              {aadharCombinedPdf ? 'Upload Combined e-Aadhaar PDF' : 'Upload Front Side File'}
+                            </span>
+                            <span className="text-[10px] text-slate-400 text-center mt-1">
+                              JPG, PNG, PDF (Max 10MB)
+                            </span>
+                            <span className="text-[9px] text-amber-400/80 font-mono mt-1 text-center">
+                              {aadharCombinedPdf ? 'Showing both front & back pages' : 'Showing photo, name & Aadhaar number'}
+                            </span>
+                            <input
+                              type="file"
+                              accept=".jpg,.jpeg,.png,.webp,.pdf,application/pdf,image/*"
+                              onChange={handleAadharFrontUpload}
+                              className="hidden"
+                            />
+                          </label>
+                        )}
+                        {errors.aadharFront && (
+                          <p className="text-[10px] text-red-400 mt-1.5 font-mono">{errors.aadharFront}</p>
+                        )}
+                      </div>
+
+                      {/* 2. BACK SIDE UPLOAD (Hidden if combined PDF is selected) */}
+                      {!aadharCombinedPdf && (
+                        <div className={`p-3.5 border-2 rounded-xs transition-all ${
+                          errors.aadharBack
+                            ? 'border-red-500 bg-red-950/20'
+                            : aadharBackFileName
+                            ? 'border-emerald-500/70 bg-[#061B10]'
+                            : 'border-dashed border-slate-600 bg-black/40 hover:border-amber-400/70 hover:bg-black/60'
+                        }`}>
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 bg-amber-400 rounded-full" />
+                              AADHAAR CARD — BACK SIDE *
+                            </span>
+                            {aadharBackFileName && (
+                              <span className="text-[9px] font-mono text-emerald-400 font-bold flex items-center gap-1">
+                                <CheckCircle2 className="w-3 h-3" /> ATTACHED
+                              </span>
+                            )}
+                          </div>
+
+                          {aadharBackFileName ? (
+                            <div className="space-y-2">
+                              {aadharBackPreview && (
+                                <div className="relative w-full h-28 rounded overflow-hidden bg-black/80 border border-emerald-500/30">
+                                  <img
+                                    src={aadharBackPreview}
+                                    alt="Aadhaar Back"
+                                    className="w-full h-full object-contain"
+                                  />
+                                </div>
+                              )}
+
+                              <div className="flex items-center justify-between p-2 bg-black/60 border border-white/10 rounded">
+                                <div className="flex items-center gap-2 overflow-hidden">
+                                  <FileText className="w-4 h-4 text-amber-400 shrink-0" />
+                                  <div className="truncate">
+                                    <p className="text-xs text-white font-medium truncate font-mono">
+                                      {aadharBackFileName}
+                                    </p>
+                                    {aadharBackFileSize && (
+                                      <p className="text-[9px] text-slate-400 font-mono">
+                                        {aadharBackIsPdf ? 'PDF Document' : 'Image File'} • {aadharBackFileSize}
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={handleClearAadharBack}
+                                  className="text-red-400 hover:text-red-300 p-1 rounded hover:bg-white/10 transition-colors"
+                                  title="Remove file"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <label className="flex flex-col items-center justify-center p-4 border border-dashed border-slate-700 rounded cursor-pointer hover:border-amber-400/50 hover:bg-white/5 transition-colors">
+                              <Upload className="w-6 h-6 text-amber-400 mb-2" />
+                              <span className="text-xs font-semibold text-slate-200 text-center">
+                                Upload Back Side File
+                              </span>
+                              <span className="text-[10px] text-slate-400 text-center mt-1">
+                                JPG, PNG, PDF (Max 10MB)
+                              </span>
+                              <span className="text-[9px] text-amber-400/80 font-mono mt-1 text-center">
+                                Showing permanent address & QR code
+                              </span>
+                              <input
+                                type="file"
+                                accept=".jpg,.jpeg,.png,.webp,.pdf,application/pdf,image/*"
+                                onChange={handleAadharBackUpload}
+                                className="hidden"
+                              />
+                            </label>
+                          )}
+                          {errors.aadharBack && (
+                            <p className="text-[10px] text-red-400 mt-1.5 font-mono">{errors.aadharBack}</p>
+                          )}
+                        </div>
+                      )}
+
+                    </div>
+
+                    <div className="flex items-center gap-2 pt-1 text-[10px] font-mono text-slate-400">
+                      <Lock className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                      <span>Confidential e-KYC: Stored securely for transit clearances and verified hotel & railway manifests.</span>
+                    </div>
+                  </div>
 
                   <div>
                     <label className="text-[11px] font-mono uppercase tracking-wider text-slate-200 block mb-1.5 font-bold">
