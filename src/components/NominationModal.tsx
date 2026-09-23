@@ -20,6 +20,7 @@ import {
   Eye,
   Camera,
   CheckCircle2,
+  Users,
   Video,
   FileCheck,
   Layers,
@@ -178,8 +179,8 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
   // Pathway 2: Participant Fields (Zero uploads)
   const [departureCity, setDepartureCity] = useState('Delhi Hub (Majnu Ka Tilla / ISBT)');
-  const [travelBatch, setTravelBatch] = useState('Christmas Expedition (24 – 31 Dec 2026)');
-  const [roomPreference, setRoomPreference] = useState('Twin Sharing with Fellow Traveler');
+  const [travelBatch, setTravelBatch] = useState('Christmas Winter Batch (24 – 31 Dec 2026)');
+  const [roomPreference] = useState('Twin Sharing (Included in ₹13,000 Early Bird)');
   const [emergencyContact, setEmergencyContact] = useState('');
   const [participantBookingConsent, setParticipantBookingConsent] = useState(false);
 
@@ -967,7 +968,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       `• Name: ${submittedItem.fullName}\n` +
                       `• Phone: ${submittedItem.phoneNumber}\n` +
                       `• City: ${submittedItem.city}\n` +
-                      `• Batch: ${'travelBatch' in submittedItem ? submittedItem.travelBatch : 'Christmas Expedition (24 – 31 Dec 2026)'}\n` +
+                      `• Batch: ${'travelBatch' in submittedItem ? submittedItem.travelBatch : 'Christmas Winter Batch (24 – 31 Dec 2026)'}\n` +
                       `• Booking Amount: ₹3,000 (Pending balance due 20 days before trip)\n\n` +
                       `I want to confirm my seat now!`
                     )}`}
@@ -2087,30 +2088,41 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                             <label className="text-[11px] font-mono uppercase tracking-wider text-blue-300 block mb-1.5 font-bold">
                               Travel Batch Date *
                             </label>
-                            <select
-                              value={travelBatch}
-                              onChange={(e) => setTravelBatch(e.target.value)}
-                              className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm focus:outline-none focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-400/20 transition-all shadow-inner"
-                            >
-                              <option value="Christmas Winter Batch (24 – 31 Dec 2026)">Christmas Winter Batch (24 – 31 Dec 2026)</option>
-                              <option value="New Year Winter Batch (01 – 08 Jan 2027)">New Year Winter Batch (01 – 08 Jan 2027)</option>
-                              <option value="Deep Winter Skiing Batch (12 – 19 Jan 2027)">Deep Winter Skiing Batch (12 – 19 Jan 2027)</option>
-                            </select>
+                            <div className="relative">
+                              <input
+                                type="text"
+                                readOnly
+                                value={travelBatch}
+                                className="w-full px-3.5 py-2.5 bg-slate-100 border-2 border-slate-300 text-slate-900 font-semibold text-xs sm:text-sm cursor-default select-none shadow-inner"
+                              />
+                              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                                <Calendar className="w-4 h-4 text-blue-600" />
+                              </div>
+                            </div>
+                            <p className="text-[10px] text-slate-400 font-mono mt-1">
+                              Fixed 8-day winter expedition: 24 – 31 Dec 2026
+                            </p>
                           </div>
                         </div>
 
                         <div>
                           <label className="text-[11px] font-mono uppercase tracking-wider text-slate-200 block mb-1.5 font-bold">
-                            Room / Base Camp Stay Preference
+                            Room / Base Camp Stay Preference *
                           </label>
-                          <select
-                            value={roomPreference}
-                            onChange={(e) => setRoomPreference(e.target.value)}
-                            className="w-full px-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm focus:outline-none focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-400/20 transition-all shadow-inner"
-                          >
-                            <option value="Twin Sharing with Fellow Traveler">Twin Sharing (Included in ₹13,000 Early Bird)</option>
-                            <option value="Private Hotel / Houseboat Room">Private Hotel / Houseboat Room (Subject to tariff differential)</option>
-                          </select>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              readOnly
+                              value={roomPreference}
+                              className="w-full px-3.5 py-2.5 bg-slate-100 border-2 border-slate-300 text-slate-900 font-semibold text-xs sm:text-sm cursor-default select-none shadow-inner"
+                            />
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                              <Users className="w-4 h-4 text-blue-600" />
+                            </div>
+                          </div>
+                          <p className="text-[10px] text-slate-400 font-mono mt-1">
+                            Two sharing stay allocation included by default with fellow traveler
+                          </p>
                         </div>
 
                         <div>
