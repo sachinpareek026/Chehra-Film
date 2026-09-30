@@ -32,7 +32,10 @@ import {
   Mail,
   FileText,
   Lock,
-  Trash2
+  Trash2,
+  Cloud,
+  ExternalLink,
+  FileSpreadsheet
 } from 'lucide-react';
 import { CHARACTERS, FILM_METADATA } from '../data/cinemaData';
 import { INITIAL_ACTOR_SUBMISSIONS, INITIAL_PARTICIPANT_SUBMISSIONS, INITIAL_CREW_SUBMISSIONS } from '../data/initialSubmissions';
@@ -648,6 +651,76 @@ export const NominationModal: React.FC<NominationModalProps> = ({
     onClose();
   };
 
+  const handleSubmitAnotherResponse = () => {
+    setSubmitted(false);
+    setSubmittedItem(null);
+    setFullName('');
+    setAge('');
+    setCity('');
+    setPhoneNumber('');
+    setEmail('');
+    setInstagramProfile('');
+    setAadharNumber('');
+    setAadharFrontFileName('');
+    setAadharFrontPreview(null);
+    setAadharFrontIsPdf(false);
+    setAadharFrontFileSize('');
+    setAadharBackFileName('');
+    setAadharBackPreview(null);
+    setAadharBackIsPdf(false);
+    setAadharBackFileSize('');
+    setAadharCombinedPdf(false);
+    setActingExperience('');
+    setWhyJoin('');
+    setPersonalityAndSkills('');
+    setUsefulRoleTarget('');
+    setPhotoPreview(null);
+    setPhotoFileName('');
+    setAuditionTapeFileName('');
+    setAuditionTapeUrl('');
+    setEmergencyContact('');
+    setProofOfSkillLink('');
+    setPortfolioSummary('');
+    setCustomCrewSkillset('');
+    setErrors({});
+    setDuplicateError(null);
+  };
+
+  const handleClearForm = () => {
+    if (window.confirm('Clear all answers? This will reset all form fields and remove attached files.')) {
+      setFullName('');
+      setAge('');
+      setCity('');
+      setPhoneNumber('');
+      setEmail('');
+      setInstagramProfile('');
+      setAadharNumber('');
+      setAadharFrontFileName('');
+      setAadharFrontPreview(null);
+      setAadharFrontIsPdf(false);
+      setAadharFrontFileSize('');
+      setAadharBackFileName('');
+      setAadharBackPreview(null);
+      setAadharBackIsPdf(false);
+      setAadharBackFileSize('');
+      setAadharCombinedPdf(false);
+      setActingExperience('');
+      setWhyJoin('');
+      setPersonalityAndSkills('');
+      setUsefulRoleTarget('');
+      setPhotoPreview(null);
+      setPhotoFileName('');
+      setAuditionTapeFileName('');
+      setAuditionTapeUrl('');
+      setEmergencyContact('');
+      setProofOfSkillLink('');
+      setPortfolioSummary('');
+      setCustomCrewSkillset('');
+      setErrors({});
+      setDuplicateError(null);
+    }
+  };
+
   if (!isOpen && !isStandalonePage) return null;
 
   const content = (
@@ -893,6 +966,158 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                 )}
               </div>
 
+              {/* Google Drive Uploads & Clickable Links Card (Google Forms Mode) */}
+              <div className="p-4 sm:p-5 bg-[#0B1528] border-2 border-emerald-500/50 rounded-xs text-left space-y-3.5 shadow-xl shadow-black/60">
+                <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                  <div className="flex items-center gap-2">
+                    <Cloud className="w-5 h-5 text-emerald-400 shrink-0" />
+                    <div>
+                      <span className="text-[11px] font-mono text-emerald-300 uppercase tracking-widest font-black block">
+                        GOOGLE DRIVE UPLOADS & LINKED DOCUMENTS
+                      </span>
+                      <span className="text-[10px] text-slate-300 font-sans">
+                        Stored in Google Drive and hyperlinked in the official Google Sheet
+                      </span>
+                    </div>
+                  </div>
+                  <span className="px-2 py-0.5 bg-emerald-400/20 border border-emerald-400/40 text-emerald-300 font-mono text-[9px] font-bold uppercase tracking-wider">
+                    DRIVE SYNCED
+                  </span>
+                </div>
+
+                <div className="space-y-2">
+                  {/* Aadhaar Front Document Link */}
+                  {(submittedItem.aadharFrontDriveUrl || submittedItem.aadharFrontLocalUrl || submittedItem.aadharFrontUrl) && (
+                    <div className="p-2.5 bg-black/60 border border-white/10 rounded flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 truncate">
+                        <FileText className="w-4 h-4 text-amber-400 shrink-0" />
+                        <div className="truncate">
+                          <span className="text-xs font-mono font-bold text-white block truncate">
+                            Aadhaar Card (Front Side)
+                          </span>
+                          <span className="text-[10px] font-mono text-slate-400 truncate block">
+                            {submittedItem.aadharFrontFileName || 'aadhar_front.jpg'}
+                          </span>
+                        </div>
+                      </div>
+                      <a
+                        href={submittedItem.aadharFrontDriveUrl || submittedItem.aadharFrontLocalUrl || submittedItem.aadharFrontUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/50 text-[11px] font-mono font-bold transition-all cursor-pointer shrink-0"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        <span>OPEN IN DRIVE / VIEW</span>
+                      </a>
+                    </div>
+                  )}
+
+                  {/* Aadhaar Back Document Link */}
+                  {(submittedItem.aadharBackDriveUrl || submittedItem.aadharBackLocalUrl || submittedItem.aadharBackUrl) && (
+                    <div className="p-2.5 bg-black/60 border border-white/10 rounded flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 truncate">
+                        <FileText className="w-4 h-4 text-amber-400 shrink-0" />
+                        <div className="truncate">
+                          <span className="text-xs font-mono font-bold text-white block truncate">
+                            Aadhaar Card (Back Side)
+                          </span>
+                          <span className="text-[10px] font-mono text-slate-400 truncate block">
+                            {submittedItem.aadharBackFileName || 'aadhar_back.jpg'}
+                          </span>
+                        </div>
+                      </div>
+                      <a
+                        href={submittedItem.aadharBackDriveUrl || submittedItem.aadharBackLocalUrl || submittedItem.aadharBackUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/50 text-[11px] font-mono font-bold transition-all cursor-pointer shrink-0"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        <span>OPEN IN DRIVE / VIEW</span>
+                      </a>
+                    </div>
+                  )}
+
+                  {/* Actor Photo Link */}
+                  {submittedItem.type === 'actor' && (submittedItem.photoDriveUrl || submittedItem.photoLocalUrl || submittedItem.photoPreviewUrl) && (
+                    <div className="p-2.5 bg-black/60 border border-white/10 rounded flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 truncate">
+                        <Camera className="w-4 h-4 text-yellow-400 shrink-0" />
+                        <div className="truncate">
+                          <span className="text-xs font-mono font-bold text-white block truncate">
+                            Headshot / Portrait Photograph
+                          </span>
+                          <span className="text-[10px] font-mono text-slate-400 truncate block">
+                            {submittedItem.photoFileName || 'headshot.jpg'}
+                          </span>
+                        </div>
+                      </div>
+                      <a
+                        href={submittedItem.photoDriveUrl || submittedItem.photoLocalUrl || submittedItem.photoPreviewUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-400/20 hover:bg-yellow-400/30 text-yellow-300 border border-yellow-400/50 text-[11px] font-mono font-bold transition-all cursor-pointer shrink-0"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        <span>OPEN IN DRIVE / VIEW</span>
+                      </a>
+                    </div>
+                  )}
+
+                  {/* Audition Tape Link */}
+                  {submittedItem.type === 'actor' && (submittedItem.auditionTapeUrl || submittedItem.auditionTapeDriveUrl) && (
+                    <div className="p-2.5 bg-black/60 border border-white/10 rounded flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 truncate">
+                        <Video className="w-4 h-4 text-yellow-400 shrink-0" />
+                        <div className="truncate">
+                          <span className="text-xs font-mono font-bold text-white block truncate">
+                            Audition Monologue Video / Reel
+                          </span>
+                          <span className="text-[10px] font-mono text-slate-400 truncate block">
+                            {submittedItem.auditionTapeFileName || 'audition_tape.mp4'}
+                          </span>
+                        </div>
+                      </div>
+                      <a
+                        href={submittedItem.auditionTapeDriveUrl || submittedItem.auditionTapeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-400/20 hover:bg-yellow-400/30 text-yellow-300 border border-yellow-400/50 text-[11px] font-mono font-bold transition-all cursor-pointer shrink-0"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        <span>OPEN VIDEO LINK</span>
+                      </a>
+                    </div>
+                  )}
+
+                  {/* Crew Proof of Skill Link */}
+                  {submittedItem.type === 'crew' && submittedItem.proofOfSkillLink && (
+                    <div className="p-2.5 bg-black/60 border border-white/10 rounded flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 truncate">
+                        <Wrench className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <div className="truncate">
+                          <span className="text-xs font-mono font-bold text-white block truncate">
+                            Technical Portfolio / Proof of Skill
+                          </span>
+                          <span className="text-[10px] font-mono text-slate-400 truncate block">
+                            {submittedItem.crewDepartment}
+                          </span>
+                        </div>
+                      </div>
+                      <a
+                        href={submittedItem.proofOfSkillLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/50 text-[11px] font-mono font-bold transition-all cursor-pointer shrink-0"
+                      >
+                        <ExternalLink className="w-3 h-3" />
+                        <span>OPEN PORTFOLIO LINK</span>
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </div>
+
               {/* WhatsApp Fast Proceeding & Application Status for Actor Submissions */}
               {submittedItem.type === 'actor' && (
                 <div className="p-4 sm:p-5 bg-gradient-to-br from-[#062412] to-[#04170B] border-2 border-[#25D366] text-left space-y-3.5 shadow-xl shadow-[#25D366]/15">
@@ -1073,7 +1298,16 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                 </div>
               )}
 
-              <div className="pt-2 space-y-2">
+              <div className="pt-3 space-y-2.5">
+                <button
+                  type="button"
+                  onClick={handleSubmitAnotherResponse}
+                  className="w-full py-3 px-4 bg-slate-800 hover:bg-slate-700 text-yellow-400 font-mono text-xs font-bold uppercase tracking-wider border border-yellow-400/40 transition-all cursor-pointer flex items-center justify-center gap-2 shadow-md"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  <span>SUBMIT ANOTHER RESPONSE (GOOGLE FORMS MODE)</span>
+                </button>
+
                 <CinemaButton
                   variant="primary"
                   onClick={handleResetAndClose}
@@ -1482,6 +1716,33 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                     </div>
                   </div>
                 )}
+
+                {/* Google Forms Inspired Top Header Card */}
+                <div className="relative overflow-hidden bg-[#0D1526] border-2 border-purple-500/40 rounded-xs shadow-xl shadow-black/40">
+                  <div className="h-2 bg-gradient-to-r from-purple-500 via-yellow-400 to-emerald-400 w-full" />
+                  <div className="p-4 sm:p-5 space-y-2.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-title text-base sm:text-lg font-black text-white uppercase tracking-wider">
+                        CHEHRA FILMS • REGISTRATION & SUBMISSION FORM
+                      </span>
+                      <span className="px-2 py-0.5 bg-purple-500/20 text-purple-300 border border-purple-500/40 font-mono text-[9px] font-bold uppercase shrink-0 flex items-center gap-1">
+                        <Cloud className="w-3 h-3 text-purple-400" />
+                        <span>GOOGLE DRIVE SYNC</span>
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-300 font-sans leading-relaxed">
+                      Official casting audition, Kashmiri overland caravan & technical crew registration. 
+                      Files uploaded to this form will be securely saved to your Google Drive folder and linked directly in the official Google Sheet.
+                    </p>
+                    <div className="pt-2 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-[11px] font-mono text-slate-400">
+                      <span className="flex items-center gap-1.5 text-emerald-400">
+                        <Cloud className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                        <span>Files uploaded will be saved to Google Drive and shared with organizers</span>
+                      </span>
+                      <span className="text-red-400 font-bold">* Indicates required question</span>
+                    </div>
+                  </div>
+                </div>
 
                 {/* 1. Core Personal Details */}
                 <div className="p-4 sm:p-5 bg-[#141E34] border border-slate-600/70 shadow-md space-y-4">
@@ -2459,25 +2720,37 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                     </div>
                   )}
 
-                  <CinemaButton
-                    type="submit"
-                    variant="primary"
-                    disabled={isSubmitting}
-                    className="w-full !py-3.5 text-xs tracking-widest font-black flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <RefreshCw className="w-4 h-4 animate-spin text-black" />
-                        <span>DISPATCHING TO PRODUCTION & GOOGLE SHEET...</span>
-                      </>
-                    ) : (
-                      <>
-                        {pathway === 'actor' && `SUBMIT AUDITION AS ${currentRole.name} (ZERO FEES FOR AUDITION)`}
-                        {pathway === 'participant' && 'CONFIRM PRE-BOOKING TOKEN (₹2,000)'}
-                        {pathway === 'crew' && 'SUBMIT TECHNICAL CREW APPLICATION'}
-                      </>
-                    )}
-                  </CinemaButton>
+                  <div className="flex flex-col sm:flex-row items-center gap-3">
+                    <CinemaButton
+                      type="submit"
+                      variant="primary"
+                      disabled={isSubmitting}
+                      className="w-full sm:flex-1 !py-3.5 text-xs tracking-widest font-black flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <RefreshCw className="w-4 h-4 animate-spin text-black" />
+                          <span>UPLOADING TO DRIVE & SYNCING GOOGLE SHEET...</span>
+                        </>
+                      ) : (
+                        <>
+                          {pathway === 'actor' && `SUBMIT AUDITION AS ${currentRole.name} (ZERO FEES FOR AUDITION)`}
+                          {pathway === 'participant' && 'CONFIRM PRE-BOOKING TOKEN (₹2,000)'}
+                          {pathway === 'crew' && 'SUBMIT TECHNICAL CREW APPLICATION'}
+                        </>
+                      )}
+                    </CinemaButton>
+
+                    <button
+                      type="button"
+                      onClick={handleClearForm}
+                      disabled={isSubmitting}
+                      className="w-full sm:w-auto px-4 py-3.5 bg-black/40 hover:bg-black/70 border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white text-xs font-mono font-bold tracking-wider transition-colors cursor-pointer disabled:opacity-50"
+                      title="Clear all form fields and remove files"
+                    >
+                      CLEAR FORM
+                    </button>
+                  </div>
 
                   <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
                     <span>* Zero submission fees for auditions & crew screening</span>

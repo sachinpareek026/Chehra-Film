@@ -40,7 +40,33 @@ function saveGoogleSheetWebhookUrl(url: string) {
   }
 }
 
-async function forwardToGoogleSheet(submission: any): Promise<{ success: boolean; status?: number; responseText?: string; error?: string }> {
+import { GOOGLE_APPS_SCRIPT_SOURCE } from './googleAppsScriptCode';
+
+const uploadsDir = path.resolve(process.cwd(), 'data', 'uploads');
+
+function saveBase64File(subId: string, filename: string, dataUrl: string): string {
+  if (!dataUrl || typeof dataUrl !== 'string' || !dataUrl.startsWith('data:')) {
+    return dataUrl || '';
+  }
+  try {
+    const parts = dataUrl.split(',');
+    if (parts.length < 2) return dataUrl;
+    const base64Data = parts[1];
+    const subDir = path.join(uploadsDir, subId);
+    if (!fs.existsSync(subDir)) {
+      fs.mkdirSync(subDir, { recursive: true });
+    }
+    const safeName = filename.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const filePath = path.join(subDir, safeName);
+    fs.writeFileSync(filePath, Buffer.from(base64Data, 'base64'));
+    return `/api/uploads/${subId}/${safeName}`;
+  } catch (err) {
+    console.error('Error saving uploaded file to disk:', err);
+    return dataUrl;
+  }
+}
+
+async function forwardToGoogleSheet(submission: any): Promise<{ success: boolean; status?: number; responseText?: string; driveUrls?: Record<string, string>; error?: string }> {
   const webhookUrl = getGoogleSheetWebhookUrl();
   if (!webhookUrl) {
     return { success: false, error: 'No Google Sheet webhook URL configured' };
@@ -55,8 +81,34 @@ async function forwardToGoogleSheet(submission: any): Promise<{ success: boolean
       return (s.startsWith('+') || s.startsWith('=')) ? `'${s}` : s;
     };
 
-    // 1. Comprehensive flattened dictionary covering standard fields, aliases, and human column headers
-    // Note: Omit heavy binary/base64 DataURLs when sending to Google Apps Script webhook to prevent HTTP 413 / timeout
+    // Prepare files array for Google Apps Script to upload directly to Google Drive
+    const filesToUpload: any[] = [];
+
+    if (submission.aadharFrontUrl && typeof submission.aadharFrontUrl === 'string' && submission.aadharFrontUrl.startsWith('data:')) {
+      filesToUpload.push({
+        field: 'aadharFront',
+        name: submission.aadharFrontFileName || 'aadhar_front.jpg',
+        base64: submission.aadharFrontUrl,
+      });
+    }
+
+    if (submission.aadharBackUrl && typeof submission.aadharBackUrl === 'string' && submission.aadharBackUrl.startsWith('data:')) {
+      filesToUpload.push({
+        field: 'aadharBack',
+        name: submission.aadharBackFileName || 'aadhar_back.jpg',
+        base64: submission.aadharBackUrl,
+      });
+    }
+
+    if (submission.photoPreviewUrl && typeof submission.photoPreviewUrl === 'string' && submission.photoPreviewUrl.startsWith('data:')) {
+      filesToUpload.push({
+        field: 'photo',
+        name: submission.photoFileName || 'headshot.jpg',
+        base64: submission.photoPreviewUrl,
+      });
+    }
+
+    // Comprehensive flattened dictionary covering standard fields, aliases, and human column headers
     const flatRecord: Record<string, any> = {
       // Basic info
       id: submission.id,
@@ -84,31 +136,36 @@ async function forwardToGoogleSheet(submission: any): Promise<{ success: boolean
       roomPreference: submission.roomPreference || '',
       room: submission.roomPreference || '',
       emergencyContact: safePhone(submission.emergencyContact),
-      prebookingTokenPrice: submission.prebookingTokenPrice || 1000,
-      tokenPrice: submission.prebookingTokenPrice ? `₹${submission.prebookingTokenPrice}` : '₹1000',
-      lockedTripPrice: submission.lockedTripPrice || 11000,
-      tripPrice: submission.lockedTripPrice ? `₹${submission.lockedTripPrice}` : '₹11000',
+      prebookingTokenPrice: submission.prebookingTokenPrice || 2000,
+      tokenPrice: submission.prebookingTokenPrice ? `₹${submission.prebookingTokenPrice}` : '₹2000',
+      lockedTripPrice: submission.lockedTripPrice || 13000,
+      tripPrice: submission.lockedTripPrice ? `₹${submission.lockedTripPrice}` : '₹13000',
       oct30PriceIncreaseNotice: submission.oct30PriceIncreaseNotice ? 'Acknowledged' : 'Standard',
-      paymentMode: submission.paymentMode || 'UPI / Card (₹1,000 Token)',
+      paymentMode: submission.paymentMode || 'UPI / Card (₹2,000 Token)',
       transactionRef: submission.transactionRef || `TOKEN-${submission.id}`,
 
-      // Aadhaar Card Details (eKYC, ticket booking, records) - Send readable status/filenames to Google Sheet
+      // Aadhaar Card Details & Google Drive Links
       aadharNumber: submission.aadharNumber || 'N/A',
       aadharFrontFileName: submission.aadharFrontFileName || 'Uploaded',
       aadharBackFileName: submission.aadharBackFileName || 'Uploaded',
+      aadharFrontDriveUrl: submission.aadharFrontDriveUrl || '',
+      aadharBackDriveUrl: submission.aadharBackDriveUrl || '',
       'Aadhaar Number': submission.aadharNumber || 'N/A',
+      'Aadhaar Front (Google Drive Link)': submission.aadharFrontDriveUrl || submission.aadharFrontUrl || submission.aadharFrontFileName || 'Uploaded',
+      'Aadhaar Back (Google Drive Link)': submission.aadharBackDriveUrl || submission.aadharBackUrl || submission.aadharBackFileName || 'Uploaded',
       'Aadhaar Front File': submission.aadharFrontFileName || 'Uploaded',
       'Aadhaar Back File': submission.aadharBackFileName || 'Uploaded',
-      'Aadhaar eKYC': (submission.aadharFrontFileName ? 'Front Attached' : '') + (submission.aadharBackFileName ? ' + Back Attached' : ''),
 
       // Actor specific
       selectedRole: submission.selectedRole || '',
       role: submission.selectedRole || '',
       actingExperience: submission.actingExperience || '',
       photoFileName: submission.photoFileName || '',
-      photoPreviewUrl: submission.photoPreviewUrl || '',
+      photoDriveUrl: submission.photoDriveUrl || '',
+      'Photo / Headshot (Google Drive Link)': submission.photoDriveUrl || submission.photoPreviewUrl || submission.photoFileName || 'Uploaded',
       auditionTapeFileName: submission.auditionTapeFileName || '',
       auditionTapeUrl: submission.auditionTapeUrl || '',
+      'Audition Reel / Skill Link': submission.auditionTapeUrl || submission.proofOfSkillLink || 'N/A',
       whyJoin: submission.whyJoin || '',
       refundEligible: submission.refundEligible !== false,
 
@@ -123,7 +180,7 @@ async function forwardToGoogleSheet(submission: any): Promise<{ success: boolean
       opportunityFeeAgreed: submission.opportunityFeeAgreed ? 'Yes' : 'Pending',
       publicFilmmakingConsent: submission.publicFilmmakingConsent ? 'Granted' : 'Pending',
 
-      // Human-readable Excel column headers (e.g. for scripts that iterate through sheet headers)
+      // Human-readable Excel column headers
       'Full Name': submission.fullName,
       'Name': submission.fullName,
       'Phone': submission.phoneNumber,
@@ -134,13 +191,12 @@ async function forwardToGoogleSheet(submission: any): Promise<{ success: boolean
       'Age': submission.age,
       'Type': submission.type,
       'Pathway': submission.type,
-      'Track': submission.type === 'participant' ? 'Participant (Kashmir Caravan)' : (submission.type === 'actor' ? 'Lead Actor Audition' : 'Crew Department Head'),
+      'Track': submission.type === 'participant' ? 'Participant (Kashmir Expedition)' : (submission.type === 'actor' ? 'Lead Actor Audition' : 'Crew Department Head'),
       'Departure City': submission.departureCity || 'N/A',
       'Travel Batch': submission.travelBatch || 'N/A',
-      'Room Preference': submission.roomPreference || 'N/A',
       'Emergency Contact': submission.emergencyContact || 'N/A',
-      'Pre-booking Token': submission.prebookingTokenPrice ? `₹${submission.prebookingTokenPrice}` : '₹1,000',
-      'Locked Trip Price': submission.lockedTripPrice ? `₹${submission.lockedTripPrice}` : '₹11,000',
+      'Pre-booking Token': submission.prebookingTokenPrice ? `₹${submission.prebookingTokenPrice}` : '₹2,000',
+      'Locked Trip Price': submission.lockedTripPrice ? `₹${submission.lockedTripPrice}` : '₹13,000',
       'Role': submission.selectedRole || 'N/A',
       'Audition / Reel Link': submission.auditionTapeUrl || submission.proofOfSkillLink || 'N/A',
       'Department': submission.crewDepartment || 'N/A',
@@ -148,36 +204,22 @@ async function forwardToGoogleSheet(submission: any): Promise<{ success: boolean
       'Submission Date': timestamp,
     };
 
-    // 2. Multi-envelope payload: supports direct root reads, or .submission / .data / .payload wrapper
+    // Multi-envelope payload: passes files to be saved in Google Drive
     const payload = {
       ...flatRecord,
       action: 'append_submission',
-      submission: flatRecord,
+      files: filesToUpload,
+      submission: {
+        ...flatRecord,
+        files: filesToUpload,
+      },
       data: flatRecord,
       payload: flatRecord,
       timestamp: new Date().toISOString(),
     };
 
-    // 3. Attach URL query params so if the script parses e.parameter, it gets all primary values!
-    const queryParams = new URLSearchParams({
-      action: 'append_submission',
-      id: String(submission.id || ''),
-      type: String(submission.type || ''),
-      name: String(submission.fullName || ''),
-      fullName: String(submission.fullName || ''),
-      phone: String(submission.phoneNumber || ''),
-      email: String(submission.email || ''),
-      city: String(submission.city || ''),
-      age: String(submission.age || ''),
-      departureCity: String(submission.departureCity || ''),
-      travelBatch: String(submission.travelBatch || ''),
-      emergencyContact: String(submission.emergencyContact || ''),
-      role: String(submission.selectedRole || ''),
-      department: String(submission.crewDepartment || ''),
-    }).toString();
-
     const separator = webhookUrl.includes('?') ? '&' : '?';
-    const targetUrl = `${webhookUrl}${separator}${queryParams}`;
+    const targetUrl = `${webhookUrl}${separator}action=append_submission&id=${encodeURIComponent(submission.id || '')}`;
 
     const res = await fetch(targetUrl, {
       method: 'POST',
@@ -191,10 +233,28 @@ async function forwardToGoogleSheet(submission: any): Promise<{ success: boolean
 
     const responseText = await res.text();
     console.log(`[GoogleSheetSync] Status: ${res.status}, Response: ${responseText.substring(0, 300)}`);
+
+    let driveUrls: Record<string, string> | undefined;
+    try {
+      const parsedResp = JSON.parse(responseText);
+      if (parsedResp && parsedResp.driveUrls) {
+        driveUrls = parsedResp.driveUrls;
+        if (driveUrls) {
+          if (driveUrls.aadharFront) submission.aadharFrontDriveUrl = driveUrls.aadharFront;
+          if (driveUrls.aadharBack) submission.aadharBackDriveUrl = driveUrls.aadharBack;
+          if (driveUrls.photo) submission.photoDriveUrl = driveUrls.photo;
+          saveSubmissions(cache);
+        }
+      }
+    } catch (e) {
+      // response might be HTML or plain text redirect
+    }
+
     return {
       success: res.status >= 200 && res.status < 400,
       status: res.status,
       responseText,
+      driveUrls,
     };
   } catch (err: any) {
     console.error('[GoogleSheetSync] Error:', err.message);
@@ -242,12 +302,12 @@ function toActorExcelRows(actors: any[]) {
     'PHONE': a.phoneNumber,
     'EMAIL': a.email,
     'AADHAAR NUMBER': a.aadharNumber || 'N/A',
-    'AADHAAR FRONT FILE': a.aadharFrontFileName || 'Uploaded',
-    'AADHAAR BACK FILE': a.aadharBackFileName || 'Uploaded',
+    'AADHAAR FRONT (DRIVE LINK)': a.aadharFrontDriveUrl || a.aadharFrontLocalUrl || a.aadharFrontFileName || 'Uploaded',
+    'AADHAAR BACK (DRIVE LINK)': a.aadharBackDriveUrl || a.aadharBackLocalUrl || a.aadharBackFileName || 'Uploaded',
+    'PHOTO (DRIVE LINK)': a.photoDriveUrl || a.photoLocalUrl || a.photoFileName || 'Uploaded',
     'INSTAGRAM': a.instagramProfile || 'N/A',
     'ROLE APPLIED': a.selectedRole,
     'ACTING EXP': a.actingExperience,
-    'PHOTO FILE': a.photoFileName || 'Uploaded',
     'AUDITION TAPE / LINK': a.auditionTapeUrl || a.auditionTapeFileName || 'Uploaded',
     'WHY JOIN': a.whyJoin,
     '100% REFUND ELIGIBLE': a.refundEligible ? 'YES (100% Refund Eligible)' : 'Standard',
@@ -265,18 +325,18 @@ function toParticipantExcelRows(participants: any[]) {
     'PHONE': p.phoneNumber,
     'EMAIL': p.email,
     'AADHAAR NUMBER': p.aadharNumber || 'N/A',
-    'AADHAAR FRONT FILE': p.aadharFrontFileName || 'Uploaded',
-    'AADHAAR BACK FILE': p.aadharBackFileName || 'Uploaded',
+    'AADHAAR FRONT (DRIVE LINK)': p.aadharFrontDriveUrl || p.aadharFrontLocalUrl || p.aadharFrontFileName || 'Uploaded',
+    'AADHAAR BACK (DRIVE LINK)': p.aadharBackDriveUrl || p.aadharBackLocalUrl || p.aadharBackFileName || 'Uploaded',
     'INSTAGRAM': p.instagramProfile || 'N/A',
     'BOARDING CITY': p.departureCity,
     'TRAVEL BATCH': p.travelBatch,
     'ROOM PREFERENCE': p.roomPreference,
     'EMERGENCY CONTACT': p.emergencyContact,
-    'PRE-BOOKING TOKEN (PAID)': `₹${p.prebookingTokenPrice}/-`,
-    'LOCKED TRIP PRICE': `₹${p.lockedTripPrice}/-`,
+    'PRE-BOOKING TOKEN (PAID)': `₹${p.prebookingTokenPrice || 2000}/-`,
+    'LOCKED TRIP PRICE': `₹${p.lockedTripPrice || 13000}/-`,
     'OCT 30 NOTICE': p.oct30PriceIncreaseNotice ? 'ACKNOWLEDGED (+₹1500 after 30 Oct)' : 'Standard',
-    'TRANSACTION REF': p.transactionRef || 'PAID-TOKEN-1000',
-    'KYC STATUS': p.aadharFrontFileName ? 'AADHAAR ATTACHED' : 'PENDING',
+    'TRANSACTION REF': p.transactionRef || 'PAID-TOKEN-2000',
+    'KYC STATUS': (p.aadharFrontDriveUrl || p.aadharFrontFileName) ? 'AADHAAR ATTACHED' : 'PENDING',
   }));
 }
 
@@ -291,8 +351,8 @@ function toCrewExcelRows(crew: any[]) {
     'PHONE': c.phoneNumber,
     'EMAIL': c.email,
     'AADHAAR NUMBER': c.aadharNumber || 'N/A',
-    'AADHAAR FRONT FILE': c.aadharFrontFileName || 'Uploaded',
-    'AADHAAR BACK FILE': c.aadharBackFileName || 'Uploaded',
+    'AADHAAR FRONT (DRIVE LINK)': c.aadharFrontDriveUrl || c.aadharFrontLocalUrl || c.aadharFrontFileName || 'Uploaded',
+    'AADHAAR BACK (DRIVE LINK)': c.aadharBackDriveUrl || c.aadharBackLocalUrl || c.aadharBackFileName || 'Uploaded',
     'INSTAGRAM': c.instagramProfile || 'N/A',
     'DEPARTMENT': c.crewDepartment,
     'CLASSIFICATION': c.categoryType,
@@ -362,7 +422,40 @@ export function apiMiddleware(): Connect.NextHandleFunction {
       return;
     }
 
-    // 1b. POST /api/submissions/attach-document (Directly attach or replace Aadhaar on any existing record)
+    // 1a. Static file serving for uploaded application files
+    if (url.startsWith('/api/uploads/')) {
+      const rel = url.replace('/api/uploads/', '');
+      const parts = rel.split('/');
+      const subId = parts[0];
+      const fileName = decodeURIComponent(parts.slice(1).join('/'));
+      const filePath = path.join(uploadsDir, subId, fileName);
+      if (fs.existsSync(filePath)) {
+        const ext = path.extname(fileName).toLowerCase();
+        let contentType = 'application/octet-stream';
+        if (ext === '.jpg' || ext === '.jpeg') contentType = 'image/jpeg';
+        else if (ext === '.png') contentType = 'image/png';
+        else if (ext === '.pdf') contentType = 'application/pdf';
+        else if (ext === '.webp') contentType = 'image/webp';
+        res.setHeader('Content-Type', contentType);
+        res.setHeader('Content-Disposition', `inline; filename="${fileName}"`);
+        fs.createReadStream(filePath).pipe(res);
+        return;
+      } else {
+        res.statusCode = 404;
+        res.end('File not found');
+        return;
+      }
+    }
+
+    // 1b. Direct download of Google Apps Script Source
+    if (url === '/api/google-apps-script.js') {
+      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+      res.setHeader('Content-Disposition', 'attachment; filename="ChehraFilms_Drive_Sheet_Sync.gs"');
+      res.end(GOOGLE_APPS_SCRIPT_SOURCE);
+      return;
+    }
+
+    // 1c. POST /api/submissions/attach-document (Directly attach or replace Aadhaar on any existing record)
     if (url === '/api/submissions/attach-document' && req.method === 'POST') {
       let body = '';
       req.on('data', (chunk) => { body += chunk; });
@@ -380,9 +473,19 @@ export function apiMiddleware(): Connect.NextHandleFunction {
             const item = list.find((x: any) => x.id === id);
             if (item) {
               if (aadharFrontFileName !== undefined) item.aadharFrontFileName = aadharFrontFileName;
-              if (aadharFrontUrl !== undefined) item.aadharFrontUrl = aadharFrontUrl;
+              if (aadharFrontUrl !== undefined) {
+                item.aadharFrontUrl = aadharFrontUrl;
+                if (typeof aadharFrontUrl === 'string' && aadharFrontUrl.startsWith('data:')) {
+                  item.aadharFrontLocalUrl = saveBase64File(id, aadharFrontFileName || 'aadhar_front.jpg', aadharFrontUrl);
+                }
+              }
               if (aadharBackFileName !== undefined) item.aadharBackFileName = aadharBackFileName;
-              if (aadharBackUrl !== undefined) item.aadharBackUrl = aadharBackUrl;
+              if (aadharBackUrl !== undefined) {
+                item.aadharBackUrl = aadharBackUrl;
+                if (typeof aadharBackUrl === 'string' && aadharBackUrl.startsWith('data:')) {
+                  item.aadharBackLocalUrl = saveBase64File(id, aadharBackFileName || 'aadhar_back.jpg', aadharBackUrl);
+                }
+              }
               if (aadharNumber !== undefined) item.aadharNumber = aadharNumber;
               found = item;
               break;
@@ -396,6 +499,15 @@ export function apiMiddleware(): Connect.NextHandleFunction {
           }
 
           saveSubmissions(cache);
+          // Sync with Google Sheet & Drive in background
+          forwardToGoogleSheet(found).then((sheetRes) => {
+            if (sheetRes.driveUrls) {
+              if (sheetRes.driveUrls.aadharFront) found.aadharFrontDriveUrl = sheetRes.driveUrls.aadharFront;
+              if (sheetRes.driveUrls.aadharBack) found.aadharBackDriveUrl = sheetRes.driveUrls.aadharBack;
+              saveSubmissions(cache);
+            }
+          }).catch(console.error);
+
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({ success: true, updated: found }));
         } catch (err: any) {
@@ -421,16 +533,19 @@ export function apiMiddleware(): Connect.NextHandleFunction {
             return;
           }
 
-          const cleanPhone = (p: string) => (p || '').replace(/\D/g, '').slice(-10);
-          const targetPhone = cleanPhone(item.phoneNumber);
-          const targetEmail = (item.email || '').trim().toLowerCase();
+          // Save any uploaded files to disk for durable preview & serving
+          if (item.aadharFrontUrl && typeof item.aadharFrontUrl === 'string' && item.aadharFrontUrl.startsWith('data:')) {
+            item.aadharFrontLocalUrl = saveBase64File(item.id, item.aadharFrontFileName || 'aadhar_front.jpg', item.aadharFrontUrl);
+          }
+          if (item.aadharBackUrl && typeof item.aadharBackUrl === 'string' && item.aadharBackUrl.startsWith('data:')) {
+            item.aadharBackLocalUrl = saveBase64File(item.id, item.aadharBackFileName || 'aadhar_back.jpg', item.aadharBackUrl);
+          }
+          if (item.photoPreviewUrl && typeof item.photoPreviewUrl === 'string' && item.photoPreviewUrl.startsWith('data:')) {
+            item.photoLocalUrl = saveBase64File(item.id, item.photoFileName || 'headshot.jpg', item.photoPreviewUrl);
+          }
 
-          const isMatch = (existing: any) => {
-            if (existing.id === item.id) return true;
-            if (targetPhone && cleanPhone(existing.phoneNumber) === targetPhone) return true;
-            if (targetEmail && (existing.email || '').trim().toLowerCase() === targetEmail) return true;
-            return false;
-          };
+          // Strictly match on unique Application ID only so users can submit multiple applications or test freely without blocking
+          const isMatch = (existing: any) => existing.id === item.id;
 
           if (item.type === 'actor') {
             const idx = cache.actors.findIndex(isMatch);
@@ -457,8 +572,17 @@ export function apiMiddleware(): Connect.NextHandleFunction {
 
           saveSubmissions(cache);
 
-          // Forward to connected Google Sheet (non-blocking)
-          forwardToGoogleSheet(item).catch((err) => console.error('[GoogleSheetSync] Forward failed:', err));
+          // Forward to connected Google Sheet & Drive (non-blocking)
+          forwardToGoogleSheet(item)
+            .then((res) => {
+              if (res.driveUrls) {
+                if (res.driveUrls.aadharFront) item.aadharFrontDriveUrl = res.driveUrls.aadharFront;
+                if (res.driveUrls.aadharBack) item.aadharBackDriveUrl = res.driveUrls.aadharBack;
+                if (res.driveUrls.photo) item.photoDriveUrl = res.driveUrls.photo;
+                saveSubmissions(cache);
+              }
+            })
+            .catch((err) => console.error('[GoogleSheetSync] Forward failed:', err));
 
           res.setHeader('Content-Type', 'application/json');
           res.end(JSON.stringify({
@@ -580,6 +704,7 @@ export function apiMiddleware(): Connect.NextHandleFunction {
         connected: Boolean(currentUrl),
         webhookUrl: currentUrl ? currentUrl.replace(/(macros\/s\/[a-zA-Z0-9_-]{8})[a-zA-Z0-9_-]+/, '$1...') : '',
         rawConfigured: Boolean(currentUrl),
+        appsScriptCode: GOOGLE_APPS_SCRIPT_SOURCE,
       }));
       return;
     }

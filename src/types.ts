@@ -83,8 +83,15 @@ export interface ActorSubmission {
   aadharNumber?: string;
   aadharFrontFileName?: string;
   aadharFrontUrl?: string;
+  aadharFrontLocalUrl?: string;
+  aadharFrontDriveUrl?: string;
   aadharBackFileName?: string;
   aadharBackUrl?: string;
+  aadharBackLocalUrl?: string;
+  aadharBackDriveUrl?: string;
+  photoLocalUrl?: string;
+  photoDriveUrl?: string;
+  auditionTapeDriveUrl?: string;
   refundEligible: boolean; // 100% refund eligible
   totalAmount?: number; // 16000
   securityBookingAmount?: number; // 3000 payable upon selection
@@ -111,8 +118,12 @@ export interface ParticipantSubmission {
   aadharNumber?: string;
   aadharFrontFileName?: string;
   aadharFrontUrl?: string;
+  aadharFrontLocalUrl?: string;
+  aadharFrontDriveUrl?: string;
   aadharBackFileName?: string;
   aadharBackUrl?: string;
+  aadharBackLocalUrl?: string;
+  aadharBackDriveUrl?: string;
   bookingConsentAgreed?: boolean; // Agrees to ₹13,000 final amount & ₹2,000 security booking amount & balance before 20 days
   prebookingTokenPrice: number; // 2000
   lockedTripPrice: number; // 13000
@@ -141,8 +152,12 @@ export interface CrewSubmission {
   aadharNumber?: string;
   aadharFrontFileName?: string;
   aadharFrontUrl?: string;
+  aadharFrontLocalUrl?: string;
+  aadharFrontDriveUrl?: string;
   aadharBackFileName?: string;
   aadharBackUrl?: string;
+  aadharBackLocalUrl?: string;
+  aadharBackDriveUrl?: string;
   prebookingTokenPrice?: number; // 2000
   lockedTripPrice?: number; // 13000
   bookingConsentAgreed?: boolean;

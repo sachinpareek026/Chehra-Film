@@ -1,7 +1,25 @@
 import React, { useState } from 'react';
-import { X, Download, Copy, Check, ExternalLink, Search, RefreshCw, Table, ShieldCheck, Film, Compass, Wrench, FileSpreadsheet, Upload } from 'lucide-react';
+import {
+  X,
+  Download,
+  Copy,
+  Check,
+  ExternalLink,
+  Search,
+  RefreshCw,
+  Table,
+  ShieldCheck,
+  Film,
+  Compass,
+  Wrench,
+  FileSpreadsheet,
+  Upload,
+  Cloud,
+  FileCode
+} from 'lucide-react';
 import { ActorSubmission, ParticipantSubmission, CrewSubmission } from '../types';
 import { processDocumentFile } from '../utils/fileHelper';
+import { GOOGLE_APPS_SCRIPT_SOURCE } from '../../server/googleAppsScriptCode';
 import {
   downloadActorsExcel,
   downloadParticipantsExcel,
@@ -37,6 +55,8 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
   const [activeTab, setActiveTab] = useState<'actors' | 'participants' | 'crew' | 'all'>('participants');
   const [searchQuery, setSearchQuery] = useState('');
   const [copiedFormula, setCopiedFormula] = useState<string | null>(null);
+  const [showScriptDrawer, setShowScriptDrawer] = useState(false);
+  const [copiedScript, setCopiedScript] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isTestingSheet, setIsTestingSheet] = useState(false);
   const [sheetTestResult, setSheetTestResult] = useState<{
@@ -111,6 +131,12 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
     navigator.clipboard.writeText(formula);
     setCopiedFormula(pathway);
     setTimeout(() => setCopiedFormula(null), 2500);
+  };
+
+  const handleCopyScript = () => {
+    navigator.clipboard.writeText(GOOGLE_APPS_SCRIPT_SOURCE);
+    setCopiedScript(true);
+    setTimeout(() => setCopiedScript(false), 2500);
   };
 
   const handleTestParticipantSync = async () => {
@@ -284,6 +310,18 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
 
             <div className="flex flex-wrap items-center gap-2">
               <button
+                onClick={() => setShowScriptDrawer((prev) => !prev)}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 border text-[11px] font-bold tracking-wider transition-all cursor-pointer ${
+                  showScriptDrawer
+                    ? 'bg-purple-600 text-white border-purple-300 shadow-md'
+                    : 'bg-purple-600/20 hover:bg-purple-600/30 border-purple-400 text-purple-300 hover:text-white'
+                }`}
+              >
+                <FileCode className="w-3.5 h-3.5" />
+                <span>{showScriptDrawer ? 'HIDE APPS SCRIPT CODE' : 'GET DRIVE & SHEET SCRIPT CODE'}</span>
+              </button>
+
+              <button
                 onClick={handleTestParticipantSync}
                 disabled={isTestingSheet}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400 text-emerald-300 hover:text-white transition-all cursor-pointer font-bold tracking-wider text-[11px] disabled:opacity-50"
@@ -301,6 +339,58 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
               </button>
             </div>
           </div>
+
+          {/* Google Drive & Sheet Automation Script Drawer */}
+          {showScriptDrawer && (
+            <div className="p-4 bg-[#0F172A] border-2 border-purple-500/60 rounded space-y-3 animate-in fade-in duration-200">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-purple-500/30 pb-2.5">
+                <div className="flex items-center gap-2">
+                  <Cloud className="w-5 h-5 text-purple-400 shrink-0" />
+                  <div>
+                    <span className="font-bold text-white text-xs uppercase tracking-wider block">
+                      GOOGLE DRIVE & SHEET INTEGRATION AUTOMATION SCRIPT
+                    </span>
+                    <span className="text-[11px] text-slate-300">
+                      Creates &quot;Chehra Films - Form Submissions (Uploads)&quot; in your Google Drive &amp; adds clickable HYPERLINKs to your Google Sheet!
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    onClick={handleCopyScript}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition-colors cursor-pointer rounded shadow"
+                  >
+                    {copiedScript ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copiedScript ? 'COPIED SCRIPT CODE!' : 'COPY GOOGLE APPS SCRIPT'}</span>
+                  </button>
+                  <a
+                    href="/api/google-apps-script.js"
+                    download="ChehraFilms_Drive_Sheet_Sync.gs"
+                    className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 text-xs transition-colors cursor-pointer rounded"
+                  >
+                    <Download className="w-3 h-3" />
+                    <span>Download .gs</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* 3 Step Setup Guide */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-[11px] text-slate-300">
+                <div className="p-2.5 bg-black/40 border border-white/10 rounded">
+                  <strong className="text-yellow-400 block mb-1">Step 1: Open Apps Script</strong>
+                  <span>Open your Google Sheet, click <strong>Extensions</strong> &gt; <strong>Apps Script</strong> in the top menu.</span>
+                </div>
+                <div className="p-2.5 bg-black/40 border border-white/10 rounded">
+                  <strong className="text-emerald-400 block mb-1">Step 2: Paste Script &amp; Deploy</strong>
+                  <span>Replace all text in <code>Code.gs</code> with this script. Click <strong>Deploy</strong> &gt; <strong>New deployment</strong> &gt; Web app (Execute as: Me, Access: Anyone).</span>
+                </div>
+                <div className="p-2.5 bg-black/40 border border-white/10 rounded">
+                  <strong className="text-blue-400 block mb-1">Step 3: Google Drive Automatic Sync</strong>
+                  <span>All form file uploads will automatically save into your Google Drive, and rows in Google Sheet will have clickable links to open them!</span>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Test Result Message Box */}
           {sheetTestResult && (
