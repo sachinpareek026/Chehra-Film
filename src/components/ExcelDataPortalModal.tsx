@@ -295,6 +295,119 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
           </div>
         </div>
 
+        
+        {/* 3 Live Google Forms Hub */}
+        <div className="p-4 bg-gradient-to-r from-[#0F1B2E] via-[#0D1627] to-[#0A101D] border-2 border-yellow-400/50 rounded-xs space-y-3 shadow-lg">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-2.5">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-pulse" />
+              <div>
+                <span className="font-mono text-xs font-bold text-yellow-400 uppercase tracking-wider block">
+                  3 OFFICIAL LIVE GOOGLE FORMS (CONNECTED & READY TO SHARE)
+                </span>
+                <span className="text-[11px] text-slate-300">
+                  Share these direct links with applicants or view their live public submission pages.
+                </span>
+              </div>
+            </div>
+            <span className="px-2 py-0.5 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 font-mono text-[9px] font-bold uppercase shrink-0">
+              3 FORMS ACTIVE
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {/* Form 1: Actors */}
+            <div className="p-3 bg-black/50 border border-yellow-400/40 rounded flex flex-col justify-between gap-2.5">
+              <div>
+                <span className="px-1.5 py-0.5 bg-yellow-400 text-black font-mono text-[9px] font-black uppercase">
+                  FORM 1
+                </span>
+                <h4 className="text-xs font-bold text-white mt-1">Actor Audition & Casting</h4>
+                <p className="text-[10px] text-slate-400 mt-0.5">Zero submission fee • 7 Lead roles • Monologue & Headshot</p>
+              </div>
+              <div className="flex items-center gap-1.5 pt-1 border-t border-white/10">
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSc2oO2RmY15f-QdR5MOgx_UnQlOvLDDMVeBJX-004gqxPENWg/viewform"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 py-1.5 px-2 bg-yellow-400/20 hover:bg-yellow-400/30 text-yellow-300 border border-yellow-400/50 text-[10px] font-mono font-bold text-center transition-colors"
+                >
+                  Open Form ↗
+                </a>
+                <a
+                  href="https://docs.google.com/forms/d/1MEPgBpZtKY0fQ5LISPeWKkTW_tNY0n8206F41U9ZqG4/edit"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-1.5 px-2 bg-white/10 hover:bg-white/20 text-slate-300 text-[10px] font-mono transition-colors"
+                  title="Edit Form"
+                >
+                  Edit ⚙
+                </a>
+              </div>
+            </div>
+
+            {/* Form 2: Participants */}
+            <div className="p-3 bg-black/50 border border-blue-400/40 rounded flex flex-col justify-between gap-2.5">
+              <div>
+                <span className="px-1.5 py-0.5 bg-blue-500 text-white font-mono text-[9px] font-black uppercase">
+                  FORM 2
+                </span>
+                <h4 className="text-xs font-bold text-white mt-1">Expedition Participant</h4>
+                <p className="text-[10px] text-slate-400 mt-0.5">₹13,000 Early Bird • 8 Days 7 Nights • Gulmarg Ski Course</p>
+              </div>
+              <div className="flex items-center gap-1.5 pt-1 border-t border-white/10">
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSdn11s_O5X6WcEickyFVO-1EYKRNO0Wz932faXc6_JZKsqTQw/viewform"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 py-1.5 px-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/50 text-[10px] font-mono font-bold text-center transition-colors"
+                >
+                  Open Form ↗
+                </a>
+                <a
+                  href="https://docs.google.com/forms/d/1LwHSntaLFyEb-CvIPuTNOa8Ipa9XvwaxTYFmRJ17zRM/edit"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-1.5 px-2 bg-white/10 hover:bg-white/20 text-slate-300 text-[10px] font-mono transition-colors"
+                  title="Edit Form"
+                >
+                  Edit ⚙
+                </a>
+              </div>
+            </div>
+
+            {/* Form 3: Crew */}
+            <div className="p-3 bg-black/50 border border-emerald-400/40 rounded flex flex-col justify-between gap-2.5">
+              <div>
+                <span className="px-1.5 py-0.5 bg-emerald-500 text-black font-mono text-[9px] font-black uppercase">
+                  FORM 3
+                </span>
+                <h4 className="text-xs font-bold text-white mt-1">Technical Crew & Production</h4>
+                <p className="text-[10px] text-slate-400 mt-0.5">Camera, Sound, Drone, Edit • Subsidized fee • Official credits</p>
+              </div>
+              <div className="flex items-center gap-1.5 pt-1 border-t border-white/10">
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSfia3SajhutYg_VnxGKiGI3F3SLPtu8ZGBE5m6VVQHL8RdI-g/viewform"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 py-1.5 px-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/50 text-[10px] font-mono font-bold text-center transition-colors"
+                >
+                  Open Form ↗
+                </a>
+                <a
+                  href="https://docs.google.com/forms/d/1bEWlAM66Um2VvM17g_j3kLXGPaa2ULWSJCC8pHphYqA/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-1.5 px-2 bg-white/10 hover:bg-white/20 text-slate-300 text-[10px] font-mono transition-colors"
+                  title="Edit Form"
+                >
+                  Edit ⚙
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Global Google Sheets Sync & Webhook Diagnostic Center */}
         <div className="px-6 py-3 bg-[#080E1B] border-b border-blue-900/30 space-y-2.5 text-xs font-mono">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3">

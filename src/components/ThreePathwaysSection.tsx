@@ -13,7 +13,8 @@ import {
   MapPin,
   Calendar,
   Award,
-  HelpCircle
+  HelpCircle,
+  ExternalLink
 } from 'lucide-react';
 import { PathwayType } from '../types';
 
@@ -397,6 +398,51 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
             </div>
           </div>
 
+        </div>
+
+        {/* Google Forms Direct Application Alternative Banner — Highly Highlighted */}
+        <div className="mt-8 p-5 sm:p-6 bg-gradient-to-r from-yellow-500/20 via-amber-500/15 to-yellow-600/20 border-2 border-yellow-400 max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-5 shadow-2xl shadow-yellow-400/15 rounded-sm">
+          <div className="space-y-1.5 text-center md:text-left flex-1">
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 bg-yellow-400 text-black font-mono font-black text-[10px] uppercase tracking-wider rounded-xs shadow">
+              <span className="w-2 h-2 rounded-full bg-black animate-pulse" />
+              <span>★ RECOMMENDED / FASTEST WAY</span>
+            </div>
+            <h4 className="text-base sm:text-lg font-title font-black text-white leading-snug">
+              For more smoother and familiar experience can submit in Google Form as well, both ways are acceptable.
+            </h4>
+            <p className="text-xs text-yellow-200/90 font-mono">
+              Official Google Forms • Verified submissions for Actor (Form 1), Participant (Form 2) &amp; Crew (Form 3)
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-2.5 shrink-0">
+            <a
+              href="https://docs.google.com/forms/d/1MEPgBpZtKY0fQ5LISPeWKkTW_tNY0n8206F41U9ZqG4"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-black font-mono font-black text-xs uppercase tracking-wider transition-all inline-flex items-center gap-1.5 shadow-md hover:scale-105 active:scale-95"
+            >
+              <span>FORM 1 (ACTOR)</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+            <a
+              href="https://docs.google.com/forms/d/1LwHSntaLFyEb-CvIPuTNOa8Ipa9XvwaxTYFmRJ17zRM"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2.5 bg-blue-500 hover:bg-blue-400 text-white font-mono font-black text-xs uppercase tracking-wider transition-all inline-flex items-center gap-1.5 shadow-md hover:scale-105 active:scale-95"
+            >
+              <span>FORM 2 (PARTICIPANT)</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+            <a
+              href="https://docs.google.com/forms/d/1bEWlAM66Um2VvM17g_j3kLXGPaa2ULWSJCC8pHphYqA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-mono font-black text-xs uppercase tracking-wider transition-all inline-flex items-center gap-1.5 shadow-md hover:scale-105 active:scale-95"
+            >
+              <span>FORM 3 (CREW)</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </div>
         </div>
       </div>
 

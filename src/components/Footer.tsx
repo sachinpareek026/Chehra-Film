@@ -105,6 +105,43 @@ export const Footer: React.FC<FooterProps> = ({
                   <span>TERMS &amp; CONDITIONS</span>
                 </a>
               </li>
+              <li className="pt-2 border-t border-white/10">
+                <span className="text-[10px] font-mono text-yellow-400/90 font-bold block mb-1">
+                  OFFICIAL GOOGLE FORMS:
+                </span>
+                <p className="text-[10px] text-slate-400 normal-case mb-1.5 font-sans leading-relaxed">
+                  For a more smoother &amp; familiar experience, you can also fill here. Both ways are applicable:
+                </p>
+                <div className="space-y-1 pl-1 font-mono">
+                  <a
+                    href="https://docs.google.com/forms/d/1MEPgBpZtKY0fQ5LISPeWKkTW_tNY0n8206F41U9ZqG4"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-yellow-400 transition-colors flex items-center gap-1 text-[11px] text-white/70"
+                  >
+                    <span className="text-yellow-400">›</span>
+                    <span>Form 1: Actor Audition ↗</span>
+                  </a>
+                  <a
+                    href="https://docs.google.com/forms/d/1LwHSntaLFyEb-CvIPuTNOa8Ipa9XvwaxTYFmRJ17zRM"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-blue-300 transition-colors flex items-center gap-1 text-[11px] text-white/70"
+                  >
+                    <span className="text-blue-400">›</span>
+                    <span>Form 2: Participant ↗</span>
+                  </a>
+                  <a
+                    href="https://docs.google.com/forms/d/1bEWlAM66Um2VvM17g_j3kLXGPaa2ULWSJCC8pHphYqA"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-emerald-300 transition-colors flex items-center gap-1 text-[11px] text-white/70"
+                  >
+                    <span className="text-emerald-400">›</span>
+                    <span>Form 3: Technical Crew ↗</span>
+                  </a>
+                </div>
+              </li>
             </ul>
           </div>
 

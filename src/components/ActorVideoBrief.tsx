@@ -237,7 +237,7 @@ export const ActorVideoBrief: React.FC<ActorVideoBriefProps> = ({ currentRoleNam
             </div>
 
             <p className="text-[11px] text-slate-400 font-mono mt-2 pl-1">
-              * File larger than 100 MB? Upload to Google Drive (or any cloud storage), set sharing to &ldquo;Anyone with the link,&rdquo; and paste that link in the field below.
+              * Prefer link upload? Upload to YouTube (Unlisted), Vimeo, or any cloud/video link, and paste the link in the Link Upload Option field above.
             </p>
           </div>
 

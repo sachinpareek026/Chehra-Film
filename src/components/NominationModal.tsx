@@ -33,9 +33,7 @@ import {
   FileText,
   Lock,
   Trash2,
-  Cloud,
-  ExternalLink,
-  FileSpreadsheet
+  ExternalLink
 } from 'lucide-react';
 import { CHARACTERS, FILM_METADATA } from '../data/cinemaData';
 import { INITIAL_ACTOR_SUBMISSIONS, INITIAL_PARTICIPANT_SUBMISSIONS, INITIAL_CREW_SUBMISSIONS } from '../data/initialSubmissions';
@@ -113,8 +111,28 @@ const CREW_DEPARTMENTS_META: Record<string, { desc: string; icon: string; tag: s
   'SFX Makeup & Prosthetics': { desc: 'Frostbite, altitude fatigue, authentic road patina and subtle character wear.', icon: 'Wrench', tag: 'SFX' },
   'Drone Pilot & Aerial Cinematography': { desc: 'High-altitude cold battery flight, ravine fly-throughs & cinematic convoy tracking.', icon: 'Compass', tag: 'AERIAL' },
   'Behind the Scenes & Photography': { desc: 'Medium-format analog stills, episodic documentary b-roll and press archival.', icon: 'Camera', tag: 'BTS' },
-  'Other': { desc: 'Propose your own skillset, technical craft, or production specialization.', icon: 'Wrench', tag: 'CUSTOM' },
 };
+
+export const GOOGLE_FORMS = {
+  actor: {
+    id: 'FORM 1',
+    name: 'Form 1: Actor Audition Application',
+    url: 'https://docs.google.com/forms/d/1MEPgBpZtKY0fQ5LISPeWKkTW_tNY0n8206F41U9ZqG4',
+    tag: '100% Refundable Deposit • Zero Audition Fees',
+  },
+  participant: {
+    id: 'FORM 2',
+    name: 'Form 2: Participant Reservation Form',
+    url: 'https://docs.google.com/forms/d/1LwHSntaLFyEb-CvIPuTNOa8Ipa9XvwaxTYFmRJ17zRM',
+    tag: '₹13,000 Final Amount • Zero Uploads',
+  },
+  crew: {
+    id: 'FORM 3',
+    name: 'Form 3: Technical Crew Registration',
+    url: 'https://docs.google.com/forms/d/1bEWlAM66Um2VvM17g_j3kLXGPaa2ULWSJCC8pHphYqA',
+    tag: 'Official Department Head & IMDb Credit',
+  },
+} as const;
 
 interface NominationModalProps {
   isOpen?: boolean;
@@ -151,10 +169,14 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
   // Aadhaar Card Verification (Mandatory across all 3 forms: Actor, Participant, Crew)
   const [aadharNumber, setAadharNumber] = useState('');
+  const [aadharFrontUploadMode, setAadharFrontUploadMode] = useState<'link' | 'file'>('link');
+  const [aadharFrontLink, setAadharFrontLink] = useState('');
   const [aadharFrontFileName, setAadharFrontFileName] = useState('');
   const [aadharFrontPreview, setAadharFrontPreview] = useState<string | null>(null);
   const [aadharFrontIsPdf, setAadharFrontIsPdf] = useState(false);
   const [aadharFrontFileSize, setAadharFrontFileSize] = useState('');
+  const [aadharBackUploadMode, setAadharBackUploadMode] = useState<'link' | 'file'>('link');
+  const [aadharBackLink, setAadharBackLink] = useState('');
   const [aadharBackFileName, setAadharBackFileName] = useState('');
   const [aadharBackPreview, setAadharBackPreview] = useState<string | null>(null);
   const [aadharBackIsPdf, setAadharBackIsPdf] = useState(false);
@@ -166,8 +188,11 @@ export const NominationModal: React.FC<NominationModalProps> = ({
   const [whyJoin, setWhyJoin] = useState('');
   const [personalityAndSkills, setPersonalityAndSkills] = useState('');
   const [usefulRoleTarget, setUsefulRoleTarget] = useState('');
+  const [photoUploadMode, setPhotoUploadMode] = useState<'link' | 'file'>('link');
+  const [photoLink, setPhotoLink] = useState('');
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoFileName, setPhotoFileName] = useState('');
+  const [auditionTapeUploadMode, setAuditionTapeUploadMode] = useState<'link' | 'file'>('link');
   const [auditionTapeFileName, setAuditionTapeFileName] = useState('');
   const [auditionTapeUrl, setAuditionTapeUrl] = useState('');
   const [actorBookingConsent, setActorBookingConsent] = useState(false);
@@ -413,21 +438,25 @@ export const NominationModal: React.FC<NominationModalProps> = ({
     }
 
     // Aadhaar Card Requirements (Required for Ticket Booking, eKYC & Official Records in all 3 pathways)
-    if (!aadharFrontFileName) {
-      errs.aadharFront = 'Aadhaar Card (Front side) file (JPG, PNG or PDF) is required for ticket bookings & eKYC';
+    const hasAadharFront = Boolean(aadharFrontLink.trim());
+    if (!hasAadharFront) {
+      errs.aadharFront = 'Aadhaar Card (Front side) link is required for ticket bookings & eKYC';
     }
-    if (!aadharCombinedPdf && !aadharBackFileName) {
-      errs.aadharBack = 'Aadhaar Card (Back side) file (JPG, PNG or PDF) is required for address verification & records';
+    const hasAadharBack = aadharCombinedPdf || Boolean(aadharBackLink.trim());
+    if (!hasAadharBack) {
+      errs.aadharBack = 'Aadhaar Card (Back side) link is required for address verification & records';
     }
     const cleanAadhaar = aadharNumber.replace(/\D/g, '');
     if (cleanAadhaar && cleanAadhaar.length !== 12) {
-      errs.aadharNumber = 'Aadhaar number must be exactly 12 digits (or leave blank if uploading card files only)';
+      errs.aadharNumber = 'Aadhaar number must be exactly 12 digits (or leave blank if providing card link only)';
     }
 
     if (pathway === 'actor') {
-      if (!photoFileName && !photoPreview) errs.photo = 'Headshot photograph is required';
-      if (!auditionTapeFileName && !auditionTapeUrl.trim()) {
-        errs.auditionTape = 'Audition monologue video upload or public reel link is required';
+      const hasPhoto = Boolean(photoLink.trim());
+      if (!hasPhoto) errs.photo = 'Headshot photograph link is required';
+      const hasAudition = Boolean(auditionTapeUrl.trim());
+      if (!hasAudition) {
+        errs.auditionTape = 'Audition monologue video link is required';
       }
       if (!actorBookingConsent) {
         errs.actorBookingConsent = 'You must confirm the ₹16,000 total amount and ₹3,000 security booking amount payable if accepted for the role';
@@ -489,16 +518,16 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         email,
         instagramProfile: instagramProfile || 'N/A',
         aadharNumber: aadharNumber.trim() || undefined,
-        aadharFrontFileName: aadharFrontFileName || 'aadhar_front.jpg',
-        aadharFrontUrl: aadharFrontPreview || undefined,
-        aadharBackFileName: aadharCombinedPdf ? `${aadharFrontFileName} (Combined Front & Back)` : (aadharBackFileName || 'aadhar_back.jpg'),
-        aadharBackUrl: aadharBackPreview || undefined,
+        aadharFrontFileName: aadharFrontFileName || (aadharFrontLink.trim() ? 'Attached Link' : 'aadhar_front.jpg'),
+        aadharFrontUrl: aadharFrontLink.trim() || aadharFrontPreview || undefined,
+        aadharBackFileName: aadharCombinedPdf ? `${aadharFrontFileName || (aadharFrontLink.trim() ? 'Attached Link' : 'Front')} (Combined Front & Back)` : (aadharBackFileName || (aadharBackLink.trim() ? 'Attached Link' : 'aadhar_back.jpg')),
+        aadharBackUrl: aadharBackLink.trim() || aadharBackPreview || undefined,
         selectedRole: `${currentRole.name} — ${currentRole.tagline}`,
         actingExperience: actingExperience || 'Self-taught / Raw talent',
-        photoFileName: photoFileName || 'headshot.jpg',
-        photoPreviewUrl: photoPreview || undefined,
-        auditionTapeFileName: auditionTapeFileName || (auditionTapeUrl ? 'Public Video Link' : 'tape.mp4'),
-        auditionTapeUrl: auditionTapeUrl || undefined,
+        photoFileName: photoFileName || (photoLink.trim() ? 'Attached Photo Link' : 'headshot.jpg'),
+        photoPreviewUrl: photoLink.trim() || photoPreview || undefined,
+        auditionTapeFileName: auditionTapeFileName || (auditionTapeUrl.trim() ? 'Attached Video Link' : 'tape.mp4'),
+        auditionTapeUrl: auditionTapeUrl.trim() || undefined,
         whyJoin: whyJoin || 'Passionate about cinema and exploratory storytelling on the road.',
         personalityAndSkills: personalityAndSkills.trim() || undefined,
         usefulRoleTarget: usefulRoleTarget.trim() || undefined,
@@ -523,10 +552,10 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         email,
         instagramProfile: instagramProfile || 'N/A',
         aadharNumber: aadharNumber.trim() || undefined,
-        aadharFrontFileName: aadharFrontFileName || 'aadhar_front.jpg',
-        aadharFrontUrl: aadharFrontPreview || undefined,
-        aadharBackFileName: aadharCombinedPdf ? `${aadharFrontFileName} (Combined Front & Back)` : (aadharBackFileName || 'aadhar_back.jpg'),
-        aadharBackUrl: aadharBackPreview || undefined,
+        aadharFrontFileName: aadharFrontFileName || (aadharFrontLink.trim() ? 'Attached Link' : 'aadhar_front.jpg'),
+        aadharFrontUrl: aadharFrontLink.trim() || aadharFrontPreview || undefined,
+        aadharBackFileName: aadharCombinedPdf ? `${aadharFrontFileName || (aadharFrontLink.trim() ? 'Attached Link' : 'Front')} (Combined Front & Back)` : (aadharBackFileName || (aadharBackLink.trim() ? 'Attached Link' : 'aadhar_back.jpg')),
+        aadharBackUrl: aadharBackLink.trim() || aadharBackPreview || undefined,
         departureCity,
         travelBatch,
         roomPreference,
@@ -552,10 +581,10 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         email,
         instagramProfile: instagramProfile || 'N/A',
         aadharNumber: aadharNumber.trim() || undefined,
-        aadharFrontFileName: aadharFrontFileName || 'aadhar_front.jpg',
-        aadharFrontUrl: aadharFrontPreview || undefined,
-        aadharBackFileName: aadharCombinedPdf ? `${aadharFrontFileName} (Combined Front & Back)` : (aadharBackFileName || 'aadhar_back.jpg'),
-        aadharBackUrl: aadharBackPreview || undefined,
+        aadharFrontFileName: aadharFrontFileName || (aadharFrontLink.trim() ? 'Attached Link' : 'aadhar_front.jpg'),
+        aadharFrontUrl: aadharFrontLink.trim() || aadharFrontPreview || undefined,
+        aadharBackFileName: aadharCombinedPdf ? `${aadharFrontFileName || (aadharFrontLink.trim() ? 'Attached Link' : 'Front')} (Combined Front & Back)` : (aadharBackFileName || (aadharBackLink.trim() ? 'Attached Link' : 'aadhar_back.jpg')),
+        aadharBackUrl: aadharBackLink.trim() || aadharBackPreview || undefined,
         crewDepartment: crewDepartment === 'Other' && customCrewSkillset.trim() ? `Other: ${customCrewSkillset.trim()}` : crewDepartment,
         customCrewSkillset: customCrewSkillset.trim() || undefined,
         categoryType: 'Prime Department',
@@ -625,15 +654,18 @@ export const NominationModal: React.FC<NominationModalProps> = ({
     setEmail('');
     setInstagramProfile('');
     setAadharNumber('');
+    setAadharFrontLink('');
     setAadharFrontFileName('');
     setAadharFrontPreview(null);
     setAadharFrontIsPdf(false);
     setAadharFrontFileSize('');
+    setAadharBackLink('');
     setAadharBackFileName('');
     setAadharBackPreview(null);
     setAadharBackIsPdf(false);
     setAadharBackFileSize('');
     setAadharCombinedPdf(false);
+    setPhotoLink('');
     setActingExperience('');
     setWhyJoin('');
     setPersonalityAndSkills('');
@@ -649,76 +681,6 @@ export const NominationModal: React.FC<NominationModalProps> = ({
     setErrors({});
     setDuplicateError(null);
     onClose();
-  };
-
-  const handleSubmitAnotherResponse = () => {
-    setSubmitted(false);
-    setSubmittedItem(null);
-    setFullName('');
-    setAge('');
-    setCity('');
-    setPhoneNumber('');
-    setEmail('');
-    setInstagramProfile('');
-    setAadharNumber('');
-    setAadharFrontFileName('');
-    setAadharFrontPreview(null);
-    setAadharFrontIsPdf(false);
-    setAadharFrontFileSize('');
-    setAadharBackFileName('');
-    setAadharBackPreview(null);
-    setAadharBackIsPdf(false);
-    setAadharBackFileSize('');
-    setAadharCombinedPdf(false);
-    setActingExperience('');
-    setWhyJoin('');
-    setPersonalityAndSkills('');
-    setUsefulRoleTarget('');
-    setPhotoPreview(null);
-    setPhotoFileName('');
-    setAuditionTapeFileName('');
-    setAuditionTapeUrl('');
-    setEmergencyContact('');
-    setProofOfSkillLink('');
-    setPortfolioSummary('');
-    setCustomCrewSkillset('');
-    setErrors({});
-    setDuplicateError(null);
-  };
-
-  const handleClearForm = () => {
-    if (window.confirm('Clear all answers? This will reset all form fields and remove attached files.')) {
-      setFullName('');
-      setAge('');
-      setCity('');
-      setPhoneNumber('');
-      setEmail('');
-      setInstagramProfile('');
-      setAadharNumber('');
-      setAadharFrontFileName('');
-      setAadharFrontPreview(null);
-      setAadharFrontIsPdf(false);
-      setAadharFrontFileSize('');
-      setAadharBackFileName('');
-      setAadharBackPreview(null);
-      setAadharBackIsPdf(false);
-      setAadharBackFileSize('');
-      setAadharCombinedPdf(false);
-      setActingExperience('');
-      setWhyJoin('');
-      setPersonalityAndSkills('');
-      setUsefulRoleTarget('');
-      setPhotoPreview(null);
-      setPhotoFileName('');
-      setAuditionTapeFileName('');
-      setAuditionTapeUrl('');
-      setEmergencyContact('');
-      setProofOfSkillLink('');
-      setPortfolioSummary('');
-      setCustomCrewSkillset('');
-      setErrors({});
-      setDuplicateError(null);
-    }
   };
 
   if (!isOpen && !isStandalonePage) return null;
@@ -789,8 +751,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
           )}
         </div>
       </div>
-
-      {/* Pathway Selection Ribbon Tabs */}
+      {/* Pathway Selection Ribbon Tabs — Switch between Actor, Participant, Crew */}
       {!submitted && (
         <div
           className={`${
@@ -799,65 +760,65 @@ export const NominationModal: React.FC<NominationModalProps> = ({
               : 'px-5 sm:px-8 py-3 bg-[#060C17] border-b border-white/10'
           } shrink-0`}
         >
-            <div className="grid grid-cols-3 gap-2 sm:gap-4 max-w-3xl">
-              <button
-                type="button"
-                onClick={() => setPathway('actor')}
-                className={`py-2 px-3 sm:px-4 text-left border transition-all cursor-pointer flex items-center justify-between ${
-                  pathway === 'actor'
-                    ? 'bg-yellow-400/10 border-yellow-400/90 text-yellow-400/90 shadow-md'
-                    : 'bg-black/30 border-white/10 text-slate-400 hover:text-slate-200 hover:border-white/20'
-                }`}
-              >
-                <div>
-                  <div className="text-[11px] font-mono font-bold uppercase tracking-wider">
-                    01. ACTOR AUDITION
-                  </div>
-                  <div className="text-[9px] text-emerald-400 font-mono mt-0.5">100% Refundable (Cost Recovery)</div>
+          <div className="grid grid-cols-3 gap-2 sm:gap-4 max-w-3xl">
+            <button
+              type="button"
+              onClick={() => setPathway('actor')}
+              className={`py-2 px-3 sm:px-4 text-left border transition-all cursor-pointer flex items-center justify-between ${
+                pathway === 'actor'
+                  ? 'bg-yellow-400/15 border-yellow-400 text-yellow-400 shadow-md ring-1 ring-yellow-400/40'
+                  : 'bg-black/40 border-white/10 text-slate-400 hover:text-slate-200 hover:border-white/20'
+              }`}
+            >
+              <div>
+                <div className="text-[11px] font-mono font-bold uppercase tracking-wider">
+                  01. ACTOR AUDITION
                 </div>
-                <Film className={`w-4 h-4 hidden sm:block ${pathway === 'actor' ? 'text-yellow-400/90' : 'text-slate-600'}`} />
-              </button>
+                <div className="text-[9px] text-emerald-400 font-mono mt-0.5">100% Refundable</div>
+              </div>
+              <Film className={`w-4 h-4 hidden sm:block ${pathway === 'actor' ? 'text-yellow-400' : 'text-slate-600'}`} />
+            </button>
 
-              <button
-                type="button"
-                onClick={() => setPathway('participant')}
-                className={`py-2 px-3 sm:px-4 text-left border transition-all cursor-pointer flex items-center justify-between ${
-                  pathway === 'participant'
-                    ? 'bg-blue-600/20 border-blue-400 text-blue-300 shadow-md'
-                    : 'bg-black/30 border-white/10 text-slate-400 hover:text-slate-200 hover:border-white/20'
-                }`}
-              >
-                <div>
-                  <div className="text-[11px] font-mono font-bold uppercase tracking-wider">
-                    02. PARTICIPANT
-                  </div>
-                  <div className="text-[9px] text-blue-400 font-mono mt-0.5">₹2,000 Security Booking • Zero Uploads</div>
+            <button
+              type="button"
+              onClick={() => setPathway('participant')}
+              className={`py-2 px-3 sm:px-4 text-left border transition-all cursor-pointer flex items-center justify-between ${
+                pathway === 'participant'
+                  ? 'bg-blue-600/20 border-blue-400 text-blue-300 shadow-md ring-1 ring-blue-400/40'
+                  : 'bg-black/40 border-white/10 text-slate-400 hover:text-slate-200 hover:border-white/20'
+              }`}
+            >
+              <div>
+                <div className="text-[11px] font-mono font-bold uppercase tracking-wider">
+                  02. PARTICIPANT
                 </div>
-                <Compass className={`w-4 h-4 hidden sm:block ${pathway === 'participant' ? 'text-blue-400' : 'text-slate-600'}`} />
-              </button>
+                <div className="text-[9px] text-blue-400 font-mono mt-0.5">₹2,000 Token • Zero Audition</div>
+              </div>
+              <Compass className={`w-4 h-4 hidden sm:block ${pathway === 'participant' ? 'text-blue-400' : 'text-slate-600'}`} />
+            </button>
 
-              <button
-                type="button"
-                onClick={() => setPathway('crew')}
-                className={`py-2 px-3 sm:px-4 text-left border transition-all cursor-pointer flex items-center justify-between ${
-                  pathway === 'crew'
-                    ? 'bg-emerald-500/15 border-emerald-400 text-emerald-300 shadow-md'
-                    : 'bg-black/30 border-white/10 text-slate-400 hover:text-slate-200 hover:border-white/20'
-                }`}
-              >
-                <div>
-                  <div className="text-[11px] font-mono font-bold uppercase tracking-wider">
-                    03. CREW MEMBER
-                  </div>
-                  <div className="text-[9px] text-emerald-400 font-mono mt-0.5">Department Head Credit</div>
+            <button
+              type="button"
+              onClick={() => setPathway('crew')}
+              className={`py-2 px-3 sm:px-4 text-left border transition-all cursor-pointer flex items-center justify-between ${
+                pathway === 'crew'
+                  ? 'bg-emerald-500/15 border-emerald-400 text-emerald-300 shadow-md ring-1 ring-emerald-400/40'
+                  : 'bg-black/40 border-white/10 text-slate-400 hover:text-slate-200 hover:border-white/20'
+              }`}
+            >
+              <div>
+                <div className="text-[11px] font-mono font-bold uppercase tracking-wider">
+                  03. CREW MEMBER
                 </div>
-                <Wrench className={`w-4 h-4 hidden sm:block ${pathway === 'crew' ? 'text-emerald-400' : 'text-slate-600'}`} />
-              </button>
-            </div>
+                <div className="text-[9px] text-emerald-400 font-mono mt-0.5">Department Head Credit</div>
+              </div>
+              <Wrench className={`w-4 h-4 hidden sm:block ${pathway === 'crew' ? 'text-emerald-400' : 'text-slate-600'}`} />
+            </button>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Form Body: Widescreen 2-Column Layout */}
+      {/* Form Body: Widescreen 2-Column Layout */}
         <div className={`flex-1 ${isStandalonePage ? 'px-0 py-6 sm:py-8' : 'overflow-y-auto p-4 sm:p-6 md:p-8'}`}>
           {submitted && submittedItem ? (
             /* =========================================================================
@@ -964,158 +925,6 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                     {submittedItem.aadharNumber}
                   </span>
                 )}
-              </div>
-
-              {/* Google Drive Uploads & Clickable Links Card (Google Forms Mode) */}
-              <div className="p-4 sm:p-5 bg-[#0B1528] border-2 border-emerald-500/50 rounded-xs text-left space-y-3.5 shadow-xl shadow-black/60">
-                <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-                  <div className="flex items-center gap-2">
-                    <Cloud className="w-5 h-5 text-emerald-400 shrink-0" />
-                    <div>
-                      <span className="text-[11px] font-mono text-emerald-300 uppercase tracking-widest font-black block">
-                        GOOGLE DRIVE UPLOADS & LINKED DOCUMENTS
-                      </span>
-                      <span className="text-[10px] text-slate-300 font-sans">
-                        Stored in Google Drive and hyperlinked in the official Google Sheet
-                      </span>
-                    </div>
-                  </div>
-                  <span className="px-2 py-0.5 bg-emerald-400/20 border border-emerald-400/40 text-emerald-300 font-mono text-[9px] font-bold uppercase tracking-wider">
-                    DRIVE SYNCED
-                  </span>
-                </div>
-
-                <div className="space-y-2">
-                  {/* Aadhaar Front Document Link */}
-                  {(submittedItem.aadharFrontDriveUrl || submittedItem.aadharFrontLocalUrl || submittedItem.aadharFrontUrl) && (
-                    <div className="p-2.5 bg-black/60 border border-white/10 rounded flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2 truncate">
-                        <FileText className="w-4 h-4 text-amber-400 shrink-0" />
-                        <div className="truncate">
-                          <span className="text-xs font-mono font-bold text-white block truncate">
-                            Aadhaar Card (Front Side)
-                          </span>
-                          <span className="text-[10px] font-mono text-slate-400 truncate block">
-                            {submittedItem.aadharFrontFileName || 'aadhar_front.jpg'}
-                          </span>
-                        </div>
-                      </div>
-                      <a
-                        href={submittedItem.aadharFrontDriveUrl || submittedItem.aadharFrontLocalUrl || submittedItem.aadharFrontUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/50 text-[11px] font-mono font-bold transition-all cursor-pointer shrink-0"
-                      >
-                        <ExternalLink className="w-3 h-3" />
-                        <span>OPEN IN DRIVE / VIEW</span>
-                      </a>
-                    </div>
-                  )}
-
-                  {/* Aadhaar Back Document Link */}
-                  {(submittedItem.aadharBackDriveUrl || submittedItem.aadharBackLocalUrl || submittedItem.aadharBackUrl) && (
-                    <div className="p-2.5 bg-black/60 border border-white/10 rounded flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2 truncate">
-                        <FileText className="w-4 h-4 text-amber-400 shrink-0" />
-                        <div className="truncate">
-                          <span className="text-xs font-mono font-bold text-white block truncate">
-                            Aadhaar Card (Back Side)
-                          </span>
-                          <span className="text-[10px] font-mono text-slate-400 truncate block">
-                            {submittedItem.aadharBackFileName || 'aadhar_back.jpg'}
-                          </span>
-                        </div>
-                      </div>
-                      <a
-                        href={submittedItem.aadharBackDriveUrl || submittedItem.aadharBackLocalUrl || submittedItem.aadharBackUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/50 text-[11px] font-mono font-bold transition-all cursor-pointer shrink-0"
-                      >
-                        <ExternalLink className="w-3 h-3" />
-                        <span>OPEN IN DRIVE / VIEW</span>
-                      </a>
-                    </div>
-                  )}
-
-                  {/* Actor Photo Link */}
-                  {submittedItem.type === 'actor' && (submittedItem.photoDriveUrl || submittedItem.photoLocalUrl || submittedItem.photoPreviewUrl) && (
-                    <div className="p-2.5 bg-black/60 border border-white/10 rounded flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2 truncate">
-                        <Camera className="w-4 h-4 text-yellow-400 shrink-0" />
-                        <div className="truncate">
-                          <span className="text-xs font-mono font-bold text-white block truncate">
-                            Headshot / Portrait Photograph
-                          </span>
-                          <span className="text-[10px] font-mono text-slate-400 truncate block">
-                            {submittedItem.photoFileName || 'headshot.jpg'}
-                          </span>
-                        </div>
-                      </div>
-                      <a
-                        href={submittedItem.photoDriveUrl || submittedItem.photoLocalUrl || submittedItem.photoPreviewUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-400/20 hover:bg-yellow-400/30 text-yellow-300 border border-yellow-400/50 text-[11px] font-mono font-bold transition-all cursor-pointer shrink-0"
-                      >
-                        <ExternalLink className="w-3 h-3" />
-                        <span>OPEN IN DRIVE / VIEW</span>
-                      </a>
-                    </div>
-                  )}
-
-                  {/* Audition Tape Link */}
-                  {submittedItem.type === 'actor' && (submittedItem.auditionTapeUrl || submittedItem.auditionTapeDriveUrl) && (
-                    <div className="p-2.5 bg-black/60 border border-white/10 rounded flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2 truncate">
-                        <Video className="w-4 h-4 text-yellow-400 shrink-0" />
-                        <div className="truncate">
-                          <span className="text-xs font-mono font-bold text-white block truncate">
-                            Audition Monologue Video / Reel
-                          </span>
-                          <span className="text-[10px] font-mono text-slate-400 truncate block">
-                            {submittedItem.auditionTapeFileName || 'audition_tape.mp4'}
-                          </span>
-                        </div>
-                      </div>
-                      <a
-                        href={submittedItem.auditionTapeDriveUrl || submittedItem.auditionTapeUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-400/20 hover:bg-yellow-400/30 text-yellow-300 border border-yellow-400/50 text-[11px] font-mono font-bold transition-all cursor-pointer shrink-0"
-                      >
-                        <ExternalLink className="w-3 h-3" />
-                        <span>OPEN VIDEO LINK</span>
-                      </a>
-                    </div>
-                  )}
-
-                  {/* Crew Proof of Skill Link */}
-                  {submittedItem.type === 'crew' && submittedItem.proofOfSkillLink && (
-                    <div className="p-2.5 bg-black/60 border border-white/10 rounded flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2 truncate">
-                        <Wrench className="w-4 h-4 text-emerald-400 shrink-0" />
-                        <div className="truncate">
-                          <span className="text-xs font-mono font-bold text-white block truncate">
-                            Technical Portfolio / Proof of Skill
-                          </span>
-                          <span className="text-[10px] font-mono text-slate-400 truncate block">
-                            {submittedItem.crewDepartment}
-                          </span>
-                        </div>
-                      </div>
-                      <a
-                        href={submittedItem.proofOfSkillLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/50 text-[11px] font-mono font-bold transition-all cursor-pointer shrink-0"
-                      >
-                        <ExternalLink className="w-3 h-3" />
-                        <span>OPEN PORTFOLIO LINK</span>
-                      </a>
-                    </div>
-                  )}
-                </div>
               </div>
 
               {/* WhatsApp Fast Proceeding & Application Status for Actor Submissions */}
@@ -1298,16 +1107,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                 </div>
               )}
 
-              <div className="pt-3 space-y-2.5">
-                <button
-                  type="button"
-                  onClick={handleSubmitAnotherResponse}
-                  className="w-full py-3 px-4 bg-slate-800 hover:bg-slate-700 text-yellow-400 font-mono text-xs font-bold uppercase tracking-wider border border-yellow-400/40 transition-all cursor-pointer flex items-center justify-center gap-2 shadow-md"
-                >
-                  <RefreshCw className="w-3.5 h-3.5" />
-                  <span>SUBMIT ANOTHER RESPONSE (GOOGLE FORMS MODE)</span>
-                </button>
-
+              <div className="pt-2 space-y-2">
                 <CinemaButton
                   variant="primary"
                   onClick={handleResetAndClose}
@@ -1627,6 +1427,103 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                   </span>
                 </div>
 
+                {/* Pathway Contextual Google Form Banner — Highly Highlighted Callout in all 3 sections */}
+                {pathway === 'actor' && (
+                  <div className="relative overflow-hidden p-4 sm:p-5 bg-gradient-to-r from-yellow-500/25 via-amber-500/20 to-yellow-600/25 border-2 border-yellow-400 rounded-sm shadow-xl shadow-yellow-400/20">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-3.5">
+                      <div className="space-y-1.5 flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className="px-2 py-0.5 bg-yellow-400 text-black font-mono font-black text-[10px] uppercase tracking-wider rounded-xs shadow">
+                            ★ RECOMMENDED / FASTEST WAY
+                          </span>
+                          <span className="text-[10px] font-mono text-yellow-300 font-bold tracking-wider">
+                            OFFICIAL GOOGLE FORM 1
+                          </span>
+                        </div>
+                        <h4 className="text-sm sm:text-base font-title font-black text-white leading-tight">
+                          For more smoother and familiar experience can submit in Google Form as well, both ways are acceptable.
+                        </h4>
+                        <p className="text-[11px] font-mono text-yellow-200/90">
+                          Takes only 60 seconds • Form 1 (Actor Audition) • 100% verified application
+                        </p>
+                      </div>
+                      <a
+                        href={GOOGLE_FORMS.actor.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-5 py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-mono font-black text-xs sm:text-sm uppercase tracking-wider transition-all inline-flex items-center justify-center gap-2 shrink-0 shadow-lg shadow-yellow-400/30 hover:scale-105 active:scale-95 cursor-pointer"
+                      >
+                        <span>SUBMIT VIA GOOGLE FORM 1</span>
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                )}
+
+                {pathway === 'participant' && (
+                  <div className="relative overflow-hidden p-4 sm:p-5 bg-gradient-to-r from-blue-600/30 via-sky-600/25 to-blue-700/30 border-2 border-blue-400 rounded-sm shadow-xl shadow-blue-500/20">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-3.5">
+                      <div className="space-y-1.5 flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className="px-2 py-0.5 bg-blue-400 text-black font-mono font-black text-[10px] uppercase tracking-wider rounded-xs shadow">
+                            ★ RECOMMENDED / FASTEST WAY
+                          </span>
+                          <span className="text-[10px] font-mono text-blue-300 font-bold tracking-wider">
+                            OFFICIAL GOOGLE FORM 2
+                          </span>
+                        </div>
+                        <h4 className="text-sm sm:text-base font-title font-black text-white leading-tight">
+                          For more smoother and familiar experience can submit in Google Form as well, both ways are acceptable.
+                        </h4>
+                        <p className="text-[11px] font-mono text-blue-200/90">
+                          Takes only 60 seconds • Form 2 (Participant Reservation) • Direct lock seat confirmation
+                        </p>
+                      </div>
+                      <a
+                        href={GOOGLE_FORMS.participant.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-5 py-3 bg-blue-400 hover:bg-blue-300 text-black font-mono font-black text-xs sm:text-sm uppercase tracking-wider transition-all inline-flex items-center justify-center gap-2 shrink-0 shadow-lg shadow-blue-400/30 hover:scale-105 active:scale-95 cursor-pointer"
+                      >
+                        <span>SUBMIT VIA GOOGLE FORM 2</span>
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                )}
+
+                {pathway === 'crew' && (
+                  <div className="relative overflow-hidden p-4 sm:p-5 bg-gradient-to-r from-emerald-600/30 via-teal-600/25 to-emerald-700/30 border-2 border-emerald-400 rounded-sm shadow-xl shadow-emerald-500/20">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-3.5">
+                      <div className="space-y-1.5 flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className="px-2 py-0.5 bg-emerald-400 text-black font-mono font-black text-[10px] uppercase tracking-wider rounded-xs shadow">
+                            ★ RECOMMENDED / FASTEST WAY
+                          </span>
+                          <span className="text-[10px] font-mono text-emerald-300 font-bold tracking-wider">
+                            OFFICIAL GOOGLE FORM 3
+                          </span>
+                        </div>
+                        <h4 className="text-sm sm:text-base font-title font-black text-white leading-tight">
+                          For more smoother and familiar experience can submit in Google Form as well, both ways are acceptable.
+                        </h4>
+                        <p className="text-[11px] font-mono text-emerald-200/90">
+                          Takes only 60 seconds • Form 3 (Technical Crew) • Direct portfolio submission
+                        </p>
+                      </div>
+                      <a
+                        href={GOOGLE_FORMS.crew.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-5 py-3 bg-emerald-400 hover:bg-emerald-300 text-black font-mono font-black text-xs sm:text-sm uppercase tracking-wider transition-all inline-flex items-center justify-center gap-2 shrink-0 shadow-lg shadow-emerald-400/30 hover:scale-105 active:scale-95 cursor-pointer"
+                      >
+                        <span>SUBMIT VIA GOOGLE FORM 3</span>
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                )}
+
                 {/* Important Casting Notice (Sample Images Disclaimer Note) — ONLY for Actor Form */}
                 {pathway === 'actor' && (
                   <div className="p-3.5 bg-amber-500/15 border border-amber-500/40 flex items-start gap-3">
@@ -1716,33 +1613,6 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                     </div>
                   </div>
                 )}
-
-                {/* Google Forms Inspired Top Header Card */}
-                <div className="relative overflow-hidden bg-[#0D1526] border-2 border-purple-500/40 rounded-xs shadow-xl shadow-black/40">
-                  <div className="h-2 bg-gradient-to-r from-purple-500 via-yellow-400 to-emerald-400 w-full" />
-                  <div className="p-4 sm:p-5 space-y-2.5">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="font-title text-base sm:text-lg font-black text-white uppercase tracking-wider">
-                        CHEHRA FILMS • REGISTRATION & SUBMISSION FORM
-                      </span>
-                      <span className="px-2 py-0.5 bg-purple-500/20 text-purple-300 border border-purple-500/40 font-mono text-[9px] font-bold uppercase shrink-0 flex items-center gap-1">
-                        <Cloud className="w-3 h-3 text-purple-400" />
-                        <span>GOOGLE DRIVE SYNC</span>
-                      </span>
-                    </div>
-                    <p className="text-xs text-slate-300 font-sans leading-relaxed">
-                      Official casting audition, Kashmiri overland caravan & technical crew registration. 
-                      Files uploaded to this form will be securely saved to your Google Drive folder and linked directly in the official Google Sheet.
-                    </p>
-                    <div className="pt-2 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 text-[11px] font-mono text-slate-400">
-                      <span className="flex items-center gap-1.5 text-emerald-400">
-                        <Cloud className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                        <span>Files uploaded will be saved to Google Drive and shared with organizers</span>
-                      </span>
-                      <span className="text-red-400 font-bold">* Indicates required question</span>
-                    </div>
-                  </div>
-                </div>
 
                 {/* 1. Core Personal Details */}
                 <div className="p-4 sm:p-5 bg-[#141E34] border border-slate-600/70 shadow-md space-y-4">
@@ -1929,175 +1799,129 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       />
                       <label htmlFor="aadharCombinedPdf" className="text-xs text-slate-200 cursor-pointer select-none">
                         <strong className="text-amber-300 font-semibold block sm:inline mr-1">
-                          Single File Contains Both Pages:
+                          Single Document Link Contains Both Pages:
                         </strong>
                         <span className="text-slate-300 text-[11px]">
-                          Check this if your file is an official e-Aadhaar PDF or scanned sheet with both Front & Back sides merged into 1 document.
+                          Check this if your link is an official e-Aadhaar PDF or document with both Front & Back sides merged into 1 link.
                         </span>
                       </label>
                     </div>
 
-                    {/* Upload Dropzones Grid */}
+                    {/* Link Upload Fields Grid */}
                     <div className={`grid grid-cols-1 ${aadharCombinedPdf ? 'sm:grid-cols-1' : 'sm:grid-cols-2'} gap-4`}>
                       
-                      {/* 1. FRONT SIDE UPLOAD */}
+                      {/* 1. FRONT SIDE LINK UPLOAD */}
                       <div className={`p-3.5 border-2 rounded-xs transition-all ${
                         errors.aadharFront
                           ? 'border-red-500 bg-red-950/20'
-                          : aadharFrontFileName
+                          : aadharFrontLink.trim()
                           ? 'border-emerald-500/70 bg-[#061B10]'
-                          : 'border-dashed border-slate-600 bg-black/40 hover:border-amber-400/70 hover:bg-black/60'
+                          : 'border-slate-600 bg-black/40'
                       }`}>
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
                             <span className="w-1.5 h-1.5 bg-amber-400 rounded-full" />
-                            {aadharCombinedPdf ? 'AADHAAR CARD (COMBINED FRONT & BACK) *' : 'AADHAAR CARD — FRONT SIDE *'}
+                            {aadharCombinedPdf ? 'AADHAAR CARD (COMBINED FRONT & BACK) LINK *' : 'AADHAAR CARD — FRONT SIDE (LINK) *'}
                           </span>
-                          {aadharFrontFileName && (
+                          {aadharFrontLink.trim() && (
                             <span className="text-[9px] font-mono text-emerald-400 font-bold flex items-center gap-1">
-                              <CheckCircle2 className="w-3 h-3" /> ATTACHED
+                              <CheckCircle2 className="w-3 h-3" /> LINK ATTACHED
                             </span>
                           )}
                         </div>
 
-                        {aadharFrontFileName ? (
-                          <div className="space-y-2">
-                            {aadharFrontPreview && (
-                              <div className="relative w-full h-28 rounded overflow-hidden bg-black/80 border border-emerald-500/30">
-                                <img
-                                  src={aadharFrontPreview}
-                                  alt="Aadhaar Front"
-                                  className="w-full h-full object-contain"
-                                />
-                              </div>
-                            )}
-
-                            <div className="flex items-center justify-between p-2 bg-black/60 border border-white/10 rounded">
-                              <div className="flex items-center gap-2 overflow-hidden">
-                                <FileText className="w-4 h-4 text-amber-400 shrink-0" />
-                                <div className="truncate">
-                                  <p className="text-xs text-white font-medium truncate font-mono">
-                                    {aadharFrontFileName}
-                                  </p>
-                                  {aadharFrontFileSize && (
-                                    <p className="text-[9px] text-slate-400 font-mono">
-                                      {aadharFrontIsPdf ? 'PDF Document' : 'Image File'} • {aadharFrontFileSize}
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
+                        <div className="space-y-2">
+                          <div className="relative">
+                            <LinkIcon className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-3" />
+                            <input
+                              type="url"
+                              value={aadharFrontLink}
+                              onChange={(e) => {
+                                setAadharFrontLink(e.target.value);
+                                if (errors.aadharFront) setErrors((prev) => ({ ...prev, aadharFront: '' }));
+                              }}
+                              placeholder={aadharCombinedPdf ? "Paste link to combined e-Aadhaar PDF / image" : "Paste link to front side document / image"}
+                              className="w-full pl-9 pr-3 py-2 bg-slate-50 border-2 border-slate-300 text-slate-950 font-medium text-xs placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white"
+                            />
+                          </div>
+                          <p className="text-[9px] font-mono text-amber-300/90 leading-tight">
+                            * Link Upload: Paste accessible link (Google Drive, Cloud, Imgur, DigiLocker, etc.). No file upload required.
+                          </p>
+                          {aadharFrontLink.trim() && (
+                            <div className="p-2 bg-black/60 border border-emerald-500/40 rounded flex items-center justify-between text-[11px] font-mono text-emerald-400">
+                              <span className="flex items-center gap-1.5 truncate">
+                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                                <span className="truncate">Attached: {aadharFrontLink}</span>
+                              </span>
                               <button
                                 type="button"
-                                onClick={handleClearAadharFront}
-                                className="text-red-400 hover:text-red-300 p-1 rounded hover:bg-white/10 transition-colors"
-                                title="Remove file"
+                                onClick={() => setAadharFrontLink('')}
+                                className="text-red-400 hover:text-red-300 ml-2 shrink-0 p-1 cursor-pointer"
                               >
                                 <Trash2 className="w-3.5 h-3.5" />
                               </button>
                             </div>
-                          </div>
-                        ) : (
-                          <label className="flex flex-col items-center justify-center p-4 border border-dashed border-slate-700 rounded cursor-pointer hover:border-amber-400/50 hover:bg-white/5 transition-colors">
-                            <Upload className="w-6 h-6 text-amber-400 mb-2" />
-                            <span className="text-xs font-semibold text-slate-200 text-center">
-                              {aadharCombinedPdf ? 'Upload Combined e-Aadhaar PDF' : 'Upload Front Side File'}
-                            </span>
-                            <span className="text-[10px] text-slate-400 text-center mt-1">
-                              JPG, PNG, PDF (Max 10MB)
-                            </span>
-                            <span className="text-[9px] text-amber-400/80 font-mono mt-1 text-center">
-                              {aadharCombinedPdf ? 'Showing both front & back pages' : 'Showing photo, name & Aadhaar number'}
-                            </span>
-                            <input
-                              type="file"
-                              accept=".jpg,.jpeg,.png,.webp,.pdf,application/pdf,image/*"
-                              onChange={handleAadharFrontUpload}
-                              className="hidden"
-                            />
-                          </label>
-                        )}
+                          )}
+                        </div>
                         {errors.aadharFront && (
                           <p className="text-[10px] text-red-400 mt-1.5 font-mono">{errors.aadharFront}</p>
                         )}
                       </div>
 
-                      {/* 2. BACK SIDE UPLOAD (Hidden if combined PDF is selected) */}
+                      {/* 2. BACK SIDE LINK UPLOAD (Hidden if combined PDF is selected) */}
                       {!aadharCombinedPdf && (
                         <div className={`p-3.5 border-2 rounded-xs transition-all ${
                           errors.aadharBack
                             ? 'border-red-500 bg-red-950/20'
-                            : aadharBackFileName
+                            : aadharBackLink.trim()
                             ? 'border-emerald-500/70 bg-[#061B10]'
-                            : 'border-dashed border-slate-600 bg-black/40 hover:border-amber-400/70 hover:bg-black/60'
+                            : 'border-slate-600 bg-black/40'
                         }`}>
                           <div className="flex items-center justify-between mb-2">
                             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
                               <span className="w-1.5 h-1.5 bg-amber-400 rounded-full" />
-                              AADHAAR CARD — BACK SIDE *
+                              AADHAAR CARD — BACK SIDE (LINK) *
                             </span>
-                            {aadharBackFileName && (
+                            {aadharBackLink.trim() && (
                               <span className="text-[9px] font-mono text-emerald-400 font-bold flex items-center gap-1">
-                                <CheckCircle2 className="w-3 h-3" /> ATTACHED
+                                <CheckCircle2 className="w-3 h-3" /> LINK ATTACHED
                               </span>
                             )}
                           </div>
 
-                          {aadharBackFileName ? (
-                            <div className="space-y-2">
-                              {aadharBackPreview && (
-                                <div className="relative w-full h-28 rounded overflow-hidden bg-black/80 border border-emerald-500/30">
-                                  <img
-                                    src={aadharBackPreview}
-                                    alt="Aadhaar Back"
-                                    className="w-full h-full object-contain"
-                                  />
-                                </div>
-                              )}
-
-                              <div className="flex items-center justify-between p-2 bg-black/60 border border-white/10 rounded">
-                                <div className="flex items-center gap-2 overflow-hidden">
-                                  <FileText className="w-4 h-4 text-amber-400 shrink-0" />
-                                  <div className="truncate">
-                                    <p className="text-xs text-white font-medium truncate font-mono">
-                                      {aadharBackFileName}
-                                    </p>
-                                    {aadharBackFileSize && (
-                                      <p className="text-[9px] text-slate-400 font-mono">
-                                        {aadharBackIsPdf ? 'PDF Document' : 'Image File'} • {aadharBackFileSize}
-                                      </p>
-                                    )}
-                                  </div>
-                                </div>
+                          <div className="space-y-2">
+                            <div className="relative">
+                              <LinkIcon className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-3" />
+                              <input
+                                type="url"
+                                value={aadharBackLink}
+                                onChange={(e) => {
+                                  setAadharBackLink(e.target.value);
+                                  if (errors.aadharBack) setErrors((prev) => ({ ...prev, aadharBack: '' }));
+                                }}
+                                placeholder="Paste link to back side document / address image"
+                                className="w-full pl-9 pr-3 py-2 bg-slate-50 border-2 border-slate-300 text-slate-950 font-medium text-xs placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white"
+                              />
+                            </div>
+                            <p className="text-[9px] font-mono text-amber-300/90 leading-tight">
+                              * Link Upload: Paste accessible link showing permanent address. No file upload required.
+                            </p>
+                            {aadharBackLink.trim() && (
+                              <div className="p-2 bg-black/60 border border-emerald-500/40 rounded flex items-center justify-between text-[11px] font-mono text-emerald-400">
+                                <span className="flex items-center gap-1.5 truncate">
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                                  <span className="truncate">Attached: {aadharBackLink}</span>
+                                </span>
                                 <button
                                   type="button"
-                                  onClick={handleClearAadharBack}
-                                  className="text-red-400 hover:text-red-300 p-1 rounded hover:bg-white/10 transition-colors"
-                                  title="Remove file"
+                                  onClick={() => setAadharBackLink('')}
+                                  className="text-red-400 hover:text-red-300 ml-2 shrink-0 p-1 cursor-pointer"
                                 >
                                   <Trash2 className="w-3.5 h-3.5" />
                                 </button>
                               </div>
-                            </div>
-                          ) : (
-                            <label className="flex flex-col items-center justify-center p-4 border border-dashed border-slate-700 rounded cursor-pointer hover:border-amber-400/50 hover:bg-white/5 transition-colors">
-                              <Upload className="w-6 h-6 text-amber-400 mb-2" />
-                              <span className="text-xs font-semibold text-slate-200 text-center">
-                                Upload Back Side File
-                              </span>
-                              <span className="text-[10px] text-slate-400 text-center mt-1">
-                                JPG, PNG, PDF (Max 10MB)
-                              </span>
-                              <span className="text-[9px] text-amber-400/80 font-mono mt-1 text-center">
-                                Showing permanent address & QR code
-                              </span>
-                              <input
-                                type="file"
-                                accept=".jpg,.jpeg,.png,.webp,.pdf,application/pdf,image/*"
-                                onChange={handleAadharBackUpload}
-                                className="hidden"
-                              />
-                            </label>
-                          )}
+                            )}
+                          </div>
                           {errors.aadharBack && (
                             <p className="text-[10px] text-red-400 mt-1.5 font-mono">{errors.aadharBack}</p>
                           )}
@@ -2216,23 +2040,37 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         </div>
                       </div>
 
-                      {/* Headshot Upload + Live Visual Thumbnail */}
+                      {/* Headshot Link Upload */}
                       <div className="border-2 border-slate-600/70 overflow-hidden bg-[#141E34] shadow-md">
                         <div className="px-4 py-2.5 bg-[#0A1222] border-b border-slate-700/80 flex items-center justify-between text-white">
                           <label className="text-xs font-mono uppercase tracking-wider text-slate-100 font-black flex items-center gap-2">
                             <Camera className="w-3.5 h-3.5 text-yellow-400" />
-                            <span>Headshot Photograph *</span>
+                            <span>Headshot Photograph (Link) *</span>
                           </label>
-                          <span className="text-[10px] font-mono text-slate-400 font-semibold">
-                            JPG / PNG • UNEDITED NATURAL LIGHTING
-                          </span>
+                          <div className="flex items-center gap-2">
+                            {photoLink.trim() && (
+                              <span className="text-[9px] font-mono text-emerald-400 font-bold flex items-center gap-1">
+                                <CheckCircle2 className="w-3 h-3" /> LINK ATTACHED
+                              </span>
+                            )}
+                            <span className="text-[10px] font-mono text-slate-400 font-semibold hidden sm:inline">
+                              UNEDITED NATURAL LIGHTING
+                            </span>
+                          </div>
                         </div>
                         
                         <div className="p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                          {photoPreview ? (
-                            <div className="relative w-16 h-20 rounded border border-yellow-400/90 overflow-hidden shrink-0">
-                              <img src={photoPreview} alt="Headshot preview" className="w-full h-full object-cover" />
-                              <div className="absolute inset-0 bg-yellow-400/10" />
+                          {photoLink.trim() ? (
+                            <div className="relative w-16 h-20 rounded border border-yellow-400/90 overflow-hidden shrink-0 bg-black">
+                              <img
+                                src={photoLink.trim()}
+                                alt="Headshot preview"
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  (e.currentTarget as HTMLImageElement).style.display = 'none';
+                                }}
+                              />
+                              <div className="absolute inset-0 bg-yellow-400/10 pointer-events-none" />
                             </div>
                           ) : (
                             <div className="w-16 h-20 bg-white/5 border border-dashed border-white/20 flex flex-col items-center justify-center text-slate-400 shrink-0">
@@ -2241,20 +2079,35 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                             </div>
                           )}
 
-                          <div className="flex-1 space-y-1.5">
-                            <label className="px-4 py-2 bg-white/10 hover:bg-white/15 border border-white/25 text-xs font-mono text-slate-100 cursor-pointer transition-colors inline-flex items-center gap-2 shadow-sm font-semibold">
-                              <Upload className="w-3.5 h-3.5 text-yellow-400" />
-                              <span>{photoFileName ? 'Change Photo' : 'Upload Headshot'}</span>
+                          <div className="flex-1 w-full space-y-1.5">
+                            <div className="relative">
+                              <LinkIcon className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-3" />
                               <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handlePhotoUpload}
-                                className="hidden"
+                                type="url"
+                                value={photoLink}
+                                onChange={(e) => {
+                                  setPhotoLink(e.target.value);
+                                  if (errors.photo) setErrors((prev) => ({ ...prev, photo: '' }));
+                                }}
+                                placeholder="Paste photo link (e.g. Google Drive, Cloud, Instagram photo, or public image URL)"
+                                className="w-full pl-9 pr-3 py-2 bg-slate-50 border-2 border-slate-300 text-slate-950 font-medium text-xs placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white"
                               />
-                            </label>
-                            <p className="text-[10px] font-mono text-slate-300 truncate max-w-sm">
-                              {photoFileName || 'Clear unedited portrait with natural lighting (JPG/PNG)'}
+                            </div>
+                            <p className="text-[9px] font-mono text-slate-300">
+                              * Link Upload: Paste any public image or profile photo link. No file upload required.
                             </p>
+                            {photoLink.trim() && (
+                              <div className="p-1.5 bg-black/60 border border-emerald-500/40 rounded flex items-center justify-between text-[10px] font-mono text-emerald-400">
+                                <span className="truncate">✓ Photo Link Attached</span>
+                                <button
+                                  type="button"
+                                  onClick={() => setPhotoLink('')}
+                                  className="text-red-400 hover:text-red-300 ml-2 cursor-pointer font-bold"
+                                >
+                                  Clear
+                                </button>
+                              </div>
+                            )}
                           </div>
                         </div>
                         {errors.photo && <p className="text-[10px] text-red-400 font-mono px-4 pb-3">{errors.photo}</p>}
@@ -2262,16 +2115,21 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
                       {/* Audition Monologue Video Upload — Main Submission Area */}
                       <div className="border-2 border-yellow-400 overflow-hidden shadow-2xl bg-[#141E34]">
-                        {/* Main Submission Head — Cinematic Dark Header to Prevent Confusion with White Inputs */}
+                        {/* Main Submission Head */}
                         <div className="px-4 py-3 sm:px-5 sm:py-3.5 bg-gradient-to-r from-[#0C1527] via-[#091122] to-[#070C16] border-b-2 border-yellow-400/70 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-white">
                           <div className="space-y-0.5">
                             <h4 className="font-mono text-xs sm:text-sm md:text-base font-black uppercase tracking-wider text-white flex items-center gap-2">
                               <Video className="w-4 h-4 text-yellow-400 shrink-0" />
-                              <span>AUDITION MONOLOGUE VIDEO *</span>
+                              <span>AUDITION MONOLOGUE VIDEO (LINK) *</span>
                             </h4>
                           </div>
 
                           <div className="self-start sm:self-auto flex items-center gap-2">
+                            {auditionTapeUrl.trim() && (
+                              <span className="text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-1 bg-emerald-950/60 px-2 py-0.5 border border-emerald-500/40">
+                                <CheckCircle2 className="w-3.5 h-3.5" /> VIDEO LINK ATTACHED
+                              </span>
+                            )}
                             <span className="text-[10px] font-mono font-bold px-2.5 py-1 bg-yellow-400/15 border border-yellow-400/40 text-yellow-300 uppercase tracking-wider shadow-sm whitespace-nowrap">
                               1.5–2 MINS • FOLLOW 4 SCENES GUIDE BELOW
                             </span>
@@ -2279,57 +2137,47 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         </div>
 
                         {/* Submission Instruction Sub-Bar */}
-                        <div className="px-4 sm:px-5 py-2.5 bg-amber-400/15 border-b border-amber-400/30 text-[11px] font-mono text-amber-200 flex items-center justify-between gap-2">
+                        <div className="px-4 sm:px-5 py-2 bg-amber-400/15 border-b border-amber-400/30 text-[11px] font-mono text-amber-200 flex items-center justify-between gap-2">
                           <span className="flex items-center gap-1.5 font-medium">
                             <span className="text-yellow-400 font-bold">▶</span>
-                            <span>Upload video file or paste cloud link below. You can also view the 4-scene video guide below in minimise mode:</span>
+                            <span>Paste your audition video link below. No video file upload required!</span>
                           </span>
                         </div>
 
                         {/* Submission Controls Body */}
-                        <div className="p-4 sm:p-5 space-y-4 bg-[#10182A]">
-                          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                            <label className="px-4 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-black font-mono font-black text-xs uppercase tracking-wider cursor-pointer transition-colors inline-flex items-center justify-center gap-2 shadow-md shrink-0">
-                              <Video className="w-4 h-4 text-black fill-current" />
-                              <span>Upload Video File</span>
+                        <div className="p-4 sm:p-5 space-y-3 bg-[#10182A]">
+                          <div className="space-y-2">
+                            <div className="relative">
+                              <LinkIcon className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
                               <input
-                                type="file"
-                                accept="video/*"
-                                onChange={handleVideoUpload}
-                                className="hidden"
+                                type="url"
+                                value={auditionTapeUrl}
+                                onChange={(e) => {
+                                  setAuditionTapeUrl(e.target.value);
+                                  if (errors.auditionTape) setErrors((prev) => ({ ...prev, auditionTape: '' }));
+                                }}
+                                placeholder="Paste YouTube (unlisted/public), Vimeo, or any video link"
+                                className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-400/20 transition-all shadow-inner"
                               />
-                            </label>
-                            <div className="flex items-center gap-2 overflow-hidden">
-                              <span className="text-xs font-mono text-slate-200 truncate font-medium">
-                                {auditionTapeFileName ? (
-                                  <span className="text-emerald-400 font-bold flex items-center gap-1">
-                                    <CheckCircle2 className="w-3.5 h-3.5" />
-                                    {auditionTapeFileName}
-                                  </span>
-                                ) : (
-                                  'Max 100MB MP4 / MOV (Direct mobile recording fine)'
-                                )}
-                              </span>
                             </div>
-                          </div>
-
-                          <div className="flex items-center gap-3">
-                            <div className="h-px flex-1 bg-white/15" />
-                            <span className="text-[10px] font-mono text-slate-300 uppercase font-bold px-2 py-0.5 bg-white/10 border border-white/20">
-                              OR CLOUD LINK
-                            </span>
-                            <div className="h-px flex-1 bg-white/15" />
-                          </div>
-
-                          <div className="relative">
-                            <LinkIcon className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
-                            <input
-                              type="url"
-                              value={auditionTapeUrl}
-                              onChange={(e) => setAuditionTapeUrl(e.target.value)}
-                              placeholder="Paste Google Drive / YouTube unlisted link (publicly accessible)"
-                              className="w-full pl-10 pr-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-400/20 transition-all shadow-inner"
-                            />
+                            <p className="text-[10px] font-mono text-amber-300/90 leading-tight">
+                              * Link Upload: Upload your audition monologue to YouTube (set as Unlisted or Public), Vimeo, or any video link, and paste the URL here. No file upload required.
+                            </p>
+                            {auditionTapeUrl.trim() && (
+                              <div className="p-2 bg-black/60 border border-emerald-500/40 rounded flex items-center justify-between text-[11px] font-mono text-emerald-400">
+                                <span className="flex items-center gap-1.5 truncate">
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                                  <span className="truncate">Video Link Attached: {auditionTapeUrl}</span>
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => setAuditionTapeUrl('')}
+                                  className="text-red-400 hover:text-red-300 ml-2 shrink-0 p-1 cursor-pointer"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            )}
                           </div>
 
                           {errors.auditionTape && (
@@ -2615,7 +2463,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
 
                         <div>
                           <label className="text-[11px] font-mono uppercase tracking-wider text-slate-200 block mb-1.5 font-bold">
-                            Proof of Skill Link (Public Drive, YouTube, Behance, Spotify) *
+                            Proof of Skill Link (YouTube, Vimeo, Behance, Website, Cloud Link) *
                           </label>
                           <div className="relative">
                             <LinkIcon className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-3.5" />
@@ -2623,10 +2471,13 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                               type="url"
                               value={proofOfSkillLink}
                               onChange={(e) => setProofOfSkillLink(e.target.value)}
-                              placeholder="https://drive.google.com/... or https://youtube.com/..."
+                              placeholder="https://youtube.com/... or https://behance.net/... or https://..."
                               className="w-full pl-8 pr-3.5 py-2.5 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs sm:text-sm placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-400/20 transition-all shadow-inner"
                             />
                           </div>
+                          <p className="text-[10px] text-slate-400 font-mono mt-1">
+                            * Link Upload Option: No Drive upload required. Paste any public reel, portfolio, or showreel link.
+                          </p>
                           {errors.proofOfSkillLink && <p className="text-[10px] text-red-400 mt-1 font-mono">{errors.proofOfSkillLink}</p>}
                         </div>
 
@@ -2720,41 +2571,51 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                     </div>
                   )}
 
-                  <div className="flex flex-col sm:flex-row items-center gap-3">
-                    <CinemaButton
-                      type="submit"
-                      variant="primary"
-                      disabled={isSubmitting}
-                      className="w-full sm:flex-1 !py-3.5 text-xs tracking-widest font-black flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <RefreshCw className="w-4 h-4 animate-spin text-black" />
-                          <span>UPLOADING TO DRIVE & SYNCING GOOGLE SHEET...</span>
-                        </>
-                      ) : (
-                        <>
-                          {pathway === 'actor' && `SUBMIT AUDITION AS ${currentRole.name} (ZERO FEES FOR AUDITION)`}
-                          {pathway === 'participant' && 'CONFIRM PRE-BOOKING TOKEN (₹2,000)'}
-                          {pathway === 'crew' && 'SUBMIT TECHNICAL CREW APPLICATION'}
-                        </>
-                      )}
-                    </CinemaButton>
+                  <CinemaButton
+                    type="submit"
+                    variant="primary"
+                    disabled={isSubmitting}
+                    className="w-full !py-3.5 text-xs tracking-widest font-black flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <RefreshCw className="w-4 h-4 animate-spin text-black" />
+                        <span>DISPATCHING TO PRODUCTION & GOOGLE SHEET...</span>
+                      </>
+                    ) : (
+                      <>
+                        {pathway === 'actor' && `SUBMIT AUDITION AS ${currentRole.name} (ZERO FEES FOR AUDITION)`}
+                        {pathway === 'participant' && 'CONFIRM PRE-BOOKING TOKEN (₹2,000)'}
+                        {pathway === 'crew' && 'SUBMIT TECHNICAL CREW APPLICATION'}
+                      </>
+                    )}
+                  </CinemaButton>
 
-                    <button
-                      type="button"
-                      onClick={handleClearForm}
-                      disabled={isSubmitting}
-                      className="w-full sm:w-auto px-4 py-3.5 bg-black/40 hover:bg-black/70 border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white text-xs font-mono font-bold tracking-wider transition-colors cursor-pointer disabled:opacity-50"
-                      title="Clear all form fields and remove files"
+                  {/* Highly Highlighted Alternative Callout directly at bottom of form */}
+                  <div className="p-3.5 sm:p-4 bg-gradient-to-r from-yellow-500/20 via-amber-500/15 to-yellow-600/20 border-2 border-yellow-400 rounded-sm shadow-lg shadow-yellow-400/15 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono">
+                    <div className="space-y-1 flex-1">
+                      <div className="flex items-center gap-1.5 text-yellow-400 font-black text-[10px] uppercase tracking-wider">
+                        <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
+                        <span>RECOMMENDED / FASTEST WAY</span>
+                      </div>
+                      <div className="text-white font-bold leading-snug">
+                        For more smoother and familiar experience can submit in Google Form as well, both ways are acceptable.
+                      </div>
+                    </div>
+                    <a
+                      href={GOOGLE_FORMS[pathway].url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-black font-black text-xs uppercase tracking-wider inline-flex items-center justify-center gap-1.5 shrink-0 shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
                     >
-                      CLEAR FORM
-                    </button>
+                      <span>SUBMIT {GOOGLE_FORMS[pathway].id} VIA GOOGLE FORM</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
                   </div>
 
                   <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
-                    <span>* Zero submission fees for auditions & crew screening</span>
-                    <span className="text-yellow-400/90 font-semibold">ENCRYPTED & CONFIDENTIAL</span>
+                    <span>* Zero submission fees • Both website submission &amp; Google Forms are acceptable</span>
+                    <span className="text-yellow-400/90 font-semibold">ENCRYPTED &amp; CONFIDENTIAL</span>
                   </div>
                 </div>
 
