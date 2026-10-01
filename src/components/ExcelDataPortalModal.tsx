@@ -327,7 +327,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
               </div>
               <div className="flex items-center gap-1.5 pt-1 border-t border-white/10">
                 <a
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSc2oO2RmY15f-QdR5MOgx_UnQlOvLDDMVeBJX-004gqxPENWg/viewform"
+                  href="https://forms.gle/RUA9uA2wMnXsZza26"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 py-1.5 px-2 bg-yellow-400/20 hover:bg-yellow-400/30 text-yellow-300 border border-yellow-400/50 text-[10px] font-mono font-bold text-center transition-colors"
@@ -335,13 +335,13 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                   Open Form ↗
                 </a>
                 <a
-                  href="https://docs.google.com/forms/d/1MEPgBpZtKY0fQ5LISPeWKkTW_tNY0n8206F41U9ZqG4/edit"
+                  href="https://forms.gle/RUA9uA2wMnXsZza26"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="py-1.5 px-2 bg-white/10 hover:bg-white/20 text-slate-300 text-[10px] font-mono transition-colors"
-                  title="Edit Form"
+                  title="Form Link"
                 >
-                  Edit ⚙
+                  Link ⚙
                 </a>
               </div>
             </div>
@@ -357,7 +357,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
               </div>
               <div className="flex items-center gap-1.5 pt-1 border-t border-white/10">
                 <a
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSdn11s_O5X6WcEickyFVO-1EYKRNO0Wz932faXc6_JZKsqTQw/viewform"
+                  href="https://forms.gle/BS6VF7hV2i6KyUet9"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 py-1.5 px-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/50 text-[10px] font-mono font-bold text-center transition-colors"
@@ -365,13 +365,13 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                   Open Form ↗
                 </a>
                 <a
-                  href="https://docs.google.com/forms/d/1LwHSntaLFyEb-CvIPuTNOa8Ipa9XvwaxTYFmRJ17zRM/edit"
+                  href="https://forms.gle/BS6VF7hV2i6KyUet9"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="py-1.5 px-2 bg-white/10 hover:bg-white/20 text-slate-300 text-[10px] font-mono transition-colors"
-                  title="Edit Form"
+                  title="Form Link"
                 >
-                  Edit ⚙
+                  Link ⚙
                 </a>
               </div>
             </div>
@@ -387,7 +387,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
               </div>
               <div className="flex items-center gap-1.5 pt-1 border-t border-white/10">
                 <a
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSfia3SajhutYg_VnxGKiGI3F3SLPtu8ZGBE5m6VVQHL8RdI-g/viewform"
+                  href="https://forms.gle/Um4kvMuNsoYQkFoz6"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 py-1.5 px-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/50 text-[10px] font-mono font-bold text-center transition-colors"
@@ -395,13 +395,13 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                   Open Form ↗
                 </a>
                 <a
-                  href="https://docs.google.com/forms/d/1bEWlAM66Um2VvM17g_j3kLXGPaa2ULWSJCC8pHphYqA/"
+                  href="https://forms.gle/Um4kvMuNsoYQkFoz6"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="py-1.5 px-2 bg-white/10 hover:bg-white/20 text-slate-300 text-[10px] font-mono transition-colors"
-                  title="Edit Form"
+                  title="Form Link"
                 >
-                  Edit ⚙
+                  Link ⚙
                 </a>
               </div>
             </div>

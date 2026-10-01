@@ -416,7 +416,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
           </div>
           <div className="flex flex-wrap items-center justify-center gap-2.5 shrink-0">
             <a
-              href="https://docs.google.com/forms/d/1MEPgBpZtKY0fQ5LISPeWKkTW_tNY0n8206F41U9ZqG4"
+              href="https://forms.gle/RUA9uA2wMnXsZza26"
               target="_blank"
               rel="noopener noreferrer"
               className="px-4 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-black font-mono font-black text-xs uppercase tracking-wider transition-all inline-flex items-center gap-1.5 shadow-md hover:scale-105 active:scale-95"
@@ -425,7 +425,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
             <a
-              href="https://docs.google.com/forms/d/1LwHSntaLFyEb-CvIPuTNOa8Ipa9XvwaxTYFmRJ17zRM"
+              href="https://forms.gle/BS6VF7hV2i6KyUet9"
               target="_blank"
               rel="noopener noreferrer"
               className="px-4 py-2.5 bg-blue-500 hover:bg-blue-400 text-white font-mono font-black text-xs uppercase tracking-wider transition-all inline-flex items-center gap-1.5 shadow-md hover:scale-105 active:scale-95"
@@ -434,7 +434,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
             <a
-              href="https://docs.google.com/forms/d/1bEWlAM66Um2VvM17g_j3kLXGPaa2ULWSJCC8pHphYqA"
+              href="https://forms.gle/Um4kvMuNsoYQkFoz6"
               target="_blank"
               rel="noopener noreferrer"
               className="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-mono font-black text-xs uppercase tracking-wider transition-all inline-flex items-center gap-1.5 shadow-md hover:scale-105 active:scale-95"

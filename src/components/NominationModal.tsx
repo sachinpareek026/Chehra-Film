@@ -117,19 +117,19 @@ export const GOOGLE_FORMS = {
   actor: {
     id: 'FORM 1',
     name: 'Form 1: Actor Audition Application',
-    url: 'https://docs.google.com/forms/d/1MEPgBpZtKY0fQ5LISPeWKkTW_tNY0n8206F41U9ZqG4',
+    url: 'https://forms.gle/RUA9uA2wMnXsZza26',
     tag: '100% Refundable Deposit • Zero Audition Fees',
   },
   participant: {
     id: 'FORM 2',
     name: 'Form 2: Participant Reservation Form',
-    url: 'https://docs.google.com/forms/d/1LwHSntaLFyEb-CvIPuTNOa8Ipa9XvwaxTYFmRJ17zRM',
+    url: 'https://forms.gle/BS6VF7hV2i6KyUet9',
     tag: '₹13,000 Final Amount • Zero Uploads',
   },
   crew: {
     id: 'FORM 3',
     name: 'Form 3: Technical Crew Registration',
-    url: 'https://docs.google.com/forms/d/1bEWlAM66Um2VvM17g_j3kLXGPaa2ULWSJCC8pHphYqA',
+    url: 'https://forms.gle/Um4kvMuNsoYQkFoz6',
     tag: 'Official Department Head & IMDb Credit',
   },
 } as const;

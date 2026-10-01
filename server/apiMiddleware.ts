@@ -2,6 +2,7 @@ import type { Connect } from 'vite';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as XLSX from 'xlsx';
+import { GOOGLE_APPS_SCRIPT_SOURCE } from '../src/utils/googleAppsScriptCode';
 
 // Initial seeds
 const defaultData = {
@@ -635,6 +636,14 @@ export function apiMiddleware(): Connect.NextHandleFunction {
         res.statusCode = 500;
         res.end(JSON.stringify({ error: err.message }));
       }
+      return;
+    }
+
+    // 2.5 GET /api/google-apps-script.js
+    if (url === '/api/google-apps-script.js') {
+      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+      res.setHeader('Content-Disposition', 'attachment; filename="ChehraFilms_Drive_Sheet_Sync.gs"');
+      res.end(GOOGLE_APPS_SCRIPT_SOURCE);
       return;
     }
 

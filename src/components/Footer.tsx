@@ -114,7 +114,7 @@ export const Footer: React.FC<FooterProps> = ({
                 </p>
                 <div className="space-y-1 pl-1 font-mono">
                   <a
-                    href="https://docs.google.com/forms/d/1MEPgBpZtKY0fQ5LISPeWKkTW_tNY0n8206F41U9ZqG4"
+                    href="https://forms.gle/RUA9uA2wMnXsZza26"
                     target="_blank"
                     rel="noreferrer"
                     className="hover:text-yellow-400 transition-colors flex items-center gap-1 text-[11px] text-white/70"
@@ -123,7 +123,7 @@ export const Footer: React.FC<FooterProps> = ({
                     <span>Form 1: Actor Audition ↗</span>
                   </a>
                   <a
-                    href="https://docs.google.com/forms/d/1LwHSntaLFyEb-CvIPuTNOa8Ipa9XvwaxTYFmRJ17zRM"
+                    href="https://forms.gle/BS6VF7hV2i6KyUet9"
                     target="_blank"
                     rel="noreferrer"
                     className="hover:text-blue-300 transition-colors flex items-center gap-1 text-[11px] text-white/70"
@@ -132,7 +132,7 @@ export const Footer: React.FC<FooterProps> = ({
                     <span>Form 2: Participant ↗</span>
                   </a>
                   <a
-                    href="https://docs.google.com/forms/d/1bEWlAM66Um2VvM17g_j3kLXGPaa2ULWSJCC8pHphYqA"
+                    href="https://forms.gle/Um4kvMuNsoYQkFoz6"
                     target="_blank"
                     rel="noreferrer"
                     className="hover:text-emerald-300 transition-colors flex items-center gap-1 text-[11px] text-white/70"
