@@ -21,10 +21,26 @@ import {
   Flame,
   Waves,
   Mountain,
-  Phone
+  Phone,
+  Sparkles,
+  Ship,
+  Utensils,
+  ExternalLink,
+  MessageCircle,
+  ArrowRight,
+  FileText,
+  Download,
+  Eye,
+  X
 } from 'lucide-react';
 import { CinemaButton } from './CinemaButton';
 import { PathwayType } from '../types';
+import { FamilyPricingCalculator } from './FamilyPricingCalculator';
+import {
+  FAMILY_ITINERARY_DAYS,
+  FAMILY_INCLUSIONS,
+  FAMILY_KEY_PERKS
+} from '../data/familyTripData';
 
 interface KashmirExpeditionSectionProps {
   onOpenBooking: (pathway?: PathwayType) => void;
@@ -33,8 +49,10 @@ interface KashmirExpeditionSectionProps {
 export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> = ({
   onOpenBooking,
 }) => {
+  const [packageType, setPackageType] = useState<'individual' | 'family'>('individual');
   const [activeTab, setActiveTab] = useState<'itinerary' | 'pricing' | 'inclusions' | 'optional' | 'packing'>('itinerary');
   const [expandedDay, setExpandedDay] = useState<number | null>(0);
+  const [familyExpandedDay, setFamilyExpandedDay] = useState<number | null>(0);
   const [showExtensionModal, setShowExtensionModal] = useState(false);
 
   // 8-Day Itinerary (24 – 31 Dec 2026) matching user brief
@@ -341,20 +359,66 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
+        {/* Primary Package Mode Switcher: Individual vs Family/Group */}
+        <div className="mb-10 flex justify-center">
+          <div className="p-1.5 bg-[#090C14] border border-white/15 inline-flex w-full max-w-2xl shadow-2xl">
+            <button
+              type="button"
+              onClick={() => {
+                setPackageType('individual');
+              }}
+              className={`flex-1 py-3 px-3 sm:px-5 text-center transition-all cursor-pointer ${
+                packageType === 'individual'
+                  ? 'bg-yellow-400 text-black shadow-lg font-bold'
+                  : 'text-white/70 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <div className="flex items-center justify-center gap-1.5 font-mono text-xs sm:text-sm uppercase tracking-wider">
+                <Users className="w-4 h-4 shrink-0" />
+                <span>INDIVIDUAL PACKAGE</span>
+              </div>
+              <span className={`block text-[10px] sm:text-[11px] mt-0.5 ${packageType === 'individual' ? 'text-black/80 font-medium' : 'text-white/40'}`}>
+                Solo &amp; Filmmaking Expedition · Flat ₹13,000
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setPackageType('family');
+              }}
+              className={`flex-1 py-3 px-3 sm:px-5 text-center transition-all cursor-pointer ${
+                packageType === 'family'
+                  ? 'bg-yellow-400 text-black shadow-lg font-bold'
+                  : 'text-white/70 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <div className="flex items-center justify-center gap-1.5 font-mono text-xs sm:text-sm uppercase tracking-wider">
+                <Sparkles className="w-4 h-4 shrink-0 text-amber-950" />
+                <span>FAMILY / GROUP PACKAGE</span>
+              </div>
+              <span className={`block text-[10px] sm:text-[11px] mt-0.5 ${packageType === 'family' ? 'text-black/80 font-medium' : 'text-white/40'}`}>
+                4+ Travellers · Delhi to Delhi · From ₹9,500/Person
+              </span>
+            </button>
+          </div>
+        </div>
+
         {/* Section Title & Positioning */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <div className="inline-flex items-center gap-2 mb-3">
               <span className="w-6 h-[1px] bg-yellow-400/90" />
               <span className="text-[10px] font-mono tracking-[0.3em] text-yellow-400/90 uppercase">
-                EXPEDITION CF01 • CHEHRA × PARINDAA
+                {packageType === 'family' ? 'PARINDAA.IN × CHEHRA FILMS • KASHMIR FAMILY ESCAPE' : 'EXPEDITION CF01 • CHEHRA × PARINDAA'}
               </span>
             </div>
             <h2 className="font-title text-3xl sm:text-4xl md:text-5xl font-semibold text-[#F4F1EA] tracking-[0.02em] leading-[1.15]">
-              Experience Kashmir Differently
+              {packageType === 'family' ? 'Kashmir Family & Group Escape' : 'Experience Kashmir Differently'}
             </h2>
             <p className="mt-3 text-sm text-[#B8B4AC] font-normal font-sans max-w-3xl leading-[1.65]">
-              This December, leave the ordinary sightseeing trip behind. Journey from the sacred mountains of Vaishno Devi into the snow-covered landscapes of Gulmarg, complete the Gulmarg Ski 2-Day Certificate Course under Experts Training Program, and discover the lakes, gardens and streets of Srinagar.
+              {packageType === 'family'
+                ? "Let's make this New Year and Holidays your lifetime experience. 8 Days / 7 Nights round-trip journey from New Delhi (24 – 31 Dec) featuring Mata Vaishno Devi darshan, Gulmarg Gondola cable car ride (included), snow activities, Pahalgam valley exploration, and an authentic 1-night Deluxe Houseboat stay on Dal Lake."
+                : "This December, leave the ordinary sightseeing trip behind. Journey from the sacred mountains of Vaishno Devi into the snow-covered landscapes of Gulmarg, complete the Gulmarg Ski 2-Day Certificate Course under Experts Training Program, and discover the lakes, gardens and streets of Srinagar."}
             </p>
           </div>
 
@@ -365,11 +429,11 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
             </span>
             <span className="px-3 py-1.5 bg-white/5 border border-white/10 text-white/80 font-mono text-[11px] uppercase tracking-wider inline-flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5 text-yellow-400/90" />
-              <span>7 NIGHTS / 8 DAYS</span>
+              <span>{packageType === 'family' ? '8 DAYS / 7 NIGHTS' : '7 NIGHTS / 8 DAYS'}</span>
             </span>
             <span className="px-3 py-1.5 bg-yellow-400/10 border border-yellow-400/30 text-yellow-400/90 font-mono text-[11px] uppercase tracking-wider inline-flex items-center gap-1.5">
               <Award className="w-3.5 h-3.5 text-yellow-400/90" />
-              <span>EARLY BIRD: ₹13,000</span>
+              <span>{packageType === 'family' ? 'FROM ₹9,500 / PERSON' : 'EARLY BIRD: ₹13,000'}</span>
             </span>
           </div>
         </div>
@@ -391,15 +455,15 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
             <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
               <div className="flex items-center gap-2">
                 <span className="px-2.5 py-1 bg-yellow-400/90 text-[#070A0F] font-mono font-medium text-[9px] uppercase tracking-wider">
-                  7 NIGHTS / 8 DAYS
+                  8 DAYS / 7 NIGHTS (24 – 31 DEC)
                 </span>
                 <span className="px-2.5 py-1 bg-black/80 border border-white/20 text-white/90 font-mono text-[9px] uppercase tracking-wider">
-                  CHRISTMAS HOLIDAY WEEK
+                  {packageType === 'family' ? 'DELHI TO DELHI ROUND-TRIP' : 'CHRISTMAS HOLIDAY WEEK'}
                 </span>
               </div>
               <span className="px-2.5 py-1 bg-white/10 border border-white/20 text-white/90 font-mono text-[9px] uppercase tracking-wider hidden sm:inline-flex items-center gap-1.5">
                 <Snowflake className="w-3 h-3 text-yellow-400/90" />
-                PEAK WINTER SNOW IN GULMARG
+                {packageType === 'family' ? 'GONDOLA + 1N HOUSEBOAT INCLUDED' : 'PEAK WINTER SNOW IN GULMARG'}
               </span>
             </div>
 
@@ -408,10 +472,14 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               <div className="max-w-2xl">
                 <div className="flex items-center gap-2 text-yellow-400/90 font-mono text-[10px] tracking-widest uppercase mb-1">
                   <Snowflake className="w-3.5 h-3.5" />
-                  <span>VAISHNO DEVI • GULMARG POWDER SLOPES • SRINAGAR DAL LAKE</span>
+                  <span>
+                    {packageType === 'family'
+                      ? 'DELHI • KATRA (VAISHNO DEVI) • GULMARG GONDOLA • PAHALGAM • DAL LAKE HOUSEBOAT • DELHI'
+                      : 'VAISHNO DEVI • GULMARG POWDER SLOPES • SRINAGAR DAL LAKE'}
+                  </span>
                 </div>
                 <h3 className="font-title text-2xl sm:text-3xl md:text-4xl font-semibold text-[#F4F1EA] tracking-[0.02em] leading-tight">
-                  Kashmir Winter Escape 2026
+                  {packageType === 'family' ? 'Kashmir Family Escape 2026' : 'Kashmir Winter Escape 2026'}
                 </h3>
               </div>
 
@@ -421,7 +489,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                   onClick={() => onOpenBooking('participant')}
                   className="!py-3 !px-6 text-xs tracking-wider font-medium"
                 >
-                  BOOK YOUR SEAT
+                  {packageType === 'family' ? 'RESERVE FAMILY SEATS' : 'BOOK YOUR SEAT'}
                 </CinemaButton>
                 <button
                   type="button"
@@ -442,17 +510,23 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               </div>
               <div>
                 <span className="block text-[10px] font-mono text-white/50 uppercase tracking-widest">DURATION</span>
-                <span className="text-sm sm:text-base font-sans font-semibold text-[#F4F1EA]">7N / 8D Winter Plan</span>
+                <span className="text-sm sm:text-base font-sans font-semibold text-[#F4F1EA]">
+                  8 Days / 7 Nights (Delhi ↔ Delhi)
+                </span>
               </div>
             </div>
 
             <div className="p-4 sm:p-5 flex items-center gap-3">
               <div className="p-2.5 bg-white/5 text-yellow-400/90 border border-white/10">
-                <Snowflake className="w-4 h-4" />
+                {packageType === 'family' ? <Sparkles className="w-4 h-4 text-amber-400" /> : <Snowflake className="w-4 h-4" />}
               </div>
               <div>
-                <span className="block text-[10px] font-mono text-white/50 uppercase tracking-widest">HERO ACTIVITY</span>
-                <span className="text-sm sm:text-base font-sans font-semibold text-[#F4F1EA]">Ski 2D Certificate Course</span>
+                <span className="block text-[10px] font-mono text-white/50 uppercase tracking-widest">
+                  {packageType === 'family' ? 'KEY INCLUSIONS' : 'HERO ACTIVITY'}
+                </span>
+                <span className="text-sm sm:text-base font-sans font-semibold text-[#F4F1EA]">
+                  {packageType === 'family' ? 'Gondola & Houseboat' : 'Ski 2D Certificate Course'}
+                </span>
               </div>
             </div>
 
@@ -461,18 +535,26 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                 <Award className="w-4 h-4" />
               </div>
               <div>
-                <span className="block text-[10px] font-mono text-white/50 uppercase tracking-widest">EARLY BIRD</span>
-                <span className="text-sm sm:text-base font-sans font-semibold text-yellow-400/90">₹13,000 / Person</span>
+                <span className="block text-[10px] font-mono text-white/50 uppercase tracking-widest">
+                  {packageType === 'family' ? 'GROUP RATE' : 'EARLY BIRD'}
+                </span>
+                <span className="text-sm sm:text-base font-sans font-semibold text-yellow-400/90">
+                  {packageType === 'family' ? '₹9,500 – ₹12,000 / Person' : '₹13,000 / Person'}
+                </span>
               </div>
             </div>
 
             <div className="p-4 sm:p-5 flex items-center gap-3">
               <div className="p-2.5 bg-white/5 text-yellow-400/90 border border-white/10">
-                <Film className="w-4 h-4" />
+                {packageType === 'family' ? <Ship className="w-4 h-4 text-cyan-400" /> : <Film className="w-4 h-4" />}
               </div>
               <div>
-                <span className="block text-[10px] font-mono text-white/50 uppercase tracking-widest">CINEMA PROJECT</span>
-                <span className="text-sm sm:text-base font-sans font-semibold text-[#F4F1EA]">The Life of Nandi</span>
+                <span className="block text-[10px] font-mono text-white/50 uppercase tracking-widest">
+                  {packageType === 'family' ? 'DAL LAKE STAY' : 'CINEMA PROJECT'}
+                </span>
+                <span className="text-sm sm:text-base font-sans font-semibold text-[#F4F1EA]">
+                  {packageType === 'family' ? '1N Deluxe Houseboat' : 'The Life of Nandi'}
+                </span>
               </div>
             </div>
           </div>
@@ -480,36 +562,71 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
 
         {/* Route Flow Diagram */}
         <div className="mb-14 p-5 bg-[#090C14] border border-white/10">
-          <div className="flex items-center justify-between mb-4 text-xs font-mono text-white/60">
-            <span className="font-semibold text-yellow-400/90 uppercase tracking-wider">EXPEDITION ROUTE CORRIDOR</span>
-            <span>ROUND-TRIP FROM NEW DELHI</span>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2 text-xs font-mono text-white/60">
+            <span className="font-semibold text-yellow-400/90 uppercase tracking-wider">
+              {packageType === 'family' ? 'FAMILY & GROUP ROUND-TRIP ROUTE CORRIDOR' : 'EXPEDITION ROUTE CORRIDOR'}
+            </span>
+            <span>ROUND-TRIP FROM NEW DELHI (24 – 31 DEC 2026)</span>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 text-center font-mono text-xs">
-            <div className="p-3 bg-white/[0.02] border border-white/10">
-              <span className="block text-[9px] text-white/40 uppercase tracking-wider mb-0.5">ORIGIN</span>
-              <strong className="text-white">DELHI</strong>
+          {packageType === 'family' ? (
+            <div className="grid grid-cols-2 sm:grid-cols-7 gap-2 text-center font-mono text-xs">
+              <div className="p-3 bg-white/[0.02] border border-white/10">
+                <span className="block text-[9px] text-white/40 uppercase tracking-wider mb-0.5">ORIGIN</span>
+                <strong className="text-white">DELHI</strong>
+              </div>
+              <div className="p-3 bg-white/[0.02] border border-white/10">
+                <span className="block text-[9px] text-white/40 uppercase tracking-wider mb-0.5">STAGE 1</span>
+                <strong className="text-white/90">KATRA</strong>
+              </div>
+              <div className="p-3 bg-white/[0.02] border border-white/10">
+                <span className="block text-[9px] text-amber-400 uppercase tracking-wider mb-0.5">DARSHAN</span>
+                <strong className="text-amber-300">VAISHNO DEVI</strong>
+              </div>
+              <div className="p-3 bg-yellow-400/5 border border-yellow-400/30">
+                <span className="block text-[9px] text-yellow-400/90 uppercase tracking-wider mb-0.5">GONDOLA INCL.</span>
+                <strong className="text-yellow-400/90">GULMARG</strong>
+              </div>
+              <div className="p-3 bg-white/[0.02] border border-white/10">
+                <span className="block text-[9px] text-white/40 uppercase tracking-wider mb-0.5">VALLEY</span>
+                <strong className="text-white/90">PAHALGAM</strong>
+              </div>
+              <div className="p-3 bg-cyan-400/5 border border-cyan-400/30">
+                <span className="block text-[9px] text-cyan-400 uppercase tracking-wider mb-0.5">HOUSEBOAT</span>
+                <strong className="text-cyan-300">SRINAGAR</strong>
+              </div>
+              <div className="p-3 bg-white/[0.02] border border-white/10 col-span-2 sm:col-span-1">
+                <span className="block text-[9px] text-white/40 uppercase tracking-wider mb-0.5">NEW YEAR'S EVE</span>
+                <strong className="text-white">DELHI</strong>
+              </div>
             </div>
-            <div className="p-3 bg-white/[0.02] border border-white/10">
-              <span className="block text-[9px] text-white/40 uppercase tracking-wider mb-0.5">STAGE 1</span>
-              <strong className="text-white/90">KATRA</strong>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 text-center font-mono text-xs">
+              <div className="p-3 bg-white/[0.02] border border-white/10">
+                <span className="block text-[9px] text-white/40 uppercase tracking-wider mb-0.5">ORIGIN</span>
+                <strong className="text-white">DELHI</strong>
+              </div>
+              <div className="p-3 bg-white/[0.02] border border-white/10">
+                <span className="block text-[9px] text-white/40 uppercase tracking-wider mb-0.5">STAGE 1</span>
+                <strong className="text-white/90">KATRA</strong>
+              </div>
+              <div className="p-3 bg-white/[0.02] border border-white/10">
+                <span className="block text-[9px] text-white/40 uppercase tracking-wider mb-0.5">PILGRIMAGE</span>
+                <strong className="text-white/90">VAISHNO DEVI</strong>
+              </div>
+              <div className="p-3 bg-yellow-400/5 border border-yellow-400/30">
+                <span className="block text-[9px] text-yellow-400/90 uppercase tracking-wider mb-0.5">2 DAYS SKI</span>
+                <strong className="text-yellow-400/90">GULMARG</strong>
+              </div>
+              <div className="p-3 bg-white/[0.02] border border-white/10">
+                <span className="block text-[9px] text-white/40 uppercase tracking-wider mb-0.5">STAGE 3</span>
+                <strong className="text-white/90">SRINAGAR</strong>
+              </div>
+              <div className="p-3 bg-white/[0.02] border border-white/10">
+                <span className="block text-[9px] text-white/40 uppercase tracking-wider mb-0.5">CONCLUSION</span>
+                <strong className="text-white">DELHI</strong>
+              </div>
             </div>
-            <div className="p-3 bg-white/[0.02] border border-white/10">
-              <span className="block text-[9px] text-white/40 uppercase tracking-wider mb-0.5">PILGRIMAGE</span>
-              <strong className="text-white/90">VAISHNO DEVI</strong>
-            </div>
-            <div className="p-3 bg-yellow-400/5 border border-yellow-400/30">
-              <span className="block text-[9px] text-yellow-400/90 uppercase tracking-wider mb-0.5">2 DAYS SKI</span>
-              <strong className="text-yellow-400/90">GULMARG</strong>
-            </div>
-            <div className="p-3 bg-white/[0.02] border border-white/10">
-              <span className="block text-[9px] text-white/40 uppercase tracking-wider mb-0.5">STAGE 3</span>
-              <strong className="text-white/90">SRINAGAR</strong>
-            </div>
-            <div className="p-3 bg-white/[0.02] border border-white/10">
-              <span className="block text-[9px] text-white/40 uppercase tracking-wider mb-0.5">CONCLUSION</span>
-              <strong className="text-white">DELHI</strong>
-            </div>
-          </div>
+          )}
         </div>
 
         {/* Interactive Tab Switcher */}
@@ -522,7 +639,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                 : 'border-transparent text-white/50 hover:text-white'
             }`}
           >
-            01. ITINERARY
+            01. {packageType === 'family' ? 'FAMILY ITINERARY (8 DAYS)' : 'ITINERARY'}
           </button>
           <button
             onClick={() => setActiveTab('pricing')}
@@ -532,7 +649,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                 : 'border-transparent text-white/50 hover:text-white'
             }`}
           >
-            02. PRICING & TIERS
+            02. {packageType === 'family' ? 'GROUP PRICING & CALCULATOR' : 'PRICING & TIERS'}
           </button>
           <button
             onClick={() => setActiveTab('inclusions')}
@@ -542,7 +659,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                 : 'border-transparent text-white/50 hover:text-white'
             }`}
           >
-            03. INCLUSIONS & LOGISTICS
+            03. {packageType === 'family' ? 'FAMILY INCLUSIONS' : 'INCLUSIONS & LOGISTICS'}
           </button>
           <button
             onClick={() => setActiveTab('optional')}
@@ -552,7 +669,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                 : 'border-transparent text-white/50 hover:text-white'
             }`}
           >
-            04. GONDOLA & EXPERIENCES
+            04. GONDOLA &amp; EXPERIENCES
           </button>
           <button
             onClick={() => setActiveTab('packing')}
@@ -566,316 +683,653 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
           </button>
         </div>
 
-        {/* TAB 1: 8-DAY ITINERARY */}
+        {/* TAB 1: ITINERARY */}
         {activeTab === 'itinerary' && (
-          <div className="space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 gap-2 text-xs font-mono text-white/50 border-b border-white/5">
-              <span>EXPEDITION CORRIDOR: DELHI ➔ KATRA ➔ VAISHNO DEVI ➔ GULMARG ➔ SRINAGAR ➔ DELHI</span>
-              <span className="text-yellow-400/90">CLICK ANY DAY TO EXPAND DETAILED SCHEDULE</span>
-            </div>
+          <div className="space-y-6">
+            {packageType === 'family' ? (
+              <>
+                {/* Family Route Corridor Notice */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 gap-2 text-xs font-mono text-white/50 border-b border-white/5">
+                  <span className="text-amber-400 font-semibold uppercase">
+                    FAMILY CORRIDOR: DELHI ➔ KATRA (VAISHNO DEVI) ➔ GULMARG (GONDOLA) ➔ PAHALGAM ➔ SRINAGAR (HOUSEBOAT) ➔ DELHI
+                  </span>
+                  <span className="text-white/40">CLICK ANY DAY TO EXPAND ACTIVITIES</span>
+                </div>
 
-            <div className="grid grid-cols-1 gap-3">
-              {itineraryDays.map((item, index) => {
-                const isExpanded = expandedDay === index;
-                return (
-                  <div
-                    key={index}
-                    className={`border transition-all duration-300 ${
-                      isExpanded
-                        ? 'border-yellow-400/40 bg-[#0B0F17]'
-                        : 'border-white/10 bg-[#080B12] hover:border-white/20'
-                    }`}
-                  >
+                {/* Family Key Perks Strip from Flyer */}
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
+                  {FAMILY_KEY_PERKS.map((perk, pIdx) => (
+                    <div key={pIdx} className="p-3 bg-[#080B12] border border-white/10 text-center space-y-1">
+                      <span className="text-[10px] font-mono text-amber-400 font-bold block uppercase leading-tight">
+                        {perk.title}
+                      </span>
+                      <p className="text-[10px] text-white/60 font-sans leading-tight">
+                        {perk.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Quick Calculator / Booking Action Callout */}
+                <div className="p-5 bg-gradient-to-r from-amber-400/10 via-yellow-400/5 to-transparent border border-amber-400/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 bg-amber-400 text-black font-mono text-[9px] font-bold uppercase">
+                        FAMILY &amp; GROUP TIER
+                      </span>
+                      <span className="text-xs font-mono text-amber-300">
+                        ₹9,500 – ₹12,000 / person · Min 4 People
+                      </span>
+                    </div>
+                    <h4 className="text-sm sm:text-base font-serif text-white">
+                      Traveling with 4 or more family members or friends?
+                    </h4>
+                    <p className="text-xs text-white/70 font-sans">
+                      Enjoy progressive group discounts, included Gondola &amp; Houseboat stays, and direct Delhi pickup.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2.5 shrink-0 w-full sm:w-auto">
                     <button
                       type="button"
-                      onClick={() => setExpandedDay(isExpanded ? null : index)}
-                      className="w-full p-4 sm:p-5 flex items-center justify-between text-left cursor-pointer"
+                      onClick={() => setActiveTab('pricing')}
+                      className="flex-1 sm:flex-initial px-4 py-2.5 bg-amber-400 hover:bg-amber-300 text-black font-mono font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
                     >
-                      <div className="flex-1 min-w-0 pr-3">
-                        <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-1.5">
-                          <span className="text-base sm:text-lg md:text-xl font-mono tracking-wider text-yellow-400/90 font-bold uppercase">
-                            DAY {item.day}
-                          </span>
-                          <span className="text-xs sm:text-sm font-mono tracking-wide text-white/70">
-                            • {item.dateLabel}
-                          </span>
-                          <span className="px-2 py-0.5 bg-white/5 text-[9px] sm:text-[10px] font-mono text-white/60 uppercase">
-                            {item.badge}
-                          </span>
-                        </div>
-                        <h3 className="font-serif text-base sm:text-lg text-white tracking-wide">
-                          {item.title} <span className="text-white/50 font-sans text-sm font-light">— {item.subtitle}</span>
-                        </h3>
-                      </div>
-
-                      <div className="flex items-center gap-4 shrink-0">
-                        <span className="hidden md:inline-block text-[10px] font-mono text-white/50">
-                          {item.overnight}
-                        </span>
-                        <div className="p-1 text-white/40 hover:text-white">
-                          {isExpanded ? <ChevronUp className="w-4 h-4 text-yellow-400/90" /> : <ChevronDown className="w-4 h-4" />}
-                        </div>
-                      </div>
+                      CALCULATE GROUP PRICE ↗
                     </button>
+                    <a
+                      href={`https://wa.me/919326632288?text=${encodeURIComponent('Hello Chehra Films & Parindaa! I am inquiring about the 8-Day Delhi to Delhi Kashmir Family & Group Escape (24-31 Dec). Please share availability.')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 sm:flex-initial px-4 py-2.5 bg-[#25D366] hover:bg-[#20ba59] text-black font-mono font-bold text-xs uppercase tracking-wider inline-flex items-center justify-center gap-1.5 transition-colors"
+                    >
+                      <MessageCircle className="w-3.5 h-3.5 fill-black" />
+                      <span>WHATSAPP</span>
+                    </a>
+                  </div>
+                </div>
 
-                    {isExpanded && (
-                      <div className="px-5 pb-6 pt-2 border-t border-white/5 space-y-4">
-                        <div className="flex items-start justify-between gap-4">
-                          <p className="text-xs sm:text-sm text-white/70 font-light leading-relaxed">
-                            {item.description}
-                          </p>
-                          {item.cinemaChapter && (
-                            <span className="hidden sm:inline-block shrink-0 px-2.5 py-1 bg-white/5 border border-yellow-400/30 text-yellow-400/90 font-mono text-[10px] uppercase tracking-wider">
-                              Cinema Chapter: {item.cinemaChapter}
-                            </span>
-                          )}
-                        </div>
-
-                        <div className="space-y-2 pt-2">
-                          <span className="text-[10px] font-mono text-yellow-400/90 tracking-widest uppercase block">
-                            SCHEDULED LOGS & MILESTONES
-                          </span>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            {item.highlights.map((h, hIdx) => (
-                              <div key={hIdx} className="flex items-start gap-2 text-xs text-white/80 bg-white/[0.02] p-2.5 border border-white/5">
-                                <CheckCircle2 className="w-3.5 h-3.5 text-yellow-400/90 shrink-0 mt-0.5" />
-                                <span>{h}</span>
-                              </div>
-                            ))}
+                {/* 8-Day Family Timeline Days */}
+                <div className="grid grid-cols-1 gap-3">
+                  {FAMILY_ITINERARY_DAYS.map((item, index) => {
+                    const isExpanded = familyExpandedDay === index;
+                    return (
+                      <div
+                        key={index}
+                        className={`border transition-all duration-300 ${
+                          isExpanded
+                            ? 'border-amber-400/40 bg-[#0B0F17]'
+                            : 'border-white/10 bg-[#080B12] hover:border-white/20'
+                        }`}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => setFamilyExpandedDay(isExpanded ? null : index)}
+                          className="w-full p-4 sm:p-5 flex items-center justify-between text-left cursor-pointer"
+                        >
+                          <div className="flex-1 min-w-0 pr-3">
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-1.5">
+                              <span className="text-base sm:text-lg md:text-xl font-mono tracking-wider text-amber-400 font-bold uppercase">
+                                DAY {item.day}
+                              </span>
+                              <span className="text-xs sm:text-sm font-mono tracking-wide text-white/70">
+                                • {item.dateLabel}
+                              </span>
+                              <span className="px-2 py-0.5 bg-amber-400/10 text-[9px] sm:text-[10px] font-mono text-amber-300 uppercase border border-amber-400/20">
+                                {item.badge}
+                              </span>
+                            </div>
+                            <h3 className="font-serif text-base sm:text-lg text-white tracking-wide">
+                              {item.title} <span className="text-white/50 font-sans text-sm font-light">— {item.subtitle}</span>
+                            </h3>
                           </div>
-                        </div>
 
-                        {item.note && (
-                          <div className="p-3 bg-white/[0.02] border-l-2 border-yellow-400/90 text-white/80 text-xs flex items-start gap-2 font-mono">
-                            <AlertTriangle className="w-4 h-4 text-yellow-400/90 shrink-0 mt-0.5" />
-                            <span>{item.note}</span>
+                          <div className="flex items-center gap-4 shrink-0">
+                            <span className="hidden md:inline-block text-[10px] font-mono text-white/50">
+                              {item.overnight}
+                            </span>
+                            <div className="p-1 text-white/40 hover:text-white">
+                              {isExpanded ? <ChevronUp className="w-4 h-4 text-amber-400" /> : <ChevronDown className="w-4 h-4" />}
+                            </div>
+                          </div>
+                        </button>
+
+                        {isExpanded && (
+                          <div className="px-5 pb-6 pt-2 border-t border-white/5 space-y-4">
+                            <p className="text-xs sm:text-sm text-white/70 font-light leading-relaxed">
+                              {item.description}
+                            </p>
+
+                            <div className="space-y-2 pt-2">
+                              <span className="text-[10px] font-mono text-amber-400 tracking-widest uppercase block">
+                                DAILY FAMILY HIGHLIGHTS &amp; ACTIVITIES
+                              </span>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                {item.highlights.map((h, hIdx) => (
+                                  <div key={hIdx} className="flex items-start gap-2 text-xs text-white/80 bg-white/[0.02] p-2.5 border border-white/5">
+                                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                                    <span>{h}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            {item.note && (
+                              <div className="p-3 bg-white/[0.02] border-l-2 border-amber-400 text-white/80 text-xs flex items-start gap-2 font-mono">
+                                <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                                <span>{item.note}</span>
+                              </div>
+                            )}
+
+                            <div className="flex items-center justify-between pt-2 border-t border-white/5 text-[11px] font-mono text-white/50">
+                              <span className="flex items-center gap-1.5">
+                                <Clock className="w-3 h-3 text-amber-400" />
+                                TIMING: {item.timing}
+                              </span>
+                              <span className="flex items-center gap-1.5">
+                                <MapPin className="w-3 h-3 text-amber-400" />
+                                NIGHT STAY: {item.overnight}
+                              </span>
+                            </div>
                           </div>
                         )}
-
-                        <div className="flex items-center justify-between pt-2 border-t border-white/5 text-[11px] font-mono text-white/50">
-                          <span className="flex items-center gap-1.5">
-                            <Clock className="w-3 h-3 text-yellow-400/90" />
-                            TIMING: {item.timing}
-                          </span>
-                          <span className="flex items-center gap-1.5">
-                            <MapPin className="w-3 h-3 text-yellow-400/90" />
-                            OVERNIGHT: {item.overnight}
-                          </span>
-                        </div>
                       </div>
-                    )}
-                  </div>
-                );
-              })}
+                    );
+                  })}
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 gap-2 text-xs font-mono text-white/50 border-b border-white/5">
+                  <span>EXPEDITION CORRIDOR: DELHI ➔ KATRA ➔ VAISHNO DEVI ➔ GULMARG ➔ SRINAGAR ➔ DELHI</span>
+                  <span className="text-yellow-400/90">CLICK ANY DAY TO EXPAND DETAILED SCHEDULE</span>
+                </div>
+
+                <div className="grid grid-cols-1 gap-3">
+                  {itineraryDays.map((item, index) => {
+                    const isExpanded = expandedDay === index;
+                    return (
+                      <div
+                        key={index}
+                        className={`border transition-all duration-300 ${
+                          isExpanded
+                            ? 'border-yellow-400/40 bg-[#0B0F17]'
+                            : 'border-white/10 bg-[#080B12] hover:border-white/20'
+                        }`}
+                      >
+                        <button
+                          type="button"
+                          onClick={() => setExpandedDay(isExpanded ? null : index)}
+                          className="w-full p-4 sm:p-5 flex items-center justify-between text-left cursor-pointer"
+                        >
+                          <div className="flex-1 min-w-0 pr-3">
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-1.5">
+                              <span className="text-base sm:text-lg md:text-xl font-mono tracking-wider text-yellow-400/90 font-bold uppercase">
+                                DAY {item.day}
+                              </span>
+                              <span className="text-xs sm:text-sm font-mono tracking-wide text-white/70">
+                                • {item.dateLabel}
+                              </span>
+                              <span className="px-2 py-0.5 bg-white/5 text-[9px] sm:text-[10px] font-mono text-white/60 uppercase">
+                                {item.badge}
+                              </span>
+                            </div>
+                            <h3 className="font-serif text-base sm:text-lg text-white tracking-wide">
+                              {item.title} <span className="text-white/50 font-sans text-sm font-light">— {item.subtitle}</span>
+                            </h3>
+                          </div>
+
+                          <div className="flex items-center gap-4 shrink-0">
+                            <span className="hidden md:inline-block text-[10px] font-mono text-white/50">
+                              {item.overnight}
+                            </span>
+                            <div className="p-1 text-white/40 hover:text-white">
+                              {isExpanded ? <ChevronUp className="w-4 h-4 text-yellow-400/90" /> : <ChevronDown className="w-4 h-4" />}
+                            </div>
+                          </div>
+                        </button>
+
+                        {isExpanded && (
+                          <div className="px-5 pb-6 pt-2 border-t border-white/5 space-y-4">
+                            <div className="flex items-start justify-between gap-4">
+                              <p className="text-xs sm:text-sm text-white/70 font-light leading-relaxed">
+                                {item.description}
+                              </p>
+                              {item.cinemaChapter && (
+                                <span className="hidden sm:inline-block shrink-0 px-2.5 py-1 bg-white/5 border border-yellow-400/30 text-yellow-400/90 font-mono text-[10px] uppercase tracking-wider">
+                                  Cinema Chapter: {item.cinemaChapter}
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="space-y-2 pt-2">
+                              <span className="text-[10px] font-mono text-yellow-400/90 tracking-widest uppercase block">
+                                SCHEDULED LOGS &amp; MILESTONES
+                              </span>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                {item.highlights.map((h, hIdx) => (
+                                  <div key={hIdx} className="flex items-start gap-2 text-xs text-white/80 bg-white/[0.02] p-2.5 border border-white/5">
+                                    <CheckCircle2 className="w-3.5 h-3.5 text-yellow-400/90 shrink-0 mt-0.5" />
+                                    <span>{h}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+
+                            {item.note && (
+                              <div className="p-3 bg-white/[0.02] border-l-2 border-yellow-400/90 text-white/80 text-xs flex items-start gap-2 font-mono">
+                                <AlertTriangle className="w-4 h-4 text-yellow-400/90 shrink-0 mt-0.5" />
+                                <span>{item.note}</span>
+                              </div>
+                            )}
+
+                            <div className="flex items-center justify-between pt-2 border-t border-white/5 text-[11px] font-mono text-white/50">
+                              <span className="flex items-center gap-1.5">
+                                <Clock className="w-3 h-3 text-yellow-400/90" />
+                                TIMING: {item.timing}
+                              </span>
+                              <span className="flex items-center gap-1.5">
+                                <MapPin className="w-3 h-3 text-yellow-400/90" />
+                                OVERNIGHT: {item.overnight}
+                              </span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+
+            {/* Minimalist Itinerary PDF Bar */}
+            <div className="mt-8 p-4 sm:p-5 bg-[#080B12] border border-yellow-400/40 rounded-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-yellow-400/10 border border-yellow-400/30 flex items-center justify-center text-yellow-400 shrink-0">
+                  <FileText className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-sm sm:text-base font-serif text-white tracking-wide">
+                    Trip Itinerary (PDF)
+                  </h4>
+                  <p className="text-xs text-white/60 font-sans">
+                    Complete 8-day expedition route, stays &amp; ski schedule.
+                  </p>
+                </div>
+              </div>
+
+              <a
+                href="https://drive.google.com/file/d/1CqVm4BSu7FTRGAru1iL6UqfDo58CjAaU/view?usp=drivesdk"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-5 py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-mono font-bold text-xs uppercase tracking-wider inline-flex items-center justify-center gap-2 transition-all shadow-md shrink-0 cursor-pointer"
+              >
+                <Download className="w-4 h-4" />
+                <span>VIEW &amp; DOWNLOAD ITINERARY (PDF)</span>
+              </a>
             </div>
           </div>
         )}
 
         {/* TAB 2: TRIP PRICING */}
         {activeTab === 'pricing' && (
-          <div className="space-y-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {pricingTiers.map((tier) => (
-                <div
-                  key={tier.id}
-                  className={`p-6 sm:p-7 bg-[#080B12] border flex flex-col justify-between relative transition-all duration-300 ${
-                    tier.id === 'early-bird'
-                      ? 'border-yellow-400/50'
-                      : tier.id === 'actor'
-                      ? 'border-white/20'
-                      : 'border-white/10'
-                  }`}
-                >
-                  {/* Top Header Badge */}
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-[10px] font-mono tracking-widest uppercase font-semibold text-white/50">
-                        {tier.status}
-                      </span>
-                      <span
-                        className={`px-2 py-0.5 text-[9px] font-mono uppercase tracking-wider ${
-                          tier.id === 'early-bird'
-                            ? 'bg-yellow-400/90 text-[#070A0F] font-semibold'
-                            : tier.id === 'actor'
-                            ? 'bg-white/10 text-white/90 border border-white/20'
-                            : 'bg-white/5 text-white/70 border border-white/10'
-                        }`}
-                      >
-                        {tier.tag}
-                      </span>
-                    </div>
-
-                    <h3 className="font-serif text-xl text-white tracking-wide">
-                      {tier.name}
-                    </h3>
-
-                    <div className="my-4 flex items-baseline gap-2">
-                      <span className="font-serif text-3xl sm:text-4xl text-white">
-                        {tier.price}
-                      </span>
-                      <span className="text-xs font-mono text-white/50 uppercase">
-                        {tier.period}
-                      </span>
-                    </div>
-
-                    <p className="text-xs text-white/70 font-light leading-relaxed mb-6">
-                      {tier.description}
-                    </p>
-
-                    <div className="space-y-2.5 pt-4 border-t border-white/10 mb-6">
-                      <span className="text-[10px] font-mono uppercase tracking-widest text-white/50 block">
-                        TIER DELIVERABLES
-                      </span>
-                      {tier.features.map((f, fIdx) => (
-                        <div key={fIdx} className="flex items-start gap-2 text-xs text-white/80">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-yellow-400/90 shrink-0 mt-0.5" />
-                          <span>{f}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="pt-2">
-                    <CinemaButton
-                      variant={tier.id === 'early-bird' ? 'primary' : 'outline'}
-                      onClick={() => onOpenBooking(tier.pathway)}
-                      className="w-full !py-3 text-xs tracking-wider font-medium"
+          <div>
+            {packageType === 'family' ? (
+              <FamilyPricingCalculator onOpenBooking={onOpenBooking} />
+            ) : (
+              <div className="space-y-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {pricingTiers.map((tier) => (
+                    <div
+                      key={tier.id}
+                      className={`p-6 sm:p-7 bg-[#080B12] border flex flex-col justify-between relative transition-all duration-300 ${
+                        tier.id === 'early-bird'
+                          ? 'border-yellow-400/50'
+                          : tier.id === 'actor'
+                          ? 'border-white/20'
+                          : 'border-white/10'
+                      }`}
                     >
-                      {tier.btnLabel}
-                    </CinemaButton>
+                      {/* Top Header Badge */}
+                      <div>
+                        <div className="flex items-center justify-between mb-3">
+                          <span className="text-[10px] font-mono tracking-widest uppercase font-semibold text-white/50">
+                            {tier.status}
+                          </span>
+                          <span
+                            className={`px-2 py-0.5 text-[9px] font-mono uppercase tracking-wider ${
+                              tier.id === 'early-bird'
+                                ? 'bg-yellow-400/90 text-[#070A0F] font-semibold'
+                                : tier.id === 'actor'
+                                ? 'bg-white/10 text-white/90 border border-white/20'
+                                : 'bg-white/5 text-white/70 border border-white/10'
+                            }`}
+                          >
+                            {tier.tag}
+                          </span>
+                        </div>
+
+                        <h3 className="font-serif text-xl text-white tracking-wide">
+                          {tier.name}
+                        </h3>
+
+                        <div className="my-4 flex items-baseline gap-2">
+                          <span className="font-serif text-3xl sm:text-4xl text-white">
+                            {tier.price}
+                          </span>
+                          <span className="text-xs font-mono text-white/50 uppercase">
+                            {tier.period}
+                          </span>
+                        </div>
+
+                        <p className="text-xs text-white/70 font-light leading-relaxed mb-6">
+                          {tier.description}
+                        </p>
+
+                        <div className="space-y-2.5 pt-4 border-t border-white/10 mb-6">
+                          <span className="text-[10px] font-mono uppercase tracking-widest text-white/50 block">
+                            TIER DELIVERABLES
+                          </span>
+                          {tier.features.map((f, fIdx) => (
+                            <div key={fIdx} className="flex items-start gap-2 text-xs text-white/80">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-yellow-400/90 shrink-0 mt-0.5" />
+                              <span>{f}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="pt-2">
+                        <CinemaButton
+                          variant={tier.id === 'early-bird' ? 'primary' : 'outline'}
+                          onClick={() => onOpenBooking(tier.pathway)}
+                          className="w-full !py-3 text-xs tracking-wider font-medium"
+                        >
+                          {tier.btnLabel}
+                        </CinemaButton>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Quick Price Table */}
+                <div className="p-6 bg-[#080B12] border border-white/10 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-serif text-lg text-white tracking-wide">
+                      Expedition Rate Comparison
+                    </h4>
+                    <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest">7 NIGHTS / 8 DAYS EXPEDITION</span>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-xs font-mono text-left border-collapse">
+                      <thead>
+                        <tr className="border-b border-white/10 text-white/50 uppercase">
+                          <th className="py-2.5 pr-4">Package Tier</th>
+                          <th className="py-2.5 px-4">Duration</th>
+                          <th className="py-2.5 px-4 text-yellow-400/90">Early Bird (Before 20 Nov)</th>
+                          <th className="py-2.5 px-4 text-white/70">Regular (After 20 Nov)</th>
+                          <th className="py-2.5 pl-4">Key Inclusions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-white/5 text-white/80">
+                        <tr>
+                          <td className="py-3 pr-4 font-medium text-white">Kashmir Winter Escape (Full Transport)</td>
+                          <td className="py-3 px-4">7N / 8D</td>
+                          <td className="py-3 px-4 text-yellow-400/90 font-semibold">₹13,000 / Person</td>
+                          <td className="py-3 px-4 text-white/70">₹14,500 / Person</td>
+                          <td className="py-3 pl-4 text-white/50 font-sans">Vaishno Devi + Gulmarg Ski 2D Certificate Course + Srinagar</td>
+                        </tr>
+                        <tr>
+                          <td className="py-3 pr-4 font-medium text-white">Actors / Lead Cast Role</td>
+                          <td className="py-3 px-4">7N / 8D</td>
+                          <td className="py-3 px-4 text-yellow-400/90 font-semibold">₹16,000 (100% Refund Deposit)</td>
+                          <td className="py-3 px-4 text-white/70">₹3,000 Security After Selection</td>
+                          <td className="py-3 pl-4 text-white/50 font-sans">Lead Screen Role + IMDb Credit + All Inclusions (Last Date: 20 Nov)</td>
+                        </tr>
+                        <tr>
+                          <td className="py-3 pr-4 font-medium text-white">Optional Gulmarg Gondola (Phase 1/2)</td>
+                          <td className="py-3 px-4">—</td>
+                          <td className="py-3 px-4 text-white/50">Separate Ticket</td>
+                          <td className="py-3 px-4 text-white/50">Separate Ticket</td>
+                          <td className="py-3 pl-4 text-white/50 font-sans">Apharwat / Kongdoori Cable Car Access</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-              ))}
-            </div>
 
-            {/* Quick Price Table */}
-            <div className="p-6 bg-[#080B12] border border-white/10 space-y-4">
-              <div className="flex items-center justify-between">
-                <h4 className="font-serif text-lg text-white tracking-wide">
-                  Expedition Rate Comparison
-                </h4>
-                <span className="text-[10px] font-mono text-white/50 uppercase tracking-widest">7 NIGHTS / 8 DAYS EXPEDITION</span>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-xs font-mono text-left border-collapse">
-                  <thead>
-                    <tr className="border-b border-white/10 text-white/50 uppercase">
-                      <th className="py-2.5 pr-4">Package Tier</th>
-                      <th className="py-2.5 px-4">Duration</th>
-                      <th className="py-2.5 px-4 text-yellow-400/90">Early Bird (Before 20 Nov)</th>
-                      <th className="py-2.5 px-4 text-white/70">Regular (After 20 Nov)</th>
-                      <th className="py-2.5 pl-4">Key Inclusions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/5 text-white/80">
-                    <tr>
-                      <td className="py-3 pr-4 font-medium text-white">Kashmir Winter Escape (Full Transport)</td>
-                      <td className="py-3 px-4">7N / 8D</td>
-                      <td className="py-3 px-4 text-yellow-400/90 font-semibold">₹13,000 / Person</td>
-                      <td className="py-3 px-4 text-white/70">₹14,500 / Person</td>
-                      <td className="py-3 pl-4 text-white/50 font-sans">Vaishno Devi + Gulmarg Ski 2D Certificate Course + Srinagar</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 pr-4 font-medium text-white">Actors / Lead Cast Role</td>
-                      <td className="py-3 px-4">7N / 8D</td>
-                      <td className="py-3 px-4 text-yellow-400/90 font-semibold">₹16,000 (100% Refund Deposit)</td>
-                      <td className="py-3 px-4 text-white/70">₹3,000 Security After Selection</td>
-                      <td className="py-3 pl-4 text-white/50 font-sans">Lead Screen Role + IMDb Credit + All Inclusions (Last Date: 20 Nov)</td>
-                    </tr>
-                    <tr>
-                      <td className="py-3 pr-4 font-medium text-white">Optional Gulmarg Gondola (Phase 1/2)</td>
-                      <td className="py-3 px-4">—</td>
-                      <td className="py-3 px-4 text-white/50">Separate Ticket</td>
-                      <td className="py-3 px-4 text-white/50">Separate Ticket</td>
-                      <td className="py-3 pl-4 text-white/50 font-sans">Apharwat / Kongdoori Cable Car Access</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+                {/* Early bird deadline notice */}
+                <div className="p-5 bg-[#0A0D14] border border-yellow-400/25 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="flex items-start gap-3">
+                    <Info className="w-5 h-5 text-yellow-400/90 shrink-0 mt-0.5" />
+                    <p className="text-xs text-white/70 leading-relaxed font-sans">
+                      <strong className="text-white">Early Bird Guarantee:</strong> Lock your seat today with a <span className="text-yellow-400/90 font-mono font-medium">₹2,000 security booking amount</span>. Final rate is ₹13,000/person for early-bird slots; increases to ₹14,500 after 20 November 2026 due to Christmas peak rush.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => onOpenBooking('participant')}
+                    className="shrink-0 px-5 py-2.5 bg-yellow-400/90 text-[#070A0F] font-mono font-medium text-xs uppercase tracking-wider hover:bg-yellow-300/90 transition-colors cursor-pointer"
+                  >
+                    LOCK WITH ₹2,000 SECURITY
+                  </button>
+                </div>
 
-            {/* Early bird deadline notice */}
-            <div className="p-5 bg-[#0A0D14] border border-yellow-400/25 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="flex items-start gap-3">
-                <Info className="w-5 h-5 text-yellow-400/90 shrink-0 mt-0.5" />
-                <p className="text-xs text-white/70 leading-relaxed font-sans">
-                  <strong className="text-white">Early Bird Guarantee:</strong> Lock your seat today with a <span className="text-yellow-400/90 font-mono font-medium">₹2,000 security booking amount</span>. Final rate is ₹13,000/person for early-bird slots; increases to ₹14,500 after 20 November 2026 due to Christmas peak rush.
-                </p>
+                {/* Official Booking Process Box */}
+                <div className="p-5 sm:p-6 bg-gradient-to-br from-[#06182B] via-[#04101F] to-[#030914] border-2 border-blue-400 text-left space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-blue-400/30 pb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-blue-400 animate-pulse" />
+                      <h4 className="font-mono text-sm sm:text-base font-bold text-white uppercase tracking-wider">
+                        PARTICIPANT BOOKING PROCESS (2000 BOOKING AMOUNT)
+                      </h4>
+                    </div>
+                    <span className="px-2.5 py-0.5 bg-yellow-400 text-black font-mono text-[10px] font-black uppercase tracking-wider self-start sm:self-auto">
+                      LOCK YOUR SEAT
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-white/80 font-sans leading-relaxed">
+                    Reserve your expedition seat and lock the <strong className="text-yellow-400">₹13,000 Early Bird rate</strong> by transferring the <strong className="text-emerald-400">₹2,000 security booking amount</strong> via UPI or direct Bank Transfer. The remaining balance (₹11,000) is cleared 20 days prior to departure.
+                  </p>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs font-mono">
+                    <div className="p-3.5 bg-black/60 border border-blue-400/40 space-y-2">
+                      <span className="text-[11px] text-blue-300 font-bold uppercase block">01. UPI ID TRANSFER</span>
+                      <div className="p-2 bg-slate-900 border border-slate-700 flex items-center justify-between gap-2">
+                        <span className="text-xs sm:text-sm text-yellow-300 font-bold tracking-wider font-mono">9829497392@slc</span>
+                      </div>
+                      <div className="text-[11px] text-white/70 space-y-0.5 font-sans pt-1">
+                        <p><span className="text-white/40 font-mono">Bank:</span> Slice Small Finance Bank</p>
+                        <p><span className="text-white/40 font-mono">Beneficiary:</span> Sachin Pareek</p>
+                        <p><span className="text-white/40 font-mono">Amount:</span> ₹2,000 booking amount</p>
+                      </div>
+                    </div>
+
+                    <div className="p-3.5 bg-black/60 border border-blue-400/40 space-y-2">
+                      <span className="text-[11px] text-blue-300 font-bold uppercase block">02. BANK ACCOUNT TRANSFER</span>
+                      <div className="space-y-1 text-[11px]">
+                        <p><span className="text-white/50">Bank:</span> <strong className="text-white">Slice Small Finance Bank</strong></p>
+                        <p><span className="text-white/50">Name:</span> <strong className="text-white">Sachin Pareek</strong></p>
+                        <p><span className="text-white/50">Account no:</span> <strong className="text-yellow-300 text-xs font-mono">033325226237317</strong></p>
+                        <p><span className="text-white/50">IFSC:</span> <strong className="text-yellow-300 text-xs font-mono">NESF0000333</strong></p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 bg-gradient-to-r from-[#062412] to-[#04170B] border border-[#25D366]/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                    <div className="space-y-0.5 font-mono">
+                      <div className="text-[#25D366] font-bold text-[11px] uppercase">
+                        Contact/WhatsApp for more details:
+                      </div>
+                      <div className="text-white font-bold text-sm">
+                        +91 98284 97392
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <a
+                        href={`https://wa.me/919828497392?text=${encodeURIComponent('Hello Sachin Pareek, I want to book my participant seat for the Kashmir Winter Expedition (2000 booking amount). Please assist me with the process.')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-4 py-2.5 bg-[#25D366] hover:bg-[#20ba59] text-black font-mono font-bold text-xs uppercase tracking-wider inline-flex items-center gap-1.5 transition-colors"
+                      >
+                        <MessageCircle className="w-3.5 h-3.5 fill-black" />
+                        <span>WHATSAPP: 9828497392</span>
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => onOpenBooking('participant')}
+                        className="px-4 py-2.5 bg-blue-500 hover:bg-blue-400 text-black font-mono font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
+                      >
+                        REGISTER AS PARTICIPANT ↗
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <button
-                type="button"
-                onClick={() => onOpenBooking('participant')}
-                className="shrink-0 px-5 py-2.5 bg-yellow-400/90 text-[#070A0F] font-mono font-medium text-xs uppercase tracking-wider hover:bg-yellow-300/90 transition-colors cursor-pointer"
-              >
-                LOCK WITH ₹2,000 SECURITY
-              </button>
-            </div>
+            )}
           </div>
         )}
 
         {/* TAB 3: INCLUSIONS & EXCLUSIONS */}
         {activeTab === 'inclusions' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* Inclusions (7 Cols) */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="flex items-center gap-2 pb-2 border-b border-white/10">
-                <CheckCircle2 className="w-4 h-4 text-yellow-400/90" />
-                <h3 className="font-serif text-lg text-white tracking-wide">
-                  Included in Your Expedition
-                </h3>
-              </div>
+          <div>
+            {packageType === 'family' ? (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                {/* Inclusions (7 Cols) */}
+                <div className="lg:col-span-7 space-y-6">
+                  <div className="flex items-center gap-2 pb-2 border-b border-white/10">
+                    <CheckCircle2 className="w-4 h-4 text-amber-400" />
+                    <h3 className="font-serif text-lg text-white tracking-wide">
+                      Included in Your Family &amp; Group Package
+                    </h3>
+                  </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {inclusions.map((cat, idx) => (
-                  <div key={idx} className="p-4 bg-[#080B12] border border-white/10 space-y-2.5">
-                    <span className="text-[11px] font-mono font-medium text-yellow-400/90 uppercase tracking-wider block">
-                      {cat.category}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {FAMILY_INCLUSIONS.map((cat, idx) => (
+                      <div key={idx} className="p-4 bg-[#080B12] border border-white/10 space-y-2.5">
+                        <span className="text-[11px] font-mono font-medium text-amber-400 uppercase tracking-wider block">
+                          {cat.category}
+                        </span>
+                        <ul className="space-y-1.5 text-xs text-white/70">
+                          {cat.items.map((item, iIdx) => (
+                            <li key={iIdx} className="flex items-start gap-1.5">
+                              <span className="text-amber-400 font-bold shrink-0">•</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Exclusions (5 Cols) */}
+                <div className="lg:col-span-5 space-y-6">
+                  <div className="flex items-center gap-2 pb-2 border-b border-white/10">
+                    <XCircle className="w-4 h-4 text-white/50" />
+                    <h3 className="font-serif text-lg text-white tracking-wide">
+                      Not Included / Optional Add-ons
+                    </h3>
+                  </div>
+
+                  <div className="p-5 bg-[#080B12] border border-white/10 space-y-3">
+                    <p className="text-xs text-white/50">
+                      The following personal expenses and optional add-ons are not covered under the base package:
+                    </p>
+                    <ul className="space-y-2 text-xs text-white/70">
+                      <li className="flex items-start gap-2">
+                        <XCircle className="w-3.5 h-3.5 text-white/40 shrink-0 mt-0.5" />
+                        <span>Optional 2-Day Skiing Certificate Course (available on request)</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <XCircle className="w-3.5 h-3.5 text-white/40 shrink-0 mt-0.5" />
+                        <span>Personal shopping (pashminas, saffron, dry fruits, wood carving)</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <XCircle className="w-3.5 h-3.5 text-white/40 shrink-0 mt-0.5" />
+                        <span>Lunches on highway transit and pony rides in Pahalgam</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <XCircle className="w-3.5 h-3.5 text-white/40 shrink-0 mt-0.5" />
+                        <span>Personal winter warm gear rental (heavy snow jackets/boots if not brought)</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="p-4 bg-[#080B12] border-l-2 border-amber-400 text-xs text-white/70 space-y-1.5">
+                    <span className="font-mono text-[10px] text-amber-400 uppercase tracking-wider block">
+                      FAMILY SAFETY &amp; COMFORT GUARANTEE
                     </span>
-                    <ul className="space-y-1.5 text-xs text-white/70">
-                      {cat.items.map((item, iIdx) => (
-                        <li key={iIdx} className="flex items-start gap-1.5">
-                          <span className="text-yellow-400/90 font-bold shrink-0">•</span>
+                    <p className="leading-relaxed">
+                      All hotel and houseboat rooms are equipped with heating facilities, heated blankets or bukharis. Dedicated Parindaa journey coordinators travel with the convoy to ensure round-the-clock comfort and child/elder-friendly support.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                {/* Inclusions (7 Cols) */}
+                <div className="lg:col-span-7 space-y-6">
+                  <div className="flex items-center gap-2 pb-2 border-b border-white/10">
+                    <CheckCircle2 className="w-4 h-4 text-yellow-400/90" />
+                    <h3 className="font-serif text-lg text-white tracking-wide">
+                      Included in Your Expedition
+                    </h3>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {inclusions.map((cat, idx) => (
+                      <div key={idx} className="p-4 bg-[#080B12] border border-white/10 space-y-2.5">
+                        <span className="text-[11px] font-mono font-medium text-yellow-400/90 uppercase tracking-wider block">
+                          {cat.category}
+                        </span>
+                        <ul className="space-y-1.5 text-xs text-white/70">
+                          {cat.items.map((item, iIdx) => (
+                            <li key={iIdx} className="flex items-start gap-1.5">
+                              <span className="text-yellow-400/90 font-bold shrink-0">•</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Exclusions (5 Cols) */}
+                <div className="lg:col-span-5 space-y-6">
+                  <div className="flex items-center gap-2 pb-2 border-b border-white/10">
+                    <XCircle className="w-4 h-4 text-white/50" />
+                    <h3 className="font-serif text-lg text-white tracking-wide">
+                      Not Included / Personal Expenses
+                    </h3>
+                  </div>
+
+                  <div className="p-5 bg-[#080B12] border border-white/10 space-y-3">
+                    <p className="text-xs text-white/50">
+                      The following optional excursions or personal requirements are not covered under the base package:
+                    </p>
+                    <ul className="space-y-2 text-xs text-white/70">
+                      {exclusions.map((item, idx) => (
+                        <li key={idx} className="flex items-start gap-2">
+                          <XCircle className="w-3.5 h-3.5 text-white/40 shrink-0 mt-0.5" />
                           <span>{item}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
-                ))}
-              </div>
-            </div>
 
-            {/* Exclusions (5 Cols) */}
-            <div className="lg:col-span-5 space-y-6">
-              <div className="flex items-center gap-2 pb-2 border-b border-white/10">
-                <XCircle className="w-4 h-4 text-white/50" />
-                <h3 className="font-serif text-lg text-white tracking-wide">
-                  Not Included / Personal Expenses
-                </h3>
+                  <div className="p-4 bg-[#080B12] border-l-2 border-yellow-400/90 text-xs text-white/70 space-y-1.5">
+                    <span className="font-mono text-[10px] text-yellow-400/90 uppercase tracking-wider block">
+                      WEATHER &amp; MOUNTAIN SAFETY PROTOCOL
+                    </span>
+                    <p className="leading-relaxed">
+                      December in Kashmir brings true Himalayan winter conditions. Snowfall, road accessibility, Gondola operations and skiing terrain depend on real-time mountain safety. Parindaa trip coordinators reserve the authority to adjust routes for group welfare.
+                    </p>
+                  </div>
+                </div>
               </div>
-
-              <div className="p-5 bg-[#080B12] border border-white/10 space-y-3">
-                <p className="text-xs text-white/50">
-                  The following optional excursions or personal requirements are not covered under the base package:
-                </p>
-                <ul className="space-y-2 text-xs text-white/70">
-                  {exclusions.map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <XCircle className="w-3.5 h-3.5 text-white/40 shrink-0 mt-0.5" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="p-4 bg-[#080B12] border-l-2 border-yellow-400/90 text-xs text-white/70 space-y-1.5">
-                <span className="font-mono text-[10px] text-yellow-400/90 uppercase tracking-wider block">
-                  WEATHER & MOUNTAIN SAFETY PROTOCOL
-                </span>
-                <p className="leading-relaxed">
-                  December in Kashmir brings true Himalayan winter conditions. Snowfall, road accessibility, Gondola operations and skiing terrain depend on real-time mountain safety. Parindaa trip coordinators reserve the authority to adjust routes for group welfare.
-                </p>
-              </div>
-            </div>
+            )}
           </div>
         )}
 
@@ -888,12 +1342,12 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                 <span className="text-[10px] font-mono tracking-widest text-white/50 uppercase">
                   HIGH-ALTITUDE CABLE CAR
                 </span>
-                <span className="px-2 py-0.5 bg-white/5 text-white/70 text-[9px] font-mono uppercase">
-                  DIRECT OFFICIAL TICKET
+                <span className={`px-2 py-0.5 text-[9px] font-mono uppercase ${packageType === 'family' ? 'bg-amber-400 text-black font-bold' : 'bg-white/5 text-white/70'}`}>
+                  {packageType === 'family' ? 'PHASE 1 INCLUDED' : 'DIRECT OFFICIAL TICKET'}
                 </span>
               </div>
               <h3 className="font-serif text-2xl text-white tracking-tight">
-                Gulmarg Gondola (Phase I & II)
+                Gulmarg Gondola (Phase I &amp; II)
               </h3>
               <p className="text-xs text-white/70 font-light leading-relaxed">
                 Experience Asia’s highest operating cable car. Phase 1 ascends towards Kongdoori station (~10,000 ft), and Phase 2 reaches Apharwat Peak (~13,000 ft) right beneath the snowbound ridges.
@@ -901,58 +1355,66 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               <div className="space-y-2 text-xs text-white/80 pt-2 border-t border-white/10 font-mono">
                 <div className="flex items-center justify-between">
                   <span className="text-white/50">PHASE 1 (KONGDOORI):</span>
-                  <span className="text-white">Separate Official Ticket</span>
+                  <span className={packageType === 'family' ? 'text-amber-400 font-bold' : 'text-white'}>
+                    {packageType === 'family' ? 'Included in Family Package' : 'Separate Official Ticket'}
+                  </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-white/50">PHASE 2 (APHARWAT ~13,000 FT):</span>
-                  <span className="text-white">Subject to weather & operation</span>
+                  <span className="text-white">Subject to weather &amp; operation</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-white/50">SKI COURSE REQUIREMENT:</span>
-                  <span className="text-yellow-400/90">Not required for included ski course</span>
+                  <span className="text-white/50">{packageType === 'family' ? 'FAMILY PERK:' : 'SKI COURSE REQUIREMENT:'}</span>
+                  <span className="text-yellow-400/90">
+                    {packageType === 'family' ? 'Pre-booked access avoiding ticket queues' : 'Not required for included ski course'}
+                  </span>
                 </div>
               </div>
               <p className="text-[11px] text-white/50 italic font-sans">
-                *The Gondola is completely optional and is not required for the included Gulmarg Ski 2-day certificate course conducted under experts training program on snow meadows.
+                {packageType === 'family'
+                  ? '*Phase 1 Kongdoori Gondola ride is fully covered in the Family & Group package rate. Phase 2 Apharwat Peak is optional on site depending on snow and wind conditions.'
+                  : '*The Gondola is completely optional and is not required for the included Gulmarg Ski 2-day certificate course conducted under experts training program on snow meadows.'}
               </p>
             </div>
 
-            {/* The Life of Nandi Cinema Experience */}
+            {/* The Life of Nandi / Travel Filmmaking Project Experience */}
             <div className="p-6 bg-[#080B12] border border-yellow-400/30 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-mono tracking-widest text-yellow-400/90 uppercase">
-                  INDEPENDENT CINEMA PROJECT
+                  {packageType === 'family' ? 'INDIA’S 1ST TRAVEL FILMMAKING PROJECT' : 'INDEPENDENT CINEMA PROJECT'}
                 </span>
                 <span className="px-2 py-0.5 bg-yellow-400/10 text-yellow-400/90 text-[9px] font-mono uppercase">
-                  CHEHRA FILMS
+                  CHEHRA FILMS × PARINDAA
                 </span>
               </div>
               <h3 className="font-serif text-2xl text-white tracking-tight">
-                The Life of Nandi
+                {packageType === 'family' ? 'Travel Filmmaking & Family Photo Archive' : 'The Life of Nandi'}
               </h3>
               <p className="text-xs text-white/70 font-light leading-relaxed">
-                Travel through Kashmir while becoming part of an experimental travel cinema experience. A cinematic exploration of travel, nature, faith, questions, people, and silence across the Himalayan snowfields.
+                {packageType === 'family'
+                  ? 'Be part of India’s 1st Travel Filmmaking Project! Your family journey across Kashmir will be documented by professional cinematographers, providing an episodic 4K video reel and high-resolution photo archive for lifetime memories.'
+                  : 'Travel through Kashmir while becoming part of an experimental travel cinema experience. A cinematic exploration of travel, nature, faith, questions, people, and silence across the Himalayan snowfields.'}
               </p>
               <div className="space-y-2 text-xs text-white/80 pt-2 border-t border-white/10 font-mono">
                 <div className="flex items-center justify-between">
-                  <span className="text-white/50">CINEMA CHAPTERS:</span>
-                  <span className="text-white text-[11px]">Arrival • Balance • Reflection • Silence</span>
+                  <span className="text-white/50">DOCUMENTARY ACCESS:</span>
+                  <span className="text-white text-[11px]">Delhi • Vaishno Devi • Gulmarg • Dal Lake</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-white/50">CAMERA GEAR:</span>
-                  <span className="text-white">Arri 4K & Anamorphic Lenses</span>
+                  <span className="text-white/50">DELIVERABLES:</span>
+                  <span className="text-amber-400">High-Res Family Photo Archive + Video Reel</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-white/50">PARTICIPANT ROLE:</span>
-                  <span className="text-yellow-400/90">Naturalistic / Unscripted</span>
+                  <span className="text-white/50">DOCUMENTATION:</span>
+                  <span className="text-yellow-400/90">Official Contributor Acknowledgement</span>
                 </div>
               </div>
               <CinemaButton
-                variant="outline"
-                onClick={() => onOpenBooking('actor')}
+                variant={packageType === 'family' ? 'primary' : 'outline'}
+                onClick={() => onOpenBooking('participant')}
                 className="w-full !py-2.5 text-xs tracking-wider"
               >
-                EXPLORE ACTOR / SCREEN ROLES
+                {packageType === 'family' ? 'RESERVE FAMILY ESCAPE' : 'EXPLORE ACTOR NOMINATION'}
               </CinemaButton>
             </div>
           </div>

@@ -33,7 +33,11 @@ import {
   FileText,
   Lock,
   Trash2,
-  ExternalLink
+  ExternalLink,
+  CreditCard,
+  Smartphone,
+  Building2,
+  QrCode
 } from 'lucide-react';
 import { CHARACTERS, FILM_METADATA } from '../data/cinemaData';
 import { INITIAL_ACTOR_SUBMISSIONS, INITIAL_PARTICIPANT_SUBMISSIONS, INITIAL_CREW_SUBMISSIONS } from '../data/initialSubmissions';
@@ -71,6 +75,11 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
     },
   ],
   participant: [
+    {
+      question: 'What is the booking process and payment details for participants?',
+      answer:
+        'To book your seat, complete the ₹2,000 booking amount via UPI (UPI ID: 9829497392@slc) or Bank Transfer to Slice Small Finance Bank (Account: 033325226237317, IFSC: NESF0000333, Beneficiary: Sachin Pareek). The remaining balance of ₹11,000 is payable 20 days prior to the trip. For more details or direct assistance, contact/WhatsApp 9828497392.',
+    },
     {
       question: 'How does the booking price structure work?',
       answer:
@@ -205,6 +214,18 @@ export const NominationModal: React.FC<NominationModalProps> = ({
   const [roomPreference] = useState('Twin Sharing (Included in ₹13,000 Early Bird)');
   const [emergencyContact, setEmergencyContact] = useState('');
   const [participantBookingConsent, setParticipantBookingConsent] = useState(false);
+  const [participantUtr, setParticipantUtr] = useState('');
+  const [copiedBankField, setCopiedBankField] = useState<string | null>(null);
+
+  const handleCopyPaymentDetail = (text: string, label: string) => {
+    try {
+      navigator.clipboard.writeText(text);
+      setCopiedBankField(label);
+      setTimeout(() => setCopiedBankField(null), 2500);
+    } catch (err) {
+      console.error('Clipboard copy error:', err);
+    }
+  };
 
   // Pathway 3: Crew Member Fields
   const [crewDepartment, setCrewDepartment] = useState('Cinematography & Camera Operation');
@@ -564,8 +585,8 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         prebookingTokenPrice: 2000,
         lockedTripPrice: 13000,
         oct30PriceIncreaseNotice: true,
-        paymentMode: 'UPI / Card (₹2,000 Security Booking Amount)',
-        transactionRef: `UPI-PREBOOK-${randomSuffix}`,
+        paymentMode: participantUtr.trim() ? `UPI / Bank Transfer (UTR: ${participantUtr.trim()})` : 'UPI (9829497392@slc) / Slice Small Finance Bank (₹2,000 Booking Amount)',
+        transactionRef: participantUtr.trim() || `BOOKING-${randomSuffix}`,
         confirmed: true,
       };
       newSubmission = participantItem;
@@ -675,6 +696,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
     setAuditionTapeFileName('');
     setAuditionTapeUrl('');
     setEmergencyContact('');
+    setParticipantUtr('');
     setProofOfSkillLink('');
     setPortfolioSummary('');
     setCustomCrewSkillset('');
@@ -1026,50 +1048,161 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                 </div>
               )}
 
-              {/* WhatsApp Payment & Seat Confirmation for Participant Submissions */}
+              {/* Booking Process & Seat Confirmation for Participant Submissions */}
               {submittedItem.type === 'participant' && (
-                <div className="p-4 sm:p-5 bg-gradient-to-br from-[#062412] to-[#04170B] border-2 border-[#25D366] text-left space-y-3.5 shadow-xl shadow-[#25D366]/10">
-                  <div className="flex items-center justify-between">
+                <div className="p-4 sm:p-6 bg-gradient-to-br from-[#06182B] via-[#04101F] to-[#030914] border-2 border-blue-400 text-left space-y-4 shadow-2xl shadow-blue-500/15">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-blue-400/30 pb-3">
                     <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#25D366] animate-ping" />
-                      <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-[#25D366]">
-                        OFFICIAL WHATSAPP SEAT CONFIRMATION DESK
+                      <span className="w-2.5 h-2.5 rounded-full bg-blue-400 animate-ping" />
+                      <span className="text-xs sm:text-sm font-mono font-bold tracking-wider uppercase text-blue-300">
+                        BOOKING PROCESS • ₹2,000 BOOKING AMOUNT
                       </span>
                     </div>
-                    <span className="px-2 py-0.5 bg-[#25D366]/20 border border-[#25D366]/40 text-[#25D366] font-mono text-[10px] font-bold">
-                      FAST TRACK
+                    <span className="px-2.5 py-0.5 bg-yellow-400 text-black font-mono text-[10px] font-black uppercase tracking-wider self-start sm:self-auto rounded-xs shadow">
+                      LOCK YOUR SEAT
                     </span>
                   </div>
 
-                  <div className="text-xs text-slate-200 font-sans leading-relaxed space-y-1">
+                  <div className="text-xs text-slate-200 font-sans leading-relaxed space-y-2">
                     <p className="font-medium text-white">
-                      Your expedition nomination has been recorded. Final amount is <strong className="text-yellow-400">₹13,000</strong>. To lock your seat, submit the <strong className="text-[#25D366]">₹2,000</strong> security booking amount on WhatsApp. The pending balance must be cleared at least 20 days prior to departure.
+                      Your participant registration has been recorded with Reference ID: <strong className="text-yellow-400 font-mono">{submittedItem.id}</strong>.
                     </p>
-                    <p className="text-[11px] text-slate-300 font-mono">
-                      Official Desk Number: <span className="text-[#25D366] font-semibold">+91 93266 32288</span>
+                    <p className="text-slate-300 text-xs">
+                      The total expedition amount is <strong className="text-yellow-400 font-bold">₹13,000</strong>. To lock your seat and confirm early-bird rate, please complete the <strong className="text-emerald-400 font-bold">₹2,000 booking amount</strong> using the payment options below. The remaining balance (₹11,000) must be cleared at least 20 days prior to departure.
                     </p>
                   </div>
 
-                  <a
-                    id="whatsapp-confirm-seat-btn"
-                    href={`https://wa.me/919326632288?text=${encodeURIComponent(
-                      `Hello Chehra Films, I have submitted my participation form for the Kashmir Winter Expedition.\n\n` +
-                      `• Reference ID: ${submittedItem.id}\n` +
-                      `• Name: ${submittedItem.fullName}\n` +
-                      `• Phone: ${submittedItem.phoneNumber}\n` +
-                      `• City: ${submittedItem.city}\n` +
-                      `• Batch: ${'travelBatch' in submittedItem ? submittedItem.travelBatch : 'Christmas Winter Batch (24 – 31 Dec 2026)'}\n` +
-                      `• Final Amount: ₹13,000\n` +
-                      `• Security Booking Amount: ₹2,000 (Pending balance due 20 days before trip)\n\n` +
-                      `I want to confirm my seat now!`
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-3.5 px-4 bg-[#25D366] hover:bg-[#20bd5a] text-[#070A0F] font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2.5 transition-all shadow-lg shadow-[#25D366]/30 cursor-pointer"
-                  >
-                    <MessageSquare className="w-5 h-5 fill-current" />
-                    <span>PAY ₹2,000 BOOKING ON WHATSAPP & CONFIRM</span>
-                  </a>
+                  {/* Payment Details Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 font-mono text-xs">
+                    {/* UPI Option */}
+                    <div className="p-3.5 bg-black/60 border border-blue-400/40 rounded-sm space-y-2">
+                      <div className="flex items-center justify-between text-[11px] text-blue-300 font-bold uppercase">
+                        <span className="flex items-center gap-1.5">
+                          <Smartphone className="w-3.5 h-3.5 text-yellow-400" />
+                          UPI PAYMENT
+                        </span>
+                        <span className="text-[10px] text-emerald-400">INSTANT</span>
+                      </div>
+
+                      <div className="space-y-1">
+                        <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Upi id:</span>
+                        <div className="p-2 bg-slate-900 border border-slate-700 flex items-center justify-between gap-2">
+                          <span className="text-xs sm:text-sm text-yellow-300 font-bold select-all tracking-wider">
+                            9829497392@slc
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleCopyPaymentDetail('9829497392@slc', 'conf_upi')}
+                            className="px-2.5 py-1 bg-yellow-400 hover:bg-yellow-300 text-black text-[10px] font-black uppercase tracking-wider transition-colors shrink-0 cursor-pointer"
+                          >
+                            {copiedBankField === 'conf_upi' ? 'COPIED!' : 'COPY'}
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="pt-1 text-[11px] text-slate-300 space-y-0.5 font-sans">
+                        <p><span className="text-slate-400 font-mono">Bank:</span> Slice Small Finance Bank</p>
+                        <p><span className="text-slate-400 font-mono">Name:</span> Sachin Pareek</p>
+                        <p><span className="text-slate-400 font-mono">Amount:</span> ₹2,000 booking amount</p>
+                      </div>
+
+                      <a
+                        href="upi://pay?pa=9829497392@slc&pn=Sachin%20Pareek&am=2000&cu=INR&tn=Chehra%20Films%20Participant%20Booking"
+                        className="w-full py-2 bg-blue-600/30 hover:bg-blue-600/50 border border-blue-400/50 text-blue-200 text-[10px] uppercase font-bold tracking-wider inline-flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      >
+                        <Smartphone className="w-3 h-3 text-yellow-400" />
+                        <span>PAY ₹2,000 VIA UPI APP</span>
+                      </a>
+                    </div>
+
+                    {/* Bank Transfer Option */}
+                    <div className="p-3.5 bg-black/60 border border-blue-400/40 rounded-sm space-y-2">
+                      <div className="flex items-center justify-between text-[11px] text-blue-300 font-bold uppercase">
+                        <span className="flex items-center gap-1.5">
+                          <Building2 className="w-3.5 h-3.5 text-yellow-400" />
+                          BANK TRANSFER
+                        </span>
+                        <span className="text-[10px] text-slate-400">NEFT / IMPS</span>
+                      </div>
+
+                      <div className="space-y-1.5 text-[11px]">
+                        <div>
+                          <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Bank:</span>
+                          <span className="text-white font-bold">Slice Small Finance Bank</span>
+                        </div>
+
+                        <div>
+                          <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Beneficiary:</span>
+                          <span className="text-white font-bold">Sachin Pareek</span>
+                        </div>
+
+                        <div>
+                          <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Account no:</span>
+                          <div className="p-1.5 bg-slate-900 border border-slate-700 flex items-center justify-between gap-2 mt-0.5">
+                            <span className="text-xs text-yellow-300 font-bold tracking-wider select-all">
+                              033325226237317
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => handleCopyPaymentDetail('033325226237317', 'conf_account')}
+                              className="px-2 py-0.5 bg-yellow-400 hover:bg-yellow-300 text-black text-[9px] font-black uppercase tracking-wider transition-colors shrink-0 cursor-pointer"
+                            >
+                              {copiedBankField === 'conf_account' ? 'COPIED!' : 'COPY'}
+                            </button>
+                          </div>
+                        </div>
+
+                        <div>
+                          <span className="text-[10px] text-slate-400 uppercase tracking-wider block">IFSC:</span>
+                          <div className="p-1.5 bg-slate-900 border border-slate-700 flex items-center justify-between gap-2 mt-0.5">
+                            <span className="text-xs text-yellow-300 font-bold tracking-wider select-all">
+                              NESF0000333
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => handleCopyPaymentDetail('NESF0000333', 'conf_ifsc')}
+                              className="px-2 py-0.5 bg-yellow-400 hover:bg-yellow-300 text-black text-[9px] font-black uppercase tracking-wider transition-colors shrink-0 cursor-pointer"
+                            >
+                              {copiedBankField === 'conf_ifsc' ? 'COPIED!' : 'COPY'}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Contact / WhatsApp for more details */}
+                  <div className="p-3.5 bg-gradient-to-r from-[#062412] to-[#04170B] border border-[#25D366]/50 rounded-sm flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                    <div className="space-y-0.5 font-mono">
+                      <div className="text-[11px] text-[#25D366] font-bold uppercase flex items-center gap-1.5">
+                        <MessageSquare className="w-3.5 h-3.5 fill-current" />
+                        <span>Contact/WhatsApp for more details:</span>
+                      </div>
+                      <div className="text-white font-bold text-sm">
+                        +91 98284 97392
+                      </div>
+                    </div>
+
+                    <a
+                      id="whatsapp-confirm-seat-btn"
+                      href={`https://wa.me/919828497392?text=${encodeURIComponent(
+                        `Hello Sachin Pareek, I have submitted my Participant Registration Form for Chehra Films Kashmir Expedition.\n\n` +
+                        `• Reference ID: ${submittedItem.id}\n` +
+                        `• Name: ${submittedItem.fullName}\n` +
+                        `• Phone: ${submittedItem.phoneNumber}\n` +
+                        `• City: ${submittedItem.city}\n` +
+                        `• Batch: ${'travelBatch' in submittedItem ? submittedItem.travelBatch : 'Christmas Winter Batch (24 – 31 Dec 2026)'}\n` +
+                        `• Booking Amount: ₹2,000 (Slice Small Finance Bank / UPI 9829497392@slc)\n\n` +
+                        `I am contacting you to share my payment proof and confirm my seat reservation.`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-3 bg-[#25D366] hover:bg-[#20bd5a] text-[#070A0F] font-black text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-lg shadow-[#25D366]/30 cursor-pointer"
+                    >
+                      <MessageSquare className="w-4 h-4 fill-current" />
+                      <span>SHARE PAYMENT ON WHATSAPP: 9828497392</span>
+                    </a>
+                  </div>
                 </div>
               )}
 
@@ -2362,53 +2495,201 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         </div>
                       </div>
 
-                      {/* Mandatory Participant Consent & Booking Commitment Declaration */}
-                      <div className="p-4 sm:p-5 bg-[#141E34] border-2 border-blue-400/40 shadow-lg space-y-3.5 text-[11px] font-mono">
-                        <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                          <div className="flex items-center gap-2 text-blue-300 font-bold uppercase tracking-wider text-xs">
-                            <ShieldCheck className="w-4 h-4 text-blue-400 shrink-0" />
-                            <span>EXPEDITION BOOKING & PAYMENT TERMS CONSENT</span>
+                      {/* 03 // BOOKING PROCESS & PAYMENT DETAILS */}
+                      <div className="p-4 sm:p-6 bg-gradient-to-br from-[#091527] via-[#06101E] to-[#040A14] border-2 border-blue-400 rounded-sm shadow-xl space-y-4 font-mono">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-blue-400/30 pb-3">
+                          <div className="flex items-center gap-2">
+                            <CreditCard className="w-4 h-4 text-yellow-400 shrink-0" />
+                            <h4 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wider">
+                              03 // BOOKING PROCESS (2000 BOOKING AMOUNT)
+                            </h4>
                           </div>
-                          <span className="text-[9px] text-blue-300 uppercase px-2 py-0.5 bg-blue-500/10 border border-blue-400/30 font-bold">
-                            REQUIRED
+                          <span className="px-2.5 py-0.5 bg-yellow-400 text-black text-[10px] font-black uppercase tracking-wider self-start sm:self-auto rounded-xs shadow">
+                            EARLY BIRD RATE: ₹13,000
                           </span>
                         </div>
 
-                        {/* Pricing Breakdown Card */}
-                        <div className="p-3 bg-black/60 border border-blue-400/30 space-y-1.5 text-[11px]">
-                          <div className="flex items-center justify-between font-bold">
-                            <span className="text-slate-200">FINAL EXPEDITION AMOUNT:</span>
-                            <span className="text-yellow-400 text-xs">₹13,000 (Early Bird Locked Rate)</span>
+                        <div className="text-xs text-slate-200 font-sans leading-relaxed space-y-1">
+                          <p>
+                            To confirm your registration and lock your seat in the Kashmir Winter Expedition, please complete the <strong className="text-yellow-400 font-semibold font-mono">₹2,000 booking amount</strong>. The pending balance of ₹11,000 must be cleared at least 20 days prior to the start of the trip.
+                          </p>
+                        </div>
+
+                        {/* Payment Details Container */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                          {/* Option 1: UPI ID */}
+                          <div className="p-3.5 bg-black/60 border border-blue-400/40 rounded-sm space-y-2">
+                            <div className="flex items-center justify-between text-[11px] text-blue-300 font-bold uppercase">
+                              <span className="flex items-center gap-1.5">
+                                <Smartphone className="w-3.5 h-3.5 text-yellow-400" />
+                                UPI ID
+                              </span>
+                              <span className="text-[10px] text-emerald-400">FASTEST</span>
+                            </div>
+
+                            <div className="space-y-1">
+                              <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Upi id:</span>
+                              <div className="p-2 bg-slate-900 border border-slate-700 flex items-center justify-between gap-2">
+                                <span className="text-xs sm:text-sm text-yellow-300 font-bold select-all tracking-wider font-mono">
+                                  9829497392@slc
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleCopyPaymentDetail('9829497392@slc', 'form_upi')}
+                                  className="px-2.5 py-1 bg-yellow-400 hover:bg-yellow-300 text-black text-[10px] font-black uppercase tracking-wider transition-colors shrink-0 cursor-pointer"
+                                >
+                                  {copiedBankField === 'form_upi' ? 'COPIED!' : 'COPY'}
+                                </button>
+                              </div>
+                            </div>
+
+                            <div className="pt-1 text-[11px] text-slate-300 space-y-0.5 font-sans">
+                              <p><span className="text-slate-400 font-mono">Bank:</span> Slice Small Finance Bank</p>
+                              <p><span className="text-slate-400 font-mono">Name:</span> Sachin Pareek</p>
+                              <p><span className="text-slate-400 font-mono">Booking Amount:</span> ₹2,000</p>
+                            </div>
+
+                            <a
+                              href="upi://pay?pa=9829497392@slc&pn=Sachin%20Pareek&am=2000&cu=INR&tn=Chehra%20Films%20Participant%20Booking"
+                              className="w-full py-2 bg-blue-600/30 hover:bg-blue-600/50 border border-blue-400/50 text-blue-200 text-[10px] uppercase font-bold tracking-wider inline-flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                            >
+                              <Smartphone className="w-3 h-3 text-yellow-400" />
+                              <span>PAY ₹2,000 VIA UPI APP</span>
+                            </a>
                           </div>
-                          <div className="flex items-center justify-between text-slate-300">
-                            <span>Security Booking Amount:</span>
-                            <span className="text-emerald-400 font-bold">₹2,000 to lock seat</span>
-                          </div>
-                          <div className="flex items-center justify-between text-slate-400 text-[10px]">
-                            <span>Pending Balance (₹11,000):</span>
-                            <span className="text-slate-200">Cleared at least 20 days prior to trip</span>
+
+                          {/* Option 2: Bank Transfer Details */}
+                          <div className="p-3.5 bg-black/60 border border-blue-400/40 rounded-sm space-y-2">
+                            <div className="flex items-center justify-between text-[11px] text-blue-300 font-bold uppercase">
+                              <span className="flex items-center gap-1.5">
+                                <Building2 className="w-3.5 h-3.5 text-yellow-400" />
+                                BANK ACCOUNT TRANSFER
+                              </span>
+                              <span className="text-[10px] text-slate-400">IMPS / NEFT</span>
+                            </div>
+
+                            <div className="space-y-1.5 text-[11px]">
+                              <div>
+                                <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Bank:</span>
+                                <span className="text-white font-bold">Slice Small Finance Bank</span>
+                              </div>
+
+                              <div>
+                                <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Account Name:</span>
+                                <span className="text-white font-bold">Sachin Pareek</span>
+                              </div>
+
+                              <div>
+                                <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Account no:</span>
+                                <div className="p-1.5 bg-slate-900 border border-slate-700 flex items-center justify-between gap-2 mt-0.5">
+                                  <span className="text-xs text-yellow-300 font-bold tracking-wider select-all font-mono">
+                                    033325226237317
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleCopyPaymentDetail('033325226237317', 'form_account')}
+                                    className="px-2 py-0.5 bg-yellow-400 hover:bg-yellow-300 text-black text-[9px] font-black uppercase tracking-wider transition-colors shrink-0 cursor-pointer"
+                                  >
+                                    {copiedBankField === 'form_account' ? 'COPIED!' : 'COPY'}
+                                  </button>
+                                </div>
+                              </div>
+
+                              <div>
+                                <span className="text-[10px] text-slate-400 uppercase tracking-wider block">IFSC:</span>
+                                <div className="p-1.5 bg-slate-900 border border-slate-700 flex items-center justify-between gap-2 mt-0.5">
+                                  <span className="text-xs text-yellow-300 font-bold tracking-wider select-all font-mono">
+                                    NESF0000333
+                                  </span>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleCopyPaymentDetail('NESF0000333', 'form_ifsc')}
+                                    className="px-2 py-0.5 bg-yellow-400 hover:bg-yellow-300 text-black text-[9px] font-black uppercase tracking-wider transition-colors shrink-0 cursor-pointer"
+                                  >
+                                    {copiedBankField === 'form_ifsc' ? 'COPIED!' : 'COPY'}
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
 
-                        <label className="flex items-start gap-3 cursor-pointer group select-none">
+                        {/* Optional UTR / Reference ID Field */}
+                        <div className="p-3 bg-black/50 border border-slate-700 space-y-1.5">
+                          <label className="text-[10px] font-mono uppercase tracking-wider text-slate-200 block font-bold">
+                            Payment UTR / Transaction Reference ID (Optional if paid now)
+                          </label>
                           <input
-                            type="checkbox"
-                            checked={participantBookingConsent}
-                            onChange={(e) => setParticipantBookingConsent(e.target.checked)}
-                            className="accent-blue-400 mt-0.5 w-4 h-4 shrink-0 cursor-pointer"
+                            type="text"
+                            value={participantUtr}
+                            onChange={(e) => setParticipantUtr(e.target.value)}
+                            placeholder="e.g. 12-digit UPI UTR number or bank transfer reference"
+                            className="w-full px-3 py-2 bg-slate-50 border-2 border-slate-300 text-slate-950 font-semibold text-xs placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white"
                           />
-                          <div className="space-y-1">
-                            <span className="font-semibold text-white group-hover:text-blue-200 transition-colors block leading-relaxed text-xs">
-                              I agree to the ₹13,000 final amount and will submit ₹2,000 as security booking amount if my nomination accepted, and pending balance before 20 day starting of trip.
-                            </span>
-                            <p className="text-[10px] text-slate-300 font-sans leading-normal">
-                              * Final expedition amount is ₹13,000. The ₹2,000 security booking amount secures peak winter stays, convoy vehicle permits, and the Gulmarg Ski 2-Day Certificate Course. The pending balance must be cleared at least 20 days prior to the start of the trip.
+                          <p className="text-[9px] text-slate-400 font-sans">
+                            * If already transferred, enter reference above. You can also pay directly and share your screenshot on WhatsApp.
+                          </p>
+                        </div>
+
+                        {/* Contact / WhatsApp for more details Banner */}
+                        <div className="p-3.5 bg-gradient-to-r from-[#062412] to-[#04170B] border border-[#25D366]/50 rounded-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                          <div className="space-y-0.5">
+                            <div className="flex items-center gap-1.5 text-[#25D366] font-bold text-[11px] uppercase">
+                              <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
+                              <span>Contact/WhatsApp for more details</span>
+                            </div>
+                            <div className="text-white font-bold text-sm tracking-wide">
+                              +91 98284 97392
+                            </div>
+                            <p className="text-[10px] text-slate-300 font-sans">
+                              Sachin Pareek • Direct coordination for participant seat confirmation &amp; queries.
                             </p>
                           </div>
-                        </label>
-                        {errors.participantBookingConsent && (
-                          <p className="text-[10px] text-red-400 font-mono pl-7">{errors.participantBookingConsent}</p>
-                        )}
+
+                          <div className="flex items-center gap-2 shrink-0">
+                            <a
+                              href={`https://wa.me/919828497392?text=${encodeURIComponent(
+                                'Hello Sachin Pareek, I am inquiring about the Participant Booking Process (₹2,000 booking amount) for Chehra Films Kashmir Expedition. Please provide more details.'
+                              )}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="px-3.5 py-2 bg-[#25D366] hover:bg-[#20ba59] text-black font-black text-xs uppercase tracking-wider inline-flex items-center gap-1.5 transition-all shadow-md cursor-pointer"
+                            >
+                              <MessageSquare className="w-3.5 h-3.5 fill-black" />
+                              <span>WHATSAPP: 9828497392</span>
+                            </a>
+                            <a
+                              href="tel:+919828497392"
+                              className="px-3 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-mono text-xs uppercase transition-colors inline-flex items-center gap-1"
+                            >
+                              <Phone className="w-3 h-3 text-[#25D366]" />
+                              <span>CALL</span>
+                            </a>
+                          </div>
+                        </div>
+
+                        {/* Mandatory Participant Consent Checkbox */}
+                        <div className="pt-2 border-t border-slate-700/80">
+                          <label className="flex items-start gap-3 cursor-pointer group select-none">
+                            <input
+                              type="checkbox"
+                              checked={participantBookingConsent}
+                              onChange={(e) => setParticipantBookingConsent(e.target.checked)}
+                              className="accent-blue-400 mt-0.5 w-4 h-4 shrink-0 cursor-pointer"
+                            />
+                            <div className="space-y-1">
+                              <span className="font-semibold text-white group-hover:text-blue-200 transition-colors block leading-relaxed text-xs">
+                                I confirm the ₹13,000 final amount and agree to submit ₹2,000 as security booking amount (Slice Small Finance Bank / UPI: 9829497392@slc) to lock my seat, and pending balance before 20 days of trip starting.
+                              </span>
+                              <p className="text-[10px] text-slate-300 font-sans leading-normal">
+                                * Final expedition amount is ₹13,000. The ₹2,000 booking amount secures stays, convoy vehicle permits, and the Gulmarg Ski 2-Day Certificate Course. Pending balance cleared 20 days prior to departure.
+                              </p>
+                            </div>
+                          </label>
+                          {errors.participantBookingConsent && (
+                            <p className="text-[10px] text-red-400 font-mono pl-7 mt-1.5">{errors.participantBookingConsent}</p>
+                          )}
+                        </div>
                       </div>
                     </>
                   )}

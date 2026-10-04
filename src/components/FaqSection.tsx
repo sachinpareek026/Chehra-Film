@@ -78,6 +78,16 @@ const FAQS: FaqItem[] = [
 
   // PARTICIPANT FAQS
   {
+    id: 'participant-booking-process',
+    category: 'participant',
+    question: 'What is the booking process, UPI ID, and bank details for participants?',
+    answer:
+      'The booking process requires transferring the ₹2,000 booking amount to reserve your seat and secure the ₹13,000 early bird rate. Payment details: UPI ID: 9829497392@slc, Bank: Slice Small Finance Bank, Beneficiary: Sachin Pareek, Account No: 033325226237317, IFSC: NESF0000333. For any questions or instant confirmation, contact/WhatsApp us on 9828497392.',
+    highlight: 'UPI: 9829497392@slc • SLICE BANK • WHATSAPP: 9828497392',
+    legalClause: 'Section 5.2 (Participant Payment Routing): Direct booking token remittance via authorized UPI and bank coordinates in the name of Sachin Pareek.',
+    relatedDoc: 'Participant Payment & Booking Mandate'
+  },
+  {
     id: 'participant-pricing',
     category: 'participant',
     question: 'How does the ₹13,000 final amount & ₹2,000 security booking amount work?',
