@@ -39,41 +39,46 @@ export const Footer: React.FC<FooterProps> = ({
   return (
     <footer id="footer" className="relative bg-[#05070B] border-t border-white/10 pt-16 pb-12 text-white/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8 pb-12 border-b border-white/10">
           {/* Brand Column */}
-          <div className="lg:col-span-5 space-y-3">
+          <div className="lg:col-span-3 space-y-3">
             <div className="flex items-center gap-3.5">
-              <img
-                src="https://res.cloudinary.com/x1dci3fh/image/upload/v1789634481/Add_a_subheading_7.png"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = '/chehra-logo.png';
-                }}
-                alt="Chehra Films Logo"
-                referrerPolicy="no-referrer"
-                className="h-[76px] sm:h-[80px] w-auto border-0 object-contain opacity-95 shrink-0"
-              />
-              <div className="flex flex-col justify-between py-0.5">
-                <span className="font-title text-[24px] sm:text-[26px] tracking-[0.15em] font-bold text-[#F4F1EA] leading-tight">
-                  CHEHRA FILMS
-                </span>
-                <p className="text-[10px] sm:text-[11px] uppercase font-sans font-semibold tracking-[0.14em] text-yellow-400/90 leading-normal">
-                  An initiative of Parindaa Travels
-                </p>
+              <a
+                href="https://www.instagram.com/chehrafilms/"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Chehra Films Instagram (@chehrafilms)"
+                className="inline-block transition-transform hover:scale-105 shrink-0 cursor-pointer"
+              >
+                <img
+                  src="https://res.cloudinary.com/x1dci3fh/image/upload/v1789634481/Add_a_subheading_7.png"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = '/chehra-logo.png';
+                  }}
+                  alt="Chehra Films Logo"
+                  referrerPolicy="no-referrer"
+                  className="h-[72px] sm:h-[78px] w-auto border-0 object-contain opacity-95 shrink-0"
+                />
+              </a>
+
+              <div className="flex flex-col justify-center py-0.5">
                 <a
-                  href="https://www.instagram.com/parindaa.india/"
+                  href="https://www.instagram.com/chehrafilms/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-[11px] font-mono text-white/70 hover:text-yellow-400 transition-colors mt-0.5 group"
+                  className="font-title text-[22px] sm:text-[24px] tracking-[0.15em] font-bold text-[#F4F1EA] leading-tight hover:text-yellow-400 transition-colors"
                 >
-                  <Instagram className="w-3.5 h-3.5 text-yellow-400/90 shrink-0 group-hover:scale-110 transition-transform" />
-                  <span className="underline decoration-white/30 underline-offset-2 group-hover:decoration-yellow-400 font-medium">@parindaa.india</span>
+                  CHEHRA FILMS
                 </a>
+                <p className="text-[10px] sm:text-[11px] uppercase font-sans font-semibold tracking-[0.14em] text-yellow-400/90 leading-normal mt-0.5">
+                  An initiative of Parindaa Travels
+                </p>
               </div>
             </div>
-            <p className="font-sans text-[14px] font-normal tracking-wide text-[#B8B4AC]">
+            <p className="font-sans text-[13px] font-normal tracking-wide text-[#B8B4AC]">
               India&apos;s Independent Experimental Cinema Project
             </p>
-            <p className="text-[13px] text-[#B8B4AC]/80 leading-relaxed font-normal font-sans max-w-sm">
+            <p className="text-[12px] text-[#B8B4AC]/80 leading-relaxed font-normal font-sans">
               Reinventing travel as narrative cinema. Filmed entirely on location across raw Indian landscapes with real individuals.
             </p>
           </div>
@@ -115,12 +120,9 @@ export const Footer: React.FC<FooterProps> = ({
                 </a>
               </li>
               <li className="pt-2 border-t border-white/10">
-                <span className="text-[10px] font-mono text-yellow-400/90 font-bold block mb-1">
+                <span className="text-[10px] font-mono text-yellow-400/90 font-bold block mb-1.5">
                   OFFICIAL GOOGLE FORMS:
                 </span>
-                <p className="text-[10px] text-slate-400 normal-case mb-1.5 font-sans leading-relaxed">
-                  For a more smoother &amp; familiar experience, you can also fill here. Both ways are applicable:
-                </p>
                 <div className="space-y-1 pl-1 font-mono">
                   <a
                     href="https://forms.gle/RUA9uA2wMnXsZza26"
@@ -155,9 +157,9 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
 
           {/* Connect & Socials Column */}
-          <div className="lg:col-span-4 space-y-3">
+          <div className="lg:col-span-3 space-y-3">
             <div className="text-[13px] font-mono tracking-[0.25em] text-white uppercase mb-3">
-              COMMUNICATIONS & INQUIRIES
+              COMMUNICATIONS &amp; INQUIRIES
             </div>
             <ul className="space-y-2.5 text-xs font-mono text-white/60">
               <li>
@@ -169,17 +171,6 @@ export const Footer: React.FC<FooterProps> = ({
                 >
                   <Instagram className="w-3.5 h-3.5 text-yellow-400/90" />
                   <span>Instagram • @chehrafilms</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.instagram.com/parindaa.india/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-2 hover:text-yellow-400/90 transition-colors"
-                >
-                  <Instagram className="w-3.5 h-3.5 text-yellow-400/90" />
-                  <span>Parindaa • @parindaa.india</span>
                 </a>
               </li>
               <li>
@@ -233,6 +224,63 @@ export const Footer: React.FC<FooterProps> = ({
                 <ArrowUp className="w-3 h-3" />
                 <span>BACK TO TOP</span>
               </button>
+            </div>
+          </div>
+
+          {/* About Parindaa Column */}
+          <div className="lg:col-span-3 space-y-3">
+            <div className="text-[13px] font-mono tracking-[0.25em] text-white uppercase mb-3">
+              ABOUT PARINDAA
+            </div>
+
+            <div className="flex items-center gap-3.5">
+              <a
+                href="https://www.instagram.com/parindaa.india/"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Parindaa Travels Instagram (@parindaa.india)"
+                className="inline-block transition-transform hover:scale-105 shrink-0 cursor-pointer"
+              >
+                <img
+                  src="https://res.cloudinary.com/x1dci3fh/image/upload/v1791138286/photo_2026-10-04_23-54-18.jpg"
+                  alt="Parindaa Logo"
+                  referrerPolicy="no-referrer"
+                  className="h-[72px] sm:h-[78px] w-[72px] sm:w-[78px] rounded-full border-2 border-yellow-400/50 object-cover shadow-lg opacity-95 shrink-0"
+                />
+              </a>
+
+              <div className="flex flex-col justify-center space-y-1">
+                <a
+                  href="https://www.instagram.com/parindaa.india/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-serif text-base sm:text-lg font-bold text-white tracking-wide hover:text-yellow-400 transition-colors"
+                >
+                  Parindaa Travels
+                </a>
+                <span className="text-[11px] font-mono text-yellow-400/90 font-medium">
+                  Founded in 2024
+                </span>
+                <span className="text-[11px] font-mono text-white/70">
+                  Completed 20+ trips till now
+                </span>
+              </div>
+            </div>
+
+            <p className="text-[12px] text-[#B8B4AC]/80 leading-relaxed font-normal font-sans">
+              Experiential travel community curating expeditions across India. Partnering with Chehra Films to pioneer cinematic journeys.
+            </p>
+
+            <div className="pt-1">
+              <a
+                href="https://www.instagram.com/parindaa.india/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-3 py-2 bg-yellow-400/10 hover:bg-yellow-400 hover:text-black border border-yellow-400/40 text-yellow-400 text-xs font-mono font-semibold tracking-wider transition-all rounded-xs cursor-pointer group"
+              >
+                <Instagram className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
+                <span>FOLLOW @PARINDAA.INDIA ↗</span>
+              </a>
             </div>
           </div>
         </div>
