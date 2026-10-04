@@ -42,7 +42,7 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-white/10">
           {/* Brand Column */}
           <div className="lg:col-span-5 space-y-3">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3.5">
               <img
                 src="https://res.cloudinary.com/x1dci3fh/image/upload/v1789634481/Add_a_subheading_7.png"
                 onError={(e) => {
@@ -50,15 +50,24 @@ export const Footer: React.FC<FooterProps> = ({
                 }}
                 alt="Chehra Films Logo"
                 referrerPolicy="no-referrer"
-                className="h-12 w-[48px] border-0 object-contain opacity-90 shrink-0"
+                className="h-[76px] sm:h-[80px] w-auto border-0 object-contain opacity-95 shrink-0"
               />
-              <div className="flex flex-col">
-                <span className="font-title text-[24px] tracking-[0.15em] font-bold text-[#F4F1EA]">
+              <div className="flex flex-col justify-between py-0.5">
+                <span className="font-title text-[24px] sm:text-[26px] tracking-[0.15em] font-bold text-[#F4F1EA] leading-tight">
                   CHEHRA FILMS
                 </span>
-                <p className="text-[10px] uppercase font-sans font-semibold tracking-[0.14em] text-yellow-400/90">
+                <p className="text-[10px] sm:text-[11px] uppercase font-sans font-semibold tracking-[0.14em] text-yellow-400/90 leading-normal">
                   An initiative of Parindaa Travels
                 </p>
+                <a
+                  href="https://www.instagram.com/parindaa.india/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-[11px] font-mono text-white/70 hover:text-yellow-400 transition-colors mt-0.5 group"
+                >
+                  <Instagram className="w-3.5 h-3.5 text-yellow-400/90 shrink-0 group-hover:scale-110 transition-transform" />
+                  <span className="underline decoration-white/30 underline-offset-2 group-hover:decoration-yellow-400 font-medium">@parindaa.india</span>
+                </a>
               </div>
             </div>
             <p className="font-sans text-[14px] font-normal tracking-wide text-[#B8B4AC]">
@@ -160,6 +169,17 @@ export const Footer: React.FC<FooterProps> = ({
                 >
                   <Instagram className="w-3.5 h-3.5 text-yellow-400/90" />
                   <span>Instagram • @chehrafilms</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.instagram.com/parindaa.india/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 hover:text-yellow-400/90 transition-colors"
+                >
+                  <Instagram className="w-3.5 h-3.5 text-yellow-400/90" />
+                  <span>Parindaa • @parindaa.india</span>
                 </a>
               </li>
               <li>
