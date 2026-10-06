@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, Youtube, Mail, Phone, MessageCircle, ArrowUp } from 'lucide-react';
+import { Instagram, Youtube, Mail, Phone, MessageCircle, ArrowUp, Globe } from 'lucide-react';
 import { FILM_METADATA } from '../data/cinemaData';
 
 interface FooterProps {
@@ -117,6 +117,28 @@ export const Footer: React.FC<FooterProps> = ({
                 >
                   <span className="text-yellow-400/70">›</span>
                   <span>TERMS &amp; CONDITIONS</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://whatsapp.com/channel/0029Vb3Mqq81CYoKTm02mB2s/122"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-emerald-400 transition-colors inline-flex items-center gap-1.5 text-emerald-400/90 font-medium"
+                >
+                  <span className="text-emerald-400">›</span>
+                  <span>WHATSAPP DISCUSSION GROUP ↗</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://drive.google.com/file/d/1qF1B84X1J8MQLiRsQROm_DkqvB-Szgvr/view?usp=drivesdk"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-yellow-400 transition-colors inline-flex items-center gap-1.5 text-yellow-400/90 font-medium"
+                >
+                  <span className="text-yellow-400">›</span>
+                  <span>TRIP ITINERARY (PDF) ↗</span>
                 </a>
               </li>
               <li className="pt-2 border-t border-white/10">
@@ -258,6 +280,15 @@ export const Footer: React.FC<FooterProps> = ({
                 >
                   Parindaa Travels
                 </a>
+                <a
+                  href="https://parindaa.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-mono text-yellow-400 hover:text-yellow-300 hover:underline transition-colors font-medium tracking-wide"
+                >
+                  <Globe className="w-3.5 h-3.5 shrink-0" />
+                  <span>parindaa.in ↗</span>
+                </a>
                 <span className="text-[11px] font-mono text-yellow-400/90 font-medium">
                   Founded in 2024
                 </span>
@@ -271,7 +302,17 @@ export const Footer: React.FC<FooterProps> = ({
               Experiential travel community curating expeditions across India. Partnering with Chehra Films to pioneer cinematic journeys.
             </p>
 
-            <div className="pt-1">
+            <div className="pt-1 flex flex-wrap items-center gap-2">
+              <a
+                href="https://parindaa.in"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-yellow-400/60 text-white text-xs font-mono transition-all rounded-xs cursor-pointer"
+              >
+                <Globe className="w-3.5 h-3.5 text-yellow-400/90" />
+                <span>PARINDAA.IN ↗</span>
+              </a>
+
               <a
                 href="https://www.instagram.com/parindaa.india/"
                 target="_blank"
@@ -279,7 +320,7 @@ export const Footer: React.FC<FooterProps> = ({
                 className="inline-flex items-center gap-2 px-3 py-2 bg-yellow-400/10 hover:bg-yellow-400 hover:text-black border border-yellow-400/40 text-yellow-400 text-xs font-mono font-semibold tracking-wider transition-all rounded-xs cursor-pointer group"
               >
                 <Instagram className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
-                <span>FOLLOW @PARINDAA.INDIA ↗</span>
+                <span>@PARINDAA.INDIA ↗</span>
               </a>
             </div>
           </div>

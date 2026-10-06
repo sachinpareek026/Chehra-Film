@@ -78,7 +78,7 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
     {
       question: 'What is the booking process and payment details for participants?',
       answer:
-        'To book your seat, complete the ₹2,000 booking amount via UPI (UPI ID: 9829497392@slc) or Bank Transfer to Slice Small Finance Bank (Account: 033325226237317, IFSC: NESF0000333, Beneficiary: Sachin Pareek). The remaining balance of ₹11,000 is payable 20 days prior to the trip. For more details or direct assistance, contact/WhatsApp 9828497392.',
+        'To book your seat, complete the ₹2,000 booking amount via UPI (UPI ID: 9828497392@slc) or Bank Transfer to Slice Small Finance Bank (Account: 033325226237317, IFSC: NESF0000333, Beneficiary: Sachin Pareek). The remaining balance of ₹11,000 is payable 20 days prior to the trip. For more details or direct assistance, contact/WhatsApp 9828497392.',
     },
     {
       question: 'How does the booking price structure work?',
@@ -86,9 +86,9 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
         'The final amount is ₹13,000. You pay a ₹2,000 security booking amount upon nomination acceptance to reserve your expedition seat and lock your early-bird rate. The remaining pending balance must be cleared at least 20 days prior to the start of the trip.',
     },
     {
-      question: 'Why does the expedition rate increase after November 20?',
+      question: 'Why does the expedition rate increase after October 20?',
       answer:
-        'To secure early convoy vehicle leases, Gulmarg ski equipment, and hotels before peak Christmas tariffs, registrations after 20 November 2026 are ₹14,500. Booking early guarantees the ₹13,000 final amount.',
+        'To secure early convoy vehicle leases, Gulmarg ski equipment, and hotels before peak Christmas tariffs, registrations after 20 October 2026 rise 15–20% (to ₹14,500). Booking early guarantees the ₹13,000 final amount.',
     },
     {
       question: 'What is included in the ₹13,000 expedition fee?',
@@ -585,7 +585,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
         prebookingTokenPrice: 2000,
         lockedTripPrice: 13000,
         oct30PriceIncreaseNotice: true,
-        paymentMode: participantUtr.trim() ? `UPI / Bank Transfer (UTR: ${participantUtr.trim()})` : 'UPI (9829497392@slc) / Slice Small Finance Bank (₹2,000 Booking Amount)',
+        paymentMode: participantUtr.trim() ? `UPI / Bank Transfer (UTR: ${participantUtr.trim()})` : 'UPI (9828497392@slc) / Slice Small Finance Bank (₹2,000 Booking Amount)',
         transactionRef: participantUtr.trim() || `BOOKING-${randomSuffix}`,
         confirmed: true,
       };
@@ -1088,11 +1088,11 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Upi id:</span>
                         <div className="p-2 bg-slate-900 border border-slate-700 flex items-center justify-between gap-2">
                           <span className="text-xs sm:text-sm text-yellow-300 font-bold select-all tracking-wider">
-                            9829497392@slc
+                            9828497392@slc
                           </span>
                           <button
                             type="button"
-                            onClick={() => handleCopyPaymentDetail('9829497392@slc', 'conf_upi')}
+                            onClick={() => handleCopyPaymentDetail('9828497392@slc', 'conf_upi')}
                             className="px-2.5 py-1 bg-yellow-400 hover:bg-yellow-300 text-black text-[10px] font-black uppercase tracking-wider transition-colors shrink-0 cursor-pointer"
                           >
                             {copiedBankField === 'conf_upi' ? 'COPIED!' : 'COPY'}
@@ -1107,7 +1107,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                       </div>
 
                       <a
-                        href="upi://pay?pa=9829497392@slc&pn=Sachin%20Pareek&am=2000&cu=INR&tn=Chehra%20Films%20Participant%20Booking"
+                        href="upi://pay?pa=9828497392@slc&pn=Sachin%20Pareek&am=2000&cu=INR&tn=Chehra%20Films%20Participant%20Booking"
                         className="w-full py-2 bg-blue-600/30 hover:bg-blue-600/50 border border-blue-400/50 text-blue-200 text-[10px] uppercase font-bold tracking-wider inline-flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                       >
                         <Smartphone className="w-3 h-3 text-yellow-400" />
@@ -1192,7 +1192,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         `• Phone: ${submittedItem.phoneNumber}\n` +
                         `• City: ${submittedItem.city}\n` +
                         `• Batch: ${'travelBatch' in submittedItem ? submittedItem.travelBatch : 'Christmas Winter Batch (24 – 31 Dec 2026)'}\n` +
-                        `• Booking Amount: ₹2,000 (Slice Small Finance Bank / UPI 9829497392@slc)\n\n` +
+                        `• Booking Amount: ₹2,000 (Slice Small Finance Bank / UPI 9828497392@slc)\n\n` +
                         `I am contacting you to share my payment proof and confirm my seat reservation.`
                       )}`}
                       target="_blank"
@@ -2531,11 +2531,11 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                               <span className="text-[10px] text-slate-400 uppercase tracking-wider block">Upi id:</span>
                               <div className="p-2 bg-slate-900 border border-slate-700 flex items-center justify-between gap-2">
                                 <span className="text-xs sm:text-sm text-yellow-300 font-bold select-all tracking-wider font-mono">
-                                  9829497392@slc
+                                  9828497392@slc
                                 </span>
                                 <button
                                   type="button"
-                                  onClick={() => handleCopyPaymentDetail('9829497392@slc', 'form_upi')}
+                                  onClick={() => handleCopyPaymentDetail('9828497392@slc', 'form_upi')}
                                   className="px-2.5 py-1 bg-yellow-400 hover:bg-yellow-300 text-black text-[10px] font-black uppercase tracking-wider transition-colors shrink-0 cursor-pointer"
                                 >
                                   {copiedBankField === 'form_upi' ? 'COPIED!' : 'COPY'}
@@ -2550,7 +2550,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                             </div>
 
                             <a
-                              href="upi://pay?pa=9829497392@slc&pn=Sachin%20Pareek&am=2000&cu=INR&tn=Chehra%20Films%20Participant%20Booking"
+                              href="upi://pay?pa=9828497392@slc&pn=Sachin%20Pareek&am=2000&cu=INR&tn=Chehra%20Films%20Participant%20Booking"
                               className="w-full py-2 bg-blue-600/30 hover:bg-blue-600/50 border border-blue-400/50 text-blue-200 text-[10px] uppercase font-bold tracking-wider inline-flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                             >
                               <Smartphone className="w-3 h-3 text-yellow-400" />
@@ -2679,7 +2679,7 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                             />
                             <div className="space-y-1">
                               <span className="font-semibold text-white group-hover:text-blue-200 transition-colors block leading-relaxed text-xs">
-                                I confirm the ₹13,000 final amount and agree to submit ₹2,000 as security booking amount (Slice Small Finance Bank / UPI: 9829497392@slc) to lock my seat, and pending balance before 20 days of trip starting.
+                                I confirm the ₹13,000 final amount and agree to submit ₹2,000 as security booking amount (Slice Small Finance Bank / UPI: 9828497392@slc) to lock my seat, and pending balance before 20 days of trip starting.
                               </span>
                               <p className="text-[10px] text-slate-300 font-sans leading-normal">
                                 * Final expedition amount is ₹13,000. The ₹2,000 booking amount secures stays, convoy vehicle permits, and the Gulmarg Ski 2-Day Certificate Course. Pending balance cleared 20 days prior to departure.

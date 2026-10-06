@@ -1088,7 +1088,7 @@ export const ExcelDataPortalModal: React.FC<ExcelDataPortalModalProps> = ({
                 <div className="p-4 bg-[#060B14] border border-blue-500/30">
                   <span className="text-[10px] text-slate-400 uppercase">Track 02 • Participants</span>
                   <div className="text-2xl font-bold text-blue-400">{safeParticipants.length} Pre-Booked</div>
-                  <p className="text-[11px] text-slate-400 mt-1">₹2,000 Security / ₹13,000 Final Locked (Hike after 20 Nov)</p>
+                  <p className="text-[11px] text-slate-400 mt-1">₹2,000 Security / ₹13,000 Final Locked (+15–20% Hike after 20 Oct)</p>
                 </div>
                 <div className="p-4 bg-[#060B14] border border-emerald-500/30">
                   <span className="text-[10px] text-slate-400 uppercase">Track 03 • Crew</span>

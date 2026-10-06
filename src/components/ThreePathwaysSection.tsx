@@ -14,7 +14,8 @@ import {
   Calendar,
   Award,
   HelpCircle,
-  ExternalLink
+  ExternalLink,
+  MessageCircle
 } from 'lucide-react';
 import { PathwayType } from '../types';
 
@@ -84,7 +85,7 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
     subtitle: 'Front-Row Convoy Immersion • No Auditions Required',
     heroImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957421/Participant.jpg',
     pricingTag: '₹13,000 FINAL RATE',
-    pricingSubtitle: 'Lock with ₹2,000 security booking amount today. Early bird ₹13,000; rises to ₹14,500 after 20 Nov.',
+    pricingSubtitle: 'Lock with ₹2,000 security booking amount today. Early bird ₹13,000; rises 15–20% (to ₹14,500) after 20 Oct.',
     guaranteeText: '₹13,000 early-bird final rate locked with ₹2,000 security booking amount. Balance ₹11,000 cleared 20 days prior to departure. Two-sharing accommodation preserved.',
     overview:
       'Join the live production convoy as a traveler and witness a feature film being made in real time across Kashmir. Experience Katra & Vaishno Devi, Gulmarg Ski 2-day certificate course under experts training program, and Dal Lake in Srinagar.',
@@ -217,10 +218,10 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                 <div className="p-3.5 bg-[#050A16] border border-blue-500/30 mb-4">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-mono text-blue-300 uppercase tracking-wider font-bold">
-                      EARLY BIRD RATE
+                      EARLY BIRD (BEFORE 20 OCT)
                     </span>
                     <span className="text-[10px] font-mono text-white/50 line-through">
-                      ₹14,500 after 20 Nov
+                      +15–20% after 20 Oct
                     </span>
                   </div>
                   <div className="text-xl font-title font-bold text-[#F4F1EA] mt-0.5">
@@ -400,49 +401,39 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
 
         </div>
 
-        {/* Google Forms Direct Application Alternative Banner — Highly Highlighted */}
-        <div className="mt-8 p-5 sm:p-6 bg-gradient-to-r from-yellow-500/20 via-amber-500/15 to-yellow-600/20 border-2 border-yellow-400 max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-5 shadow-2xl shadow-yellow-400/15 rounded-sm">
-          <div className="space-y-1.5 text-center md:text-left flex-1">
-            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 bg-yellow-400 text-black font-mono font-black text-[10px] uppercase tracking-wider rounded-xs shadow">
-              <span className="w-2 h-2 rounded-full bg-black animate-pulse" />
-              <span>★ RECOMMENDED / FASTEST WAY</span>
+        {/* WhatsApp Discussion Group Banner — Placed directly below Choose Your Involvement */}
+        <div className="mt-10 sm:mt-12 p-6 sm:p-7 bg-gradient-to-r from-[#061A12] via-[#0A2E20] to-[#061A12] border-2 border-emerald-500/50 max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl shadow-emerald-500/10 rounded-sm">
+          <div className="flex items-center gap-4 text-center md:text-left">
+            <div className="w-14 h-14 rounded-full bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center text-emerald-400 shrink-0 shadow-lg shadow-emerald-500/20">
+              <MessageCircle className="w-7 h-7" />
             </div>
-            <h4 className="text-base sm:text-lg font-title font-black text-white leading-snug">
-              For more smoother and familiar experience can submit in Google Form as well, both ways are acceptable.
-            </h4>
-            <p className="text-xs text-yellow-200/90 font-mono">
-              Official Google Forms • Verified submissions for Actor (Form 1), Participant (Form 2) &amp; Crew (Form 3)
-            </p>
+            <div className="space-y-1">
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
+                <span className="px-2.5 py-0.5 bg-emerald-500 text-black font-mono font-black text-[10px] uppercase tracking-wider rounded-xs shadow">
+                  OFFICIAL COMMUNITY CHANNEL
+                </span>
+                <span className="text-[11px] font-mono text-emerald-300/80">
+                  • KASHMIR EXPEDITION
+                </span>
+              </div>
+              <h4 className="text-lg sm:text-xl font-title font-bold text-white tracking-wide">
+                Join WhatsApp Discussion Group
+              </h4>
+              <p className="text-xs sm:text-sm text-emerald-100/70 font-sans max-w-xl">
+                Have questions before choosing your pathway? Connect with filmmakers, co-travelers &amp; crew. Get real-time audition announcements, route updates &amp; preparation discussions.
+              </p>
+            </div>
           </div>
-          <div className="flex flex-wrap items-center justify-center gap-2.5 shrink-0">
-            <a
-              href="https://forms.gle/RUA9uA2wMnXsZza26"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-black font-mono font-black text-xs uppercase tracking-wider transition-all inline-flex items-center gap-1.5 shadow-md hover:scale-105 active:scale-95"
-            >
-              <span>FORM 1 (ACTOR)</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-            <a
-              href="https://forms.gle/BS6VF7hV2i6KyUet9"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2.5 bg-blue-500 hover:bg-blue-400 text-white font-mono font-black text-xs uppercase tracking-wider transition-all inline-flex items-center gap-1.5 shadow-md hover:scale-105 active:scale-95"
-            >
-              <span>FORM 2 (PARTICIPANT)</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-            <a
-              href="https://forms.gle/Um4kvMuNsoYQkFoz6"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-mono font-black text-xs uppercase tracking-wider transition-all inline-flex items-center gap-1.5 shadow-md hover:scale-105 active:scale-95"
-            >
-              <span>FORM 3 (CREW)</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
+
+          <a
+            href="https://whatsapp.com/channel/0029Vb3Mqq81CYoKTm02mB2s/122"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full md:w-auto px-7 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-black font-mono font-black text-xs uppercase tracking-wider transition-all inline-flex items-center justify-center gap-2.5 shadow-lg shadow-emerald-500/20 hover:scale-105 active:scale-95 shrink-0 cursor-pointer"
+          >
+            <MessageCircle className="w-4 h-4 fill-black" />
+            <span>JOIN WHATSAPP GROUP ↗</span>
+          </a>
         </div>
       </div>
 

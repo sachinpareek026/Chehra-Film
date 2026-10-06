@@ -82,8 +82,8 @@ const FAQS: FaqItem[] = [
     category: 'participant',
     question: 'What is the booking process, UPI ID, and bank details for participants?',
     answer:
-      'The booking process requires transferring the ₹2,000 booking amount to reserve your seat and secure the ₹13,000 early bird rate. Payment details: UPI ID: 9829497392@slc, Bank: Slice Small Finance Bank, Beneficiary: Sachin Pareek, Account No: 033325226237317, IFSC: NESF0000333. For any questions or instant confirmation, contact/WhatsApp us on 9828497392.',
-    highlight: 'UPI: 9829497392@slc • SLICE BANK • WHATSAPP: 9828497392',
+      'The booking process requires transferring the ₹2,000 booking amount to reserve your seat and secure the ₹13,000 early bird rate. Payment details: UPI ID: 9828497392@slc, Bank: Slice Small Finance Bank, Beneficiary: Sachin Pareek, Account No: 033325226237317, IFSC: NESF0000333. For any questions or instant confirmation, contact/WhatsApp us on 9828497392.',
+    highlight: 'UPI: 9828497392@slc • SLICE BANK • WHATSAPP: 9828497392',
     legalClause: 'Section 5.2 (Participant Payment Routing): Direct booking token remittance via authorized UPI and bank coordinates in the name of Sachin Pareek.',
     relatedDoc: 'Participant Payment & Booking Mandate'
   },
@@ -92,7 +92,7 @@ const FAQS: FaqItem[] = [
     category: 'participant',
     question: 'How does the ₹13,000 final amount & ₹2,000 security booking amount work?',
     answer:
-      'The final expedition amount is ₹13,000 (Early Bird rate). You submit a ₹2,000 security booking amount today to reserve and lock your seat in the expedition convoy. The pending balance (₹11,000) must be cleared at least 20 days prior to the start of the trip. Registrations received after 20 November 2026 increase to ₹14,500.',
+      'The final expedition amount is ₹13,000 (Early Bird rate). You submit a ₹2,000 security booking amount today to reserve and lock your seat in the expedition convoy. The pending balance (₹11,000) must be cleared at least 20 days prior to the start of the trip. Registrations received after 20 October 2026 rise 15–20% (to ₹14,500).',
     highlight: 'FINAL ₹13,000 • LOCK SEAT WITH ₹2,000 SECURITY BOOKING',
     legalClause: 'Section 5.1 (Price Lock Guarantee): The initial ₹2,000 security booking amount protects the traveler against peak-winter vehicle lease and lodging rate surges, locking the ₹13,000 final rate.',
     relatedDoc: 'Expedition Convoy Booking Terms'
@@ -100,10 +100,10 @@ const FAQS: FaqItem[] = [
   {
     id: 'participant-hike',
     category: 'participant',
-    question: 'Why does the expedition rate increase after November 20?',
+    question: 'Why does the expedition rate increase after October 20?',
     answer:
-      'High-altitude mountain permits, specialized winter vehicle convoy leases, and Gulmarg hotel reservations surge during peak Christmas week. Registrations received after 20 November 2026 are ₹14,500. Booking early guarantees the ₹13,000 rate.',
-    highlight: '₹14,500 AFTER 20 NOVEMBER 2026',
+      'High-altitude mountain permits, specialized winter vehicle convoy leases, and Gulmarg hotel reservations surge during peak Christmas week. Registrations received after 20 October 2026 increase by 15–20% (to ₹14,500). Booking early guarantees the ₹13,000 rate.',
+    highlight: '+15–20% AFTER 20 OCTOBER 2026',
     legalClause: 'Section 5.4 (Peak Winter Logistics Surcharge): Government pass permits and heating provisions surge in late autumn.',
     relatedDoc: 'Winter Convoy Logistics Schedule'
   },
@@ -281,7 +281,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                 </span>
               </div>
               <p className="text-xs text-white/70 leading-relaxed font-light font-sans">
-                Final amount is <strong className="text-white font-normal">₹13,000</strong>. Lock your seat with a <strong className="text-white font-normal">₹2,000 security booking amount</strong> today to safeguard against peak winter surges (increases to ₹14,500 after 20 Nov).
+                Final amount is <strong className="text-white font-normal">₹13,000</strong>. Lock your seat with a <strong className="text-white font-normal">₹2,000 security booking amount</strong> today to safeguard against peak winter surges (increases 15–20% to ₹14,500+ after 20 Oct).
               </p>
             </div>
           </div>

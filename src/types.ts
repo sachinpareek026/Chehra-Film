@@ -127,7 +127,7 @@ export interface ParticipantSubmission {
   bookingConsentAgreed?: boolean; // Agrees to ₹13,000 final amount & ₹2,000 security booking amount & balance before 20 days
   prebookingTokenPrice: number; // 2000
   lockedTripPrice: number; // 13000
-  oct30PriceIncreaseNotice: boolean; // increases by 1500 after 20 Nov
+  oct30PriceIncreaseNotice: boolean; // increases 15-20% after 20 Oct
   paymentMode: string;
   transactionRef: string;
   confirmed: boolean;

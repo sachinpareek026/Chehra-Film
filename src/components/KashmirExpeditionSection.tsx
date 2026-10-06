@@ -248,8 +248,8 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
       period: 'per person',
       tag: 'STANDARD EXPEDITION RATE',
       highlightColor: 'amber',
-      status: 'APPLICABLE AFTER 20 NOV 2026',
-      description: 'Standard booking tier applied after 20 November 2026 due to surging peak Christmas hotel tariffs and winter transport rates.',
+      status: 'APPLICABLE AFTER 20 OCT 2026',
+      description: 'Standard booking tier applied after 20 October 2026 (15–20% price surge to ₹14,500+) due to surging peak Christmas hotel tariffs and winter transport rates.',
       features: [
         'Full 8 Days / 7 Nights complete itinerary',
         '5 Nights hotel stays across Katra, Gulmarg & Srinagar (2 sharing)',
@@ -958,7 +958,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               </div>
 
               <a
-                href="https://drive.google.com/file/d/1CqVm4BSu7FTRGAru1iL6UqfDo58CjAaU/view?usp=drivesdk"
+                href="https://drive.google.com/file/d/1qF1B84X1J8MQLiRsQROm_DkqvB-Szgvr/view?usp=drivesdk"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-5 py-3 bg-yellow-400 hover:bg-yellow-300 text-black font-mono font-bold text-xs uppercase tracking-wider inline-flex items-center justify-center gap-2 transition-all shadow-md shrink-0 cursor-pointer"
@@ -1065,8 +1065,8 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                         <tr className="border-b border-white/10 text-white/50 uppercase">
                           <th className="py-2.5 pr-4">Package Tier</th>
                           <th className="py-2.5 px-4">Duration</th>
-                          <th className="py-2.5 px-4 text-yellow-400/90">Early Bird (Before 20 Nov)</th>
-                          <th className="py-2.5 px-4 text-white/70">Regular (After 20 Nov)</th>
+                          <th className="py-2.5 px-4 text-yellow-400/90">Early Bird (Before 20 Oct)</th>
+                          <th className="py-2.5 px-4 text-white/70">Regular (After 20 Oct • +15–20%)</th>
                           <th className="py-2.5 pl-4">Key Inclusions</th>
                         </tr>
                       </thead>
@@ -1075,7 +1075,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                           <td className="py-3 pr-4 font-medium text-white">Kashmir Winter Escape (Full Transport)</td>
                           <td className="py-3 px-4">7N / 8D</td>
                           <td className="py-3 px-4 text-yellow-400/90 font-semibold">₹13,000 / Person</td>
-                          <td className="py-3 px-4 text-white/70">₹14,500 / Person</td>
+                          <td className="py-3 px-4 text-white/70">₹14,500 – ₹15,500 / Person</td>
                           <td className="py-3 pl-4 text-white/50 font-sans">Vaishno Devi + Gulmarg Ski 2D Certificate Course + Srinagar</td>
                         </tr>
                         <tr>
@@ -1083,7 +1083,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                           <td className="py-3 px-4">7N / 8D</td>
                           <td className="py-3 px-4 text-yellow-400/90 font-semibold">₹16,000 (100% Refund Deposit)</td>
                           <td className="py-3 px-4 text-white/70">₹3,000 Security After Selection</td>
-                          <td className="py-3 pl-4 text-white/50 font-sans">Lead Screen Role + IMDb Credit + All Inclusions (Last Date: 20 Nov)</td>
+                          <td className="py-3 pl-4 text-white/50 font-sans">Lead Screen Role + IMDb Credit + All Inclusions (Auditions Open)</td>
                         </tr>
                         <tr>
                           <td className="py-3 pr-4 font-medium text-white">Optional Gulmarg Gondola (Phase 1/2)</td>
@@ -1102,7 +1102,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                   <div className="flex items-start gap-3">
                     <Info className="w-5 h-5 text-yellow-400/90 shrink-0 mt-0.5" />
                     <p className="text-xs text-white/70 leading-relaxed font-sans">
-                      <strong className="text-white">Early Bird Guarantee:</strong> Lock your seat today with a <span className="text-yellow-400/90 font-mono font-medium">₹2,000 security booking amount</span>. Final rate is ₹13,000/person for early-bird slots; increases to ₹14,500 after 20 November 2026 due to Christmas peak rush.
+                      <strong className="text-white">Early Bird Guarantee:</strong> Lock your seat today with a <span className="text-yellow-400/90 font-mono font-medium">₹2,000 security booking amount</span>. Final rate is ₹13,000/person for early-bird slots locked before 20th October; <span className="text-amber-300 font-bold">prices may rise 15–20% (to ₹14,500+) after 20th October 2026</span> due to surging Christmas peak hotel & convoy rates.
                     </p>
                   </div>
                   <button
@@ -1136,7 +1136,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                     <div className="p-3.5 bg-black/60 border border-blue-400/40 space-y-2">
                       <span className="text-[11px] text-blue-300 font-bold uppercase block">01. UPI ID TRANSFER</span>
                       <div className="p-2 bg-slate-900 border border-slate-700 flex items-center justify-between gap-2">
-                        <span className="text-xs sm:text-sm text-yellow-300 font-bold tracking-wider font-mono">9829497392@slc</span>
+                        <span className="text-xs sm:text-sm text-yellow-300 font-bold tracking-wider font-mono">9828497392@slc</span>
                       </div>
                       <div className="text-[11px] text-white/70 space-y-0.5 font-sans pt-1">
                         <p><span className="text-white/40 font-mono">Bank:</span> Slice Small Finance Bank</p>
@@ -1463,8 +1463,8 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
           </p>
           <div className="flex items-center justify-center gap-4 py-2 font-mono">
             <span className="text-yellow-400/90 font-serif text-3xl sm:text-4xl">₹13,000</span>
-            <span className="text-white/60 text-xs uppercase">Early Bird / Person</span>
-            <span className="text-white/30 text-xs line-through">₹14,500 after 20 Nov</span>
+            <span className="text-white/60 text-xs uppercase">Early Bird (Before 20 Oct)</span>
+            <span className="text-white/30 text-xs line-through">+15–20% after 20 Oct</span>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <CinemaButton
@@ -1509,7 +1509,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               <div>• <strong>Dates:</strong> 24 – 31 December 2026 (7N / 8D)</div>
               <div>• <strong>Route:</strong> Delhi → Katra → Vaishno Devi → Gulmarg → Srinagar → Delhi</div>
               <div>• <strong>Skiing:</strong> Gulmarg Ski 2-Day Certificate Course under Experts Training Program (Boots/Skis/Poles & Certification included)</div>
-              <div>• <strong>Pricing:</strong> ₹13,000 Early Bird / ₹14,500 after 20 Nov 2026</div>
+              <div>• <strong>Pricing:</strong> ₹13,000 Early Bird (Before 20 Oct) / +15–20% rise after 20 Oct 2026</div>
               <div>• <strong>Pre-booking Token:</strong> ₹2,000 only to lock early bird pricing</div>
             </div>
             <div className="pt-2 flex items-center gap-3">

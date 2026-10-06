@@ -167,6 +167,11 @@ export const FamilyPricingCalculator: React.FC<FamilyPricingCalculatorProps> = (
               </div>
             )}
 
+            <div className="p-2 bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[11px] font-mono flex flex-wrap items-center justify-between gap-1">
+              <span>★ Early Bird Rate (Locked Before 20 Oct)</span>
+              <span className="text-[10px] text-amber-200/90 font-bold">+15–20% surge after 20 Oct</span>
+            </div>
+
             {travellerCount >= 9 && (
               <div className="text-[10px] font-mono text-amber-300 flex items-center gap-1">
                 <Sparkles className="w-3 h-3 text-amber-400" />
@@ -207,14 +212,19 @@ export const FamilyPricingCalculator: React.FC<FamilyPricingCalculatorProps> = (
 
       {/* Urgency & Customisation Notices matching the flyer */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
-        <div className="p-4 bg-[#0A0D16] border border-amber-400/25 flex items-start gap-3">
+        <div className="p-4 bg-gradient-to-r from-amber-500/10 via-[#0A0D16] to-[#0A0D16] border border-amber-400/40 flex items-start gap-3">
           <Clock className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
           <div>
-            <strong className="text-amber-400 uppercase tracking-wide block mb-0.5">
-              Limited Peak Season Slots
-            </strong>
-            <p className="text-white/70 text-[11px] font-sans leading-relaxed">
-              Pricing will be revised after <span className="text-white font-semibold">25 October</span> due to heavy high-season demand during Christmas &amp; New Year in Gulmarg and Dal Lake houseboats.
+            <div className="flex flex-wrap items-center gap-2 mb-1">
+              <strong className="text-amber-400 uppercase tracking-wide">
+                EARLY BIRD DEADLINE: 20TH OCTOBER
+              </strong>
+              <span className="px-2 py-0.5 bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px] font-mono font-bold">
+                PRICES RISE 15–20% AFTER 20 OCT
+              </span>
+            </div>
+            <p className="text-white/80 text-[11px] font-sans leading-relaxed">
+              Current group rates are locked for bookings confirmed on or before <strong className="text-white">20th October 2026</strong>. Due to peak Christmas &amp; New Year demand in Kashmir, <span className="text-amber-300 font-bold">prices may rise 15% to 20% after 20th October</span>.
             </p>
           </div>
         </div>
@@ -239,8 +249,8 @@ export const FamilyPricingCalculator: React.FC<FamilyPricingCalculatorProps> = (
             <h4 className="font-serif text-lg text-white tracking-wide">
               Official Family &amp; Group Pricing Chart
             </h4>
-            <p className="text-[11px] text-white/50 font-mono">
-              Transparent per-person pricing breakdown from the official Parindaa &amp; Chehra Films flyer
+            <p className="text-[11px] text-amber-300/90 font-mono">
+              Current Early Bird Rates (Valid till 20 Oct 2026 • Prices may rise 15–20% after 20th October)
             </p>
           </div>
           <span className="text-[10px] font-mono text-amber-400 uppercase tracking-widest">
