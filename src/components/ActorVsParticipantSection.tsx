@@ -61,7 +61,7 @@ export const ActorVsParticipantSection: React.FC<ActorVsParticipantSectionProps>
               </h3>
 
               <div className="mb-4 inline-flex items-center gap-2 font-mono text-xs">
-                <span className="text-yellow-400 font-bold">Total: ₹16,000</span>
+                <span className="text-yellow-400 font-bold">Total: ₹16,000 (Before 20 Oct) / ₹18,000 (After 20 Oct)</span>
                 <span className="text-white/40">•</span>
                 <span className="text-emerald-400">₹3,000 Security After Selection</span>
               </div>
@@ -126,7 +126,7 @@ export const ActorVsParticipantSection: React.FC<ActorVsParticipantSectionProps>
               </h3>
 
               <div className="mb-4 inline-flex items-center gap-2 font-mono text-xs">
-                <span className="text-yellow-400 font-bold">Final Amount: ₹13,000</span>
+                <span className="text-yellow-400 font-bold">Total: ₹13,000 (Before 20 Oct) / ₹15,000 (After 20 Oct)</span>
                 <span className="text-white/40">•</span>
                 <span className="text-emerald-400">₹2,000 Security Booking</span>
               </div>
@@ -148,7 +148,7 @@ export const ActorVsParticipantSection: React.FC<ActorVsParticipantSectionProps>
                   <span className="w-4 h-4 border border-yellow-400/50 flex items-center justify-center text-yellow-400/90 shrink-0">
                     <Check className="w-2.5 h-2.5" />
                   </span>
-                  <span>₹2,000 security booking to lock seat; ₹13,000 early bird rate (+15–20% rise to ₹14,500+ after 20 Oct).</span>
+                  <span>₹2,000 security booking to lock seat; ₹13,000 early bird rate (rises to ₹15,000 after 20 Oct).</span>
                 </div>
               </div>
 

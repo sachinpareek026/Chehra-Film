@@ -2,27 +2,37 @@ export interface FamilyPricingTier {
   travellers: number;
   label: string;
   pricePerPerson: number;
+  priceAfter20Oct: number;
   exampleTotal: number;
   isBestPrice?: boolean;
 }
 
 export const FAMILY_PRICING_TIERS: FamilyPricingTier[] = [
-  { travellers: 4, label: '4 People', pricePerPerson: 12000, exampleTotal: 48000 },
-  { travellers: 5, label: '5 People', pricePerPerson: 11500, exampleTotal: 57500 },
-  { travellers: 6, label: '6 People', pricePerPerson: 11000, exampleTotal: 66000 },
-  { travellers: 7, label: '7 People', pricePerPerson: 10500, exampleTotal: 73500 },
-  { travellers: 8, label: '8 People', pricePerPerson: 10000, exampleTotal: 80000 },
-  { travellers: 9, label: '9 People', pricePerPerson: 9500, exampleTotal: 85500, isBestPrice: true },
-  { travellers: 10, label: '10+ People', pricePerPerson: 9500, exampleTotal: 95000, isBestPrice: true },
+  { travellers: 4, label: '4 People', pricePerPerson: 11000, priceAfter20Oct: 13000, exampleTotal: 44000 },
+  { travellers: 5, label: '5 People', pricePerPerson: 10700, priceAfter20Oct: 12700, exampleTotal: 53500 },
+  { travellers: 6, label: '6 People', pricePerPerson: 10400, priceAfter20Oct: 12400, exampleTotal: 62400 },
+  { travellers: 7, label: '7 People', pricePerPerson: 10100, priceAfter20Oct: 12100, exampleTotal: 70700 },
+  { travellers: 8, label: '8 People', pricePerPerson: 9800, priceAfter20Oct: 11800, exampleTotal: 78400 },
+  { travellers: 9, label: '9 People', pricePerPerson: 9500, priceAfter20Oct: 11500, exampleTotal: 85500, isBestPrice: true },
+  { travellers: 10, label: '10+ People', pricePerPerson: 9500, priceAfter20Oct: 11500, exampleTotal: 95000, isBestPrice: true },
 ];
 
 export function getFamilyPricePerPerson(peopleCount: number): number {
-  if (peopleCount <= 4) return 12000;
-  if (peopleCount === 5) return 11500;
-  if (peopleCount === 6) return 11000;
-  if (peopleCount === 7) return 10500;
-  if (peopleCount === 8) return 10000;
+  if (peopleCount <= 4) return 11000;
+  if (peopleCount === 5) return 10700;
+  if (peopleCount === 6) return 10400;
+  if (peopleCount === 7) return 10100;
+  if (peopleCount === 8) return 9800;
   return 9500; // 9 or more people
+}
+
+export function getFamilyPriceAfter20Oct(peopleCount: number): number {
+  if (peopleCount <= 4) return 13000;
+  if (peopleCount === 5) return 12700;
+  if (peopleCount === 6) return 12400;
+  if (peopleCount === 7) return 12100;
+  if (peopleCount === 8) return 11800;
+  return 11500; // 9 or more people
 }
 
 export interface FamilyItineraryDay {
@@ -242,7 +252,7 @@ export const FAMILY_KEY_PERKS = [
   },
   {
     title: 'BIGGER GROUPS, BIGGER SAVINGS',
-    desc: 'Tiered group discounts from ₹12,000 down to ₹9,500 per person.',
+    desc: 'Tiered group discounts from ₹11,000 down to ₹9,500 per person (rising to ₹13,000–₹11,500 after 20 Oct).',
     icon: 'Users'
   }
 ];

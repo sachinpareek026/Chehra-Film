@@ -56,7 +56,7 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
     {
       question: 'What is the total amount, security booking amount, and last date to apply for actors?',
       answer:
-        'The total amount for actors is ₹16,000 (100% refundable upon post-release cost recovery). Submitting your audition nomination is 100% free with zero fees. If your nomination is officially accepted for the role, you submit ₹3,000 as the security booking amount to reserve your seat and schedule. The pending balance must be cleared at least 20 days prior to the start of the trip. The last date to apply for acting roles is 20th November 2026.',
+        'The total amount for actors is ₹16,000 for applications before 20th Oct, and ₹18,000 after 20th Oct (100% refundable upon post-release cost recovery). Submitting your audition nomination is 100% free with zero fees. If your nomination is officially accepted for the role, you submit ₹3,000 as the security booking amount to reserve your seat and schedule. The pending balance must be cleared at least 20 days prior to the start of the trip. The last date to apply for acting roles is 20th November 2026.',
     },
     {
       question: 'How does the 100% Refund Policy work for actors?',
@@ -88,7 +88,7 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
     {
       question: 'Why does the expedition rate increase after October 20?',
       answer:
-        'To secure early convoy vehicle leases, Gulmarg ski equipment, and hotels before peak Christmas tariffs, registrations after 20 October 2026 rise 15–20% (to ₹14,500). Booking early guarantees the ₹13,000 final amount.',
+        'To secure early convoy vehicle leases, Gulmarg ski equipment, and hotels before peak Christmas tariffs, registrations after 20 October 2026 rise to ₹15,000. Booking early guarantees the ₹13,000 final amount.',
     },
     {
       question: 'What is included in the ₹13,000 expedition fee?',

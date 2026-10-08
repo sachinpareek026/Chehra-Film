@@ -14,8 +14,7 @@ import {
   Calendar,
   Award,
   HelpCircle,
-  ExternalLink,
-  MessageCircle
+  ExternalLink
 } from 'lucide-react';
 import { PathwayType } from '../types';
 
@@ -50,15 +49,15 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
     title: 'AS AN ACTOR',
     subtitle: 'Lead Character Arc • Unscripted Cinema Realism',
     heroImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957437/Shankar.png',
-    pricingTag: 'TOTAL ₹16,000 (100% REFUNDABLE)',
-    pricingSubtitle: 'Zero fee to apply. ₹3,000 security booking amount payable only AFTER role selection. Last date: 20th Nov.',
-    guaranteeText: 'Total amount ₹16,000 is a 100% refundable production security deposit returned upon post-release cost recovery. Only ₹3,000 security booking amount is due upon selection. Balance cleared 20 days prior to departure. Last date to apply: 20 Nov 2026.',
+    pricingTag: 'TOTAL ₹16,000 (BEFORE 20 OCT) / ₹18,000 (AFTER 20 OCT)',
+    pricingSubtitle: 'Zero fee to apply. ₹3,000 security booking amount payable only AFTER role selection. Total deposit ₹16k before 20 Oct / ₹18k after 20 Oct (100% refundable).',
+    guaranteeText: 'Total amount is ₹16,000 before 20 Oct and ₹18,000 after 20 Oct (100% refundable production security deposit returned upon post-release cost recovery). Only ₹3,000 security booking amount is due upon selection. Balance cleared 20 days prior to departure. Last date to apply: 20 Nov 2026.',
     overview:
       'Step directly into the shoes of one of the 7 lead character personas across extreme Himalayan terrain. You travel with the production convoy, improvising dialogue against real-life natural light, dawn mist, and roadside encounters.',
     keyPerks: [
       'Official IMDb lead character billing & international festival premiere accreditation',
       'Dedicated multi-camera coverage with 4K Arri Alexa LF & Anamorphic lenses',
-      'Total ₹16,000 (100% refundable production security deposit upon cost recovery)',
+      'Total ₹16,000 before 20 Oct / ₹18,000 after 20 Oct (100% refundable deposit upon cost recovery)',
       '₹3,000 security booking amount payable only AFTER role selection',
       'Free audition upload (last date to apply: 20th November)'
     ],
@@ -84,9 +83,9 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
     title: 'AS A PARTICIPANT',
     subtitle: 'Front-Row Convoy Immersion • No Auditions Required',
     heroImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957421/Participant.jpg',
-    pricingTag: '₹13,000 FINAL RATE',
-    pricingSubtitle: 'Lock with ₹2,000 security booking amount today. Early bird ₹13,000; rises 15–20% (to ₹14,500) after 20 Oct.',
-    guaranteeText: '₹13,000 early-bird final rate locked with ₹2,000 security booking amount. Balance ₹11,000 cleared 20 days prior to departure. Two-sharing accommodation preserved.',
+    pricingTag: '₹13,000 (BEFORE 20 OCT) / ₹15,000 (AFTER 20 OCT)',
+    pricingSubtitle: 'Lock with ₹2,000 security booking amount today. Early bird ₹13,000 (before 20 Oct); price rises to ₹15,000 after 20 Oct.',
+    guaranteeText: '₹13,000 early-bird final rate locked with ₹2,000 security booking amount before 20th October. Price after 20th October is ₹15,000. Balance cleared 20 days prior to departure. Two-sharing accommodation preserved.',
     overview:
       'Join the live production convoy as a traveler and witness a feature film being made in real time across Kashmir. Experience Katra & Vaishno Devi, Gulmarg Ski 2-day certificate course under experts training program, and Dal Lake in Srinagar.',
     keyPerks: [
@@ -218,14 +217,19 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                 <div className="p-3.5 bg-[#050A16] border border-blue-500/30 mb-4">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-mono text-blue-300 uppercase tracking-wider font-bold">
-                      EARLY BIRD (BEFORE 20 OCT)
+                      PARTICIPANT EXPEDITION
                     </span>
-                    <span className="text-[10px] font-mono text-white/50 line-through">
-                      +15–20% after 20 Oct
+                    <span className="text-[10px] font-mono text-rose-300 font-semibold uppercase">
+                      +20% HIKE AFTER 20 OCT
                     </span>
                   </div>
-                  <div className="text-xl font-title font-bold text-[#F4F1EA] mt-0.5">
-                    ₹13,000 <span className="text-xs font-mono text-blue-300 font-normal">/ TOTAL</span>
+                  <div className="flex items-baseline justify-between mt-1">
+                    <div className="text-lg sm:text-xl font-title font-bold text-[#F4F1EA]">
+                      ₹13,000 <span className="text-[10px] font-mono text-blue-300 font-normal">BEFORE 20 OCT</span>
+                    </div>
+                    <div className="text-xs font-mono font-bold text-rose-300">
+                      ₹15,000 <span className="text-[9px] text-white/50 font-normal">AFTER 20 OCT</span>
+                    </div>
                   </div>
                   <div className="text-[10px] font-mono text-emerald-400 mt-1">
                     Lock seat with ₹2,000 security booking amount
@@ -297,14 +301,19 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                       100% REFUNDABLE
                     </span>
                   </div>
-                  <div className="text-xl font-title font-bold text-[#F4F1EA] mt-0.5">
-                    ₹16,000 <span className="text-xs font-mono text-yellow-400/90 font-normal">/ TOTAL</span>
+                  <div className="flex items-baseline justify-between mt-1">
+                    <div className="text-lg sm:text-xl font-title font-bold text-[#F4F1EA]">
+                      ₹16,000 <span className="text-[10px] font-mono text-yellow-400/90 font-normal">BEFORE 20 OCT</span>
+                    </div>
+                    <div className="text-xs font-mono font-bold text-rose-300">
+                      ₹18,000 <span className="text-[9px] text-white/50 font-normal">AFTER 20 OCT</span>
+                    </div>
                   </div>
                   <div className="text-[10px] font-mono text-emerald-400 mt-1">
                     ₹3,000 security booking payable only AFTER selection
                   </div>
                   <div className="text-[10px] text-amber-300 font-mono mt-0.5 font-semibold">
-                    LAST DATE TO APPLY: 20TH NOV
+                    LAST DATE TO APPLY: 20TH NOV (FREE AUDITION)
                   </div>
                 </div>
               </div>
@@ -399,41 +408,6 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
             </div>
           </div>
 
-        </div>
-
-        {/* WhatsApp Discussion Group Banner — Placed directly below Choose Your Involvement */}
-        <div className="mt-10 sm:mt-12 p-6 sm:p-7 bg-gradient-to-r from-[#061A12] via-[#0A2E20] to-[#061A12] border-2 border-emerald-500/50 max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl shadow-emerald-500/10 rounded-sm">
-          <div className="flex items-center gap-4 text-center md:text-left">
-            <div className="w-14 h-14 rounded-full bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center text-emerald-400 shrink-0 shadow-lg shadow-emerald-500/20">
-              <MessageCircle className="w-7 h-7" />
-            </div>
-            <div className="space-y-1">
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
-                <span className="px-2.5 py-0.5 bg-emerald-500 text-black font-mono font-black text-[10px] uppercase tracking-wider rounded-xs shadow">
-                  OFFICIAL COMMUNITY CHANNEL
-                </span>
-                <span className="text-[11px] font-mono text-emerald-300/80">
-                  • KASHMIR EXPEDITION
-                </span>
-              </div>
-              <h4 className="text-lg sm:text-xl font-title font-bold text-white tracking-wide">
-                Join WhatsApp Discussion Group
-              </h4>
-              <p className="text-xs sm:text-sm text-emerald-100/70 font-sans max-w-xl">
-                Have questions before choosing your pathway? Connect with filmmakers, co-travelers &amp; crew. Get real-time audition announcements, route updates &amp; preparation discussions.
-              </p>
-            </div>
-          </div>
-
-          <a
-            href="https://whatsapp.com/channel/0029Vb3Mqq81CYoKTm02mB2s/122"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full md:w-auto px-7 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-black font-mono font-black text-xs uppercase tracking-wider transition-all inline-flex items-center justify-center gap-2.5 shadow-lg shadow-emerald-500/20 hover:scale-105 active:scale-95 shrink-0 cursor-pointer"
-          >
-            <MessageCircle className="w-4 h-4 fill-black" />
-            <span>JOIN WHATSAPP GROUP ↗</span>
-          </a>
         </div>
       </div>
 

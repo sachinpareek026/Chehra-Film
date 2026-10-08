@@ -45,7 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { name: 'KASHMIR TRIP', href: '#kashmir-expedition' },
     { name: 'JOURNEY', href: '#journey' },
     { name: 'ROLES', href: '#characters' },
-    { name: 'INSTAGRAM', href: '#instagram-feed' },
+    { name: 'GALLERY', href: '#project-gallery' },
     { name: 'WHY JOIN', href: '#why-join' },
     { name: 'PATHWAYS', href: '#nomination' },
     { name: 'FAQ', href: '#faq' },

@@ -244,12 +244,12 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
     {
       id: 'regular',
       name: 'REGULAR EXPEDITION',
-      price: '₹14,500',
-      period: 'per person',
+      price: '₹15,000',
+      period: 'per person (after 20 Oct)',
       tag: 'STANDARD EXPEDITION RATE',
       highlightColor: 'amber',
       status: 'APPLICABLE AFTER 20 OCT 2026',
-      description: 'Standard booking tier applied after 20 October 2026 (15–20% price surge to ₹14,500+) due to surging peak Christmas hotel tariffs and winter transport rates.',
+      description: 'Standard booking tier applied after 20 October 2026 (₹15,000 per person) due to surging peak Christmas hotel tariffs and winter transport rates.',
       features: [
         'Full 8 Days / 7 Nights complete itinerary',
         '5 Nights hotel stays across Katra, Gulmarg & Srinagar (2 sharing)',
@@ -264,15 +264,15 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
     {
       id: 'actor',
       name: 'ACTORS / LEAD CAST',
-      price: '₹16,000',
+      price: '₹16,000 / ₹18,000',
       period: '100% refundable deposit',
       tag: '₹3,000 SECURITY AFTER SELECTION',
       highlightColor: 'yellow',
       status: 'LAST DATE TO APPLY: 20TH NOV',
-      description: 'Total amount is ₹16,000 (100% refundable production security deposit). Zero fee to apply; ₹3,000 security booking amount payable only AFTER role selection. Last date: 20th Nov.',
+      description: 'Total amount is ₹16,000 before 20th Oct, rising to ₹18,000 after 20th Oct (100% refundable production security deposit). Zero fee to apply; ₹3,000 security booking amount payable only AFTER role selection. Last date: 20th Nov.',
       features: [
         'Official on-screen character casting in "The Life of Nandi" / "Chehra"',
-        'Total ₹16,000 (100% refundable production security deposit upon cost recovery)',
+        'Total ₹16,000 before 20 Oct / ₹18,000 after 20 Oct (100% refundable deposit upon cost recovery)',
         '₹3,000 security booking amount payable only AFTER role selection',
         'Pending balance cleared 20 days prior to departure',
         'IMDb verified film credits & theatrical festival eligibility',
@@ -1066,31 +1066,45 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                           <th className="py-2.5 pr-4">Package Tier</th>
                           <th className="py-2.5 px-4">Duration</th>
                           <th className="py-2.5 px-4 text-yellow-400/90">Early Bird (Before 20 Oct)</th>
-                          <th className="py-2.5 px-4 text-white/70">Regular (After 20 Oct • +15–20%)</th>
+                          <th className="py-2.5 px-4 text-white/70">Regular (After 20 Oct • Surge)</th>
                           <th className="py-2.5 pl-4">Key Inclusions</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-white/5 text-white/80">
                         <tr>
-                          <td className="py-3 pr-4 font-medium text-white">Kashmir Winter Escape (Full Transport)</td>
+                          <td className="py-3 pr-4 font-medium text-white">Kashmir Winter Escape (Participants)</td>
                           <td className="py-3 px-4">7N / 8D</td>
                           <td className="py-3 px-4 text-yellow-400/90 font-semibold">₹13,000 / Person</td>
-                          <td className="py-3 px-4 text-white/70">₹14,500 – ₹15,500 / Person</td>
+                          <td className="py-3 px-4 text-rose-300 font-semibold">₹15,000 / Person</td>
                           <td className="py-3 pl-4 text-white/50 font-sans">Vaishno Devi + Gulmarg Ski 2D Certificate Course + Srinagar</td>
                         </tr>
                         <tr>
                           <td className="py-3 pr-4 font-medium text-white">Actors / Lead Cast Role</td>
                           <td className="py-3 px-4">7N / 8D</td>
                           <td className="py-3 px-4 text-yellow-400/90 font-semibold">₹16,000 (100% Refund Deposit)</td>
-                          <td className="py-3 px-4 text-white/70">₹3,000 Security After Selection</td>
-                          <td className="py-3 pl-4 text-white/50 font-sans">Lead Screen Role + IMDb Credit + All Inclusions (Auditions Open)</td>
+                          <td className="py-3 px-4 text-rose-300 font-semibold">₹18,000 (100% Refund Deposit)</td>
+                          <td className="py-3 pl-4 text-white/50 font-sans">Lead Screen Role + IMDb Credit + All Inclusions (Auditions Close 20 Nov)</td>
+                        </tr>
+                        <tr>
+                          <td className="py-3 pr-4 font-medium text-white">Group Slabs (4+ Travellers)</td>
+                          <td className="py-3 px-4">8D / 7N</td>
+                          <td className="py-3 px-4 text-yellow-400/90 font-semibold">₹11,000 / Person</td>
+                          <td className="py-3 px-4 text-rose-300 font-semibold">₹13,000 / Person (+18% hike)</td>
+                          <td className="py-3 pl-4 text-white/50 font-sans">Delhi to Delhi + Vaishno Devi + Gulmarg Gondola + 1N Dal Lake Houseboat</td>
+                        </tr>
+                        <tr>
+                          <td className="py-3 pr-4 font-medium text-white">Group Slabs (9+ Travellers)</td>
+                          <td className="py-3 px-4">8D / 7N</td>
+                          <td className="py-3 px-4 text-yellow-400/90 font-semibold">₹9,500 / Person</td>
+                          <td className="py-3 px-4 text-rose-300 font-semibold">₹11,500 / Person (+21% hike)</td>
+                          <td className="py-3 pl-4 text-white/50 font-sans">Best Price Tier • Complete Inclusions &amp; Round-Trip Delhi Transit</td>
                         </tr>
                         <tr>
                           <td className="py-3 pr-4 font-medium text-white">Optional Gulmarg Gondola (Phase 1/2)</td>
                           <td className="py-3 px-4">—</td>
                           <td className="py-3 px-4 text-white/50">Separate Ticket</td>
                           <td className="py-3 px-4 text-white/50">Separate Ticket</td>
-                          <td className="py-3 pl-4 text-white/50 font-sans">Apharwat / Kongdoori Cable Car Access</td>
+                          <td className="py-3 pl-4 text-white/50 font-sans">Apharwat / Kongdoori Cable Car Access (Included in Group Packages)</td>
                         </tr>
                       </tbody>
                     </table>
@@ -1102,7 +1116,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                   <div className="flex items-start gap-3">
                     <Info className="w-5 h-5 text-yellow-400/90 shrink-0 mt-0.5" />
                     <p className="text-xs text-white/70 leading-relaxed font-sans">
-                      <strong className="text-white">Early Bird Guarantee:</strong> Lock your seat today with a <span className="text-yellow-400/90 font-mono font-medium">₹2,000 security booking amount</span>. Final rate is ₹13,000/person for early-bird slots locked before 20th October; <span className="text-amber-300 font-bold">prices may rise 15–20% (to ₹14,500+) after 20th October 2026</span> due to surging Christmas peak hotel & convoy rates.
+                      <strong className="text-white">Early Bird Guarantee:</strong> Lock your seat today with a <span className="text-yellow-400/90 font-mono font-medium">₹2,000 security booking amount</span>. Final rate is ₹13,000/person for early-bird slots locked before 20th October (Actors ₹16,000; Groups from ₹9,500 to ₹11,000); <span className="text-amber-300 font-bold">prices rise 15%–20% after 20th October 2026 (Participants ₹15,000, Actors ₹18,000, Groups ₹11,500–₹13,000)</span> due to peak season demand.
                     </p>
                   </div>
                   <button
@@ -1461,26 +1475,165 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
           <p className="text-xs sm:text-sm text-white/70 font-light max-w-xl mx-auto leading-relaxed">
             7 Nights / 8 Days • 2 Full Days in Gulmarg • Gulmarg Ski 2-Day Certificate Course under Experts Training Program Included • Vaishno Devi Yatra • Dal Lake • The Life of Nandi
           </p>
-          <div className="flex items-center justify-center gap-4 py-2 font-mono">
-            <span className="text-yellow-400/90 font-serif text-3xl sm:text-4xl">₹13,000</span>
-            <span className="text-white/60 text-xs uppercase">Early Bird (Before 20 Oct)</span>
-            <span className="text-white/30 text-xs line-through">+15–20% after 20 Oct</span>
-          </div>
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <CinemaButton
-              variant="primary"
-              onClick={() => onOpenBooking('participant')}
-              className="!py-3.5 !px-8 text-xs tracking-wider font-medium"
-            >
-              BOOK YOUR SEAT (₹2,000 TOKEN)
-            </CinemaButton>
-            <button
-              type="button"
-              onClick={() => setShowExtensionModal(true)}
-              className="px-6 py-3.5 bg-white/5 hover:bg-white/10 border border-white/15 text-white/80 text-xs font-mono uppercase tracking-wider transition-colors cursor-pointer"
-            >
-              VIEW FULL DETAILS
-            </button>
+          {/* ALL 3 PRICINGS: ACTORS, INDIVIDUAL & CREW, GROUP (4+ & 9+) */}
+          <div className="w-full space-y-4 my-6">
+            {/* 15-20% Hike Alert Bar */}
+            <div className="p-3 bg-gradient-to-r from-rose-950/60 via-amber-950/40 to-rose-950/60 border border-rose-500/40 rounded-sm flex flex-col sm:flex-row items-center justify-center gap-2 text-center text-xs font-mono">
+              <span className="px-2 py-0.5 bg-rose-500 text-white font-bold text-[10px] uppercase tracking-wider rounded-none">
+                PRICE HIKE ALERT
+              </span>
+              <span className="text-rose-200">
+                All pricing tiers will be revised with a <strong>15%–20% hike after 20th October 2026</strong>. Lock today with token deposit!
+              </span>
+            </div>
+
+            {/* 3 Pricing Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+              {/* Card 1: Individual & Crew */}
+              <div className="p-5 bg-[#0A0E18] border border-yellow-400/40 hover:border-yellow-400/70 transition-all flex flex-col justify-between relative group">
+                <div className="absolute top-0 right-0 px-2.5 py-1 bg-yellow-400 text-black font-mono font-bold text-[9px] uppercase tracking-wider">
+                  SOLO / CREW
+                </div>
+                <div>
+                  <div className="text-[10px] font-mono tracking-widest uppercase text-yellow-400 font-semibold mb-1">
+                    01 • PARTICIPANTS &amp; CREW
+                  </div>
+                  <h4 className="font-serif text-lg text-white font-bold tracking-wide">
+                    INDIVIDUAL &amp; CREW
+                  </h4>
+                  <p className="text-[11px] text-white/60 mt-1 font-sans">
+                    Solo travelers, filmmaking crew &amp; participants. Complete 8D tour + Vaishno Devi + 2D Ski Course.
+                  </p>
+
+                  <div className="mt-4 pt-3 border-t border-white/10 space-y-1.5">
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-[11px] font-mono text-white/50 uppercase">Before 20 Oct:</span>
+                      <span className="text-xl sm:text-2xl font-serif font-bold text-yellow-400">₹13,000</span>
+                    </div>
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-[11px] font-mono text-rose-300 uppercase">After 20 Oct (+15%):</span>
+                      <span className="text-sm font-mono font-bold text-rose-400">₹15,000</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 p-2 bg-white/[0.03] border border-white/5 text-[10px] font-mono text-emerald-400 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                    <span>Lock seat today with ₹2,000 token</span>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-white/10">
+                  <CinemaButton
+                    variant="primary"
+                    onClick={() => onOpenBooking('participant')}
+                    className="w-full !py-2.5 text-xs font-semibold"
+                  >
+                    BOOK SEAT (₹2,000)
+                  </CinemaButton>
+                </div>
+              </div>
+
+              {/* Card 2: Actors / Lead Cast */}
+              <div className="p-5 bg-[#0A0E18] border border-amber-400/50 hover:border-amber-400/80 transition-all flex flex-col justify-between relative group">
+                <div className="absolute top-0 right-0 px-2.5 py-1 bg-amber-400 text-black font-mono font-bold text-[9px] uppercase tracking-wider">
+                  100% REFUNDABLE
+                </div>
+                <div>
+                  <div className="text-[10px] font-mono tracking-widest uppercase text-amber-400 font-semibold mb-1">
+                    02 • ON-SCREEN CAST
+                  </div>
+                  <h4 className="font-serif text-lg text-white font-bold tracking-wide">
+                    ACTORS / LEAD CAST
+                  </h4>
+                  <p className="text-[11px] text-white/60 mt-1 font-sans">
+                    Lead character arc, IMDb credits &amp; festival run. 100% refundable production security deposit.
+                  </p>
+
+                  <div className="mt-4 pt-3 border-t border-white/10 space-y-1.5">
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-[11px] font-mono text-white/50 uppercase">Before 20 Oct:</span>
+                      <span className="text-xl sm:text-2xl font-serif font-bold text-amber-400">₹16,000</span>
+                    </div>
+                    <div className="flex items-baseline justify-between">
+                      <span className="text-[11px] font-mono text-rose-300 uppercase">After 20 Oct (+15%):</span>
+                      <span className="text-sm font-mono font-bold text-rose-400">₹18,000</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 p-2 bg-white/[0.03] border border-white/5 text-[10px] font-mono text-amber-300 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                    <span>Free audition • ₹3,000 only after role selection</span>
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-white/10">
+                  <CinemaButton
+                    variant="outline"
+                    onClick={() => onOpenBooking('actor')}
+                    className="w-full !py-2.5 text-xs font-semibold"
+                  >
+                    AUDITION (FREE APPLY)
+                  </CinemaButton>
+                </div>
+              </div>
+
+              {/* Card 3: Group & Family Slabs */}
+              <div className="p-5 bg-[#0A0E18] border border-cyan-400/40 hover:border-cyan-400/70 transition-all flex flex-col justify-between relative group">
+                <div className="absolute top-0 right-0 px-2.5 py-1 bg-cyan-400 text-black font-mono font-bold text-[9px] uppercase tracking-wider">
+                  FAMILY &amp; GROUPS
+                </div>
+                <div>
+                  <div className="text-[10px] font-mono tracking-widest uppercase text-cyan-400 font-semibold mb-1">
+                    03 • TIERED GROUP SLABS
+                  </div>
+                  <h4 className="font-serif text-lg text-white font-bold tracking-wide">
+                    GROUP (4+ &amp; 9+)
+                  </h4>
+                  <p className="text-[11px] text-white/60 mt-1 font-sans">
+                    Round-trip Delhi ↔ Delhi, Gondola ticket included, 1N Dal Lake houseboat stay &amp; warm meals.
+                  </p>
+
+                  <div className="mt-4 pt-3 border-t border-white/10 space-y-2">
+                    <div className="p-2 bg-white/[0.02] border border-white/5">
+                      <div className="flex items-baseline justify-between">
+                        <span className="text-[11px] font-mono text-white/80 font-bold">4+ TRAVELLERS:</span>
+                        <div className="text-right">
+                          <span className="text-base font-serif font-bold text-cyan-300">₹11,000</span>
+                          <span className="text-[10px] text-rose-300 font-mono ml-1">→ ₹13,000 after 20th</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-2 bg-cyan-400/10 border border-cyan-400/30">
+                      <div className="flex items-baseline justify-between">
+                        <span className="text-[11px] font-mono text-cyan-300 font-bold">9+ TRAVELLERS:</span>
+                        <div className="text-right">
+                          <span className="text-base font-serif font-bold text-cyan-200">₹9,500</span>
+                          <span className="text-[10px] text-rose-300 font-mono ml-1">→ ₹11,500 after 20th</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-2 text-[10px] font-mono text-white/50 text-right">
+                    *Rates per person • +15–20% hike after 20 Oct
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-white/10">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPackageType('family');
+                      setActiveTab('pricing');
+                    }}
+                    className="w-full py-2.5 px-3 bg-cyan-400 hover:bg-cyan-300 text-black font-mono font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer text-center"
+                  >
+                    GROUP CALCULATOR ↗
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1509,7 +1662,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               <div>• <strong>Dates:</strong> 24 – 31 December 2026 (7N / 8D)</div>
               <div>• <strong>Route:</strong> Delhi → Katra → Vaishno Devi → Gulmarg → Srinagar → Delhi</div>
               <div>• <strong>Skiing:</strong> Gulmarg Ski 2-Day Certificate Course under Experts Training Program (Boots/Skis/Poles & Certification included)</div>
-              <div>• <strong>Pricing:</strong> ₹13,000 Early Bird (Before 20 Oct) / +15–20% rise after 20 Oct 2026</div>
+              <div>• <strong>Pricing:</strong> Individual: ₹13,000 Early Bird / ₹15,000 after 20 Oct | Actors: ₹16,000 / ₹18,000 (100% Refundable) | Groups: 4+ ₹11,000 → ₹13,000 &amp; 9+ ₹9,500 → ₹11,500</div>
               <div>• <strong>Pre-booking Token:</strong> ₹2,000 only to lock early bird pricing</div>
             </div>
             <div className="pt-2 flex items-center gap-3">

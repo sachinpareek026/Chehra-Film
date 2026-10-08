@@ -18,6 +18,9 @@ import { HowItWorksSection } from './components/HowItWorksSection';
 import { IndiaSetGallerySection } from './components/IndiaSetGallerySection';
 import { PhilosophySection } from './components/PhilosophySection';
 import { ThreePathwaysSection } from './components/ThreePathwaysSection';
+import { DeadlinesSection } from './components/DeadlinesSection';
+import { WhatsAppDiscussionBanner } from './components/WhatsAppDiscussionBanner';
+import { ProjectPhotoGallerySection } from './components/ProjectPhotoGallerySection';
 import { FaqSection } from './components/FaqSection';
 import { FinalCtaSection } from './components/FinalCtaSection';
 import { Footer } from './components/Footer';
@@ -578,6 +581,17 @@ export default function App() {
         <ThreePathwaysSection
           onSelectPathway={(pathway) => handleOpenNomination(undefined, pathway)}
         />
+
+        {/* 9B. Important Dates & Deadlines (Live Days Remaining & Lapsed Tracking) */}
+        <DeadlinesSection
+          onOpenBooking={(pathway) => handleOpenNomination(undefined, pathway || 'participant')}
+        />
+
+        {/* 9C. Join WhatsApp Discussion Group (Placed above gallery & FAQ) */}
+        <WhatsAppDiscussionBanner />
+
+        {/* 9D. Project Photo Gallery (Cropped 3:4 ratio with horizontal scrolling controls) */}
+        <ProjectPhotoGallerySection />
 
         {/* 10. Frequently Asked Questions (Actor Refund & Participant Pricing Policy) */}
         <FaqSection

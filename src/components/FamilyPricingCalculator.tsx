@@ -14,7 +14,7 @@ import {
   Minus
 } from 'lucide-react';
 import { PathwayType } from '../types';
-import { FAMILY_PRICING_TIERS, getFamilyPricePerPerson } from '../data/familyTripData';
+import { FAMILY_PRICING_TIERS, getFamilyPricePerPerson, getFamilyPriceAfter20Oct } from '../data/familyTripData';
 
 interface FamilyPricingCalculatorProps {
   onOpenBooking: (pathway?: PathwayType) => void;
@@ -27,7 +27,9 @@ export const FamilyPricingCalculator: React.FC<FamilyPricingCalculatorProps> = (
 
   const pricePerPerson = getFamilyPricePerPerson(travellerCount);
   const totalAmount = pricePerPerson * travellerCount;
-  const baseRatePerPerson = 12000;
+  const priceAfter20Oct = getFamilyPriceAfter20Oct(travellerCount);
+  const totalAfter20Oct = priceAfter20Oct * travellerCount;
+  const baseRatePerPerson = 11000;
   const savingsPerPerson = baseRatePerPerson - pricePerPerson;
   const totalSavings = savingsPerPerson * travellerCount;
 
@@ -141,16 +143,30 @@ export const FamilyPricingCalculator: React.FC<FamilyPricingCalculatorProps> = (
           {/* Dynamic Price Calculation Box (5 cols) */}
           <div className="lg:col-span-5 p-4 bg-black/60 border border-amber-400/40 rounded-none space-y-3">
             <div className="flex items-center justify-between text-xs font-mono border-b border-white/10 pb-2">
-              <span className="text-white/60 uppercase">Price Per Person:</span>
+              <span className="text-white/60 uppercase">Price Per Person (Before 20 Oct):</span>
               <span className="text-base font-bold text-amber-400 tabular-nums">
                 ₹{pricePerPerson.toLocaleString('en-IN')}
               </span>
             </div>
 
             <div className="flex items-center justify-between text-xs font-mono border-b border-white/10 pb-2">
-              <span className="text-white/60 uppercase">Example Total Cost:</span>
+              <span className="text-rose-300 uppercase">After 20th Oct (+15–20% Hike):</span>
+              <span className="text-base font-bold text-rose-300 tabular-nums">
+                ₹{priceAfter20Oct.toLocaleString('en-IN')}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between text-xs font-mono border-b border-white/10 pb-2">
+              <span className="text-white/60 uppercase">Total Cost (Before 20 Oct):</span>
               <span className="text-lg font-black text-white tabular-nums">
                 ₹{totalAmount.toLocaleString('en-IN')}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between text-xs font-mono border-b border-white/10 pb-2">
+              <span className="text-rose-300 uppercase">Total After 20 Oct (Revised):</span>
+              <span className="text-base font-bold text-rose-300 tabular-nums">
+                ₹{totalAfter20Oct.toLocaleString('en-IN')}
               </span>
             </div>
 
@@ -163,13 +179,13 @@ export const FamilyPricingCalculator: React.FC<FamilyPricingCalculatorProps> = (
               </div>
             ) : (
               <div className="p-2 bg-white/5 border border-white/10 text-white/60 text-[11px] font-mono">
-                Base group rate for 4 people. Add more members to unlock up to ₹2,500 discount per person!
+                Base group rate for 4+ people (₹11,000 / person). Add more members to reach ₹9,500/person!
               </div>
             )}
 
             <div className="p-2 bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[11px] font-mono flex flex-wrap items-center justify-between gap-1">
-              <span>★ Early Bird Rate (Locked Before 20 Oct)</span>
-              <span className="text-[10px] text-amber-200/90 font-bold">+15–20% surge after 20 Oct</span>
+              <span>★ Early Bird Locked (Before 20 Oct)</span>
+              <span className="text-[10px] text-rose-300 font-bold">+20% hike applied after 20 Oct</span>
             </div>
 
             {travellerCount >= 9 && (
@@ -263,8 +279,10 @@ export const FamilyPricingCalculator: React.FC<FamilyPricingCalculatorProps> = (
             <thead>
               <tr className="border-b border-white/10 text-white/50 uppercase bg-white/[0.02]">
                 <th className="py-3 px-4">Travellers</th>
-                <th className="py-3 px-4 text-amber-400">Price / Person</th>
-                <th className="py-3 px-4">Example Total</th>
+                <th className="py-3 px-4 text-amber-400">Current (Before 20 Oct)</th>
+                <th className="py-3 px-4 text-rose-300 font-bold">After 20 Oct (+20% Hike)</th>
+                <th className="py-3 px-4">Total (Current)</th>
+                <th className="py-3 px-4 text-rose-300">Total (+20% Hike)</th>
                 <th className="py-3 px-4">Savings Benefit</th>
                 <th className="py-3 px-4 text-right">Action</th>
               </tr>
@@ -272,6 +290,8 @@ export const FamilyPricingCalculator: React.FC<FamilyPricingCalculatorProps> = (
             <tbody className="divide-y divide-white/5">
               {FAMILY_PRICING_TIERS.map((tier) => {
                 const isCurrent = travellerCount === tier.travellers;
+                const postHikePrice = Math.round(tier.pricePerPerson * 1.2);
+                const postHikeTotal = Math.round(tier.exampleTotal * 1.2);
                 return (
                   <tr
                     key={tier.travellers}
@@ -292,8 +312,14 @@ export const FamilyPricingCalculator: React.FC<FamilyPricingCalculatorProps> = (
                     <td className="py-3 px-4 font-bold text-amber-400 tabular-nums">
                       ₹{tier.pricePerPerson.toLocaleString('en-IN')}
                     </td>
+                    <td className="py-3 px-4 font-bold text-rose-300 tabular-nums">
+                      ₹{postHikePrice.toLocaleString('en-IN')}
+                    </td>
                     <td className="py-3 px-4 text-white tabular-nums">
                       ₹{tier.exampleTotal.toLocaleString('en-IN')}
+                    </td>
+                    <td className="py-3 px-4 font-semibold text-rose-300 tabular-nums">
+                      ₹{postHikeTotal.toLocaleString('en-IN')}
                     </td>
                     <td className="py-3 px-4 text-[11px] text-white/60 font-sans">
                       {tier.travellers === 4
