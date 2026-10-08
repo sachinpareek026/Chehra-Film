@@ -7,7 +7,9 @@ import {
   Camera,
   Film,
   Sparkles,
-  Info
+  Info,
+  Instagram,
+  ExternalLink
 } from 'lucide-react';
 
 export interface GalleryPhoto {
@@ -229,9 +231,25 @@ export const ProjectPhotoGallerySection: React.FC = () => {
             </p>
           </div>
 
-          {/* Controls: Prev/Next & Counter */}
-          <div className="flex items-center gap-4 shrink-0">
-            <div className="hidden sm:flex items-center gap-2 font-mono text-xs text-zinc-400 bg-white/5 border border-white/10 px-3 py-1.5 rounded-md">
+          {/* Right side: Chehra Films Instagram Link & Controls */}
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 shrink-0">
+            {/* Chehra Films Instagram Profile Link */}
+            <a
+              href="https://www.instagram.com/chehrafilms/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visit Chehra Films Instagram Profile"
+              className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-amber-500/10 hover:from-pink-500/20 hover:via-purple-500/20 hover:to-amber-500/20 border border-pink-500/30 hover:border-pink-500/60 text-zinc-200 hover:text-white transition-all duration-300 font-mono text-xs shadow-sm hover:shadow-pink-500/15 group/insta cursor-pointer"
+            >
+              <Instagram className="w-4 h-4 text-pink-400 group-hover/insta:scale-110 transition-transform" />
+              <span className="font-semibold text-zinc-100 group-hover/insta:text-white tracking-wide">
+                @chehrafilms
+              </span>
+              <ExternalLink className="w-3 h-3 text-zinc-400 group-hover/insta:text-pink-300 transition-colors" />
+            </a>
+
+            {/* Counter */}
+            <div className="hidden sm:flex items-center gap-2 font-mono text-xs text-zinc-400 bg-white/5 border border-white/10 px-3 py-2 rounded-md">
               <span className="text-yellow-400 font-bold">
                 {String(currentIndex + 1).padStart(2, '0')}
               </span>
@@ -239,6 +257,7 @@ export const ProjectPhotoGallerySection: React.FC = () => {
               <span>{String(PROJECT_PHOTOS.length).padStart(2, '0')}</span>
             </div>
 
+            {/* Prev / Next buttons */}
             <div className="flex items-center gap-2">
               <button
                 type="button"
