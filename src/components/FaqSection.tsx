@@ -33,9 +33,9 @@ const FAQS: FaqItem[] = [
     category: 'actor',
     question: 'What is the total amount, booking amount, and deadline for actors?',
     answer:
-      'Nomination and audition submission is 100% free with zero fees. The total amount for selected actors is ₹16,000 before 20th October and ₹18,000 after 20th October (which is a 100% refundable production security deposit). You do not pay anything upfront; the security booking amount of ₹3,000 is payable ONLY AFTER you are officially selected for the character role. The pending balance must be cleared at least 20 days prior to the start of the trip. The last date to apply for acting roles is 20th November 2026. Under Chehra Films\' financial assurance, 100% of the deposit is refunded post-release upon cost recovery.',
-    highlight: 'TOTAL ₹16,000 (BEFORE 20 OCT) / ₹18,000 (AFTER 20 OCT) • 100% REFUNDABLE',
-    legalClause: 'Section 8.1 (Actor Production Deposit & Selection Schedule): Submissions are cost-free. Upon official casting confirmation, the ₹3,000 security booking amount locks the character contract. Final total is ₹16,000 before 20 Oct / ₹18,000 after 20 Oct, 100% refundable upon post-release cost recovery. Last date to apply: 20th November 2026.',
+      'Nomination and audition submission is 100% free with zero fees. The total amount for selected actors is ₹16,000 before 20th October and ₹19,000 after 20th October (which is a 100% refundable production security deposit). You do not pay anything upfront; the security booking amount of ₹3,000 is payable ONLY AFTER you are officially selected for the character role. The pending balance must be cleared at least 20 days prior to the start of the trip. The last date to apply for acting roles is 20th November 2026. Under Chehra Films\' financial assurance, 100% of the deposit is refunded post-release upon cost recovery.',
+    highlight: 'TOTAL ₹16,000 (BEFORE 20 OCT) / ₹19,000 (AFTER 20 OCT) • 100% REFUNDABLE',
+    legalClause: 'Section 8.1 (Actor Production Deposit & Selection Schedule): Submissions are cost-free. Upon official casting confirmation, the ₹3,000 security booking amount locks the character contract. Final total is ₹16,000 before 20 Oct / ₹19,000 after 20 Oct, 100% refundable upon post-release cost recovery. Last date to apply: 20th November 2026.',
     relatedDoc: 'Standard Actor Cast Participation Agreement'
   },
   {
@@ -102,7 +102,7 @@ const FAQS: FaqItem[] = [
     category: 'participant',
     question: 'Why does the expedition rate increase after October 20?',
     answer:
-      'High-altitude mountain permits, specialized winter vehicle convoy leases, and Gulmarg hotel reservations surge during peak Christmas week. Registrations received after 20 October 2026 increase to ₹15,000 (and ₹18,000 for actors). Booking early guarantees the ₹13,000 rate.',
+      'High-altitude mountain permits, specialized winter vehicle convoy leases, and Gulmarg hotel reservations surge during peak Christmas week. Registrations received after 20 October 2026 increase to ₹15,000 (and ₹19,000 for actors). Booking early guarantees the ₹13,000 rate.',
     highlight: '₹15,000 AFTER 20 OCTOBER 2026',
     legalClause: 'Section 5.4 (Peak Winter Logistics Surcharge): Government pass permits and heating provisions surge in late autumn.',
     relatedDoc: 'Winter Convoy Logistics Schedule'
@@ -132,9 +132,9 @@ const FAQS: FaqItem[] = [
     category: 'crew',
     question: 'What is the financial and logistical structure for technical crew?',
     answer:
-      'Selected technical crew members receive subsidized logistics, dedicated equipment freight trucks, cross-state vehicle transit, and base camp lodging. The final amount for crew is ₹13,000, with a ₹2,000 security booking amount payable only upon official department selection. The pending balance is cleared at least 20 days prior to the start of the trip.',
-    highlight: 'FINAL ₹13,000 • ₹2,000 SECURITY BOOKING UPON SELECTION',
-    legalClause: 'Section 10.1 (Crew Freight & Lodging): Specialized gear transport vehicles and high-altitude lodging provided by production. Crew contribution ₹13,000 with ₹2,000 security booking upon selection.',
+      'Selected technical crew members receive subsidized logistics, dedicated equipment freight trucks, cross-state vehicle transit, and base camp lodging. The final amount for crew is ₹13,000 before 20th Oct, and ₹15,000 after 20th Oct, with a ₹2,000 security booking amount payable only upon official department selection. The pending balance is cleared at least 20 days prior to the start of the trip.',
+    highlight: '₹13,000 (BEFORE 20 OCT) / ₹15,000 (AFTER 20 OCT) • ₹2,000 SECURITY BOOKING UPON SELECTION',
+    legalClause: 'Section 10.1 (Crew Freight & Lodging): Specialized gear transport vehicles and high-altitude lodging provided by production. Crew contribution ₹13,000 before 20 Oct / ₹15,000 after 20 Oct with ₹2,000 security booking upon selection.',
     relatedDoc: 'Technical Crew Operation Protocol'
   },
   {
@@ -258,7 +258,7 @@ export const FaqSection: React.FC<FaqSectionProps> = ({ onOpenNomination }) => {
                 </span>
               </div>
               <p className="text-xs text-white/70 leading-relaxed font-light font-sans">
-                <strong className="text-white font-normal">Total ₹16,000 | ₹3,000 security booking after selection:</strong> 100% refundable production security deposit. Zero upfront fee; ₹3,000 security booking amount payable only if chosen for the role. Last date to apply: 20 Nov 2026.
+                <strong className="text-white font-normal">Total ₹16,000 (Before 20 Oct) / ₹19,000 (After 20 Oct) | ₹3,000 security booking after selection:</strong> 100% refundable production security deposit. Zero upfront fee; ₹3,000 security booking amount payable only if chosen for the role. Last date to apply: 20 Nov 2026.
               </p>
             </div>
           </div>

@@ -27,7 +27,7 @@ const BENEFIT_EXTENDED_DATA: Record<string, BenefitDetailedInfo> = {
     deliverables: [
       'Multi-camera 4K anamorphic setups during real transit',
       'Ambient natural lighting in high-altitude terrain',
-      'Unscripted character dialogues captured live on field mics'
+      'Scripted character dialogues and well-written dramatic scenes captured live on field mics'
     ],
     operationalMechanism: 'Direct integration of real road conditions, local chai stall stops, and atmospheric mountain weather directly into the narrative script.',
     quote: 'The terrain does not wait for a second take; life unfolds at 60 frames per second.',
@@ -78,7 +78,7 @@ const BENEFIT_EXTENDED_DATA: Record<string, BenefitDetailedInfo> = {
     visualImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957420/Become_part_of_the_film.webp'
   },
   b6: {
-    legalClause: 'Section 14.1 (Media Archive & Showreel Access): Full access to the private high-definition digital archive of expedition footage and unscripted recordings.',
+    legalClause: 'Section 14.1 (Media Archive & Showreel Access): Full access to the private high-definition digital archive of expedition footage, scripted takes, and production recordings.',
     deliverables: [
       'Personal 4K video cut of your expedition journey',
       'Access to behind-the-scenes photography master files',
@@ -140,7 +140,7 @@ export const WhyJoinSection: React.FC = () => {
           </div>
 
           <p className="text-[#B8B4AC] text-xs sm:text-sm font-normal font-sans max-w-md leading-[1.6]">
-            A radical departure from manufactured cinema. Real unscripted overland logistics, genuine financial alignment, and authenticated festival credit.
+            A radical departure from manufactured studio cinema. Real overland logistics, a well-written script, genuine financial alignment, and authenticated festival credit.
           </p>
         </div>
 

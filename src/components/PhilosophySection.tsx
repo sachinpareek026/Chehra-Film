@@ -88,7 +88,7 @@ export const PhilosophySection: React.FC = () => {
 
         {/* High-impact narrative */}
         <p className="max-w-2xl mx-auto text-[#B8B4AC] text-xs sm:text-sm font-normal font-sans leading-[1.65] mt-6 mb-14">
-          Mainstream cinema simulates life inside soundstages. We strip away artificiality, take real people onto unscripted Indian highways, and let the truth of the journey shape the cinema.
+          Mainstream cinema simulates life inside soundstages. We bring a well-written script and compelling character arcs onto real Indian highways, letting structured cinematic storytelling meet the authentic truth of overland exploration.
         </p>
 
         {/* 3 Visual Manifesto Cards */}

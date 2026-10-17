@@ -218,68 +218,68 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
     }
   ];
 
-  // Pricing Tiers with updated requested rates: ₹13,000 Early Bird / ₹14,500 Regular / ₹16,000 Actors
+  // 3 Distinct Pricing Tiers: Actors, Individual & Crew, and Groups (All with 15–20% hike after 20 Oct)
   const pricingTiers = [
-    {
-      id: 'early-bird',
-      name: 'EARLY BIRD EXPEDITION',
-      price: '₹13,000',
-      period: 'per person',
-      tag: 'LIMITED EARLY BIRD SEATS',
-      highlightColor: 'emerald',
-      status: 'AVAILABLE NOW',
-      description: 'Special early-bird rate for selected advance bookings. Christmas peak week in Gulmarg demands early transport & room lock-in.',
-      features: [
-        'Full 8 Days / 7 Nights comprehensive expedition (24 - 31 Dec)',
-        '₹2,000 security booking amount to confirm & lock seat',
-        'Balance ₹11,000 cleared 20 days prior to departure',
-        '5 Nights hotel stay (1N Katra + 2N Gulmarg + 2N Srinagar - 2 sharing preserved)',
-        '2 Nights comfortable group transit (Delhi ↔ Kashmir loop)',
-        'Gulmarg Ski 2-Day Certificate Course under Experts Training Program with gear + mentor included',
-        'Vaishno Devi Yatra experience + Gulmarg snow exploration'
-      ],
-      pathway: 'participant' as PathwayType,
-      btnLabel: 'LOCK SEAT (₹2,000 SECURITY)'
-    },
-    {
-      id: 'regular',
-      name: 'REGULAR EXPEDITION',
-      price: '₹15,000',
-      period: 'per person (after 20 Oct)',
-      tag: 'STANDARD EXPEDITION RATE',
-      highlightColor: 'amber',
-      status: 'APPLICABLE AFTER 20 OCT 2026',
-      description: 'Standard booking tier applied after 20 October 2026 (₹15,000 per person) due to surging peak Christmas hotel tariffs and winter transport rates.',
-      features: [
-        'Full 8 Days / 7 Nights complete itinerary',
-        '5 Nights hotel stays across Katra, Gulmarg & Srinagar (2 sharing)',
-        'All interstate & local internal transport vehicles included',
-        'Gulmarg Ski 2-Day Certificate Course under Experts Training Program with gear + mentor included',
-        'Trip coordinator, safety oversight & medical assistance',
-        'High-resolution participant photo & video package'
-      ],
-      pathway: 'participant' as PathwayType,
-      btnLabel: 'RESERVE EXPEDITION SEAT'
-    },
     {
       id: 'actor',
       name: 'ACTORS / LEAD CAST',
-      price: '₹16,000 / ₹18,000',
-      period: '100% refundable deposit',
-      tag: '₹3,000 SECURITY AFTER SELECTION',
+      price: '₹16,000',
+      period: '→ ₹19,000 after 20 Oct',
+      tag: '100% REFUNDABLE DEPOSIT',
       highlightColor: 'yellow',
-      status: 'LAST DATE TO APPLY: 20TH NOV',
-      description: 'Total amount is ₹16,000 before 20th Oct, rising to ₹18,000 after 20th Oct (100% refundable production security deposit). Zero fee to apply; ₹3,000 security booking amount payable only AFTER role selection. Last date: 20th Nov.',
+      status: 'AUDITIONS OPEN (LAST DATE: 20 NOV)',
+      description: 'Total amount is ₹16,000 before 20th Oct, revised with a 15–20% hike to ₹19,000 after 20th Oct (100% refundable production security deposit returned upon post-release cost recovery). Auditions are free; ₹3,000 security booking amount payable only AFTER role selection.',
       features: [
-        'Official on-screen character casting in "The Life of Nandi" / "Chehra"',
-        'Total ₹16,000 before 20 Oct / ₹18,000 after 20 Oct (100% refundable deposit upon cost recovery)',
-        '₹3,000 security booking amount payable only AFTER role selection',
-        'Pending balance cleared 20 days prior to departure',
-        'IMDb verified film credits & theatrical festival eligibility',
-        'All lodging (2 sharing), Gulmarg Ski 2-Day Certificate Course & internal transit included'
+        'Official on-screen character casting with a well-written script & character dialogue',
+        '₹16,000 before 20 Oct → ₹19,000 after 20 Oct (15–20% price revision)',
+        '100% refundable production security deposit returned upon cost recovery',
+        '₹3,000 security booking amount payable only AFTER official selection',
+        'IMDb verified film credit & international theatrical festival eligibility',
+        '5N Lodging (2 sharing), internal transit & Gulmarg Ski 2-Day Certificate Course included'
       ],
       pathway: 'actor' as PathwayType,
-      btnLabel: 'AUDITION FOR CAST (LAST DATE: 20 NOV)'
+      btnLabel: 'AUDITION AS ACTOR (FREE AUDITION)'
+    },
+    {
+      id: 'individual-crew',
+      name: 'INDIVIDUAL & CREW',
+      price: '₹13,000',
+      period: '→ ₹15,000 after 20 Oct',
+      tag: 'LOCK WITH ₹2,000',
+      highlightColor: 'emerald',
+      status: 'AVAILABLE NOW (EARLY BIRD)',
+      description: 'Individual participant & technical crew expedition tier. ₹13,000 before 20th Oct, revised with a 15–20% hike to ₹15,000 after 20th Oct due to Christmas peak week room and vehicle rates. Lock your seat today with a ₹2,000 security booking amount.',
+      features: [
+        'Full 8 Days / 7 Nights comprehensive expedition (24 – 31 Dec)',
+        '₹13,000 before 20 Oct → ₹15,000 after 20 Oct (15–20% price revision)',
+        'Lock seat with ₹2,000 security booking amount; balance cleared 20 days prior',
+        '5 Nights hotel stays (1N Katra + 2N Gulmarg + 2N Srinagar) + 2N transit',
+        'Gulmarg Ski 2-Day Certificate Course under Experts Training Program (gear + mentor included)',
+        'Vaishno Devi Yatra experience + Gulmarg snow + Srinagar exploration'
+      ],
+      pathway: 'participant' as PathwayType,
+      btnLabel: 'LOCK SEAT (₹2,000 BOOKING AMOUNT)'
+    },
+    {
+      id: 'group',
+      name: 'GROUP & FAMILY PACKAGES',
+      price: '₹11,000 & ₹9,500',
+      period: '→ ₹13,000 & ₹11,500 after 20 Oct',
+      tag: '4+ TRAVELLERS · 25% BOOKING',
+      highlightColor: 'cyan',
+      status: 'DELHI TO DELHI ROUND-TRIP',
+      description: 'Curated 8-day holiday for friend groups & families departing round-trip from Delhi. 4+ people at ₹11,000 (→ ₹13,000 after 20 Oct); 9+ people at ₹9,500 (→ ₹11,500 after 20 Oct). 25% booking amount to confirm group reservations.',
+      features: [
+        'Round-trip Delhi to Delhi complete 8-Day journey (24 – 31 Dec)',
+        '4+ Travellers: ₹11,000/person (Before 20 Oct) → ₹13,000 (After 20 Oct)',
+        '9+ Travellers: ₹9,500/person (Before 20 Oct) → ₹11,500 (After 20 Oct)',
+        'All group slabs revised with 15–20% hike after 20th October',
+        '25% booking amount to secure group slots; balance 20 days prior',
+        'Gulmarg Gondola tickets included + 1 Night Deluxe Dal Lake Houseboat stay & Shikara',
+        'Comfortable hotels (Katra, Gulmarg, Pahalgam, Srinagar) with Breakfast & Dinner'
+      ],
+      pathway: 'participant' as PathwayType,
+      btnLabel: 'CALCULATE GROUP PRICING & BOOK'
     }
   ];
 
@@ -977,46 +977,73 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               <FamilyPricingCalculator onOpenBooking={onOpenBooking} />
             ) : (
               <div className="space-y-8">
+                {/* 15-20% Price Hike Alert Banner */}
+                <div className="p-4 sm:p-5 bg-gradient-to-r from-yellow-950/40 via-amber-950/30 to-red-950/40 border border-yellow-400/40 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left shadow-xl">
+                  <div className="flex items-center gap-3.5">
+                    <div className="p-2.5 bg-yellow-400 text-black shrink-0 font-mono font-black text-xs uppercase tracking-wider flex items-center gap-1.5">
+                      <AlertTriangle className="w-4 h-4 fill-current" />
+                      <span>PRICE HIKE NOTICE</span>
+                    </div>
+                    <div>
+                      <p className="text-xs sm:text-sm text-white font-medium">
+                        All 3 pricing tiers will be revised with a <span className="text-yellow-400 font-bold font-mono">15%–20% hike after 20th October</span>.
+                      </p>
+                      <p className="text-[11px] text-white/60 font-sans mt-0.5">
+                        Actors: ₹16,000 → ₹19,000 · Individual &amp; Crew: ₹13,000 → ₹15,000 · Groups: 4+ ₹11,000 → ₹13,000 &amp; 9+ ₹9,500 → ₹11,500. Lock your rate today before the surge!
+                      </p>
+                    </div>
+                  </div>
+                  <span className="shrink-0 px-3 py-1.5 bg-black/60 border border-yellow-400/40 text-yellow-300 font-mono text-xs font-bold uppercase tracking-widest">
+                    HIKE EFFECTIVE: 21 OCT
+                  </span>
+                </div>
+
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                   {pricingTiers.map((tier) => (
                     <div
                       key={tier.id}
                       className={`p-6 sm:p-7 bg-[#080B12] border flex flex-col justify-between relative transition-all duration-300 ${
-                        tier.id === 'early-bird'
-                          ? 'border-yellow-400/50'
-                          : tier.id === 'actor'
-                          ? 'border-white/20'
-                          : 'border-white/10'
+                        tier.id === 'actor'
+                          ? 'border-yellow-400/60 shadow-lg shadow-yellow-500/5'
+                          : tier.id === 'individual-crew'
+                          ? 'border-emerald-400/50 shadow-lg shadow-emerald-500/5'
+                          : 'border-cyan-400/50 shadow-lg shadow-cyan-500/5'
                       }`}
                     >
                       {/* Top Header Badge */}
                       <div>
                         <div className="flex items-center justify-between mb-3">
-                          <span className="text-[10px] font-mono tracking-widest uppercase font-semibold text-white/50">
+                          <span className="text-[10px] font-mono tracking-widest uppercase font-semibold text-white/60">
                             {tier.status}
                           </span>
                           <span
-                            className={`px-2 py-0.5 text-[9px] font-mono uppercase tracking-wider ${
-                              tier.id === 'early-bird'
-                                ? 'bg-yellow-400/90 text-[#070A0F] font-semibold'
-                                : tier.id === 'actor'
-                                ? 'bg-white/10 text-white/90 border border-white/20'
-                                : 'bg-white/5 text-white/70 border border-white/10'
+                            className={`px-2 py-0.5 text-[9px] font-mono uppercase tracking-wider font-bold ${
+                              tier.id === 'actor'
+                                ? 'bg-yellow-400 text-black'
+                                : tier.id === 'individual-crew'
+                                ? 'bg-emerald-400 text-black'
+                                : 'bg-cyan-400 text-black'
                             }`}
                           >
                             {tier.tag}
                           </span>
                         </div>
 
-                        <h3 className="font-serif text-xl text-white tracking-wide">
+                        <h3 className="font-serif text-xl sm:text-2xl text-white tracking-wide">
                           {tier.name}
                         </h3>
 
                         <div className="my-4 flex items-baseline gap-2">
-                          <span className="font-serif text-3xl sm:text-4xl text-white">
+                          <span className={`font-serif text-3xl sm:text-4xl font-bold ${
+                            tier.id === 'actor'
+                              ? 'text-yellow-400'
+                              : tier.id === 'individual-crew'
+                              ? 'text-emerald-400'
+                              : 'text-cyan-400'
+                          }`}>
                             {tier.price}
                           </span>
-                          <span className="text-xs font-mono text-white/50 uppercase">
+                          <span className="text-xs font-mono text-white/60 uppercase">
                             {tier.period}
                           </span>
                         </div>
@@ -1026,12 +1053,18 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                         </p>
 
                         <div className="space-y-2.5 pt-4 border-t border-white/10 mb-6">
-                          <span className="text-[10px] font-mono uppercase tracking-widest text-white/50 block">
+                          <span className="text-[10px] font-mono uppercase tracking-widest text-white/50 block font-bold">
                             TIER DELIVERABLES
                           </span>
                           {tier.features.map((f, fIdx) => (
                             <div key={fIdx} className="flex items-start gap-2 text-xs text-white/80">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-yellow-400/90 shrink-0 mt-0.5" />
+                              <CheckCircle2 className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${
+                                tier.id === 'actor'
+                                  ? 'text-yellow-400'
+                                  : tier.id === 'individual-crew'
+                                  ? 'text-emerald-400'
+                                  : 'text-cyan-400'
+                              }`} />
                               <span>{f}</span>
                             </div>
                           ))}
@@ -1040,9 +1073,16 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
 
                       <div className="pt-2">
                         <CinemaButton
-                          variant={tier.id === 'early-bird' ? 'primary' : 'outline'}
-                          onClick={() => onOpenBooking(tier.pathway)}
-                          className="w-full !py-3 text-xs tracking-wider font-medium"
+                          variant={tier.id === 'individual-crew' ? 'primary' : 'outline'}
+                          onClick={() => {
+                            if (tier.id === 'group') {
+                              setPackageType('family');
+                              setActiveTab('pricing');
+                            } else {
+                              onOpenBooking(tier.pathway);
+                            }
+                          }}
+                          className="w-full !py-3 text-xs tracking-wider font-bold uppercase"
                         >
                           {tier.btnLabel}
                         </CinemaButton>
@@ -1072,17 +1112,17 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                       </thead>
                       <tbody className="divide-y divide-white/5 text-white/80">
                         <tr>
-                          <td className="py-3 pr-4 font-medium text-white">Kashmir Winter Escape (Participants)</td>
+                          <td className="py-3 pr-4 font-medium text-white">Individual &amp; Crew (Participants)</td>
                           <td className="py-3 px-4">7N / 8D</td>
                           <td className="py-3 px-4 text-yellow-400/90 font-semibold">₹13,000 / Person</td>
-                          <td className="py-3 px-4 text-rose-300 font-semibold">₹15,000 / Person</td>
+                          <td className="py-3 px-4 text-rose-300 font-semibold">₹15,000 / Person (+15% hike)</td>
                           <td className="py-3 pl-4 text-white/50 font-sans">Vaishno Devi + Gulmarg Ski 2D Certificate Course + Srinagar</td>
                         </tr>
                         <tr>
                           <td className="py-3 pr-4 font-medium text-white">Actors / Lead Cast Role</td>
                           <td className="py-3 px-4">7N / 8D</td>
                           <td className="py-3 px-4 text-yellow-400/90 font-semibold">₹16,000 (100% Refund Deposit)</td>
-                          <td className="py-3 px-4 text-rose-300 font-semibold">₹18,000 (100% Refund Deposit)</td>
+                          <td className="py-3 px-4 text-rose-300 font-semibold">₹19,000 (100% Refund Deposit)</td>
                           <td className="py-3 pl-4 text-white/50 font-sans">Lead Screen Role + IMDb Credit + All Inclusions (Auditions Close 20 Nov)</td>
                         </tr>
                         <tr>
@@ -1116,7 +1156,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
                   <div className="flex items-start gap-3">
                     <Info className="w-5 h-5 text-yellow-400/90 shrink-0 mt-0.5" />
                     <p className="text-xs text-white/70 leading-relaxed font-sans">
-                      <strong className="text-white">Early Bird Guarantee:</strong> Lock your seat today with a <span className="text-yellow-400/90 font-mono font-medium">₹2,000 security booking amount</span>. Final rate is ₹13,000/person for early-bird slots locked before 20th October (Actors ₹16,000; Groups from ₹9,500 to ₹11,000); <span className="text-amber-300 font-bold">prices rise 15%–20% after 20th October 2026 (Participants ₹15,000, Actors ₹18,000, Groups ₹11,500–₹13,000)</span> due to peak season demand.
+                      <strong className="text-white">Early Bird Guarantee:</strong> Lock your seat today with a <span className="text-yellow-400/90 font-mono font-medium">₹2,000 security booking amount</span>. Final rate is ₹13,000/person for early-bird slots locked before 20th October (Actors ₹16,000; Groups from ₹9,500 to ₹11,000); <span className="text-amber-300 font-bold">prices rise 15%–20% after 20th October 2026 (Participants ₹15,000, Actors ₹19,000, Groups ₹11,500–₹13,000)</span> due to peak season demand.
                     </p>
                   </div>
                   <button
@@ -1491,7 +1531,7 @@ export const KashmirExpeditionSection: React.FC<KashmirExpeditionSectionProps> =
               <div>• <strong>Dates:</strong> 24 – 31 December 2026 (7N / 8D)</div>
               <div>• <strong>Route:</strong> Delhi → Katra → Vaishno Devi → Gulmarg → Srinagar → Delhi</div>
               <div>• <strong>Skiing:</strong> Gulmarg Ski 2-Day Certificate Course under Experts Training Program (Boots/Skis/Poles & Certification included)</div>
-              <div>• <strong>Pricing:</strong> Individual: ₹13,000 Early Bird / ₹15,000 after 20 Oct | Actors: ₹16,000 / ₹18,000 (100% Refundable) | Groups: 4+ ₹11,000 → ₹13,000 &amp; 9+ ₹9,500 → ₹11,500</div>
+              <div>• <strong>Pricing:</strong> Individual: ₹13,000 Early Bird / ₹15,000 after 20 Oct | Actors: ₹16,000 / ₹19,000 (100% Refundable) | Groups: 4+ ₹11,000 → ₹13,000 &amp; 9+ ₹9,500 → ₹11,500</div>
               <div>• <strong>Pre-booking Token:</strong> ₹2,000 only to lock early bird pricing</div>
             </div>
             <div className="pt-2 flex items-center gap-3">

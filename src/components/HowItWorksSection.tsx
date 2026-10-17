@@ -16,45 +16,45 @@ interface StepDetailedDossier {
   telemetryLog: string;
   milestones: string[];
   equipmentOrCrew: string;
-  unscriptedDynamic: string;
+  scriptedStoryDynamic: string;
 }
 
 const STEP_EXTENDED_DATA: Record<string, StepDetailedDossier> = {
   '01': {
     stepImage: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80',
     locationFocus: 'Pre-Production & Directorial Workshop',
-    telemetryLog: 'Scriptless narrative structure locked. Character relationship charts and emotional turning points plotted across 2,400 KM.',
+    telemetryLog: 'Tightly crafted screenplay locked. Character relationship charts and emotional turning points plotted across 2,400 KM with a well-written script.',
     milestones: [
-      'Narrative arc concept deck finalized without rigid scripted lines',
+      'Comprehensive screenplay drafted with rich character dialogue and scene beats',
       'Geographical scouting of Himalayan & desert transit coordinates',
       'Public casting announcement and actor nomination portal rollout'
     ],
-    equipmentOrCrew: 'Directorial Desk, Storyboard Artists, Route Logistics Planners',
-    unscriptedDynamic: 'Defining core character traumas and personal motives that will be tested by real journey friction.'
+    equipmentOrCrew: 'Directorial Desk, Screenwriters, Storyboard Artists, Route Logistics Planners',
+    scriptedStoryDynamic: 'Developing a tightly-crafted, well-written script with deep character arcs tested by real journey friction.'
   },
   '02': {
     stepImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957431/Vandana.png',
     locationFocus: 'Nationwide Open Submissions (Delhi, Mumbai, Bengaluru & Independent Circles)',
-    telemetryLog: 'Talent nominations intake portal open. Audition video reels, monologues, and travel motivations reviewed on a rolling basis.',
+    telemetryLog: 'Talent nominations intake portal open. Audition video reels, scripted monologues, and travel motivations reviewed on a rolling basis.',
     milestones: [
-      'Self-tape monologue & improv audition submissions screened daily',
+      'Self-tape scripted monologue audition submissions screened daily',
       'No audition or processing charges applied to any artist',
       'Travel motivation reviews for non-actor convoy participants'
     ],
     equipmentOrCrew: 'Casting Directors, Ensemble Coordinators',
-    unscriptedDynamic: 'Selecting individuals with raw authenticity and high psychological endurance rather than polished artificial acting.'
+    scriptedStoryDynamic: 'Selecting individuals capable of delivering scripted dialogue with visceral authenticity and emotional depth.'
   },
   '03': {
     stepImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957437/Shankar.png',
     locationFocus: 'Directorial Chemistry Round & Screen Tests',
-    telemetryLog: 'Virtual & on-camera chemistry workshops. Pairing contrasting personas to spark organic conversational tension during convoy transit.',
+    telemetryLog: 'Virtual & on-camera chemistry workshops. Rehearsing scripted scenes to ensure emotional resonance during convoy transit.',
     milestones: [
-      'Director one-on-one improvisational screen tests',
+      'Director one-on-one script reading and screen tests',
       'Ensemble chemistry pairing (Shankar & Meera, Shiva & Priya)',
       '100% post-release cost-recovery refund agreement execution'
     ],
     equipmentOrCrew: 'Director, Cinematography Leads, Legal Escrow Desk',
-    unscriptedDynamic: 'Testing how actors react to unexpected physical fatigue, sudden changes in weather, and unstructured dialogues.'
+    scriptedStoryDynamic: 'Testing how actors embody scripted dialogue amidst unexpected physical fatigue and shifting mountain weather.'
   },
   '04': {
     stepImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957421/Participant.jpg',
@@ -62,23 +62,23 @@ const STEP_EXTENDED_DATA: Record<string, StepDetailedDossier> = {
     telemetryLog: 'Convoy rollout. Multi-vehicle expedition carrying actors, participants, technical crew, and mobile field gear freight.',
     milestones: [
       'High-altitude acclimatization and base camp establishment',
-      'Daily dawn-to-dusk overland transit across extreme terrains',
-      'Candid campfire bonds between actors and expedition participants'
+      'Daily dawn-to-dusk overland transit executing planned scenes',
+      'Authentic camaraderie between actors and expedition participants'
     ],
     equipmentOrCrew: '4x4 Convoy Fleet, Field Medic, High-Altitude Expedition Guides',
-    unscriptedDynamic: 'Living out of suitcases and braving sub-zero winds dissolves performative artifice, revealing true human character.'
+    scriptedStoryDynamic: 'High-altitude conditions ground the written screenplay in visceral reality, elevating every scripted dialogue.'
   },
   '05': {
     stepImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957420/Crew.jpg',
     locationFocus: 'On-Location Mountain Soundstages & Night Deserts',
-    telemetryLog: 'Live shooting in natural twilight and midnight campfires. Multi-angle 4K CinemaScope cameras capture spontaneous events as they happen.',
+    telemetryLog: 'Live shooting in natural twilight and midnight campfires. Multi-angle 4K CinemaScope cameras capture scripted scenes in high-altitude environments.',
     milestones: [
       'Daily 4K anamorphic rushes backed up to rugged raid storage',
-      'Dolby Atmos acoustic capture of howling winds and microtonal folk songs',
-      'Participant spontaneous interactions integrated into documentary cut'
+      'Dolby Atmos acoustic capture of scripted performances and ambient winds',
+      'Participant atmosphere seamlessly integrated into the cinematic cut'
     ],
     equipmentOrCrew: 'Arri Alexa LF 4K, Anamorphic Lenses, Sound Devices Field Recorders',
-    unscriptedDynamic: 'A sudden roadblock or mountain dust storm is not a delay—it becomes the pivotal scene of the film.'
+    scriptedStoryDynamic: 'The well-written script integrates unpredictable mountain elements seamlessly into pivotal narrative scenes.'
   },
   '06': {
     stepImage: 'https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?auto=format&fit=crop&w=1200&q=80',
@@ -90,7 +90,7 @@ const STEP_EXTENDED_DATA: Record<string, StepDetailedDossier> = {
       'Theatrical release followed by international digital streaming'
     ],
     equipmentOrCrew: 'Colorists, Dolby Atmos Sound Mixers, Festival Distributors',
-    unscriptedDynamic: 'Witnessing real people celebrate their authentic journey on the silver screen before a global audience.'
+    scriptedStoryDynamic: 'Witnessing your scripted character performance celebrate its silver screen premiere before a global festival audience.'
   }
 };
 
@@ -374,14 +374,14 @@ export const HowItWorksSection: React.FC = () => {
               </ul>
             </div>
 
-            {/* Unscripted Factor & Equipment */}
+            {/* Scripted Story Factor & Equipment */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
               <div className="p-4 bg-[#050A14] border border-white/10">
                 <div className="text-[10px] font-mono text-yellow-400/90 font-bold uppercase tracking-widest mb-1.5">
-                  THE UNSCRIPTED DYNAMIC
+                  THE SCRIPTED STORY DYNAMIC
                 </div>
                 <p className="text-xs text-slate-300 font-light leading-relaxed">
-                  {activeStepDossier.unscriptedDynamic}
+                  {activeStepDossier.scriptedStoryDynamic}
                 </p>
               </div>
 

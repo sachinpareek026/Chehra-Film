@@ -56,7 +56,7 @@ export interface ExpeditionEpisode {
   soundscape: string;
   image: string;
   dramaticTension: string;
-  unscriptedEvent: string;
+  scriptedEvent: string;
 }
 
 export type PathwayType = 'actor' | 'participant' | 'crew';

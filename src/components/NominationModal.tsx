@@ -56,7 +56,7 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
     {
       question: 'What is the total amount, security booking amount, and last date to apply for actors?',
       answer:
-        'The total amount for actors is ₹16,000 for applications before 20th Oct, and ₹18,000 after 20th Oct (100% refundable upon post-release cost recovery). Submitting your audition nomination is 100% free with zero fees. If your nomination is officially accepted for the role, you submit ₹3,000 as the security booking amount to reserve your seat and schedule. The pending balance must be cleared at least 20 days prior to the start of the trip. The last date to apply for acting roles is 20th November 2026.',
+        'The total amount for actors is ₹16,000 for applications before 20th Oct, and ₹19,000 after 20th Oct (100% refundable upon post-release cost recovery). Submitting your audition nomination is 100% free with zero fees. If your nomination is officially accepted for the role, you submit ₹3,000 as the security booking amount to reserve your seat and schedule. The pending balance must be cleared at least 20 days prior to the start of the trip. The last date to apply for acting roles is 20th November 2026.',
     },
     {
       question: 'How does the 100% Refund Policy work for actors?',
@@ -100,7 +100,7 @@ const MODAL_FAQS: Record<PathwayType, FAQItem[]> = {
     {
       question: 'What is the final amount and booking fee for technical crew?',
       answer:
-        'The final amount for crew members is ₹13,000, with a ₹2,000 security booking amount payable upon official selection. This subsidized logistical contribution covers cross-state equipment freight, dedicated technical vehicle transit, and base camp lodging.',
+        'The final amount for crew members is ₹13,000 for applications before 20th Oct, rising to ₹15,000 after 20th Oct due to peak winter logistical surcharges. A ₹2,000 security booking amount is payable upon official selection. This subsidized logistical contribution covers cross-state equipment freight, dedicated technical vehicle transit, and base camp lodging.',
     },
     {
       question: 'What credits and portfolio rights do I receive?',
@@ -1388,10 +1388,10 @@ export const NominationModal: React.FC<NominationModalProps> = ({
                         {currentRole.description}
                       </p>
 
-                      {/* Unscripted Scene Snippet */}
+                      {/* Scripted Scene Snippet */}
                       <div className="p-3 bg-black/60 border border-white/10 text-xs">
                         <span className="text-[9px] font-mono text-yellow-400/90 uppercase tracking-widest block font-bold mb-1">
-                          KEY UNSCRIPTED SCENE:
+                          KEY SCRIPTED SCENE:
                         </span>
                         <p className="text-slate-300 italic font-light text-[11px] leading-relaxed">
                           {currentRole.keyScenePreview}

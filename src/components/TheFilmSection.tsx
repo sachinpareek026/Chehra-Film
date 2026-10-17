@@ -30,7 +30,7 @@ export const TheFilmSection: React.FC<TheFilmSectionProps> = ({ onWatchTeaser, o
     { label: 'ASPECT RATIO', val: '2.39:1 CinemaScope' },
     { label: 'SOUND FORMAT', val: 'Dolby Atmos Field Audio' },
     { label: 'RUNNING TIME', val: '118 Mins Feature' },
-    { label: 'PRODUCTION', val: 'Unscripted Overland' },
+    { label: 'PRODUCTION', val: 'Scripted Overland Cinema' },
   ];
 
   return (
@@ -53,7 +53,7 @@ export const TheFilmSection: React.FC<TheFilmSectionProps> = ({ onWatchTeaser, o
               {FILM_METADATA.projectTitle}
             </h2>
             <p className="text-xs sm:text-sm text-[#A5A196] font-normal max-w-xl">
-              {FILM_METADATA.projectSubtitle}. An unscripted narrative captured across 2,400 kilometers of high-altitude passes and remote river valleys.
+              {FILM_METADATA.projectSubtitle}. A scripted narrative feature film with a well-written script, captured across 2,400 kilometers of high-altitude passes and remote river valleys.
             </p>
           </div>
 
@@ -175,7 +175,7 @@ export const TheFilmSection: React.FC<TheFilmSectionProps> = ({ onWatchTeaser, o
                 OVERLAND LOGLINE
               </span>
               <p className="text-xs sm:text-sm text-[#EDE8DF] font-light leading-relaxed">
-                Six strangers on a 2,400-kilometer Himalayan convoy with zero scripted dialogue. Travel dissolves into unscripted cinema.
+                Six characters on a 2,400-kilometer Himalayan convoy driven by a well-written, gripping script. Travel dissolves into powerful scripted cinema.
               </p>
             </div>
 

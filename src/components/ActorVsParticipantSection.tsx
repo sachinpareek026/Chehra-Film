@@ -27,7 +27,7 @@ export const ActorVsParticipantSection: React.FC<ActorVsParticipantSectionProps>
             CHOOSE YOUR ROLE ON THE ROAD
           </h2>
           <p className="mt-3 text-[#B8B4AC] text-xs sm:text-sm font-normal font-sans max-w-xl mx-auto leading-relaxed">
-            Whether leading an unscripted character arc or joining the expedition caravan as a traveler, your presence is captured in the fabric of this film.
+            Whether leading a scripted character arc driven by a well-written screenplay or joining the expedition caravan as a traveler, your presence is captured in the fabric of this film.
           </p>
         </div>
 
@@ -61,7 +61,7 @@ export const ActorVsParticipantSection: React.FC<ActorVsParticipantSectionProps>
               </h3>
 
               <div className="mb-4 inline-flex items-center gap-2 font-mono text-xs">
-                <span className="text-yellow-400 font-bold">Total: ₹16,000 (Before 20 Oct) / ₹18,000 (After 20 Oct)</span>
+                <span className="text-yellow-400 font-bold">Total: ₹16,000 (Before 20 Oct) / ₹19,000 (After 20 Oct)</span>
                 <span className="text-white/40">•</span>
                 <span className="text-emerald-400">₹3,000 Security After Selection</span>
               </div>
@@ -71,7 +71,7 @@ export const ActorVsParticipantSection: React.FC<ActorVsParticipantSectionProps>
                   <span className="w-4 h-4 border border-yellow-400/50 flex items-center justify-center text-yellow-400/90 shrink-0">
                     <Check className="w-2.5 h-2.5" />
                   </span>
-                  <span>Step into a defined character persona (7 unwritten roles).</span>
+                  <span>Step into a defined character persona (7 scripted roles).</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="w-4 h-4 border border-yellow-400/50 flex items-center justify-center text-yellow-400/90 shrink-0">

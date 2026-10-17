@@ -111,11 +111,11 @@ export const CharacterDetailModal: React.FC<CharacterDetailModalProps> = ({
               </div>
             </div>
 
-            {/* Unscripted Turning Point */}
+            {/* Scripted Turning Point */}
             <div className="space-y-2">
               <h4 className="text-[10px] font-sans tracking-[0.14em] text-yellow-400/90 uppercase flex items-center gap-2 font-semibold">
                 <Clapperboard className="w-3.5 h-3.5 text-yellow-400/90" />
-                <span>KEY UNSCRIPTED SCENE PREVIEW</span>
+                <span>KEY SCRIPTED SCENE PREVIEW</span>
               </h4>
               <div className="p-4 bg-yellow-400/5 border border-yellow-400/20 text-xs sm:text-sm font-normal text-[#F4F1EA]/90 leading-[1.65] italic font-sans">
                 {character.keyScenePreview}

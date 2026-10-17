@@ -9,7 +9,7 @@ export const FILM_METADATA = {
   positioning: "INDIA'S 1ST EXPERIMENTAL CINEMA PROJECT",
   motto: 'A journey where travel becomes cinema.',
   directorNotes: 'A radical cinematic venture eliminating studio sets. India is our soundstage, travelers are our cast.',
-  synopsis: 'An unscripted overland cinema odyssey across 2,400 kilometers of real Indian terrain. As a fragile caravan navigates sub-zero Himalayan passes, sacred ancient rivers, and silent dunes, Rudra stands as the silent guardian — protecting the unvarnished truths of six wanderers who refuse to look back.',
+  synopsis: 'A scripted overland cinema odyssey powered by a well-written screenplay across 2,400 kilometers of real Indian terrain. As a fragile caravan navigates sub-zero Himalayan passes, sacred ancient rivers, and silent dunes, Rudra stands as the silent guardian — guiding the intertwined fates of six wanderers through powerful scripted scenes.',
   trailerUrl: 'https://youtu.be/Rz5jQK4KQ2o?si=POsuNzsMIyrYhcAx',
   trailerYoutubeId: 'Rz5jQK4KQ2o',
   trailerThumbnail: 'https://img.youtube.com/vi/Rz5jQK4KQ2o/maxresdefault.jpg',
@@ -124,13 +124,13 @@ export const CHARACTERS: CharacterRole[] = [
     ageRange: 'Open (Any Age)',
     tagline: 'The Open Character Canvas',
     description:
-      'Can be played by anyone, male or female. Bring your authentic personality, specialized skills, and raw presence to define an unscripted character in the film.',
-    archetype: 'Custom Unscripted Role',
+      'Can be played by anyone, male or female. Bring your authentic personality, specialized skills, and raw presence to portray a custom scripted character in the film.',
+    archetype: 'Custom Scripted Role',
     image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957432/ChatGPT_Image_Sep_21_2026_07_35_54_AM.png',
     accentColor: '#10b981', // emerald
     filmingLocations: ['Pangong Tso Lake Edge', 'Kuldhara Ghost Village', 'Chambal Badlands'],
     keyScenePreview:
-      'Scene 61: At dusk on the salt flats, an unscripted traveler lights a solitary lantern on the roof of the expedition vehicle, watching the horizon fade into obsidian silence.'
+      'Scene 61: At dusk on the salt flats, a scripted character lights a solitary lantern on the roof of the expedition vehicle, reciting written lines as the horizon fades into obsidian silence.'
   }
 ];
 
@@ -335,8 +335,8 @@ export const EXPEDITION_EPISODES: ExpeditionEpisode[] = [
     charactersInvolved: ['Shankar', 'Meera', 'Rudra'],
     soundscape: 'Binaural sub-zero gale, idling diesel turbo, crunching ice gravel',
     image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789639214/images_19_-_Copy.jpg',
-    dramaticTension: 'The first unscripted breakdown: Shankar refuses to sleep inside the heated vehicle.',
-    unscriptedEvent: 'Sudden blizzard at 14,000 ft forces the convoy to shelter in stone shepherd huts.'
+    dramaticTension: 'The first scripted confrontation: Shankar refuses to sleep inside the heated vehicle.',
+    scriptedEvent: 'Sudden blizzard at 14,000 ft forces the convoy to shelter in stone shepherd huts.'
   },
   {
     id: 'ep-02',
@@ -347,12 +347,12 @@ export const EXPEDITION_EPISODES: ExpeditionEpisode[] = [
     altitude: '3,800m – 4,400m',
     coordinates: '32.29° N, 78.01° E',
     synopsis:
-      'Cut off from all mobile cellular networks in the barren Spiti desert. Around a midnight kerosene heater, unspoken personal histories and unresolved grief emerge without an authored script.',
+      'Cut off from all mobile cellular networks in the barren Spiti desert. Around a midnight kerosene heater, unspoken personal histories and scripted character revelations emerge in intimate intensity.',
     charactersInvolved: ['Meera', 'Jyoti', 'Shiva'],
     soundscape: 'Microtonal Tibetan horns echoing across fossil canyons, fluttering prayer flags',
     image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789634480/images_-_2026-09-14T173720.993.jpg',
-    dramaticTension: 'Meera exposes an emotional secret captured accidentally on 35mm film.',
-    unscriptedEvent: 'A local monastery elder invites the cast to share salt tea at dusk during evening chanting.'
+    dramaticTension: 'Meera executes a poignant scripted turning point captured on 35mm film.',
+    scriptedEvent: 'A local monastery elder invites the cast to share salt tea at dusk during evening chanting.'
   },
   {
     id: 'ep-03',
@@ -368,7 +368,7 @@ export const EXPEDITION_EPISODES: ExpeditionEpisode[] = [
     soundscape: 'Roaring Sutlej river 1,200 ft below, shattering slate rocks, howling valley drafts',
     image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789639214/images_36_-_Copy.jpg',
     dramaticTension: 'Arjun threatens to abandon the expedition; Rudra anchors the psychological breaking point.',
-    unscriptedEvent: 'Filming a spontaneous emotional breakdown suspended over the canyon abyss.'
+    scriptedEvent: 'Filming a spontaneous emotional breakdown suspended over the canyon abyss.'
   },
   {
     id: 'ep-04',
@@ -383,7 +383,7 @@ export const EXPEDITION_EPISODES: ExpeditionEpisode[] = [
     charactersInvolved: ['Shankar', 'Shiva', 'Jyoti', 'All Cast'],
     soundscape: 'Desert sand whistling through ruined sandstone courtyards, acoustic raw sarangi strings',
     image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789639213/images_-_Copy.jpg',
-    dramaticTension: 'The final unwritten climax: Who goes back to their old city life, and who keeps driving?',
-    unscriptedEvent: 'Midnight acoustic folk circle under a moonlit sky with zero electric lights.'
+    dramaticTension: 'The climactic final scene: Who returns to their old city life, and who keeps driving?',
+    scriptedEvent: 'Midnight acoustic folk circle under a moonlit sky with zero electric lights.'
   }
 ];

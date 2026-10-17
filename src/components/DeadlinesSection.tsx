@@ -56,22 +56,22 @@ export const DeadlinesSection: React.FC<DeadlinesSectionProps> = ({ onOpenBookin
       badgeText: 'EARLY BIRD RATE',
       badgeStyle: 'green',
       icon: <CheckCircle2 className="w-5 h-5 text-emerald-400" />,
-      pricingHighlight: 'Normal Participants ₹13,000 • Actors ₹16,000',
-      description: 'Book your seats before 20th October to secure the ₹13,000 early bird rate for normal participants and ₹16,000 for actors (100% refundable). Lock your seat with ₹2,000 security booking amount.',
+      pricingHighlight: 'Actors ₹16k • Individual & Crew ₹13k • Groups from ₹9.5k',
+      description: 'Book before 20th October to secure Early Bird rates: Individual & Crew at ₹13,000, Actors at ₹16,000 (100% refundable), and Groups at ₹11,000 (4+) / ₹9,500 (9+). Lock with ₹2,000 security booking amount.',
       actionNote: 'Lock with ₹2,000 security booking amount'
     },
     {
       id: 'after-20-oct',
       stepNumber: '2',
       title: 'AFTER 20TH OCTOBER',
-      subtitle: '+20% Peak Surcharge',
+      subtitle: '+15%–20% Peak Surcharge',
       targetDate: `${campaignYear}-10-21T00:00:00`,
-      badgeText: '+20% PRICE HIKE',
+      badgeText: '+15–20% PRICE HIKE',
       badgeStyle: 'red',
       icon: <TrendingUp className="w-5 h-5 text-rose-400" />,
-      pricingHighlight: 'Normal Participants ₹15,000 • Actors ₹18,000',
-      description: 'Normal participants pricing rises to ₹15,000 and actors to ₹18,000. All family & group package slabs also increase by 15%–20% due to peak winter season demand.',
-      actionNote: 'Family & group packages also increase by 20%'
+      pricingHighlight: 'Actors ₹19k • Individual & Crew ₹15k • Groups ₹11.5k–₹13k',
+      description: 'All 3 pricings revised with 15%–20% hike: Individual & Crew rises to ₹15,000, Actors to ₹19,000, and Groups to ₹13,000 (4+) / ₹11,500 (9+) due to peak winter season demand.',
+      actionNote: 'All 3 pricing tiers increase by 15%–20%'
     },
     {
       id: '20-nov-actors',

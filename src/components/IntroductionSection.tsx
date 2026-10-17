@@ -16,7 +16,7 @@ export const IntroductionSection: React.FC = () => {
 
   const stats = [
     { value: '2,400+', unit: 'KM', label: 'Overland Route', sub: 'Himalayas to the Great Indian Desert' },
-    { value: '06', unit: 'ROLES', label: 'Unscripted Characters', sub: '100% Refundable Security Deposit' },
+    { value: '06', unit: 'ROLES', label: 'Scripted Roles', sub: '100% Refundable Security Deposit' },
     { value: '₹2,000', unit: 'TOKEN', label: 'Expedition Lock', sub: 'Secures Seat & Contributor Credit' },
     { value: '2.39:1', unit: 'SCOPE', label: 'Anamorphic 4K', sub: 'Natural Light & Environmental Audio' },
   ];
@@ -25,7 +25,7 @@ export const IntroductionSection: React.FC = () => {
     {
       icon: <Compass className="w-4 h-4 text-yellow-400/90" />,
       tag: '01 / TERRAIN',
-      title: 'Unscripted Route',
+      title: 'Scripted Expedition Route',
       desc: 'Delhi • Katra • Gulmarg • Srinagar • Spiti • Thar. 28 days of uninterrupted road travel.',
       image: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957420/Travel_india.jpg',
       deepDive:
@@ -105,7 +105,7 @@ export const IntroductionSection: React.FC = () => {
           </div>
 
           <p className="max-w-md text-xs sm:text-sm text-[#A5A196] font-light leading-relaxed border-l border-white/15 pl-4">
-            India&apos;s first unscripted narrative feature. We strip away artificial studios, taking 7 lead characters and an intimate convoy across India&apos;s wildest mountain roads.
+            An ambitious scripted narrative feature powered by a well-written script. We strip away artificial studios, taking 7 lead scripted characters and an intimate convoy across India&apos;s wildest mountain roads.
           </p>
         </div>
 

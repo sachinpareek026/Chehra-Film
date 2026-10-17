@@ -165,7 +165,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onWatchFilm, onOpenNom
 
           {/* Auteur Logline */}
           <p className="text-[10px] sm:text-sm text-[#B8B4AC] font-normal leading-[1.65] max-w-xl mr-[2px] sm:mr-0 pt-[2px] pb-[3px] sm:py-0 pr-[57px] sm:pr-0 pl-0">
-            An unscripted overland feature film across 2,400 kilometers of raw Indian terrain. Zero soundstages. Zero green screens. Real individuals navigating the sub-zero passes of the Himalayas and the ancient silence of the river.
+            A scripted overland feature film with a well-written script across 2,400 kilometers of raw Indian terrain. Zero soundstages. Zero green screens. Real individuals bringing structured characters to life navigating the sub-zero passes of the Himalayas and the ancient silence of the river.
           </p>
 
           {/* Restrained Action Controls */}

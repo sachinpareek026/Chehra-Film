@@ -300,7 +300,7 @@ export const ActorVideoBrief: React.FC<ActorVideoBriefProps> = ({ currentRoleNam
                     </span>
                   </div>
                   <p className="text-[11px] text-slate-400 font-sans leading-relaxed">
-                    Watch sample nomination reel showing natural pacing, profile angles, and unscripted reaction.
+                    Watch sample nomination reel showing natural pacing, profile angles, and scripted monologue reaction.
                   </p>
                 </div>
 

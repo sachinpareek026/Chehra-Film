@@ -47,17 +47,17 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
     badge: 'TOTAL ₹16,000',
     badgeColor: 'bg-yellow-400 text-black',
     title: 'AS AN ACTOR',
-    subtitle: 'Lead Character Arc • Unscripted Cinema Realism',
+    subtitle: 'Lead Character Arc • Scripted Cinema & Dramatic Realism',
     heroImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957437/Shankar.png',
-    pricingTag: 'TOTAL ₹16,000 (BEFORE 20 OCT) / ₹18,000 (AFTER 20 OCT)',
-    pricingSubtitle: 'Zero fee to apply. ₹3,000 security booking amount payable only AFTER role selection. Total deposit ₹16k before 20 Oct / ₹18k after 20 Oct (100% refundable).',
-    guaranteeText: 'Total amount is ₹16,000 before 20 Oct and ₹18,000 after 20 Oct (100% refundable production security deposit returned upon post-release cost recovery). Only ₹3,000 security booking amount is due upon selection. Balance cleared 20 days prior to departure. Last date to apply: 20 Nov 2026.',
+    pricingTag: 'TOTAL ₹16,000 (BEFORE 20 OCT) / ₹19,000 (AFTER 20 OCT)',
+    pricingSubtitle: 'Zero fee to apply. ₹3,000 security booking amount payable only AFTER role selection. Total deposit ₹16k before 20 Oct / ₹19k after 20 Oct (100% refundable).',
+    guaranteeText: 'Total amount is ₹16,000 before 20 Oct and ₹19,000 after 20 Oct (100% refundable production security deposit returned upon post-release cost recovery). Only ₹3,000 security booking amount is due upon selection. Balance cleared 20 days prior to departure. Last date to apply: 20 Nov 2026.',
     overview:
-      'Step directly into the shoes of one of the 7 lead character personas across extreme Himalayan terrain. You travel with the production convoy, improvising dialogue against real-life natural light, dawn mist, and roadside encounters.',
+      'Step directly into the shoes of one of the 7 lead character personas across extreme Himalayan terrain. You travel with the production convoy, performing structured scripted dialogue against real-life natural light, dawn mist, and mountain landscapes driven by a well-written screenplay.',
     keyPerks: [
       'Official IMDb lead character billing & international festival premiere accreditation',
       'Dedicated multi-camera coverage with 4K Arri Alexa LF & Anamorphic lenses',
-      'Total ₹16,000 before 20 Oct / ₹18,000 after 20 Oct (100% refundable deposit upon cost recovery)',
+      'Total ₹16,000 before 20 Oct / ₹19,000 after 20 Oct (100% refundable deposit upon cost recovery)',
       '₹3,000 security booking amount payable only AFTER role selection',
       'Free audition upload (last date to apply: 20th November)'
     ],
@@ -71,7 +71,7 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
       'IMDb Actor Page Credit',
       'Personal 4K Showreel Cut',
       'Festival Premiere Red Carpet Pass',
-      'Exclusive Unscripted Behind-The-Scenes Featurette'
+      'Exclusive Behind-The-Scenes Featurette & Scripted Breakdown'
     ],
     ctaText: 'APPLY AS ACTOR (LAST DATE: 20 NOV)'
   },
@@ -115,16 +115,16 @@ const PATHWAY_DATA: Record<PathwayType, PathwayDetail> = {
     title: 'AS CREW MEMBER',
     subtitle: 'Cinematography • Field Sound • Art & Logistics',
     heroImage: 'https://res.cloudinary.com/x1dci3fh/image/upload/v1789957420/Crew.jpg',
-    pricingTag: 'FINAL ₹13,000',
-    pricingSubtitle: 'Subsidized logistics contribution. ₹2,000 security booking amount payable upon selection; balance cleared 20 days before departure.',
-    guaranteeText: 'Final amount ₹13,000 covering high-altitude transport, base camp stays, and gear freight. ₹2,000 security booking amount payable only upon official selection.',
+    pricingTag: '₹13,000 (BEFORE 20 OCT) / ₹15,000 (AFTER 20 OCT)',
+    pricingSubtitle: 'Subsidized logistics contribution. ₹13,000 before 20 Oct / ₹15,000 after 20 Oct. ₹2,000 security booking amount payable upon selection; balance cleared 20 days before departure.',
+    guaranteeText: 'Expedition contribution ₹13,000 before 20 Oct (rises to ₹15,000 after 20 Oct) covering high-altitude transport, base camp stays, and gear freight. ₹2,000 security booking amount payable only upon official selection.',
     overview:
       'Bring your technical craft to a live road movie. Shoot anamorphic cinema on location, capture microtonal ambient soundscapes, or coordinate high-altitude mountain logistics under real-world documentary conditions.',
     keyPerks: [
       'Head of Department & Assistant crew credits across festival & theatrical cuts',
       'Hands-on operation with high-end camera rigs, drones, and Dolby field audio mics',
       'All cross-country freight truck transit & high-altitude mountain base camp lodging covered',
-      'Subsidized ₹13,000 final amount with ₹2,000 security booking upon selection'
+      'Subsidized ₹13,000 before 20 Oct / ₹15,000 after 20 Oct with ₹2,000 security booking upon selection'
     ],
     timeline: [
       { phase: 'Portfolio Review', details: 'Technical leads evaluate submissions on rolling basis' },
@@ -306,7 +306,7 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                       ₹16,000 <span className="text-[10px] font-mono text-yellow-400/90 font-normal">BEFORE 20 OCT</span>
                     </div>
                     <div className="text-xs font-mono font-bold text-rose-300">
-                      ₹18,000 <span className="text-[9px] text-white/50 font-normal">AFTER 20 OCT</span>
+                      ₹19,000 <span className="text-[9px] text-white/50 font-normal">AFTER 20 OCT</span>
                     </div>
                   </div>
                   <div className="text-[10px] font-mono text-emerald-400 mt-1">
@@ -382,8 +382,13 @@ export const ThreePathwaysSection: React.FC<ThreePathwaysSectionProps> = ({
                       DEPARTMENT HEAD
                     </span>
                   </div>
-                  <div className="text-xl font-title font-bold text-[#F4F1EA] mt-0.5">
-                    ₹13,000 <span className="text-xs font-mono text-emerald-400 font-normal">/ TOTAL</span>
+                  <div className="flex items-baseline justify-between mt-1">
+                    <div className="text-lg sm:text-xl font-title font-bold text-[#F4F1EA]">
+                      ₹13,000 <span className="text-[10px] font-mono text-emerald-400 font-normal">BEFORE 20 OCT</span>
+                    </div>
+                    <div className="text-xs font-mono font-bold text-rose-300">
+                      ₹15,000 <span className="text-[9px] text-white/50 font-normal">AFTER 20 OCT</span>
+                    </div>
                   </div>
                   <div className="text-[10px] font-mono text-emerald-400 mt-1">
                     ₹2,000 security booking payable upon official selection
